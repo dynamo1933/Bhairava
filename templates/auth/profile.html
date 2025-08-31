@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <div class="card-header">
+                <div class="auth-icon">👤</div>
+                <h2>User Profile</h2>
+                <p class="auth-subtitle">Your spiritual journey information</p>
+            </div>
+            
+            <div class="card-content">
+                <div class="profile-info">
+                    <div class="info-section">
+                        <h4>Basic Information</h4>
+                        <div class="info-row">
+                            <span class="info-label">Username:</span>
+                            <span class="info-value">{{ current_user.username }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Full Name:</span>
+                            <span class="info-value">{{ current_user.full_name }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">{{ current_user.email }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value">{{ current_user.phone or 'Not provided' }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h4>Spiritual Practice</h4>
+                        <div class="info-row">
+                            <span class="info-label">Spiritual Name:</span>
+                            <span class="info-value">{{ current_user.spiritual_name or 'Not provided' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Guru Name:</span>
+                            <span class="info-value">{{ current_user.guru_name or 'Not provided' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Practice Level:</span>
+                            <span class="info-value">{{ current_user.practice_level or 'Not specified' }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h4>Account Status</h4>
+                        <div class="info-row">
+                            <span class="info-label">Role:</span>
+                            <span class="role-badge role-{{ current_user.role }}">
+                                {{ current_user.role|title }}
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status:</span>
+                            {% if current_user.is_admin() %}
+                                <span class="status-badge status-admin">Admin</span>
+                            {% elif current_user.is_approved %}
+                                <span class="status-badge status-approved">Approved</span>
+                            {% elif not current_user.is_active %}
+                                <span class="status-badge status-suspended">Suspended</span>
+                            {% else %}
+                                <span class="status-badge status-pending">Pending</span>
+                            {% endif %}
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Member Since:</span>
+                            <span class="info-value">{{ current_user.created_at.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Home</a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

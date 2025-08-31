@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="padati-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">🕉️ Padati for You</h1>
+            <p class="page-subtitle">Sacred spiritual practices and teachings</p>
+        </div>
+    </div>
+
+    <!-- Mandala Tabs -->
+    <div class="mandala-tabs">
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="mandala1">
+                <span class="tab-icon">🕉️</span>
+                <span class="tab-text">Mandala 1</span>
+                {% if current_user.has_mandala_access(1) %}
+                    <span class="access-badge access-granted">✓ Access Granted</span>
+                {% else %}
+                    <span class="access-badge access-denied">✗ No Access</span>
+                {% endif %}
+            </button>
+            
+            <button class="tab-button" data-tab="mandala2" {% if not current_user.has_mandala_access(2) %}disabled{% endif %}>
+                <span class="tab-icon">🌟</span>
+                <span class="tab-text">Mandala 2</span>
+                {% if current_user.has_mandala_access(2) %}
+                    <span class="access-badge access-granted">✓ Access Granted</span>
+                {% else %}
+                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>
+                {% endif %}
+            </button>
+            
+            <button class="tab-button" data-tab="mandala3" {% if not current_user.has_mandala_access(3) %}disabled{% endif %}>
+                <span class="tab-icon">✨</span>
+                <span class="tab-text">Mandala 3</span>
+                {% if current_user.has_mandala_access(3) %}
+                    <span class="access-badge access-granted">✓ Access Granted</span>
+                {% else %}
+                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>
+                {% endif %}
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Mandala 1 Content -->
+            <div class="tab-pane active" id="mandala1">
+                <div class="mandala-content">
+                    <div class="mandala-header">
+                        <h2>🕉️ Mandala 1 - Foundation</h2>
+                        <p class="mandala-description">Sacred practices for spiritual foundation and awakening</p>
+                    </div>
+                    
+                    <div class="coming-soon-card">
+                        <div class="card-icon">🚧</div>
+                        <h3>Features Coming Soon</h3>
+                        <p>Sacred content and practices for Mandala 1 are being prepared with utmost care and devotion.</p>
+                        <div class="progress-indicator">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <span class="progress-text">75% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mandala 2 Content -->
+            <div class="tab-pane" id="mandala2">
+                <div class="mandala-content">
+                    <div class="mandala-header">
+                        <h2>🌟 Mandala 2 - Advancement</h2>
+                        <p class="mandala-description">Advanced spiritual practices and deeper teachings</p>
+                    </div>
+                    
+                    {% if current_user.has_mandala_access(2) %}
+                        <div class="coming-soon-card">
+                            <div class="card-icon">🚧</div>
+                            <h3>Features Coming Soon</h3>
+                            <p>Advanced practices for Mandala 2 are being prepared for your spiritual journey.</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="progress-text">45% Complete</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="access-required-card">
+                            <div class="card-icon">🔒</div>
+                            <h3>Access Required</h3>
+                            <p>Mandala 2 requires admin approval. Please contact an administrator to request access.</p>
+                            <div class="access-info">
+                                <p><strong>Current Status:</strong> Pending Approval</p>
+                                <p><strong>Requirements:</strong> Completion of Mandala 1 practices</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Mandala 3 Content -->
+            <div class="tab-pane" id="mandala3">
+                <div class="mandala-content">
+                    <div class="mandala-header">
+                        <h2>✨ Mandala 3 - Mastery</h2>
+                        <p class="mandala-description">Master-level practices and profound spiritual wisdom</p>
+                    </div>
+                    
+                    {% if current_user.has_mandala_access(3) %}
+                        <div class="coming-soon-card">
+                            <div class="card-icon">🚧</div>
+                            <h3>Features Coming Soon</h3>
+                            <p>Master-level practices for Mandala 3 are being prepared for advanced practitioners.</p>
+                            <div class="progress-indicator">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 25%"></div>
+                                </div>
+                                <span class="progress-text">25% Complete</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="access-required-card">
+                            <div class="card-icon">🔒</div>
+                            <h3>Access Required</h3>
+                            <p>Mandala 3 requires admin approval and completion of previous mandalas.</p>
+                            <div class="access-info">
+                                <p><strong>Current Status:</strong> Pending Approval</p>
+                                <p><strong>Requirements:</strong> Completion of Mandala 1 & 2 practices</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Information -->
+    <div class="access-info-section">
+        <div class="info-card">
+            <h3>📋 Access Information</h3>
+            <div class="access-status">
+                <div class="status-item">
+                    <span class="status-icon">🕉️</span>
+                    <span class="status-text">Mandala 1: <strong>{% if current_user.has_mandala_access(1) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">🌟</span>
+                    <span class="status-text">Mandala 2: <strong>{% if current_user.has_mandala_access(2) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✨</span>
+                    <span class="status-text">Mandala 3: <strong>{% if current_user.has_mandala_access(3) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
+                </div>
+            </div>
+            <p class="access-note">Access to higher mandalas is granted progressively based on your spiritual practice and admin approval.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding pane
+            this.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+});
+</script>
+{% endblock %}

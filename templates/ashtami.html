@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Ashtami Sadhana</h1>
+        <p class="page-subtitle">Sacred timing and practice methodology</p>
+    </div>
+</section>
+
+<!-- Ashtami Overview Section -->
+<section class="ashtami-overview-section">
+    <div class="container">
+        <div class="overview-card">
+            <div class="om-symbol-large">🕉️</div>
+            <h2>Understanding Ashtami</h2>
+            <div class="overview-content">
+                <p class="overview-text">
+                    Ashtami is the eighth day of the lunar fortnight, a sacred time when the cosmic energies are particularly 
+                    conducive for spiritual practice and sadhana. This day holds special significance in Bhairava Sadhana, 
+                    offering practitioners an opportunity for deep spiritual advancement.
+                </p>
+                <p class="overview-text">
+                    During Ashtami, the divine energies are amplified, making it an ideal time for meditation, 
+                    spiritual practices, and connecting with the higher consciousness through Bhairava Sadhana.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Next Ashtami Countdown Section -->
+{% if next_ashtami %}
+<section class="countdown-section">
+    <div class="container">
+        <div class="countdown-card">
+            <h3>🕉️ Next Ashtami Sadhana 🕉️</h3>
+            <div class="ashtami-details">
+                <div class="ashtami-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>{{ next_ashtami.date }}</span>
+                </div>
+                <div class="ashtami-time">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ next_ashtami.start_time }} - {{ next_ashtami.end_time }} {{ next_ashtami.timezone }}</span>
+                </div>
+            </div>
+            
+            <div class="countdown-timer-large" id="ashtami-countdown">
+                <div class="countdown-item-large">
+                    <span class="countdown-number-large" id="ashtami-days">--</span>
+                    <span class="countdown-label-large">Days</span>
+                </div>
+                <div class="countdown-item-large">
+                    <span class="countdown-number-large" id="ashtami-hours">--</span>
+                    <span class="countdown-label-large">Hours</span>
+                </div>
+                <div class="countdown-item-large">
+                    <span class="countdown-number-large" id="ashtami-minutes">--</span>
+                    <span class="countdown-label-large">Minutes</span>
+                </div>
+            </div>
+            
+            <p class="countdown-note">🕉️ Sacred timing for spiritual practice 🕉️</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Ashtami Significance Section -->
+<section class="significance-section">
+    <div class="container">
+        <h2 class="section-title">Sacred Significance of Ashtami</h2>
+        
+        <div class="significance-grid">
+            <div class="significance-card">
+                <div class="significance-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <h3>Lunar Energy</h3>
+                <p>Ashtami represents the perfect balance of lunar energies, creating an optimal environment for spiritual practices and meditation.</p>
+            </div>
+            
+            <div class="significance-card">
+                <div class="significance-icon">
+                    <i class="fas fa-pray"></i>
+                </div>
+                <h3>Spiritual Amplification</h3>
+                <p>During this time, the effects of spiritual practices are amplified, leading to faster progress on the spiritual path.</p>
+            </div>
+            
+            <div class="significance-card">
+                <div class="significance-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Cosmic Alignment</h3>
+                <p>The cosmic energies align in a way that facilitates deeper connection with the divine consciousness.</p>
+            </div>
+            
+            <div class="significance-card">
+                <div class="significance-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Devotional Practice</h3>
+                <p>Ashtami is particularly auspicious for devotional practices and surrendering to the divine will.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Practice Guidelines Section -->
+<section class="practice-guidelines-section">
+    <div class="container">
+        <div class="guidelines-card">
+            <h3>🕉️ Practice Guidelines for Ashtami 🕉️</h3>
+            <div class="guidelines-content">
+                <div class="guideline-item">
+                    <h4>Preparation</h4>
+                    <p>Begin preparation a day before by maintaining purity of body and mind. Avoid negative thoughts and actions.</p>
+                </div>
+                
+                <div class="guideline-item">
+                    <h4>Timing</h4>
+                    <p>Follow the exact timing provided for the Ashtami Sadhana. The specific hours are calculated based on cosmic alignments.</p>
+                </div>
+                
+                <div class="guideline-item">
+                    <h4>Environment</h4>
+                    <p>Create a clean, peaceful environment for practice. Use sacred symbols and maintain reverence throughout.</p>
+                </div>
+                
+                <div class="guideline-item">
+                    <h4>Mindset</h4>
+                    <p>Approach the practice with complete surrender and devotion. Let go of expectations and trust in the divine process.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sacred Documents Section -->
+<section class="sacred-documents-section">
+    <div class="container">
+        <h2 class="section-title">Sacred Documents for Ashtami Practice</h2>
+        
+        <div class="documents-grid">
+            <div class="document-card">
+                <div class="document-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Ashtami Sadhana Guide</h3>
+                <p>Complete methodology and step-by-step instructions for practicing Ashtami Sadhana.</p>
+                <div class="document-actions">
+                    <a href="{{ url_for('static', filename='documents/Bhairava Ashtami Sadhana.pdf') }}" 
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i> View Guide
+                    </a>
+                </div>
+            </div>
+            
+            <div class="document-card">
+                <div class="document-icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <h3>General Guidelines</h3>
+                <p>Comprehensive guidelines for all Bhairava Sadhana practices, including Ashtami.</p>
+                <div class="document-actions">
+                    <a href="{{ url_for('static', filename='documents/Bhairava Sadhana Guidelines-M25.pdf') }}" 
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i> View Guidelines
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Important Reminders Section -->
+<section class="reminders-section">
+    <div class="container">
+        <div class="reminders-card">
+            <h3>🕉️ Important Reminders 🕉️</h3>
+            <div class="reminders-content">
+                <div class="reminder-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Sacred Timing:</strong> The exact timing is crucial. Please follow the provided schedule precisely.</p>
+                </div>
+                
+                <div class="reminder-item">
+                    <i class="fas fa-heart"></i>
+                    <p><strong>Devotional Approach:</strong> Approach the practice with reverence and complete surrender to the divine.</p>
+                </div>
+                
+                <div class="reminder-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <p><strong>Sacred Space:</strong> Maintain the sacredness of the practice. Do not share details without permission.</p>
+                </div>
+                
+                <div class="reminder-item">
+                    <i class="fas fa-clock"></i>
+                    <p><strong>Regular Practice:</strong> While Ashtami is special, regular daily practice is essential for spiritual progress.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-card">
+            <h3>🕉️ Need Guidance? 🕉️</h3>
+            <p>
+                If you need guidance regarding Ashtami Sadhana or have questions about the practice, 
+                please approach with reverence and we will assist you to the best of our ability.
+            </p>
+            <p class="contact-note">
+                <strong>Remember:</strong> This is sacred knowledge. Please handle it with the same devotion and respect 
+                with which it has been shared.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize Ashtami countdown timer
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update the countdown display for Ashtami page
+        if (document.getElementById('ashtami-countdown')) {
+            updateAshtamiCountdown();
+        }
+    });
+    
+    function updateAshtamiCountdown() {
+        // Fetch countdown data from API
+        fetch('/api/countdown')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.log('No upcoming Ashtami found');
+                    return;
+                }
+                
+                // Update countdown display
+                document.getElementById('ashtami-days').textContent = data.days || '--';
+                document.getElementById('ashtami-hours').textContent = data.hours || '--';
+                document.getElementById('ashtami-minutes').textContent = data.minutes || '--';
+            })
+            .catch(error => {
+                console.error('Error fetching countdown:', error);
+            });
+    }
+</script>
+{% endblock %}

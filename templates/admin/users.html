@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">👥</div>
+            <h2 class="section-title">User Management</h2>
+            <div class="header-decoration"></div>
+        </div>
+        
+        <!-- Search and Filter Forms -->
+        <div class="admin-controls">
+            <div class="search-filter-card">
+                <form method="GET" action="{{ url_for('auth.admin_users') }}" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ search_form.search_term(class="form-control", placeholder="Search users...") }}
+                        </div>
+                        <div class="form-group">
+                            {{ search_form.status_filter(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ search_form.role_filter(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <a href="{{ url_for('auth.admin_users') }}" class="btn btn-secondary">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- User Approval Form -->
+        <div class="approval-card">
+            <div class="card-header">
+                <h3>Quick User Actions</h3>
+            </div>
+            <div class="card-content">
+                <form id="approval-form" class="approval-form">
+                    {{ approval_form.hidden_tag() }}
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ approval_form.user_id(class="form-control", placeholder="Enter User ID") }}
+                        </div>
+                        <div class="form-group">
+                            {{ approval_form.action(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ approval_form.notes(class="form-control", placeholder="Optional notes") }}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Execute Action</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Users Table -->
+        <div class="users-table-card">
+            <div class="card-header">
+                <h3>Users ({{ users|length }} total)</h3>
+            </div>
+            <div class="card-content">
+                {% if users %}
+                <div class="table-responsive">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Purpose Preview</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr class="user-row {% if not user.is_approved %}pending{% endif %}">
+                                <td>{{ user.id }}</td>
+                                <td>
+                                    <div class="user-info">
+                                        <span class="username">{{ user.username }}</span>
+                                        {% if user.spiritual_name %}
+                                            <span class="spiritual-name">({{ user.spiritual_name }})</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <span class="role-badge role-{{ user.role }}">
+                                        {{ user.role|title }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if user.is_admin() %}
+                                        <span class="status-badge status-admin">Admin</span>
+                                    {% elif user.is_approved %}
+                                        <span class="status-badge status-approved">Approved</span>
+                                    {% elif not user.is_active %}
+                                        <span class="status-badge status-suspended">Suspended</span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="purpose-preview">
+                                        <span class="purpose-text">{{ user.purpose[:100] }}{% if user.purpose|length > 100 %}...{% endif %}</span>
+                                        {% if user.purpose|length > 100 %}
+                                            <button class="btn btn-sm btn-link show-full-purpose" 
+                                                    data-purpose="{{ user.purpose }}" 
+                                                    title="Show full purpose">
+                                                Read More
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{{ url_for('auth.admin_user_detail', user_id=user.id) }}" 
+                                           class="btn btn-sm btn-secondary" title="View Details">
+                                            👁️
+                                        </a>
+                                        {% if not user.is_admin() %}
+                                            {% if user.is_approved and user.is_active %}
+                                                <button class="btn btn-sm btn-warning suspend-user" 
+                                                        data-user-id="{{ user.id }}" title="Suspend User">
+                                                    ⏸️
+                                                </button>
+                                            {% elif not user.is_approved and user.is_active %}
+                                                <button class="btn btn-sm btn-success approve-user" 
+                                                        data-user-id="{{ user.id }}" title="Approve User">
+                                                    ✅
+                                                </button>
+                                                <button class="btn btn-sm btn-danger reject-user" 
+                                                        data-user-id="{{ user.id }}" title="Reject User">
+                                                    ❌
+                                                </button>
+                                            {% elif not user.is_active %}
+                                                <button class="btn btn-sm btn-success reactivate-user" 
+                                                        data-user-id="{{ user.id }}" title="Reactivate User">
+                                                    🔄
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="no-users">
+                    <div class="no-users-icon">👥</div>
+                    <p>No users found matching your criteria.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Purpose Modal -->
+<div id="purpose-modal" class="purpose-modal">
+    <div class="purpose-modal-content">
+        <div class="purpose-modal-header">
+            <h3 class="purpose-modal-title">Full Purpose for Sadhana</h3>
+            <button class="purpose-modal-close" onclick="closePurposeModal()">×</button>
+        </div>
+        <div class="purpose-modal-body" id="purpose-modal-body">
+            <!-- Purpose content will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- Success/Error Messages -->
+<div id="message-container" class="message-container" style="display: none;">
+    <div class="message-content">
+        <span id="message-text"></span>
+        <button class="message-close" onclick="hideMessage()">×</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle purpose preview clicks
+    document.querySelectorAll('.show-full-purpose').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const purpose = this.dataset.purpose;
+            showPurposeModal(purpose);
+        });
+    });
+    
+    // Handle approval form submission
+    document.getElementById('approval-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const user_id = formData.get('user_id');
+        const action = formData.get('action');
+        const notes = formData.get('notes');
+        
+        if (!user_id || !action) {
+            showMessage('Please fill in all required fields.', 'error');
+            return;
+        }
+        
+        // Execute action
+        executeUserAction(user_id, action, notes);
+    });
+    
+    // Handle quick action buttons
+    document.querySelectorAll('.approve-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.dataset.userId;
+            executeUserAction(userId, 'approve', 'Approved via quick action');
+        });
+    });
+    
+    document.querySelectorAll('.reject-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.dataset.userId;
+            executeUserAction(userId, 'reject', 'Rejected via quick action');
+        });
+    });
+    
+    document.querySelectorAll('.suspend-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.dataset.userId;
+            executeUserAction(userId, 'suspend', 'Suspended via quick action');
+        });
+    });
+    
+    document.querySelectorAll('.reactivate-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.dataset.userId;
+            executeUserAction(userId, 'approve', 'Reactivated via quick action');
+        });
+    });
+});
+
+function executeUserAction(userId, action, notes) {
+    fetch('{{ url_for("auth.approve_user") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'user_id': userId,
+            'action': action,
+            'notes': notes,
+            'csrf_token': document.querySelector('input[name="csrf_token"]').value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage(data.message, 'success');
+            // Reload page after short delay to show updated status
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showMessage(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showMessage('An error occurred. Please try again.', 'error');
+        console.error('Error:', error);
+    });
+}
+
+function showMessage(message, type) {
+    const container = document.getElementById('message-container');
+    const messageText = document.getElementById('message-text');
+    
+    messageText.textContent = message;
+    container.className = `message-container message-${type}`;
+    container.style.display = 'block';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => hideMessage(), 5000);
+}
+
+function hideMessage() {
+    document.getElementById('message-container').style.display = 'none';
+}
+
+// Purpose Modal Functions
+function showPurposeModal(purpose) {
+    const modal = document.getElementById('purpose-modal');
+    const modalBody = document.getElementById('purpose-modal-body');
+    
+    modalBody.textContent = purpose;
+    modal.style.display = 'block';
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closePurposeModal();
+        }
+    });
+}
+
+function closePurposeModal() {
+    document.getElementById('purpose-modal').style.display = 'none';
+}
+</script>
+{% endblock %}

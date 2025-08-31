@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header with Professional Design -->
+<section class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-badge">
+                <span class="badge-icon">📚</span>
+                <span class="badge-text">Sacred Knowledge</span>
+            </div>
+            <h1 class="page-title">Sacred Documents & Updates</h1>
+            <p class="page-subtitle">Comprehensive spiritual knowledge and practice methodology</p>
+        </div>
+    </div>
+</section>
+
+<!-- Sacred Message Section -->
+<section class="sacred-message-section">
+    <div class="container">
+        <div class="sacred-message-card">
+            <div class="message-header">
+                <div class="om-symbol-large">🕉️</div>
+                <h2>Sacred Offering</h2>
+            </div>
+            <div class="message-content">
+                <div class="message-text">
+                    <p class="sacred-paragraph">
+                        The following documents are sacred offerings of the Sādhanā Paddhati, shared with deepest surrender and by the boundless grace of Bhairava.
+                    </p>
+                    <p class="sacred-paragraph">
+                        Please receive them with the same devotion and reverence with which they have been shared.
+                    </p>
+                </div>
+                <div class="message-decoration">
+                    <span class="decoration-line"></span>
+                    <span class="decoration-symbol">🌟</span>
+                    <span class="decoration-line"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Documents Grid Section -->
+<section class="documents-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">📖</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Sadhana Paddhati Documents</h2>
+            <p class="section-subtitle">Essential guides for your spiritual journey</p>
+        </div>
+        
+        <div class="documents-grid">
+            <div class="document-card" id="guidelines">
+                <div class="card-header">
+                    <div class="document-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="document-badge">Essential</div>
+                </div>
+                <div class="card-content">
+                    <h3>Bhairava Sadhana Guidelines</h3>
+                    <p>Comprehensive guidelines for practicing Bhairava Sadhana with proper methodology and spiritual discipline.</p>
+                    <div class="document-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">📋</span>
+                            <span>Complete Guide</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Step-by-step</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('static', filename='documents/Bhairava Sadhana Guidelines-M25.pdf') }}" 
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i>
+                        <span>View Guidelines</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="document-card" id="ashtami-sadhana">
+                <div class="card-header">
+                    <div class="document-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="document-badge">Timing</div>
+                </div>
+                <div class="card-content">
+                    <h3>Bhairava Ashtami Sadhana</h3>
+                    <p>Detailed methodology and practices for Ashtami Sadhana, including timing, rituals, and spiritual significance.</p>
+                    <div class="document-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">🌙</span>
+                            <span>Ashtami Focus</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">⏰</span>
+                            <span>Sacred Timing</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('static', filename='documents/Bhairava Ashtami Sadhana.pdf') }}" 
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i>
+                        <span>View Ashtami Sadhana</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="document-card" id="sadhana-viniyoga">
+                <div class="card-header">
+                    <div class="document-icon">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <div class="document-badge">Practice</div>
+                </div>
+                <div class="card-content">
+                    <h3>Bhairava Sadhana & Viniyoga</h3>
+                    <p>Complete guide to Bhairava Sadhana practices and their proper application (Viniyoga) in daily spiritual life.</p>
+                    <div class="document-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">🔄</span>
+                            <span>Daily Practice</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">🎯</span>
+                            <span>Application</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('static', filename='documents/Bhaiarva Sadhana & Viniyoga.pdf') }}" 
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i>
+                        <span>View Sadhana & Viniyoga</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Important Notice Section -->
+<section class="notice-section">
+    <div class="container">
+        <div class="notice-container">
+            <div class="notice-header">
+                <div class="notice-icon">🕉️</div>
+                <h2>A Note in the Spirit of Bhairava's Grace</h2>
+            </div>
+            <div class="notice-content">
+                <div class="notice-points">
+                    <div class="notice-point">
+                        <div class="point-icon">💝</div>
+                        <div class="point-content">
+                            <h4>Free Offering</h4>
+                            <p>This path, this Sadhana Paddhati, is not for sale. There is no fee, no consultation charge, no price for Dīkṣā.</p>
+                        </div>
+                    </div>
+                    <div class="notice-point">
+                        <div class="point-icon">🌟</div>
+                        <div class="point-content">
+                            <h4>Divine Transmission</h4>
+                            <p>It is offered in His grace, as a transmission—not a transaction. A gift from the divine to the sincere seeker.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sacred Instructions Section -->
+<section class="instructions-section">
+    <div class="container">
+        <div class="instructions-container">
+            <div class="section-header">
+                <div class="header-decoration">
+                    <span class="decoration-line"></span>
+                    <span class="decoration-symbol">🔒</span>
+                    <span class="decoration-line"></span>
+                </div>
+                <h2 class="section-title">Sacred Instructions</h2>
+                <p class="section-subtitle">Guidelines for receiving and using these sacred texts</p>
+            </div>
+            
+            <div class="instructions-grid">
+                <div class="instruction-card important">
+                    <div class="card-icon">📜</div>
+                    <h3>Receive with Reverence</h3>
+                    <p>Please receive these documents with deep surrender and reverence. They are not just information—they are His blessing.</p>
+                </div>
+                
+                <div class="instruction-card warning">
+                    <div class="card-icon">🔒</div>
+                    <h3>Sacred Request</h3>
+                    <p>Kindly do not share or circulate these documents without permission. Let them remain sacred and alive in your journey.</p>
+                </div>
+                
+                <div class="instruction-card info">
+                    <div class="card-icon">💡</div>
+                    <h3>Study with Devotion</h3>
+                    <p>Approach these texts with the same devotion and reverence with which they have been shared. Let them guide your practice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- External Link Section -->
+<section class="external-links-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🌐</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Related Organizations</h2>
+            <p class="section-subtitle">Connect with our spiritual community partners</p>
+        </div>
+        
+        <div class="external-link-container">
+            <a href="https://vaastueazz.com/taattvakula-ngo" target="_blank" rel="noopener noreferrer" class="external-link-card">
+                <div class="link-header">
+                    <div class="link-icon">🔗</div>
+                    <h3>Vaastu Eazz NGO - Taattvakula</h3>
+                </div>
+                <div class="link-content">
+                    <p>Visit our partner organization for additional spiritual and charitable initiatives.</p>
+                    <div class="link-arrow">→</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Add smooth scrolling for anchor links
+    document.addEventListener('DOMContentLoaded', function() {
+        const anchorLinks = document.querySelectorAll('a[href^="#"]');
+        
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

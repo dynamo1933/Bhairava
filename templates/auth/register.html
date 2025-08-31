@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <div class="card-header">
+                <div class="auth-icon">🌟</div>
+                <h2>Join Daiva Anughara</h2>
+                <p class="auth-subtitle">Begin your sacred spiritual journey</p>
+            </div>
+            
+            <div class="card-content">
+                <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.username.id }}">{{ form.username.label }}</label>
+                            {{ form.username(class="form-control", placeholder="Choose a username") }}
+                            {% if form.username.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.username.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.email.id }}">{{ form.email.label }}</label>
+                            {{ form.email(class="form-control", placeholder="Enter your email") }}
+                            {% if form.email.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.email.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.password.id }}">{{ form.password.label }}</label>
+                            {{ form.password(class="form-control", placeholder="Create a password") }}
+                            {% if form.password.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.password.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.password2.id }}">{{ form.password2.label }}</label>
+                            {{ form.password2(class="form-control", placeholder="Confirm your password") }}
+                            {% if form.password2.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.password2.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.full_name.id }}">{{ form.full_name.label }}</label>
+                            {{ form.full_name(class="form-control", placeholder="Enter your full name") }}
+                            {% if form.full_name.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.full_name.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.phone.id }}">{{ form.phone.label }}</label>
+                            {{ form.phone(class="form-control", placeholder="Enter your phone number") }}
+                            {% if form.phone.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.phone.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.spiritual_name.id }}">{{ form.spiritual_name.label }}</label>
+                            {{ form.spiritual_name(class="form-control", placeholder="Enter your spiritual name (optional)") }}
+                            {% if form.spiritual_name.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.spiritual_name.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.guru_name.id }}">{{ form.guru_name.label }}</label>
+                            {{ form.guru_name(class="form-control", placeholder="Enter your guru's name (optional)") }}
+                            {% if form.guru_name.errors %}
+                                <div class="error-messages">
+                                    {% for error in form.guru_name.errors %}
+                                        <span class="error">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.practice_level.id }}">{{ form.practice_level.label }}</label>
+                        {{ form.practice_level(class="form-control") }}
+                        {% if form.practice_level.errors %}
+                            <div class="error-messages">
+                                {% for error in form.practice_level.errors %}
+                                    <span class="error">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.purpose.id }}">{{ form.purpose.label }}</label>
+                        {{ form.purpose(class="form-control", rows="4", placeholder="Please explain why you want to start Bhairava Sadhana and what you hope to achieve from this spiritual practice...") }}
+                        {% if form.purpose.errors %}
+                            <div class="error-messages">
+                                {% for error in form.purpose.errors %}
+                                    <span class="error">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-help">
+                            <small>This helps us understand your spiritual journey and provide appropriate guidance. Please be sincere and detailed in your response.</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    </div>
+                </form>
+                
+                <div class="auth-links">
+                    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
+                    <p><a href="{{ url_for('home') }}">← Back to Home</a></p>
+                </div>
+                
+                <div class="registration-note">
+                    <div class="note-icon">ℹ️</div>
+                    <p><strong>Note:</strong> After registration, your account will be reviewed by an administrator. You will receive an email notification once your account is approved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

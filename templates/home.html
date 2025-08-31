@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-background">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="om-symbol-hero">🕉️</div>
+                <h1 class="hero-title">Daiva Anughara</h1>
+                <p class="hero-subtitle">A Sacred Journey into Bhairava's Grace</p>
+                <p class="hero-description">
+                    Where each breath, each mantra, and each step is held in the unseen embrace of Guru Bhairava. 
+                    This is not just a platform—it is a sacred unfolding of His will through the heart of a seeker.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('documents') }}" class="btn btn-primary">
+                        <i class="fas fa-book-open"></i>
+                        Explore Sacred Texts
+                    </a>
+                    <a href="{{ url_for('ashtami') }}" class="btn btn-secondary">
+                        <i class="fas fa-moon"></i>
+                        Ashtami Sadhana
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sacred Introduction Section -->
+<section class="sacred-intro-section">
+    <div class="container">
+        <div class="sacred-message-card">
+            <div class="card-header">
+                <div class="grace-symbol">🌟</div>
+                <h2 class="section-title">Sacred Space of Bhairava</h2>
+            </div>
+            <div class="card-content">
+                <p class="sacred-text">
+                    Here, every mantra, reflection, and story is an offering at His feet. Each path shared, each sādhana offered, is not a destination—but a doorway. A step not to attain, but to dissolve. Not for knowledge, but for awareness. Not for becoming more—but for becoming empty of self.
+                </p>
+                
+                <div class="grace-message">
+                    <p class="sacred-text">
+                        If you've found your way here, know that it is by His grace alone. Even this moment of recognition is His blessing—a silent call, a step closer to the formless, ever-present truth of Bhairava.
+                    </p>
+                    
+                    <div class="core-message">
+                        <p>This space is not about reaching heights. It is about returning.</p>
+                        <p class="returning-text">Returning to that which never left—Him.</p>
+                    </div>
+                    
+                    <div class="final-blessing">
+                        <p>May His presence melt your boundaries, may His love burn away the self — until all returns to Him.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Where to Begin Section -->
+<section class="begin-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">🚪</div>
+            <h2 class="section-title">Where to Begin</h2>
+            <div class="header-decoration"></div>
+        </div>
+        
+        <div class="begin-content">
+            <div class="journey-intro">
+                <p class="sacred-text">
+                    The journey starts here—with the Initial Stage of Bhairava Sadhana.
+                </p>
+            </div>
+            
+            <div class="journey-steps">
+                <div class="step-card">
+                    <div class="step-icon">🌱</div>
+                    <div class="step-content">
+                        <h3>Foundation Practice</h3>
+                        <p>We begin with Bhairava Upasana and Krishna Paksha Ashtami Sadhana. A detailed guide is available in our Telegram group offering a clear, step-by-step path to begin your inner awakening.</p>
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">⏳</div>
+                    <div class="step-content">
+                        <h3>Pūrva Sādhanā</h3>
+                        <p>The Pūrva Sādhanā unfolds over 144 days (3 Mandalas) of consistent practice. This becomes the adhara—the foundation of all deeper experiences to come.</p>
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">🌙</div>
+                    <div class="step-content">
+                        <h3>Ashtami Mandala</h3>
+                        <p>You may also choose to undertake the Ashtami Mandala Sadhana (48 days), a focused practice during the powerful tithis of Krishna Paksha.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progression-info">
+                <div class="progression-card">
+                    <div class="card-header">
+                        <div class="progression-icon">🎯</div>
+                        <h4>Two Mandala Completion</h4>
+                    </div>
+                    <div class="card-content">
+                        <p>Upon completing Two Mandala (48*2 days), a Yantra will be shared as a mark of readiness. You can then message us on Telegram for a gentle check-in and to assess readiness for the next phase.</p>
+                    </div>
+                </div>
+                
+                <div class="progression-card">
+                    <div class="card-header">
+                        <div class="progression-icon">🔮</div>
+                        <h4>Advanced Practices</h4>
+                    </div>
+                    <div class="card-content">
+                        <p>Once the 144-day Pūrva Sādhanā is completed, and with the grace of Guru Bhairava, you will be guided into deeper esoteric practices—offered only to those walking this path with sincerity and surrender.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guidance-note">
+                <div class="note-card">
+                    <div class="note-icon">📚</div>
+                    <p class="sacred-text">
+                        Kindly refer to the 'Documents & Updates' section for detailed Sadhana steps and ongoing guidance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Countdown Timer Section -->
+<section class="countdown-section">
+    <div class="container">
+        <div class="countdown-card">
+            <div class="card-header">
+                <div class="countdown-icon">⏰</div>
+                <h3>Next Ashtami Sadhana</h3>
+            </div>
+            <div class="countdown-content">
+                <div class="countdown-timer" id="countdown-timer">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-days">--</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-hours">--</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-minutes">--</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                </div>
+                <p class="countdown-note">🕉️ Sacred timing for spiritual practice 🕉️</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Access Section -->
+<section class="quick-access-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">🔗</div>
+            <h2 class="section-title">Quick Access</h2>
+            <div class="header-decoration"></div>
+        </div>
+        
+        <div class="access-grid">
+            <a href="{{ url_for('documents') }}" class="access-card">
+                <div class="card-header">
+                    <div class="card-icon">📚</div>
+                    <h3>Sacred Documents</h3>
+                </div>
+                <div class="card-content">
+                    <p>Access comprehensive guidelines, Ashtami Sadhana practices, and spiritual methodology.</p>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('ashtami') }}" class="access-card">
+                <div class="card-header">
+                    <div class="card-icon">🌙</div>
+                    <h3>Ashtami Sadhana</h3>
+                </div>
+                <div class="card-content">
+                    <p>Learn about the sacred timing and practices for Ashtami Sadhana.</p>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('devi') }}" class="access-card">
+                <div class="card-header">
+                    <div class="card-icon">🌸</div>
+                    <h3>Devi Maa</h3>
+                </div>
+                <div class="card-content">
+                    <p>Discover the divine feminine energy and Kamakhya Sadhana practices.</p>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('about') }}" class="access-card">
+                <div class="card-header">
+                    <div class="card-icon">🏛️</div>
+                    <h3>About Us</h3>
+                </div>
+                <div class="card-content">
+                    <p>Learn about Daiva Anughara's mission, values, and spiritual approach.</p>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize countdown timer for home page
+    document.addEventListener('DOMContentLoaded', function() {
+        // The countdown functionality is handled by countdown.js
+        // This ensures the countdown displays immediately
+        updateCountdownDisplay();
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <div class="card-header">
+                <div class="auth-icon">🔐</div>
+                <h2>Login to Daiva Anughara</h2>
+                <p class="auth-subtitle">Access your sacred spiritual journey</p>
+            </div>
+            
+            <div class="card-content">
+                <form method="POST" action="{{ url_for('auth.login') }}" class="auth-form">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.username.id }}">{{ form.username.label }}</label>
+                        {{ form.username(class="form-control", placeholder="Enter your username") }}
+                        {% if form.username.errors %}
+                            <div class="error-messages">
+                                {% for error in form.username.errors %}
+                                    <span class="error">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.password.id }}">{{ form.password.label }}</label>
+                        {{ form.password(class="form-control", placeholder="Enter your password") }}
+                        {% if form.password.errors %}
+                            <div class="error-messages">
+                                {% for error in form.password.errors %}
+                                    <span class="error">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        {{ form.remember_me(class="form-checkbox") }}
+                        <label for="{{ form.remember_me.id }}" class="checkbox-label">{{ form.remember_me.label }}</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    </div>
+                </form>
+                
+                <div class="auth-links">
+                    <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a></p>
+                    <p><a href="{{ url_for('home') }}">← Back to Home</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
