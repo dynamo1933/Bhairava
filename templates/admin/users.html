@@ -12,10 +12,15 @@
         <!-- Search and Filter Forms -->
         <div class="admin-controls">
             <div class="search-filter-card">
-                <form method="GET" action="{{ url_for('auth.admin_users') }}" class="search-form">
+                <form method="GET" action="{{ url_for('auth.admin_users') }}" class="search-form" id="searchForm">
                     <div class="form-row">
                         <div class="form-group">
-                            {{ search_form.search_term(class="form-control", placeholder="Search users...") }}
+                            <div class="input-wrapper">
+                                {{ search_form.search_term(class="form-control", placeholder="Search users...", id="searchInput") }}
+                                <div class="input-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             {{ search_form.status_filter(class="form-control") }}
@@ -24,150 +29,163 @@
                             {{ search_form.role_filter(class="form-control") }}
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="submit" class="btn btn-primary" id="searchBtn">
+                                <span class="btn-text">Search</span>
+                                <span class="btn-loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Searching...
+                                </span>
+                            </button>
                             <a href="{{ url_for('auth.admin_users') }}" class="btn btn-secondary">Clear</a>
+                            <a href="{{ url_for('auth.user_report') }}" class="btn btn-success" id="downloadBtn">
+                                <span class="btn-text">Download Report</span>
+                                <span class="btn-loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Generating...
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
         
-        <!-- User Approval Form -->
-        <div class="approval-card">
-            <div class="card-header">
-                <h3>Quick User Actions</h3>
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state" style="display: none;">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
             </div>
-            <div class="card-content">
-                <form id="approval-form" class="approval-form">
-                    {{ approval_form.hidden_tag() }}
-                    <div class="form-row">
-                        <div class="form-group">
-                            {{ approval_form.user_id(class="form-control", placeholder="Enter User ID") }}
-                        </div>
-                        <div class="form-group">
-                            {{ approval_form.action(class="form-control") }}
-                        </div>
-                        <div class="form-group">
-                            {{ approval_form.notes(class="form-control", placeholder="Optional notes") }}
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Execute Action</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <p>Loading users...</p>
         </div>
-        
-        <!-- Users Table -->
-        <div class="users-table-card">
-            <div class="card-header">
-                <h3>Users ({{ users|length }} total)</h3>
-            </div>
-            <div class="card-content">
-                {% if users %}
-                <div class="table-responsive">
-                    <table class="users-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Purpose Preview</th>
-                                <th>Created</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for user in users %}
-                            <tr class="user-row {% if not user.is_approved %}pending{% endif %}">
-                                <td>{{ user.id }}</td>
-                                <td>
-                                    <div class="user-info">
-                                        <span class="username">{{ user.username }}</span>
-                                        {% if user.spiritual_name %}
-                                            <span class="spiritual-name">({{ user.spiritual_name }})</span>
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td>{{ user.full_name }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>
-                                    <span class="role-badge role-{{ user.role }}">
-                                        {{ user.role|title }}
-                                    </span>
-                                </td>
-                                <td>
-                                    {% if user.is_admin() %}
-                                        <span class="status-badge status-admin">Admin</span>
-                                    {% elif user.is_approved %}
-                                        <span class="status-badge status-approved">Approved</span>
+
+        <!-- Users Grid -->
+        <div class="users-grid" id="usersGrid">
+            {% if users %}
+                {% for user in users %}
+                <div class="user-card {% if not user.is_approved %}pending-approval{% endif %}" data-user-id="{{ user.id }}">
+                    <div class="card-header">
+                        <div class="user-avatar">
+                            <img src="https://i.pravatar.cc/150?u={{ user.id }}" alt="User Avatar" loading="lazy">
+                        </div>
+                        <div class="user-primary-info">
+                            <h4 class="user-name">{{ user.full_name }}</h4>
+                            <p class="user-username">@{{ user.username }}</p>
+                            {% if user.spiritual_name %}
+                                <p class="user-spiritual-name">({{ user.spiritual_name }})</p>
+                            {% endif %}
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-sm btn-secondary action-menu-button">
+                                <span class="btn-text">Actions</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="action-menu">
+                                <a class="action-menu-item" href="{{ url_for('auth.admin_user_detail', user_id=user.id) }}">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                {% if not user.is_admin() %}
+                                    {% if user.is_approved and user.is_active %}
+                                        <button class="action-menu-item suspend-user" data-user-id="{{ user.id }}">
+                                            <i class="fas fa-ban"></i> Suspend
+                                        </button>
+                                    {% elif not user.is_approved and user.is_active %}
+                                        <button class="action-menu-item approve-user" data-user-id="{{ user.id }}">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="action-menu-item reject-user" data-user-id="{{ user.id }}">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
                                     {% elif not user.is_active %}
-                                        <span class="status-badge status-suspended">Suspended</span>
-                                    {% else %}
-                                        <span class="status-badge status-pending">Pending</span>
+                                        <button class="action-menu-item reactivate-user" data-user-id="{{ user.id }}">
+                                            <i class="fas fa-undo"></i> Reactivate
+                                        </button>
                                     {% endif %}
-                                </td>
-                                <td>
-                                    <div class="purpose-preview">
-                                        <span class="purpose-text">{{ user.purpose[:100] }}{% if user.purpose|length > 100 %}...{% endif %}</span>
-                                        {% if user.purpose|length > 100 %}
-                                            <button class="btn btn-sm btn-link show-full-purpose" 
-                                                    data-purpose="{{ user.purpose }}" 
-                                                    title="Show full purpose">
-                                                Read More
-                                            </button>
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <a href="{{ url_for('auth.admin_user_detail', user_id=user.id) }}" 
-                                           class="btn btn-sm btn-secondary" title="View Details">
-                                            👁️
-                                        </a>
-                                        {% if not user.is_admin() %}
-                                            {% if user.is_approved and user.is_active %}
-                                                <button class="btn btn-sm btn-warning suspend-user" 
-                                                        data-user-id="{{ user.id }}" title="Suspend User">
-                                                    ⏸️
-                                                </button>
-                                            {% elif not user.is_approved and user.is_active %}
-                                                <button class="btn btn-sm btn-success approve-user" 
-                                                        data-user-id="{{ user.id }}" title="Approve User">
-                                                    ✅
-                                                </button>
-                                                <button class="btn btn-sm btn-danger reject-user" 
-                                                        data-user-id="{{ user.id }}" title="Reject User">
-                                                    ❌
-                                                </button>
-                                            {% elif not user.is_active %}
-                                                <button class="btn btn-sm btn-success reactivate-user" 
-                                                        data-user-id="{{ user.id }}" title="Reactivate User">
-                                                    🔄
-                                                </button>
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="user-info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value">{{ user.email }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Role:</span>
+                                <span class="role-badge role-{{ user.role }}">{{ user.role|title }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status:</span>
+                                {% if user.is_admin() %}
+                                    <span class="status-badge status-admin">Admin</span>
+                                {% elif user.is_approved %}
+                                    <span class="status-badge status-approved">Approved</span>
+                                {% elif not user.is_active %}
+                                    <span class="status-badge status-suspended">Suspended</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">Pending</span>
+                                {% endif %}
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Joined:</span>
+                                <span class="info-value">{{ user.created_at.strftime('%Y-%m-%d') }}</span>
+                            </div>
+                        </div>
+                        <div class="purpose-preview">
+                            <p class="purpose-text">{{ user.purpose[:150] }}{% if user.purpose|length > 150 %}...{% endif %}</p>
+                            {% if user.purpose|length > 150 %}
+                                <button class="show-full-purpose" data-purpose="{{ user.purpose }}">Read more</button>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-                {% else %}
+                {% endfor %}
+            {% else %}
                 <div class="no-users">
                     <div class="no-users-icon">👥</div>
                     <p>No users found matching your criteria.</p>
                 </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
     </div>
 </section>
+
+        <!-- KPIs and Charts Section -->
+        <div class="kpi-charts-section">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>Total Users</h4>
+                    <p id="kpi-total-users" class="kpi-value">--</p>
+                </div>
+                <div class="kpi-card">
+                    <h4>Approved Users</h4>
+                    <p id="kpi-approved-users" class="kpi-value">--</p>
+                </div>
+                <div class="kpi-card">
+                    <h4>Pending Users</h4>
+                    <p id="kpi-pending-users" class="kpi-value">--</p>
+                </div>
+                <div class="kpi-card">
+                    <h4>Suspended Users</h4>
+                    <p id="kpi-suspended-users" class="kpi-value">--</p>
+                </div>
+                <div class="kpi-card">
+                    <h4>Avg. Days to Approval</h4>
+                    <p id="kpi-avg-approval-days" class="kpi-value">--</p>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h4>User Status Distribution</h4>
+                    <canvas id="userStatusChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>Mandala Access Distribution</h4>
+                    <canvas id="mandalaAccessChart"></canvas>
+                </div>
+            </div>
+        </div>
 
 <!-- Purpose Modal -->
 <div id="purpose-modal" class="purpose-modal">
@@ -178,6 +196,23 @@
         </div>
         <div class="purpose-modal-body" id="purpose-modal-body">
             <!-- Purpose content will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Action</h3>
+            <button class="modal-close" onclick="closeConfirmationModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmation-message"></p>
+        </div>
+        <div class="modal-footer">
+            <button id="confirm-action-btn" class="btn btn-danger">Confirm</button>
+            <button class="btn btn-secondary" onclick="closeConfirmationModal()">Cancel</button>
         </div>
     </div>
 </div>
@@ -194,30 +229,160 @@
 {% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced search and filtering with loading states
+    const searchInput = document.querySelector('#searchInput');
+    const statusFilter = document.querySelector('select[name="status_filter"]');
+    const roleFilter = document.querySelector('select[name="role_filter"]');
+    const usersGrid = document.querySelector('#usersGrid');
+    const loadingState = document.querySelector('#loadingState');
+    const searchBtn = document.querySelector('#searchBtn');
+    const downloadBtn = document.querySelector('#downloadBtn');
+    const searchForm = document.querySelector('#searchForm');
+    
+    let userCards = Array.from(usersGrid.querySelectorAll('.user-card'));
+    let searchTimeout;
+
+    // Enhanced search with debouncing
+    function filterUsers() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const statusValue = statusFilter.value;
+        const roleValue = roleFilter.value;
+        let visibleCount = 0;
+
+        userCards.forEach(card => {
+            const userName = card.querySelector('.user-name').textContent.toLowerCase();
+            const userUsername = card.querySelector('.user-username').textContent.toLowerCase();
+            const userEmail = card.querySelector('.info-value').textContent.toLowerCase();
+            
+            const statusBadge = card.querySelector('.status-badge');
+            const cardStatus = statusBadge.textContent.toLowerCase().trim();
+
+            const roleBadge = card.querySelector('.role-badge');
+            const cardRole = roleBadge.textContent.toLowerCase().trim();
+
+            const searchMatch = userName.includes(searchTerm) || userUsername.includes(searchTerm) || userEmail.includes(searchTerm);
+            const statusMatch = statusValue === 'all' || cardStatus === statusValue;
+            const roleMatch = roleValue === 'all' || cardRole === roleValue;
+
+            if (searchMatch && statusMatch && roleMatch) {
+                card.style.display = '';
+                card.style.animation = 'fadeInUp 0.3s ease-out';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Show no results message if needed
+        const noUsers = usersGrid.querySelector('.no-users');
+        if (visibleCount === 0 && userCards.length > 0) {
+            if (!noUsers) {
+                const noUsersDiv = document.createElement('div');
+                noUsersDiv.className = 'no-users';
+                noUsersDiv.innerHTML = `
+                    <div class="no-users-icon">🔍</div>
+                    <p>No users found matching your search criteria.</p>
+                `;
+                usersGrid.appendChild(noUsersDiv);
+            }
+        } else if (noUsers && visibleCount > 0) {
+            noUsers.remove();
+        }
+    }
+
+    // Debounced search
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(filterUsers, 300);
+    });
+    
+    statusFilter.addEventListener('change', filterUsers);
+    roleFilter.addEventListener('change', filterUsers);
+
+    // Form submission with loading state
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        showLoadingState();
+        
+        // Simulate loading for better UX
+        setTimeout(() => {
+            hideLoadingState();
+            filterUsers();
+        }, 500);
+    });
+
+    // Download report with loading state
+    downloadBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showButtonLoading(downloadBtn);
+        
+        // Simulate download preparation
+        setTimeout(() => {
+            window.location.href = this.href;
+            hideButtonLoading(downloadBtn);
+        }, 1000);
+    });
+
+    function showLoadingState() {
+        loadingState.style.display = 'flex';
+        usersGrid.style.opacity = '0.5';
+    }
+
+    function hideLoadingState() {
+        loadingState.style.display = 'none';
+        usersGrid.style.opacity = '1';
+    }
+
+    function showButtonLoading(button) {
+        const btnText = button.querySelector('.btn-text');
+        const btnLoading = button.querySelector('.btn-loading');
+        
+        if (btnText && btnLoading) {
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline-flex';
+            button.disabled = true;
+        }
+    }
+
+    function hideButtonLoading(button) {
+        const btnText = button.querySelector('.btn-text');
+        const btnLoading = button.querySelector('.btn-loading');
+        
+        if (btnText && btnLoading) {
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            button.disabled = false;
+        }
+    }
+
+    // Custom dropdowns
+    document.addEventListener('click', function(e) {
+        const isActionButton = e.target.matches('.action-menu-button');
+        if (!isActionButton && e.target.closest('.user-actions') === null) {
+            document.querySelectorAll('.action-menu.is-open').forEach(menu => {
+                menu.classList.remove('is-open');
+            });
+        }
+    });
+
+    document.querySelectorAll('.action-menu-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const menu = this.nextElementSibling;
+            document.querySelectorAll('.action-menu.is-open').forEach(openMenu => {
+                if (openMenu !== menu) {
+                    openMenu.classList.remove('is-open');
+                }
+            });
+            menu.classList.toggle('is-open');
+        });
+    });
+
     // Handle purpose preview clicks
     document.querySelectorAll('.show-full-purpose').forEach(btn => {
         btn.addEventListener('click', function() {
             const purpose = this.dataset.purpose;
             showPurposeModal(purpose);
         });
-    });
-    
-    // Handle approval form submission
-    document.getElementById('approval-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const user_id = formData.get('user_id');
-        const action = formData.get('action');
-        const notes = formData.get('notes');
-        
-        if (!user_id || !action) {
-            showMessage('Please fill in all required fields.', 'error');
-            return;
-        }
-        
-        // Execute action
-        executeUserAction(user_id, action, notes);
     });
     
     // Handle quick action buttons
@@ -231,14 +396,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.reject-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            executeUserAction(userId, 'reject', 'Rejected via quick action');
+            openConfirmationModal('Are you sure you want to reject this user?', function() {
+                executeUserAction(userId, 'reject', 'Rejected via quick action');
+            });
         });
     });
     
     document.querySelectorAll('.suspend-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            executeUserAction(userId, 'suspend', 'Suspended via quick action');
+            openConfirmationModal('Are you sure you want to suspend this user?', function() {
+                executeUserAction(userId, 'suspend', 'Suspended via quick action');
+            });
         });
     });
     
@@ -248,6 +417,87 @@ document.addEventListener('DOMContentLoaded', function() {
             executeUserAction(userId, 'approve', 'Reactivated via quick action');
         });
     });
+
+    // Function to fetch KPI data and render charts
+    function fetchAndRenderKpiData() {
+        fetch('{{ url_for("auth.user_kpi_data") }}')
+            .then(response => response.json())
+            .then(data => {
+                // Update KPIs
+                document.getElementById('kpi-total-users').textContent = data.kpis.total_users;
+                document.getElementById('kpi-approved-users').textContent = data.kpis.approved_users;
+                document.getElementById('kpi-pending-users').textContent = data.kpis.pending_users;
+                document.getElementById('kpi-suspended-users').textContent = data.kpis.suspended_users;
+                document.getElementById('kpi-avg-approval-days').textContent = data.kpis.average_days_to_approval;
+
+                // Render User Status Chart
+                const userStatusCtx = document.getElementById('userStatusChart').getContext('2d');
+                new Chart(userStatusCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.charts.user_status_distribution.labels,
+                        datasets: [{
+                            label: 'Number of Users',
+                            data: data.charts.user_status_distribution.data,
+                            backgroundColor: [
+                                'rgba(123, 201, 104, 0.8)', // Approved (green)
+                                'rgba(243, 156, 18, 0.8)',  // Pending (orange)
+                                'rgba(231, 76, 60, 0.8)'    // Suspended (red)
+                            ],
+                            borderColor: [
+                                'rgba(123, 201, 104, 1)',
+                                'rgba(243, 156, 18, 1)',
+                                'rgba(231, 76, 60, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Render Mandala Access Chart
+                const mandalaAccessCtx = document.getElementById('mandalaAccessChart').getContext('2d');
+                new Chart(mandalaAccessCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.charts.mandala_access_distribution.labels,
+                        datasets: [{
+                            label: 'Users',
+                            data: data.charts.mandala_access_distribution.data,
+                            backgroundColor: [
+                                'rgba(74, 93, 63, 0.8)',  // Mandala 2 (dark green)
+                                'rgba(123, 201, 104, 0.8)' // Mandala 3 (light green)
+                            ],
+                            borderColor: [
+                                'rgba(74, 93, 63, 1)',
+                                'rgba(123, 201, 104, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                    }
+                });
+
+            })
+            .catch(error => {
+                console.error('Error fetching KPI data:', error);
+            });
+    }
+
+    // Call the function when the page loads
+    fetchAndRenderKpiData();
 });
 
 function executeUserAction(userId, action, notes) {
@@ -270,7 +520,7 @@ function executeUserAction(userId, action, notes) {
             // Reload page after short delay to show updated status
             setTimeout(() => location.reload(), 1500);
         } else {
-            showMessage(data.message, 'error');
+            showMessage('Error: ' + data.message, 'error');
         }
     })
     .catch(error => {
@@ -313,6 +563,25 @@ function showPurposeModal(purpose) {
 
 function closePurposeModal() {
     document.getElementById('purpose-modal').style.display = 'none';
+}
+
+function openConfirmationModal(message, onConfirm) {
+    const modal = document.getElementById('confirmation-modal');
+    const messageElement = document.getElementById('confirmation-message');
+    const confirmBtn = document.getElementById('confirm-action-btn');
+
+    messageElement.textContent = message;
+    modal.style.display = 'flex';
+
+    confirmBtn.onclick = function() {
+        onConfirm();
+        closeConfirmationModal();
+    };
+}
+
+function closeConfirmationModal() {
+    const modal = document.getElementById('confirmation-modal');
+    modal.style.display = 'none';
 }
 </script>
 {% endblock %}

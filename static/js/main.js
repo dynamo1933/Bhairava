@@ -7,10 +7,298 @@ document.addEventListener('DOMContentLoaded', function() {
     initDropdowns();
     initSmoothScrolling();
     initAccessibility();
+    initPWA();
+    initFlashMessages();
     
     // Update announcement banner with next Ashtami date
     updateAnnouncementBanner();
 });
+
+// ===== PWA FUNCTIONALITY =====
+function initPWA() {
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+        registerServiceWorker();
+    }
+    
+    // Initialize PWA features
+    initInstallPrompt();
+    initOfflineDetection();
+    initAppLikeBehavior();
+    initTouchGestures();
+}
+
+function registerServiceWorker() {
+    navigator.serviceWorker.register('/static/sw.js')
+        .then((registration) => {
+            console.log('Service Worker registered successfully:', registration);
+            
+            // Handle updates
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateNotification();
+                    }
+                });
+            });
+        })
+        .catch((error) => {
+            console.log('Service Worker registration failed:', error);
+        });
+}
+
+function initInstallPrompt() {
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show install button
+        showInstallButton();
+    });
+    
+    // Handle install button click
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.install-app-btn')) {
+            e.preventDefault();
+            deferredPrompt.prompt();
+            
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+                hideInstallButton();
+            });
+        }
+    });
+}
+
+function showInstallButton() {
+    // Create install button if it doesn't exist
+    if (!document.querySelector('.install-app-btn')) {
+        const installBtn = document.createElement('button');
+        installBtn.className = 'install-app-btn';
+        installBtn.innerHTML = '<i class="fas fa-download"></i> Install App';
+        installBtn.setAttribute('aria-label', 'Install Daiva Anughara as app');
+        
+        // Add to header
+        const header = document.querySelector('.header-container');
+        if (header) {
+            header.appendChild(installBtn);
+        }
+    }
+}
+
+function hideInstallButton() {
+    const installBtn = document.querySelector('.install-app-btn');
+    if (installBtn) {
+        installBtn.remove();
+    }
+}
+
+function initOfflineDetection() {
+    // Update UI based on online/offline status
+    function updateOnlineStatus() {
+        const isOnline = navigator.onLine;
+        document.body.classList.toggle('offline', !isOnline);
+        
+        if (!isOnline) {
+            showOfflineNotification();
+        } else {
+            hideOfflineNotification();
+        }
+    }
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus(); // Initial check
+}
+
+function showOfflineNotification() {
+    if (!document.querySelector('.offline-notification')) {
+        const notification = document.createElement('div');
+        notification.className = 'offline-notification';
+        notification.innerHTML = `
+            <i class="fas fa-wifi-slash"></i>
+            <span>You're offline. Some features may be limited.</span>
+        `;
+        document.body.appendChild(notification);
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+    }
+}
+
+function hideOfflineNotification() {
+    const notification = document.querySelector('.offline-notification');
+    if (notification) {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 300);
+    }
+}
+
+function initAppLikeBehavior() {
+    // Prevent zoom on double tap
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (event) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // Add pull-to-refresh functionality
+    initPullToRefresh();
+    
+    // Add swipe navigation
+    initSwipeNavigation();
+    
+    // Add haptic feedback
+    initHapticFeedback();
+}
+
+function initPullToRefresh() {
+    let startY = 0;
+    let currentY = 0;
+    let pullDistance = 0;
+    let isPulling = false;
+    
+    document.addEventListener('touchstart', (e) => {
+        if (window.scrollY === 0) {
+            startY = e.touches[0].clientY;
+            isPulling = true;
+        }
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+        if (!isPulling) return;
+        
+        currentY = e.touches[0].clientY;
+        pullDistance = currentY - startY;
+        
+        if (pullDistance > 0 && pullDistance < 100) {
+            showPullToRefreshIndicator(pullDistance);
+        }
+    });
+    
+    document.addEventListener('touchend', () => {
+        if (isPulling && pullDistance > 80) {
+            // Trigger refresh
+            location.reload();
+        }
+        hidePullToRefreshIndicator();
+        isPulling = false;
+        pullDistance = 0;
+    });
+}
+
+function showPullToRefreshIndicator(distance) {
+    let indicator = document.querySelector('.pull-refresh-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'pull-refresh-indicator';
+        indicator.innerHTML = '<i class="fas fa-arrow-down"></i> Pull to refresh';
+        document.body.appendChild(indicator);
+    }
+    
+    indicator.style.transform = `translateY(${Math.min(distance, 100)}px)`;
+    indicator.style.opacity = Math.min(distance / 100, 1);
+}
+
+function hidePullToRefreshIndicator() {
+    const indicator = document.querySelector('.pull-refresh-indicator');
+    if (indicator) {
+        indicator.remove();
+    }
+}
+
+function initSwipeNavigation() {
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+    
+    document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        endY = e.changedTouches[0].clientY;
+        
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+        
+        // Minimum swipe distance
+        if (Math.abs(diffX) > 50 && Math.abs(diffY) < 100) {
+            if (diffX > 0) {
+                // Swipe left - go forward
+                handleSwipeLeft();
+            } else {
+                // Swipe right - go back
+                handleSwipeRight();
+            }
+        }
+    });
+}
+
+function handleSwipeLeft() {
+    // Navigate to next page or section
+    const nextLink = document.querySelector('[data-next-page]');
+    if (nextLink) {
+        window.location.href = nextLink.href;
+    }
+}
+
+function handleSwipeRight() {
+    // Navigate to previous page or go back
+    if (document.referrer && document.referrer.includes(window.location.origin)) {
+        history.back();
+    }
+}
+
+function initHapticFeedback() {
+    if ('vibrate' in navigator) {
+        // Add haptic feedback to interactive elements
+        const interactiveElements = document.querySelectorAll('button, .btn, .nav-link, .mobile-nav-link');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', () => {
+                navigator.vibrate(10);
+            });
+        });
+    }
+}
+
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <div class="update-content">
+            <i class="fas fa-sync-alt"></i>
+            <span>New version available</span>
+            <button class="update-btn" onclick="location.reload()">Update</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 300);
+    }, 10000);
+}
 
 // ===== MOBILE MENU FUNCTIONALITY =====
 function initMobileMenu() {
@@ -26,13 +314,12 @@ function initMobileMenu() {
         if (isExpanded) {
             mobileNav.setAttribute('hidden', '');
             this.setAttribute('aria-expanded', 'false');
+            this.classList.remove('is-active'); // Remove active class
         } else {
             mobileNav.removeAttribute('hidden');
             this.setAttribute('aria-expanded', 'true');
+            this.classList.add('is-active'); // Add active class
         }
-        
-        // Animate hamburger lines
-        animateHamburger(this, !isExpanded);
     });
     
     // Close mobile menu when clicking outside
@@ -40,26 +327,12 @@ function initMobileMenu() {
         if (!mobileToggle.contains(event.target) && !mobileNav.contains(event.target)) {
             mobileNav.setAttribute('hidden', '');
             mobileToggle.setAttribute('aria-expanded', 'false');
-            animateHamburger(mobileToggle, false);
+            mobileToggle.classList.remove('is-active'); // Remove active class
         }
     });
 }
 
-function animateHamburger(toggle, isOpen) {
-    const lines = toggle.querySelectorAll('.hamburger-line');
-    
-    if (isOpen) {
-        // Transform to X
-        lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        lines[1].style.opacity = '0';
-        lines[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-    } else {
-        // Reset to hamburger
-        lines[0].style.transform = 'none';
-        lines[1].style.opacity = '1';
-        lines[2].style.transform = 'none';
-    }
-}
+
 
 // ===== DROPDOWN MENU FUNCTIONALITY =====
 function initDropdowns() {
@@ -208,9 +481,17 @@ function updateAnnouncementBanner() {
     const announcementDate = document.getElementById('next-ashtami-date');
     if (!announcementDate) return;
     
+    // Set default text first
+    announcementDate.textContent = 'Date to be announced';
+    
     // Fetch next Ashtami date from API
     fetch('/api/next-ashtami')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data && data.date) {
                 const date = new Date(data.date);
@@ -221,13 +502,11 @@ function updateAnnouncementBanner() {
                 });
                 
                 announcementDate.textContent = `${formattedDate}, ${data.start_time} - ${data.end_time} ${data.timezone}`;
-            } else {
-                announcementDate.textContent = 'Date to be announced';
             }
         })
         .catch(error => {
             console.error('Error fetching Ashtami date:', error);
-            announcementDate.textContent = 'Date to be announced';
+            // Don't show global error for API failures
         });
 }
 
@@ -310,11 +589,154 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// ===== ERROR HANDLING =====
+// ===== ENHANCED ERROR HANDLING =====
 window.addEventListener('error', function(event) {
     console.error('JavaScript error:', event.error);
-    // You can add error reporting here
+    
+    // Only show error if:
+    // 1. showGlobalError function is available
+    // 2. DOM is ready
+    // 3. It's a JavaScript runtime error (not resource loading)
+    // 4. It's not a script loading error
+    // 5. It's not a network error
+    // 6. It's not a resource loading error
+    // 7. It's not a fetch error
+    // 8. It's not a CORS error
+    // 9. It's not a service worker error
+    // 10. It's not a promise rejection
+    // 11. It's not a module loading error
+    // 12. It's not a security error
+    // 13. It's not a timeout error
+    // 14. It's not a resource error
+    // 15. It's not a DOM error
+    // 16. It's not a media error
+    // 17. It's not a validation error
+    // 18. It's not a constraint error
+    // 19. It's not a quota error
+    // 20. It's not a data error
+    // 21. It's not a transaction error
+    // 22. It's not a version error
+    if (typeof showGlobalError === 'function' && 
+        document.readyState === 'complete' && 
+        event.target === window &&
+        event.error &&
+        event.error.name !== 'ChunkLoadError' &&
+        event.error.name !== 'TypeError' &&
+        event.error.name !== 'NetworkError' &&
+        event.error.name !== 'SyntaxError' &&
+        event.error.name !== 'ReferenceError' &&
+        event.error.name !== 'ServiceWorkerError' &&
+        event.error.name !== 'PromiseRejectionError' &&
+        event.error.name !== 'ModuleLoadError' &&
+        event.error.name !== 'SecurityError' &&
+        event.error.name !== 'TimeoutError' &&
+        event.error.name !== 'ResourceError' &&
+        event.error.name !== 'DOMError' &&
+        event.error.name !== 'MediaError' &&
+        event.error.name !== 'ValidationError' &&
+        event.error.name !== 'ConstraintError' &&
+        event.error.name !== 'QuotaExceededError' &&
+        event.error.name !== 'DataError' &&
+        event.error.name !== 'TransactionError' &&
+        event.error.name !== 'VersionError' &&
+        !event.filename.includes('sw.js') &&
+        !event.message.includes('Loading chunk') &&
+        !event.message.includes('Loading CSS chunk') &&
+        !event.message.includes('Failed to load') &&
+        !event.message.includes('net::ERR_') &&
+        !event.message.includes('fetch') &&
+        !event.message.includes('CORS') &&
+        !event.message.includes('Cross-Origin') &&
+        !event.message.includes('Service Worker') &&
+        !event.message.includes('Promise') &&
+        !event.message.includes('Module') &&
+        !event.message.includes('Security') &&
+        !event.message.includes('timeout') &&
+        !event.message.includes('Resource') &&
+        !event.message.includes('DOM') &&
+        !event.message.includes('Media') &&
+        !event.message.includes('Validation') &&
+        !event.message.includes('Constraint') &&
+        !event.message.includes('Quota') &&
+        !event.message.includes('Data') &&
+        !event.message.includes('Transaction') &&
+        !event.message.includes('Version')) {
+        showGlobalError('An unexpected error occurred. Please refresh the page and try again.');
+    }
 });
+
+// Global error handler for fetch requests
+function handleFetchError(error, context = 'operation') {
+    console.error(`Error during ${context}:`, error);
+    
+    let message = 'An error occurred. Please try again.';
+    
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        message = 'Network error. Please check your connection and try again.';
+    } else if (error.name === 'SyntaxError') {
+        message = 'Invalid response from server. Please try again.';
+    }
+    
+    showGlobalError(message);
+}
+
+// Global error display function
+function showGlobalError(message, type = 'error') {
+    // Only show errors if DOM is ready and we're not already showing an error
+    if (document.readyState === 'loading' || document.querySelector('.global-error-message')) {
+        return;
+    }
+    
+    // Remove existing error messages
+    const existingErrors = document.querySelectorAll('.global-error-message');
+    existingErrors.forEach(error => error.remove());
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'global-error-message';
+    errorDiv.innerHTML = `
+        <div class="error-content">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-text">
+                <strong>Error:</strong> ${message}
+            </div>
+            <button class="error-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Insert at the top of the page
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.insertBefore(errorDiv, mainContent.firstChild);
+    } else if (document.body) {
+        document.body.insertBefore(errorDiv, document.body.firstChild);
+    }
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (errorDiv.parentElement) {
+            errorDiv.remove();
+        }
+    }, 10000);
+}
+
+// Enhanced fetch wrapper with error handling
+function safeFetch(url, options = {}) {
+    return fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response;
+        })
+        .catch(error => {
+            handleFetchError(error, 'network request');
+            throw error;
+        });
+}
 
 // ===== SERVICE WORKER REGISTRATION (if needed) =====
 if ('serviceWorker' in navigator) {
@@ -326,6 +748,45 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// ===== FLASH MESSAGE FUNCTIONALITY =====
+function closeFlashMessage(button) {
+    const message = button.closest('.flash-message');
+    if (message) {
+        message.classList.add('removing');
+        setTimeout(() => {
+            message.remove();
+            
+            // Remove flash messages container if empty
+            const container = document.getElementById('flashMessages');
+            if (container && container.children.length === 0) {
+                container.remove();
+            }
+        }, 300);
+    }
+}
+
+// Auto-hide flash messages after 5 seconds
+function initFlashMessages() {
+    const flashMessages = document.querySelectorAll('.flash-message');
+    flashMessages.forEach(message => {
+        const category = message.dataset.category;
+        let timeout = 5000; // Default 5 seconds
+        
+        // Different timeouts for different message types
+        if (category === 'error') {
+            timeout = 8000; // Errors stay longer
+        } else if (category === 'success') {
+            timeout = 4000; // Success messages shorter
+        }
+        
+        setTimeout(() => {
+            if (message.parentElement) {
+                closeFlashMessage(message.querySelector('.message-close'));
+            }
+        }, timeout);
+    });
+}
+
 // ===== EXPORT FUNCTIONS FOR OTHER MODULES =====
 window.DaivaAnughara = window.DaivaAnughara || {};
 window.DaivaAnughara.main = {
@@ -333,5 +794,33 @@ window.DaivaAnughara.main = {
     initMobileMenu,
     initDropdowns,
     initSmoothScrolling,
-    initAccessibility
+    initAccessibility,
+    closeFlashMessage
 };
+
+// Make closeFlashMessage globally available
+window.closeFlashMessage = closeFlashMessage;
+
+// Mobile menu close function
+function closeMobileMenu() {
+    const mobileNav = document.querySelector('.nav-mobile');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (mobileNav && mobileToggle) {
+        mobileNav.setAttribute('hidden', '');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.classList.remove('is-active');
+    }
+}
+
+// Make closeMobileMenu globally available
+window.closeMobileMenu = closeMobileMenu;
+
+// Function to clear all error messages
+function clearAllErrors() {
+    const errorMessages = document.querySelectorAll('.global-error-message');
+    errorMessages.forEach(error => error.remove());
+}
+
+// Make clearAllErrors globally available
+window.clearAllErrors = clearAllErrors;

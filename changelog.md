@@ -8,6 +8,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Excel Report Generation**: Implemented functionality to generate and download an Excel report of user data.
+  - Includes basic user details: username, email, join date, approval date, Mandala access.
+  - Calculates "Days on Mandala" for each Mandala level.
+  - Provides key performance indicators (KPIs) such as total users, approved users, pending users, suspended users, and average days to approval.
+  - Generates a user status distribution chart and Mandala access distribution chart within the Excel file.
+  - Added `openpyxl` to `requirements.txt`.
+  - Created `/admin/users/report` endpoint for downloading the report.
+
+### Enhanced
+- **Admin User Management UI/UX**: Significantly improved the user interface and experience of the `/auth/admin/users` page.
+  - **Redesigned User Table**: Replaced the traditional table with a modern, responsive card-based layout for better scannability and visual appeal.
+  - **Live Search & Filtering**: Implemented real-time search and filtering by username, email, status, and role without page reloads.
+  - **Integrated Actions**: Moved user action buttons (approve, reject, suspend, reactivate) directly into each user card's dropdown menu.
+  - **Confirmation Modals**: Added confirmation modals for critical user actions to prevent accidental changes.
+  - **KPIs and Charts Dashboard**: Integrated a dashboard displaying key performance indicators and interactive charts (user status distribution, Mandala access distribution) for better user analysis.
+  - **Mandala Access Visuals**: Enhanced the Mandala access display on the user detail page with more intuitive and visually appealing components (icons, toggles).
+  - **Consistent Styling**: Ensured all new and modified elements adhere to the established UI style guide for a cohesive look and feel.
+
+### Fixed
+- **Admin User Action Buttons**: Resolved the issue where action buttons (approve, reject, suspend, reactivate) on the user detail page were not functioning.
+  - Ensured correct JavaScript event handling for these buttons.
+  - Verified proper data attribute passing for user IDs and actions.
+  - Confirmed API calls are correctly triggered upon button clicks.
+
+
+### Added
 - **Main Navigation Enhancement**: Added "Padati for You" tab to the main header navigation
   - Added prominent navigation link in the desktop header menu
   - Positioned between "About" and "Admin" sections for optimal visibility
@@ -209,7 +235,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Documents Page**: Removed duplicate seva information and document viewer instructions
   - **Devi Page**: Removed redundant why-sadhana sections, contact information, and excessive practice details
   - **Added Quick Navigation**: Implemented clean quick links section on home page for better navigation
-  - **Consolidated Content**: Each page now focuses on its unique purpose without repetitive information
+  - **Consolidated Content**: Each page now focuses on its unique purpose without wading through repetitive information
   - **Improved Focus**: Users can now find specific information without wading through duplicate content
 
 ### Technical Details
@@ -247,7 +273,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - External link integration
 - Responsive design for all devices
 - Search functionality across all content
-- Real-time countdown to next Ashtami
+- Real-time Ashtami countdown timer
 - Mobile-friendly navigation and interactions
 - Accessibility compliance
 - Error handling and custom error pages
@@ -292,17 +318,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Responsive Typography**: Optimized font sizes across all breakpoints
 - **Enhanced Mobile Layout**: Better grid layouts and spacing for small screens
 - **Touch-Friendly Elements**: Improved button sizes and navigation for mobile users
-
-### 📏 Spacing Optimization
-- **Reduced Spacing Variables**: Minimized white space while maintaining professionalism
-  - `--spacing-xs`: 0.15rem (was 0.25rem)
-  - `--spacing-sm`: 0.35rem (was 0.5rem)
-  - `--spacing-md`: 0.7rem (was 1rem)
-  - `--spacing-lg`: 1.1rem (was 1.5rem)
-  - `--spacing-xl`: 1.5rem (was 2rem)
-  - `--spacing-xxl`: 1.8rem (was 2.5rem)
-- **Optimized Layout Density**: Reduced padding and margins throughout the site
-- **Better Content Flow**: Improved spacing between sections and elements
+- **Flexible Grids**: Made all grid layouts responsive with auto-fit columns
+- **Typography Scaling**: Proper font size scaling across all device sizes
+- **Spacing Adjustments**: Responsive padding and margins for all screen sizes
 
 ### 🎯 Specific Improvements
 - **Header**: Enhanced with better shadows and border styling
@@ -318,6 +336,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Border Radius**: Optimized for modern design (6px, 10px)
 - **Shadows**: Improved shadow system for better depth perception
 - **Transitions**: Maintained smooth animations while optimizing performance
+
+## [Latest] - App-Like Experience & PWA Implementation
+
+### 🚀 **Progressive Web App (PWA) Features**
+- **Service Worker**: Implemented comprehensive service worker for offline functionality
+- **PWA Manifest**: Created manifest.json with app metadata, icons, and shortcuts
+- **Install Prompt**: Added "Install App" button for mobile app installation
+- **Offline Support**: Cached static files and pages for offline access
+- **App Icons**: Added multiple icon sizes for different devices and platforms
+
+### 📱 **Native App-Like Behavior**
+- **Pull-to-Refresh**: Implemented pull-to-refresh functionality for mobile users
+- **Swipe Navigation**: Added left/right swipe gestures for page navigation
+- **Haptic Feedback**: Integrated vibration feedback for touch interactions
+- **Touch Gestures**: Enhanced touch interactions with proper feedback
+- **Double-tap Prevention**: Prevented accidental zoom on double-tap
+
+### 🎨 **Enhanced Mobile Experience**
+- **Larger Touch Targets**: Increased minimum touch target size to 44px for accessibility
+- **Enhanced Mobile Navigation**: Improved mobile menu with backdrop blur effects
+- **Mobile-Optimized Cards**: Enhanced card interactions with scale animations
+- **Better Mobile Typography**: Optimized text rendering and spacing for mobile
+- **Mobile-First Design**: Prioritized mobile experience with responsive enhancements
+
+### 🔧 **Technical Improvements**
+- **Service Worker Registration**: Automatic service worker registration and update handling
+- **Offline Detection**: Real-time online/offline status detection and notifications
+- **Update Notifications**: Automatic notifications when new versions are available
+- **Performance Optimization**: Enhanced mobile performance with better caching
+- **Cross-Platform Support**: Optimized for iOS, Android, and desktop browsers
+
+### 🎯 **User Experience Enhancements**
+- **Install Button**: Dynamic install button appears when PWA can be installed
+- **Offline Indicators**: Visual feedback when user is offline
+- **Update Prompts**: User-friendly update notifications with action buttons
+- **Loading States**: Enhanced loading indicators and transitions
+- **Smooth Animations**: App-like smooth transitions and micro-interactions
+
+### 📱 **Mobile-Specific Features**
+- **Backdrop Filters**: Modern backdrop blur effects for mobile navigation
+- **Safe Area Support**: Proper spacing for devices with notches and rounded corners
+- **Touch Feedback**: Visual and haptic feedback for all touch interactions
+- **Gesture Recognition**: Advanced touch gesture recognition and handling
+- **Mobile Forms**: Optimized form inputs to prevent zoom on iOS
+
+### 🔒 **Security & Performance**
+- **Secure Service Worker**: Proper security headers and HTTPS requirements
+- **Efficient Caching**: Smart caching strategies for different content types
+- **Background Sync**: Support for background synchronization when online
+- **Push Notifications**: Framework for future push notification implementation
+- **App Store Features**:
+- **App Shortcuts**: Quick access to key pages (Home, Documents, Padati)
+- **App Categories**: Proper categorization for app stores
+- **Screenshots**: Support for app store screenshots
+- **App Metadata**: Complete app information for installation
+- **Standalone Mode**: Full-screen app experience when installed
 
 ---
 *This changelog will be updated with every code change as per project requirements.*

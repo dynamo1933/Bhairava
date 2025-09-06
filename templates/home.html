@@ -6,13 +6,21 @@
     <div class="hero-background">
         <div class="hero-overlay"></div>
         <div class="hero-content">
+            <div class="hero-layout">
             <div class="hero-text">
                 <div class="om-symbol-hero">🕉️</div>
-                <h1 class="hero-title">Daiva Anughara</h1>
-                <p class="hero-subtitle">A Sacred Journey into Bhairava's Grace</p>
+                    <h1 class="hero-title">HIS GRACE</h1>
+                    <p class="hero-subtitle">Welcome to this sacred space—where each breath, each mantra, and each step is held in the unseen embrace of Guru Bhairava.</p>
                 <p class="hero-description">
-                    Where each breath, each mantra, and each step is held in the unseen embrace of Guru Bhairava. 
-                    This is not just a platform—it is a sacred unfolding of His will through the heart of a seeker.
+                        This is not just a website or a platform; it is a quiet unfolding of His will through the heart of a seeker.
+                        Here, every mantra, reflection, and story is an offering at His feet. Each path shared, each sādhana offered, is not a destination—but a doorway. A step not to attain, but to dissolve. Not for knowledge, but for awareness. Not for becoming more—but for becoming empty of self.
+                    </p>
+                    <p class="hero-grace">
+                        If you've found your way here, know that it is by His grace alone. Even this moment of recognition is His blessing—a silent call, a step closer to the formless, ever-present truth of Bhairava.
+                    </p>
+                    <p class="hero-returning">
+                        This space is not about reaching heights. It is about returning.<br>
+                        Returning to that which never left—Him.
                 </p>
                 <div class="hero-buttons">
                     <a href="{{ url_for('documents') }}" class="btn btn-primary">
@@ -23,6 +31,19 @@
                         <i class="fas fa-moon"></i>
                         Ashtami Sadhana
                     </a>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <div class="bhairava-thumbnail">
+                        <img src="{{ url_for('static', filename='images/bhairava_anughara.jpeg') }}" alt="Bhairava Anugraha" loading="lazy">
+                        <div class="image-overlay">
+                            <div class="overlay-text">
+                                <span class="overlay-title">Bhairava Anugraha</span>
+                                <span class="overlay-subtitle">Divine Grace</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,13 +57,12 @@
             <div class="card-header">
                 <div class="grace-symbol">🌟</div>
                 <h2 class="section-title">Sacred Space of Bhairava</h2>
+                <p class="section-subtitle">A Divine Sanctuary for Spiritual Awakening</p>
             </div>
             <div class="card-content">
-                <p class="sacred-text">
-                    Here, every mantra, reflection, and story is an offering at His feet. Each path shared, each sādhana offered, is not a destination—but a doorway. A step not to attain, but to dissolve. Not for knowledge, but for awareness. Not for becoming more—but for becoming empty of self.
-                </p>
-                
+                <div class="sacred-content-layout">
                 <div class="grace-message">
+                        <div class="sacred-intro-text">
                     <p class="sacred-text">
                         If you've found your way here, know that it is by His grace alone. Even this moment of recognition is His blessing—a silent call, a step closer to the formless, ever-present truth of Bhairava.
                     </p>
@@ -50,10 +70,49 @@
                     <div class="core-message">
                         <p>This space is not about reaching heights. It is about returning.</p>
                         <p class="returning-text">Returning to that which never left—Him.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="sacred-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">🕉️</div>
+                                <div class="feature-content">
+                                    <h4>Divine Grace</h4>
+                                    <p>Every moment here is blessed by His presence</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">🌸</div>
+                                <div class="feature-content">
+                                    <h4>Sacred Journey</h4>
+                                    <p>A path of transformation and inner awakening</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">🔮</div>
+                                <div class="feature-content">
+                                    <h4>Spiritual Guidance</h4>
+                                    <p>Ancient wisdom for modern seekers</p>
+                                </div>
+                            </div>
                     </div>
                     
                     <div class="final-blessing">
                         <p>May His presence melt your boundaries, may His love burn away the self — until all returns to Him.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sacred-image">
+                        <div class="bhairava-sacred-thumbnail">
+                            <img src="{{ url_for('static', filename='images/bhairava_anughara.jpeg') }}" alt="Bhairava Anugraha Sacred" loading="lazy">
+                            <div class="sacred-image-glow"></div>
+                            <div class="image-overlay-text">
+                                <span class="overlay-title">Bhairava Anugraha</span>
+                                <span class="overlay-subtitle">Divine Grace</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,7 +138,9 @@
             
             <div class="journey-steps">
                 <div class="step-card">
+                    <div class="step-header">
                     <div class="step-icon">🌱</div>
+                    </div>
                     <div class="step-content">
                         <h3>Foundation Practice</h3>
                         <p>We begin with Bhairava Upasana and Krishna Paksha Ashtami Sadhana. A detailed guide is available in our Telegram group offering a clear, step-by-step path to begin your inner awakening.</p>
@@ -87,7 +148,9 @@
                 </div>
                 
                 <div class="step-card">
+                    <div class="step-header">
                     <div class="step-icon">⏳</div>
+                    </div>
                     <div class="step-content">
                         <h3>Pūrva Sādhanā</h3>
                         <p>The Pūrva Sādhanā unfolds over 144 days (3 Mandalas) of consistent practice. This becomes the adhara—the foundation of all deeper experiences to come.</p>
@@ -95,7 +158,9 @@
                 </div>
                 
                 <div class="step-card">
+                    <div class="step-header">
                     <div class="step-icon">🌙</div>
+                    </div>
                     <div class="step-content">
                         <h3>Ashtami Mandala</h3>
                         <p>You may also choose to undertake the Ashtami Mandala Sadhana (48 days), a focused practice during the powerful tithis of Krishna Paksha.</p>
@@ -137,6 +202,201 @@
     </div>
 </section>
 
+<!-- Sadhana Paddhati Section -->
+<section class="sadhana-paddhati-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">🕉️</div>
+            <h2 class="section-title">Sadhana Paddhati – The Steps of Inner Awakening</h2>
+            <div class="header-decoration"></div>
+        </div>
+        
+        <div class="sadhana-steps">
+            <div class="step-card">
+                <div class="step-image">
+                    <img src="{{ url_for('static', filename='images/sadhana/1.jpeg') }}" alt="First Step - Prathma Charana" loading="lazy">
+                    <div class="step-overlay">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">🌱</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>The First Step toward Grace</h3>
+                    <p class="step-subtitle">A beginning. A step closer to Divine presence.</p>
+                    <p class="sacred-text">
+                        You will receive initiation into the foundational path of Sadhana. This includes all essential details, do's and don'ts, and a preparatory video for inner readiness.
+                    </p>
+                    <p class="sacred-text">
+                        This content will be shared privately on a one-to-one basis.
+                    </p>
+                    <div class="step-duration">
+                        <span class="duration-icon">🕉</span>
+                        <span class="duration-text">Duration: 48 – 144 Days (1-3 Mandalas)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-image">
+                    <img src="{{ url_for('static', filename='images/sadhana/2.jpeg') }}" alt="Second Step - Dutiya Charana" loading="lazy">
+                    <div class="step-overlay">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">🌿</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>The Second Step toward Deeper Connection</h3>
+                    <p class="step-subtitle">An expansion. A step deeper into Daiva Bhāva (Divine Awareness).</p>
+                    <p class="sacred-text">
+                        This stage opens a refined layer of the Sadhana process, shared with deeper insights, pre-initiation guidance, and discipline reminders.
+                    </p>
+                    <p class="sacred-text">
+                        Access will be limited and shared personally with select individuals.
+                    </p>
+                    <div class="step-duration">
+                        <span class="duration-icon">🕉</span>
+                        <span class="duration-text">Duration: 48- 144 – 240 Days (1-3-5 Mandalas)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-image">
+                    <img src="{{ url_for('static', filename='images/sadhana/3.jpeg') }}" alt="Third Step - Tritiya Charana" loading="lazy">
+                    <div class="step-overlay">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">🌳</div>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>The Third Step into Divine Grace</h3>
+                    <p class="step-subtitle">A merging. A sacred closure of separation.</p>
+                    <p class="sacred-text">
+                        This is where the Sadhaka enters the fullness of Daiva Anugraha through dedicated Sadhana. Pre-initiation guidance and detailed instructions prepare you for this advanced phase.
+                    </p>
+                    <p class="sacred-text">
+                        Available only through one-on-one sharing with limited reach.
+                    </p>
+                    <div class="step-duration">
+                        <span class="duration-icon">🕉</span>
+                        <span class="duration-text">Duration: 144- 240 – 384 Days (3-5-8 Mandalas)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="caution-section">
+            <div class="caution-card">
+                <div class="card-header">
+                    <div class="caution-icon">⚠️</div>
+                    <h3>A Gentle Caution for the Seeker</h3>
+                </div>
+                <div class="card-content">
+                    <h4>Are you truly ready?</h4>
+                    <p class="sacred-text">
+                        This is not a title to earn, not a badge to display but a sacred walk into the fire of truth.
+                    </p>
+                    <p class="sacred-text">
+                        This path is not about becoming more or gaining…It is about un-becoming, about losing self. Letting go of all that you think you are—the ego, the ideas, the noise.
+                    </p>
+                    <p class="sacred-text">
+                        If you feel the call to dissolve, to offer your self fully into His dark and radiant flame…then take this step.
+                    </p>
+                    <div class="path-description">
+                        <p class="sacred-text">
+                            This is the way of Daiva Anugraha - a path where grace meets surrender, and Bhairava becomes not a deity outside, but the Presence within.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Rudraksha Diksha Section -->
+<section class="rudraksha-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">📿</div>
+            <h2 class="section-title">रुद्राक्ष यन्त्रमयम्</h2>
+            <p class="section-subtitle">After Pratham Charana – Entering Rudraksha Dīkṣā</p>
+            <div class="header-decoration"></div>
+        </div>
+        
+        <div class="rudraksha-content">
+            <div class="rudraksha-intro">
+                <p class="sacred-text">
+                    When Bhairava calls, each step deepens….!
+                </p>
+                <p class="sacred-text">
+                    Once you complete the Pratham Charana, you stand at the threshold of the next sacred movement—Rudraksha Dīkṣā.
+                </p>
+                <p class="sacred-text">
+                    This is not a ritual step, but a quiet alignment—where your energy body begins to resonate with deeper layers of Bhairava's presence, Rudraksha as tool - A Yantra!
+                </p>
+            </div>
+            
+            <div class="rudraksha-journey">
+                <h3>The Rudraksha Journey</h3>
+                <p class="sacred-text">
+                    It has three stages of Rudraksha initiation, each carrying a vibration to awaken and support your inner unfolding.
+                    This journey flows over time—typically 21 to 48 days per bead, guided by your receptivity and His grace.
+                </p>
+                
+                <div class="rudraksha-stages">
+                    <div class="rudraksha-card">
+                        <div class="card-header">
+                            <div class="rudraksha-image">
+                                <img src="{{ url_for('static', filename='images/rudraksha/5 mukhi.png') }}" alt="5 Mukhi Rudraksha" loading="lazy">
+                            </div>
+                            <h4>5 Mukhi</h4>
+                        </div>
+                        <div class="card-content">
+                            <p>Clears inner blocks, awakens clarity, connects to Aṣṭha Bhairava</p>
+                        </div>
+                    </div>
+                    
+                    <div class="rudraksha-card">
+                        <div class="card-header">
+                            <div class="rudraksha-image">
+                                <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}" alt="11 Mukhi Rudraksha" loading="lazy">
+                            </div>
+                            <h4>11 Mukhi</h4>
+                        </div>
+                        <div class="card-content">
+                            <p>Strengthens tapas, protects the path, kindles the fire of the 11 Rudras</p>
+                        </div>
+                    </div>
+                    
+                    <div class="rudraksha-card">
+                        <div class="card-header">
+                            <div class="rudraksha-image">
+                                <img src="{{ url_for('static', filename='images/rudraksha/rudarakha_14_muki.jpeg') }}" alt="14 Mukhi Rudraksha" loading="lazy">
+                            </div>
+                            <h4>14 Mukhi</h4>
+                        </div>
+                        <div class="card-content">
+                            <p>Opens intuitive command, brings fearlessness and deeper surrender</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rudraksha-note">
+                    <p class="sacred-text">
+                        Each Rudraksha is not just a bead—it is a living pulse of Shakti, a bridge into Bhairava Tattva.
+                    </p>
+                    <p class="sacred-text">
+                        You may source the beads independently, or we can assist in procuring and sending them with care. (DM for guidance and support details.)
+                    </p>
+                    <p class="sacred-text">
+                        This is not a step forward. It is a step inward—a sacred turning where Bhairava begins to breathe through you.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Countdown Timer Section -->
 <section class="countdown-section">
     <div class="container">
@@ -146,82 +406,14 @@
                 <h3>Next Ashtami Sadhana</h3>
             </div>
             <div class="countdown-content">
-                <div class="countdown-timer" id="countdown-timer">
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-days">--</span>
-                        <span class="countdown-label">Days</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-hours">--</span>
-                        <span class="countdown-label">Hours</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-minutes">--</span>
-                        <span class="countdown-label">Minutes</span>
-                    </div>
-                </div>
+                <div id="countdown-timer-home"></div>
                 <p class="countdown-note">🕉️ Sacred timing for spiritual practice 🕉️</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Quick Access Section -->
-<section class="quick-access-section">
-    <div class="container">
-        <div class="section-header">
-            <div class="header-icon">🔗</div>
-            <h2 class="section-title">Quick Access</h2>
-            <div class="header-decoration"></div>
-        </div>
-        
-        <div class="access-grid">
-            <a href="{{ url_for('documents') }}" class="access-card">
-                <div class="card-header">
-                    <div class="card-icon">📚</div>
-                    <h3>Sacred Documents</h3>
-                </div>
-                <div class="card-content">
-                    <p>Access comprehensive guidelines, Ashtami Sadhana practices, and spiritual methodology.</p>
-                    <div class="card-arrow">→</div>
-                </div>
-            </a>
-            
-            <a href="{{ url_for('ashtami') }}" class="access-card">
-                <div class="card-header">
-                    <div class="card-icon">🌙</div>
-                    <h3>Ashtami Sadhana</h3>
-                </div>
-                <div class="card-content">
-                    <p>Learn about the sacred timing and practices for Ashtami Sadhana.</p>
-                    <div class="card-arrow">→</div>
-                </div>
-            </a>
-            
-            <a href="{{ url_for('devi') }}" class="access-card">
-                <div class="card-header">
-                    <div class="card-icon">🌸</div>
-                    <h3>Devi Maa</h3>
-                </div>
-                <div class="card-content">
-                    <p>Discover the divine feminine energy and Kamakhya Sadhana practices.</p>
-                    <div class="card-arrow">→</div>
-                </div>
-            </a>
-            
-            <a href="{{ url_for('about') }}" class="access-card">
-                <div class="card-header">
-                    <div class="card-icon">🏛️</div>
-                    <h3>About Us</h3>
-                </div>
-                <div class="card-content">
-                    <p>Learn about Daiva Anughara's mission, values, and spiritual approach.</p>
-                    <div class="card-arrow">→</div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
+
 {% endblock %}
 
 {% block extra_scripts %}
@@ -232,6 +424,8 @@
         // This ensures the countdown displays immediately
         updateCountdownDisplay();
     });
+
 </script>
+
 {% endblock %}
 

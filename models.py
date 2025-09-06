@@ -25,6 +25,9 @@ class User(UserMixin, db.Model):
     practice_level = db.Column(db.String(50), nullable=True)  # Beginner, Intermediate, Advanced
     purpose = db.Column(db.Text, nullable=False)  # Purpose for starting sadhana
     
+    # Profile picture
+    profile_picture = db.Column(db.String(255), nullable=True)  # Path to profile picture
+    
     # Mandala access permissions
     mandala_1_access = db.Column(db.Boolean, default=True)  # All users get access to Mandala 1
     mandala_2_access = db.Column(db.Boolean, default=False)  # Admin must approve

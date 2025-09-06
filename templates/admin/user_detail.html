@@ -1,57 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="admin-section">
+<section class="admin-section user-detail-page">
     <div class="container">
-        <div class="section-header">
-            <div class="header-icon">👤</div>
+        <div class="page-header">
+            <a href="{{ url_for('auth.admin_users') }}" class="btn btn-secondary">← Back to Users</a>
             <h2 class="section-title">User Details</h2>
-            <div class="header-decoration"></div>
         </div>
-        
-        <!-- User Detail Card -->
-        <div class="user-detail-card">
-            <div class="card-header">
-                <h3>User Information</h3>
-                <a href="{{ url_for('auth.admin_users') }}" class="btn btn-secondary">← Back to Users</a>
-            </div>
-            
-            <div class="card-content">
-                <div class="user-info-grid">
-                    <div class="info-section">
-                        <h4>Basic Information</h4>
-                        <div class="info-row">
-                            <span class="info-label">User ID:</span>
-                            <span class="info-value">{{ user.id }}</span>
+
+        <div class="user-detail-grid">
+            <!-- Left Column: User Info -->
+            <div class="user-info-col">
+                <div class="user-detail-card">
+                    <div class="card-header">
+                        <div class="user-avatar">
+                            <img src="https://i.pravatar.cc/150?u={{ user.id }}" alt="User Avatar">
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Username:</span>
-                            <span class="info-value">{{ user.username }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Full Name:</span>
-                            <span class="info-value">{{ user.full_name }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Email:</span>
-                            <span class="info-value">{{ user.email }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Phone:</span>
-                            <span class="info-value">{{ user.phone or 'Not provided' }}</span>
+                        <div class="user-primary-info">
+                            <h3 class="user-name">{{ user.full_name }}</h3>
+                            <p class="user-username">@{{ user.username }}</p>
+                            {% if user.spiritual_name %}
+                                <p class="user-spiritual-name">({{ user.spiritual_name }})</p>
+                            {% endif %}
                         </div>
                     </div>
-                    
-                    <div class="info-section">
-                        <h4>Account Status</h4>
-                        <div class="info-row">
-                            <span class="info-label">Role:</span>
-                            <span class="role-badge role-{{ user.role }}">
-                                {{ user.role|title }}
-                            </span>
+                    <div class="card-content">
+                        <h4>Basic Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item"><span class="info-label">Email:</span> <span class="info-value">{{ user.email }}</span></div>
+                            <div class="info-item"><span class="info-label">Phone:</span> <span class="info-value">{{ user.phone or 'N/A' }}</span></div>
+                            <div class="info-item"><span class="info-label">Joined:</span> <span class="info-value">{{ user.created_at.strftime('%b %d, %Y') }}</span></div>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Status:</span>
+                        <hr>
+                        <h4>Spiritual Practice</h4>
+                        <div class="info-grid">
+                            <div class="info-item"><span class="info-label">Guru:</span> <span class="info-value">{{ user.guru_name or 'N/A' }}</span></div>
+                            <div class="info-item"><span class="info-label">Level:</span> <span class="info-value">{{ user.practice_level or 'N/A' }}</span></div>
+                        </div>
+                        <hr>
+                        <h4>Purpose for Sadhana</h4>
+                        <p class="purpose-text">{{ user.purpose }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Actions and Status -->
+            <div class="user-actions-col">
+                <div class="user-status-card">
+                    <h4>Account Status</h4>
+                    <div class="status-grid">
+                        <div class="info-item"><span class="info-label">Role:</span> <span class="role-badge role-{{ user.role }}">{{ user.role|title }}</span></div>
+                        <div class="info-item"><span class="info-label">Status:</span>
                             {% if user.is_admin() %}
                                 <span class="status-badge status-admin">Admin</span>
                             {% elif user.is_approved %}
@@ -62,134 +61,62 @@
                                 <span class="status-badge status-pending">Pending</span>
                             {% endif %}
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Active:</span>
-                            <span class="info-value">{{ 'Yes' if user.is_active else 'No' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Approved:</span>
-                            <span class="info-value">{{ 'Yes' if user.is_approved else 'No' }}</span>
-                        </div>
                     </div>
-                    
-                    <div class="info-section">
-                        <h4>Spiritual Practice</h4>
-                        <div class="info-row">
-                            <span class="info-label">Spiritual Name:</span>
-                            <span class="info-value">{{ user.spiritual_name or 'Not provided' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Guru Name:</span>
-                            <span class="info-value">{{ user.guru_name or 'Not provided' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Practice Level:</span>
-                            <span class="info-value">{{ user.practice_level or 'Not specified' }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section purpose-section">
-                        <h4>Purpose for Sadhana</h4>
-                        <div class="purpose-content">
-                            <p class="purpose-text">{{ user.purpose }}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>Timestamps</h4>
-                        <div class="info-row">
-                            <span class="info-label">Created:</span>
-                            <span class="info-value">{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
-                        </div>
-                        {% if user.approved_at %}
-                        <div class="info-row">
-                            <span class="info-label">Approved:</span>
-                            <span class="info-value">{{ user.approved_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
-                        </div>
-                        {% endif %}
-                        {% if user.approved_by %}
-                        <div class="info-row">
-                            <span class="info-label">Approved By:</span>
-                            <span class="info-value">User ID: {{ user.approved_by }}</span>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <h4>Quick Actions</h4>
-                    <div class="action-buttons">
+                    <div class="quick-actions">
                         {% if not user.is_admin() %}
                             {% if user.is_approved and user.is_active %}
-                                <button class="btn btn-warning suspend-user" 
-                                        data-user-id="{{ user.id }}" title="Suspend User">
-                                    ⏸️ Suspend User
-                                </button>
+                                <button class="btn btn-warning suspend-user" data-user-id="{{ user.id }}"><i class="fas fa-pause-circle"></i> Suspend User</button>
                             {% elif not user.is_approved and user.is_active %}
-                                <button class="btn btn-success approve-user" 
-                                        data-user-id="{{ user.id }}" title="Approve User">
-                                    ✅ Approve User
-                                </button>
-                                <button class="btn btn-danger reject-user" 
-                                        data-user-id="{{ user.id }}" title="Reject User">
-                                    ❌ Reject User
-                                </button>
+                                <button class="btn btn-success approve-user" data-user-id="{{ user.id }}"><i class="fas fa-check-circle"></i> Approve User</button>
+                                <button class="btn btn-danger reject-user" data-user-id="{{ user.id }}"><i class="fas fa-times-circle"></i> Reject User</button>
                             {% elif not user.is_active %}
-                                <button class="btn btn-success reactivate-user" 
-                                        data-user-id="{{ user.id }}" title="Reactivate User">
-                                    🔄 Reactivate User
-                                </button>
+                                <button class="btn btn-success reactivate-user" data-user-id="{{ user.id }}"><i class="fas fa-play-circle"></i> Reactivate User</button>
                             {% endif %}
                         {% endif %}
                     </div>
                 </div>
-                
-                <!-- Mandala Access Management -->
-                <div class="mandala-access-section">
-                    <h4>🕉️ Mandala Access Management</h4>
+
+                <div class="mandala-access-card">
+                    <h4>🕉️ Mandala Access</h4>
                     <form method="POST" action="{{ url_for('auth.update_mandala_access', user_id=user.id) }}" class="mandala-access-form">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <div class="mandala-access-grid">
-                            <div class="mandala-access-item">
-                                <label class="mandala-access-label">
-                                    <input type="checkbox" name="mandala_1_access" checked disabled>
-                                    <span class="mandala-icon">🕉️</span>
-                                    <span class="mandala-text">
-                                        <strong>Mandala 1</strong>
-                                        <small>Foundation (Always Available)</small>
-                                    </span>
-                                </label>
+                            <div class="mandala-access-item granted">
+                                <div class="mandala-icon">🕉️</div>
+                                <div class="mandala-info">
+                                    <strong>Mandala 1</strong>
+                                    <small>Access Granted</small>
+                                </div>
+                                <div class="mandala-status">✓</div>
                             </div>
-                            
-                            <div class="mandala-access-item">
-                                <label class="mandala-access-label">
-                                    <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
-                                    <span class="mandala-icon">🌟</span>
-                                    <span class="mandala-text">
-                                        <strong>Mandala 2</strong>
-                                        <small>Advancement (Admin Approval Required)</small>
-                                    </span>
-                                </label>
+                            <div class="mandala-access-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}">
+                                <div class="mandala-icon">🌟</div>
+                                <div class="mandala-info">
+                                    <strong>Mandala 2</strong>
+                                    <small>{% if user.mandala_2_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
+                                </div>
+                                <div class="mandala-status">
+                                    <label class="switch">
+                                        <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
-                            
-                            <div class="mandala-access-item">
-                                <label class="mandala-access-label">
-                                    <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
-                                    <span class="mandala-icon">✨</span>
-                                    <span class="mandala-text">
-                                        <strong>Mandala 3</strong>
-                                        <small>Mastery (Admin Approval Required)</small>
-                                    </span>
-                                </label>
+                            <div class="mandala-access-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}">
+                                <div class="mandala-icon">✨</div>
+                                <div class="mandala-info">
+                                    <strong>Mandala 3</strong>
+                                    <small>{% if user.mandala_3_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
+                                </div>
+                                <div class="mandala-status">
+                                    <label class="switch">
+                                        <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="mandala-access-actions">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Update Mandala Access
-                            </button>
-                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Access</button>
                     </form>
                 </div>
             </div>
@@ -202,6 +129,23 @@
     <div class="message-content">
         <span id="message-text"></span>
         <button class="message-close" onclick="hideMessage()">×</button>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Action</h3>
+            <button class="modal-close" onclick="closeConfirmationModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmation-message"></p>
+        </div>
+        <div class="modal-footer">
+            <button id="confirm-action-btn" class="btn btn-danger">Confirm</button>
+            <button class="btn btn-secondary" onclick="closeConfirmationModal()">Cancel</button>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -220,14 +164,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.reject-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            executeUserAction(userId, 'reject', 'Rejected via user detail page');
+            openConfirmationModal('Are you sure you want to reject this user?', function() {
+                executeUserAction(userId, 'reject', 'Rejected via user detail page');
+            });
         });
     });
     
     document.querySelectorAll('.suspend-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            executeUserAction(userId, 'suspend', 'Suspended via user detail page');
+            openConfirmationModal('Are you sure you want to suspend this user?', function() {
+                executeUserAction(userId, 'suspend', 'Suspended via user detail page');
+            });
         });
     });
     
@@ -249,7 +197,7 @@ function executeUserAction(userId, action, notes) {
             'user_id': userId,
             'action': action,
             'notes': notes,
-            'csrf_token': document.querySelector('input[name="csrf_token"]').value
+            'csrf_token': '{{ csrf_token() }}'
         })
     })
     .then(response => response.json())
@@ -282,6 +230,25 @@ function showMessage(message, type) {
 
 function hideMessage() {
     document.getElementById('message-container').style.display = 'none';
+}
+
+function openConfirmationModal(message, onConfirm) {
+    const modal = document.getElementById('confirmation-modal');
+    const messageElement = document.getElementById('confirmation-message');
+    const confirmBtn = document.getElementById('confirm-action-btn');
+
+    messageElement.textContent = message;
+    modal.style.display = 'flex';
+
+    confirmBtn.onclick = function() {
+        onConfirm();
+        closeConfirmationModal();
+    };
+}
+
+function closeConfirmationModal() {
+    const modal = document.getElementById('confirmation-modal');
+    modal.style.display = 'none';
 }
 </script>
 {% endblock %}

@@ -1,10 +1,16 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from urllib.parse import urlparse
 from models import db, User
 from forms import LoginForm, RegistrationForm, AdminApprovalForm, UserSearchForm
 from datetime import datetime
 import os
+from io import BytesIO
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment
+from openpyxl.chart import BarChart, Reference
+from werkzeug.utils import secure_filename
+
 
 auth = Blueprint('auth', __name__)
 
@@ -56,6 +62,27 @@ def register():
             flash('Email already registered. Please use a different one.', 'error')
             return render_template('auth/register.html', title='Register', form=form)
         
+        # Handle profile picture upload
+        profile_picture_path = None
+        if form.profile_picture.data:
+            file = form.profile_picture.data
+            if file and file.filename:
+                # Create uploads directory if it doesn't exist
+                upload_dir = os.path.join(os.getcwd(), 'static', 'uploads', 'profiles')
+                os.makedirs(upload_dir, exist_ok=True)
+                
+                # Generate secure filename
+                filename = secure_filename(file.filename)
+                # Add timestamp to make filename unique
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                name, ext = os.path.splitext(filename)
+                filename = f"{name}_{timestamp}{ext}"
+                
+                # Save file
+                file_path = os.path.join(upload_dir, filename)
+                file.save(file_path)
+                profile_picture_path = f"uploads/profiles/{filename}"
+        
         user = User(
             username=form.username.data,
             email=form.email.data,
@@ -64,7 +91,8 @@ def register():
             spiritual_name=form.spiritual_name.data,
             guru_name=form.guru_name.data,
             practice_level=form.practice_level.data,
-            purpose=form.purpose.data
+            purpose=form.purpose.data,
+            profile_picture=profile_picture_path
         )
         user.set_password(form.password.data)
         
@@ -210,3 +238,160 @@ def profile():
 def edit_profile():
     # This would be implemented for users to edit their own profile
     pass
+
+def generate_user_report():
+    users = User.query.all()
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "User Report"
+
+    # Headers
+    headers = [
+        "User ID", "Username", "Full Name", "Email", "Role", "Status",
+        "Join Date", "Approval Date", "Approved for Mandala 2", "Approved for Mandala 3",
+        "Days on Mandala 1", "Days on Mandala 2", "Days on Mandala 3"
+    ]
+    sheet.append(headers)
+
+    # Style for headers
+    header_font = Font(bold=True)
+    for cell in sheet[1]:
+        cell.font = header_font
+        cell.alignment = Alignment(horizontal="center")
+
+    # Data
+    for user in users:
+        status = "Admin" if user.is_admin() else ("Approved" if user.is_approved else ("Suspended" if not user.is_active else "Pending"))
+        
+        days_on_mandala_1 = (datetime.utcnow() - user.created_at).days if user.created_at else 0
+        days_on_mandala_2 = 0
+        days_on_mandala_3 = 0
+
+        if user.mandala_2_access and user.approved_at:
+            days_on_mandala_2 = (datetime.utcnow() - user.approved_at).days
+        
+        if user.mandala_3_access and user.approved_at: # Assuming mandala 3 access is granted at the same time or after mandala 2
+            days_on_mandala_3 = (datetime.utcnow() - user.approved_at).days
+
+
+        sheet.append([
+            user.id,
+            user.username,
+            user.full_name,
+            user.email,
+            user.role,
+            status,
+            user.created_at.strftime("%Y-%m-%d") if user.created_at else "",
+            user.approved_at.strftime("%Y-%m-%d") if user.approved_at else "",
+            "Yes" if user.mandala_2_access else "No",
+            "Yes" if user.mandala_3_access else "No",
+            days_on_mandala_1,
+            days_on_mandala_2,
+            days_on_mandala_3
+        ])
+
+    # KPIs
+    sheet.cell(row=1, column=15, value="KPIs").font = header_font
+    
+    total_users = len(users)
+    approved_users = len([u for u in users if u.is_approved])
+    pending_users = len([u for u in users if not u.is_approved and u.is_active])
+    
+    sheet.cell(row=2, column=15, value="Total Users")
+    sheet.cell(row=2, column=16, value=total_users)
+    sheet.cell(row=3, column=15, value="Approved Users")
+    sheet.cell(row=3, column=16, value=approved_users)
+    sheet.cell(row=4, column=15, value="Pending Users")
+    sheet.cell(row=4, column=16, value=pending_users)
+
+    # Chart
+    chart_sheet = workbook.create_sheet(title="User Status Chart")
+    chart_data = [
+        ['Status', 'Count'],
+        ['Approved', approved_users],
+        ['Pending', pending_users],
+        ['Suspended', total_users - approved_users - pending_users]
+    ]
+    for row in chart_data:
+        chart_sheet.append(row)
+    
+    chart = BarChart()
+    chart.title = "User Status Distribution"
+    chart.y_axis.title = "Number of Users"
+    chart.x_axis.title = "Status"
+    
+    data = Reference(chart_sheet, min_col=2, min_row=1, max_row=4, max_col=2)
+    cats = Reference(chart_sheet, min_col=1, min_row=2, max_row=4)
+    chart.add_data(data, titles_from_data=True)
+    chart.set_categories(cats)
+    chart_sheet.add_chart(chart, "E5")
+
+
+    # Save to a BytesIO object
+    excel_file = BytesIO()
+    workbook.save(excel_file)
+    excel_file.seek(0)
+
+    return excel_file
+
+@auth.route('/admin/users/report')
+@login_required
+def user_report():
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+
+    excel_file = generate_user_report()
+
+    return send_file(
+        excel_file,
+        as_attachment=True,
+        download_name='user_report.xlsx',
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@auth.route('/admin/users/kpi_data')
+@login_required
+def user_kpi_data():
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+
+    users = User.query.all()
+
+    total_users = len(users)
+    approved_users = len([u for u in users if u.is_approved and u.is_active])
+    pending_users = len([u for u in users if not u.is_approved and u.is_active])
+    suspended_users = len([u for u in users if not u.is_active and not u.is_admin()])
+
+    mandala_2_users = len([u for u in users if u.mandala_2_access])
+    mandala_3_users = len([u for u in users if u.mandala_3_access])
+
+    # Calculate average days to approval
+    approved_users_with_approval_date = [u for u in users if u.is_approved and u.approved_at and u.created_at]
+    if approved_users_with_approval_date:
+        total_days_to_approval = sum([(u.approved_at - u.created_at).days for u in approved_users_with_approval_date])
+        average_days_to_approval = total_days_to_approval / len(approved_users_with_approval_date)
+    else:
+        average_days_to_approval = 0
+
+    data = {
+        'kpis': {
+            'total_users': total_users,
+            'approved_users': approved_users,
+            'pending_users': pending_users,
+            'suspended_users': suspended_users,
+            'average_days_to_approval': round(average_days_to_approval, 2)
+        },
+        'charts': {
+            'user_status_distribution': {
+                'labels': ['Approved', 'Pending', 'Suspended'],
+                'data': [approved_users, pending_users, suspended_users]
+            },
+            'mandala_access_distribution': {
+                'labels': ['Mandala 2 Access', 'Mandala 3 Access'],
+                'data': [mandala_2_users, mandala_3_users]
+            }
+        }
+    }
+    return jsonify(data)

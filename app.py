@@ -4,7 +4,14 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from models import db, User
 from auth import auth
 import os
+import socket
+import qrcode
+import io
+import base64
+import threading
+import time
 from datetime import datetime, timedelta
+from zeroconf import ServiceInfo, Zeroconf
 
 app = Flask(__name__)
 
@@ -14,6 +21,118 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///daiva_anughara.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+
+# Network configuration
+NETWORK_PORT = 5000
+
+def get_local_ip():
+    """Get the local IP address of the machine"""
+    try:
+        # Connect to a remote server to determine local IP
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            local_ip = s.getsockname()[0]
+        return local_ip
+    except Exception as e:
+        print(f"⚠️  Warning: Could not determine local IP: {e}")
+        # Fallback to localhost
+        return "127.0.0.1"
+
+def get_all_network_interfaces():
+    """Get all available network interfaces and their IP addresses"""
+    import netifaces
+    try:
+        interfaces = {}
+        for interface in netifaces.interfaces():
+            addrs = netifaces.ifaddresses(interface)
+            if netifaces.AF_INET in addrs:
+                for addr in addrs[netifaces.AF_INET]:
+                    ip = addr['addr']
+                    if not ip.startswith('127.') and not ip.startswith('169.254.'):
+                        interfaces[interface] = ip
+        return interfaces
+    except ImportError:
+        print("⚠️  netifaces not available, using basic method")
+        return {}
+    except Exception as e:
+        print(f"⚠️  Error getting network interfaces: {e}")
+        return {}
+
+def get_network_info():
+    """Get comprehensive network information"""
+    local_ip = get_local_ip()
+    return {
+        'local_ip': local_ip,
+        'port': NETWORK_PORT,
+        'url': f"http://{local_ip}:{NETWORK_PORT}",
+        'network_url': f"http://{local_ip}:{NETWORK_PORT}",
+        'hostname': socket.gethostname()
+    }
+
+def generate_qr_code(url):
+    """Generate QR code for the network URL"""
+    try:
+        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+        qr.add_data(url)
+        qr.make(fit=True)
+        
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        # Convert to base64 for embedding in HTML
+        buffer = io.BytesIO()
+        img.save(buffer, format='PNG')
+        buffer.seek(0)
+        img_str = base64.b64encode(buffer.getvalue()).decode()
+        
+        return f"data:image/png;base64,{img_str}"
+    except Exception as e:
+        print(f"Error generating QR code: {e}")
+        return None
+
+def register_mdns_service():
+    """Register the application as an mDNS service for automatic discovery"""
+    try:
+        local_ip = get_local_ip()
+        hostname = socket.gethostname()
+        
+        # Create service info
+        service_name = f"Daiva Anughara._http._tcp.local."
+        service_info = ServiceInfo(
+            "_http._tcp.local.",
+            service_name,
+            addresses=[socket.inet_aton(local_ip)],
+            port=NETWORK_PORT,
+            properties={
+                'path': '/',
+                'name': 'Daiva Anughara',
+                'description': 'Sacred Spiritual Practice Website',
+                'version': '1.0.0'
+            },
+            server=f"{hostname}.local."
+        )
+        
+        # Register the service
+        zeroconf = Zeroconf()
+        zeroconf.register_service(service_info)
+        
+        print(f"✅ mDNS service registered: {service_name}")
+        print(f"   Discoverable as: http://{hostname}.local:{NETWORK_PORT}")
+        
+        return zeroconf, service_info
+        
+    except Exception as e:
+        print(f"❌ Failed to register mDNS service: {e}")
+        return None, None
+
+def unregister_mdns_service(zeroconf, service_info):
+    """Unregister the mDNS service"""
+    try:
+        if zeroconf and service_info:
+            zeroconf.unregister_service(service_info)
+            zeroconf.close()
+            print("✅ mDNS service unregistered")
+    except Exception as e:
+        print(f"❌ Error unregistering mDNS service: {e}")
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -53,7 +172,9 @@ ASHTAMI_DATES = [
 # Routes
 @app.route('/')
 def home():
-    return render_template('home.html', page_title='Home - Daiva Anughara')
+    network_info = get_network_info()
+    return render_template('home.html', page_title='Home - Daiva Anughara', network_info=network_info)
+
 
 @app.route('/documents')
 def documents():
@@ -75,6 +196,7 @@ def about():
 @login_required
 def padati():
     return render_template('padati.html', page_title='Padati for You - Daiva Anughara')
+
 
 # API Routes
 @app.route('/api/next-ashtami')
@@ -121,6 +243,62 @@ def countdown():
         
     except ValueError:
         return jsonify({'error': 'Invalid date format'}), 400
+
+@app.route('/api/network-info')
+def api_network_info():
+    """Get network information as JSON"""
+    network_info = get_network_info()
+    qr_code = generate_qr_code(network_info['url'])
+    network_info['qr_code'] = qr_code
+    return jsonify(network_info)
+
+@app.route('/network-diagnostics')
+def network_diagnostics():
+    """Network diagnostics page for troubleshooting"""
+    import subprocess
+    import platform
+    
+    # Get basic network info
+    network_info = get_network_info()
+    
+    # Get all network interfaces
+    all_interfaces = get_all_network_interfaces()
+    
+    # Test if port is accessible
+    port_open = False
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(1)
+            result = s.connect_ex(('127.0.0.1', NETWORK_PORT))
+            port_open = (result == 0)
+    except Exception:
+        port_open = False
+    
+    # Get system info
+    system_info = {
+        'platform': platform.system(),
+        'hostname': socket.gethostname(),
+        'python_version': platform.python_version(),
+        'port_open': port_open
+    }
+    
+    # Get network connectivity test
+    connectivity_test = {}
+    try:
+        # Test if we can reach external network
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.settimeout(2)
+            s.connect(("8.8.8.8", 80))
+            connectivity_test['external'] = True
+    except Exception:
+        connectivity_test['external'] = False
+    
+    return render_template('network_diagnostics.html',
+                         page_title='Network Diagnostics - Daiva Anughara',
+                         network_info=network_info,
+                         all_interfaces=all_interfaces,
+                         system_info=system_info,
+                         connectivity_test=connectivity_test)
 
 # Error handlers
 @app.errorhandler(404)
@@ -183,4 +361,33 @@ if __name__ == '__main__':
     # Create admin user on first run
     create_admin_user()
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Get network information
+    network_info = get_network_info()
+    
+    # Register mDNS service for automatic discovery
+    zeroconf, service_info = register_mdns_service()
+    
+    print("\n" + "="*60)
+    print("🌐 DAIVA ANUGHARA - NETWORK ACCESS INFORMATION")
+    print("="*60)
+    print(f"📱 Local Access: http://localhost:{NETWORK_PORT}")
+    print(f"🌍 Network Access: {network_info['url']}")
+    print(f"🖥️  Hostname: {network_info['hostname']}")
+    print(f"🔍 mDNS Discovery: http://{network_info['hostname']}.local:{NETWORK_PORT}")
+    print("="*60)
+    print("📱 Share this URL with devices on the same WiFi network:")
+    print(f"   {network_info['url']}")
+    print("="*60)
+    print("🔍 Devices can also discover this service automatically via mDNS")
+    print("   (Look for 'Daiva Anughara' in network services)")
+    print("="*60)
+    print("🚀 Server starting...")
+    print("="*60 + "\n")
+    
+    try:
+        app.run(debug=True, host='0.0.0.0', port=NETWORK_PORT)
+    except KeyboardInterrupt:
+        print("\n🛑 Shutting down server...")
+    finally:
+        # Clean up mDNS service
+        unregister_mdns_service(zeroconf, service_info)

@@ -11,142 +11,246 @@
             </div>
             
             <div class="card-content">
-                <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form">
+                <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form" id="registerForm" novalidate>
                     {{ form.hidden_tag() }}
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="{{ form.username.id }}">{{ form.username.label }}</label>
-                            {{ form.username(class="form-control", placeholder="Choose a username") }}
-                            {% if form.username.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.username.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
+                    <div class="form-section">
+                        <h3>Personal Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="{{ form.username.id }}">Username</label>
+                                <div class="input-wrapper">
+                                    {{ form.username(class="form-control", placeholder="Choose a username", autocomplete="username", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
                                 </div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.email.id }}">{{ form.email.label }}</label>
-                            {{ form.email(class="form-control", placeholder="Enter your email") }}
-                            {% if form.email.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.email.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="{{ form.password.id }}">{{ form.password.label }}</label>
-                            {{ form.password(class="form-control", placeholder="Create a password") }}
-                            {% if form.password.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.password.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.password2.id }}">{{ form.password2.label }}</label>
-                            {{ form.password2(class="form-control", placeholder="Confirm your password") }}
-                            {% if form.password2.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.password2.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="{{ form.full_name.id }}">{{ form.full_name.label }}</label>
-                            {{ form.full_name(class="form-control", placeholder="Enter your full name") }}
-                            {% if form.full_name.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.full_name.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.phone.id }}">{{ form.phone.label }}</label>
-                            {{ form.phone(class="form-control", placeholder="Enter your phone number") }}
-                            {% if form.phone.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.phone.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="{{ form.spiritual_name.id }}">{{ form.spiritual_name.label }}</label>
-                            {{ form.spiritual_name(class="form-control", placeholder="Enter your spiritual name (optional)") }}
-                            {% if form.spiritual_name.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.spiritual_name.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.guru_name.id }}">{{ form.guru_name.label }}</label>
-                            {{ form.guru_name(class="form-control", placeholder="Enter your guru's name (optional)") }}
-                            {% if form.guru_name.errors %}
-                                <div class="error-messages">
-                                    {% for error in form.guru_name.errors %}
-                                        <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="{{ form.practice_level.id }}">{{ form.practice_level.label }}</label>
-                        {{ form.practice_level(class="form-control") }}
-                        {% if form.practice_level.errors %}
-                            <div class="error-messages">
-                                {% for error in form.practice_level.errors %}
-                                    <span class="error">{{ error }}</span>
-                                {% endfor %}
+                                {% if form.username.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.username.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                            
+                            <div class="form-group">
+                                <label for="{{ form.email.id }}">Email</label>
+                                <div class="input-wrapper">
+                                    {{ form.email(class="form-control", placeholder="Enter your email", autocomplete="email", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                                {% if form.email.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.email.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.password.id }}">Password</label>
+                                <div class="input-wrapper">
+                                    {{ form.password(class="form-control", placeholder="Create a password", autocomplete="new-password", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill"></div>
+                                    </div>
+                                    <span class="strength-text">Password strength</span>
+                                </div>
+                                {% if form.password.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.password.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.password2.id }}">Confirm Password</label>
+                                <div class="input-wrapper">
+                                    {{ form.password2(class="form-control", placeholder="Confirm your password", autocomplete="new-password", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                {% if form.password2.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.password2.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.full_name.id }}">Full Name</label>
+                                <div class="input-wrapper">
+                                    {{ form.full_name(class="form-control", placeholder="Enter your full name", autocomplete="name", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-id-card"></i>
+                                    </div>
+                                </div>
+                                {% if form.full_name.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.full_name.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.phone.id }}">Phone Number</label>
+                                <div class="input-wrapper">
+                                    {{ form.phone(class="form-control", placeholder="Enter your phone number", autocomplete="tel") }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                </div>
+                                {% if form.phone.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.phone.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="{{ form.purpose.id }}">{{ form.purpose.label }}</label>
-                        {{ form.purpose(class="form-control", rows="4", placeholder="Please explain why you want to start Bhairava Sadhana and what you hope to achieve from this spiritual practice...") }}
-                        {% if form.purpose.errors %}
-                            <div class="error-messages">
-                                {% for error in form.purpose.errors %}
-                                    <span class="error">{{ error }}</span>
-                                {% endfor %}
+                    <div class="form-section">
+                        <h3>Profile Picture (Optional)</h3>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="{{ form.profile_picture.id }}">Upload Profile Picture</label>
+                                <div class="file-upload-wrapper">
+                                    {{ form.profile_picture(class="form-control file-input", accept="image/*") }}
+                                    <div class="file-upload-display">
+                                        <div class="file-upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-upload-text">
+                                            <span class="file-upload-label">Choose an image file</span>
+                                            <span class="file-upload-info">JPG, PNG, or GIF (max 5MB)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if form.profile_picture.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.profile_picture.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help">
+                                    <small>Optional: Upload a profile picture to personalize your account. This will be visible to other users.</small>
+                                </div>
                             </div>
-                        {% endif %}
-                        <div class="form-help">
-                            <small>This helps us understand your spiritual journey and provide appropriate guidance. Please be sincere and detailed in your response.</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Spiritual Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="{{ form.spiritual_name.id }}">Spiritual Name (Optional)</label>
+                                <div class="input-wrapper">
+                                    {{ form.spiritual_name(class="form-control", placeholder="Enter your spiritual name (optional)") }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                {% if form.spiritual_name.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.spiritual_name.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.guru_name.id }}">Guru Name (Optional)</label>
+                                <div class="input-wrapper">
+                                    {{ form.guru_name(class="form-control", placeholder="Enter your guru's name (optional)") }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                </div>
+                                {% if form.guru_name.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.guru_name.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="{{ form.practice_level.id }}">Practice Level</label>
+                                <div class="input-wrapper">
+                                    {{ form.practice_level(class="form-control", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                {% if form.practice_level.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.practice_level.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="{{ form.purpose.id }}">Purpose for Starting Sadhana</label>
+                                <div class="input-wrapper">
+                                    {{ form.purpose(class="form-control", rows="4", placeholder="Please explain why you want to start Bhairava Sadhana and what you hope to achieve from this spiritual practice...", **{"required": True}) }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="character-count">
+                                    <span class="current-count">0</span> / <span class="max-count">1000</span> characters
+                                </div>
+                                {% if form.purpose.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.purpose.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help">
+                                    <small>This helps us understand your spiritual journey and provide appropriate guidance. Please be sincere and detailed in your response.</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                        <button type="submit" class="btn btn-primary btn-full" id="registerBtn">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Creating Account...
+                            </span>
+                        </button>
                     </div>
                 </form>
                 
@@ -163,4 +267,259 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced form validation and UX
+    const form = document.getElementById('registerForm');
+    const registerBtn = document.getElementById('registerBtn');
+    const btnText = registerBtn.querySelector('.btn-text');
+    const btnLoading = registerBtn.querySelector('.btn-loading');
+    
+    // Password visibility toggles
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const input = this.parentElement.querySelector('input');
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+    });
+    
+    // Password strength indicator
+    const passwordInput = document.querySelector('input[name="password"]');
+    const strengthBar = document.querySelector('.strength-fill');
+    const strengthText = document.querySelector('.strength-text');
+    
+    if (passwordInput && strengthBar && strengthText) {
+        passwordInput.addEventListener('input', function() {
+            const strength = calculatePasswordStrength(this.value);
+            updatePasswordStrength(strength);
+        });
+    }
+    
+    function calculatePasswordStrength(password) {
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (password.length >= 12) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        return Math.min(score, 5);
+    }
+    
+    function updatePasswordStrength(strength) {
+        const percentage = (strength / 5) * 100;
+        strengthBar.style.width = percentage + '%';
+        
+        if (strength <= 2) {
+            strengthBar.className = 'strength-fill weak';
+            strengthText.textContent = 'Weak password';
+        } else if (strength <= 3) {
+            strengthBar.className = 'strength-fill fair';
+            strengthText.textContent = 'Fair password';
+        } else if (strength <= 4) {
+            strengthBar.className = 'strength-fill good';
+            strengthText.textContent = 'Good password';
+        } else {
+            strengthBar.className = 'strength-fill strong';
+            strengthText.textContent = 'Strong password';
+        }
+    }
+    
+    // Character counter for purpose field
+    const purposeInput = document.querySelector('textarea[name="purpose"]');
+    const currentCount = document.querySelector('.current-count');
+    const maxCount = document.querySelector('.max-count');
+    
+    if (purposeInput && currentCount && maxCount) {
+        purposeInput.addEventListener('input', function() {
+            const count = this.value.length;
+            currentCount.textContent = count;
+            
+            if (count > 1000) {
+                currentCount.style.color = '#e74c3c';
+            } else if (count > 800) {
+                currentCount.style.color = '#f39c12';
+            } else {
+                currentCount.style.color = '#27ae60';
+            }
+        });
+    }
+    
+    // Real-time validation
+    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+    inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearFieldError);
+    });
+    
+    function validateField(e) {
+        const field = e.target;
+        const wrapper = field.closest('.form-group');
+        const errorDiv = wrapper.querySelector('.error-messages');
+        
+        // Clear previous errors
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
+        
+        // Validate field
+        if (!field.value.trim()) {
+            showFieldError(wrapper, 'This field is required');
+            return false;
+        }
+        
+        if (field.name === 'username' && field.value.length < 3) {
+            showFieldError(wrapper, 'Username must be at least 3 characters');
+            return false;
+        }
+        
+        if (field.name === 'email' && !isValidEmail(field.value)) {
+            showFieldError(wrapper, 'Please enter a valid email address');
+            return false;
+        }
+        
+        if (field.name === 'password' && field.value.length < 6) {
+            showFieldError(wrapper, 'Password must be at least 6 characters');
+            return false;
+        }
+        
+        if (field.name === 'password2' && field.value !== document.querySelector('input[name="password"]').value) {
+            showFieldError(wrapper, 'Passwords do not match');
+            return false;
+        }
+        
+        if (field.name === 'purpose' && field.value.length < 20) {
+            showFieldError(wrapper, 'Please provide at least 20 characters explaining your purpose');
+            return false;
+        }
+        
+        // Clear error styling
+        wrapper.classList.remove('error');
+        return true;
+    }
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    function clearFieldError(e) {
+        const wrapper = e.target.closest('.form-group');
+        wrapper.classList.remove('error');
+        const errorDiv = wrapper.querySelector('.error-messages');
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
+    }
+    
+    function showFieldError(wrapper, message) {
+        wrapper.classList.add('error');
+        let errorDiv = wrapper.querySelector('.error-messages');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'error-messages';
+            wrapper.appendChild(errorDiv);
+        }
+        errorDiv.innerHTML = `<span class="error">${message}</span>`;
+    }
+    
+    // Form submission with loading state
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+                isValid = false;
+            }
+        });
+        
+        if (!isValid) {
+            // Focus first error field
+            const firstError = form.querySelector('.form-group.error');
+            if (firstError) {
+                const input = firstError.querySelector('input, textarea, select');
+                if (input) {
+                    input.focus();
+                }
+            }
+            return;
+        }
+        
+        // Show loading state
+        registerBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline-flex';
+        
+        // Submit form
+        form.submit();
+    });
+    
+    // File upload functionality
+    const fileInput = document.querySelector('input[type="file"]');
+    const fileUploadWrapper = document.querySelector('.file-upload-wrapper');
+    const fileUploadLabel = document.querySelector('.file-upload-label');
+    
+    if (fileInput && fileUploadWrapper && fileUploadLabel) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validate file type
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please select a valid image file (JPG, PNG, or GIF)');
+                    this.value = '';
+                    return;
+                }
+                
+                // Update display
+                fileUploadWrapper.classList.add('has-file');
+                fileUploadLabel.textContent = file.name;
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.createElement('img');
+                    preview.src = e.target.result;
+                    preview.style.cssText = 'width: 60px; height: 60px; object-fit: cover; border-radius: 50%;';
+                    
+                    const icon = fileUploadWrapper.querySelector('.file-upload-icon');
+                    icon.innerHTML = '';
+                    icon.appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileUploadWrapper.classList.remove('has-file');
+                fileUploadLabel.textContent = 'Choose an image file';
+                
+                const icon = fileUploadWrapper.querySelector('.file-upload-icon');
+                icon.innerHTML = '<i class="fas fa-cloud-upload-alt"></i>';
+            }
+        });
+    }
+    
+    // Auto-focus first input
+    const firstInput = form.querySelector('input[required]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+});
+</script>
 {% endblock %}

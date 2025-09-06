@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, SelectField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional
 from datetime import datetime
 
 class LoginForm(FlaskForm):
@@ -26,6 +27,10 @@ class RegistrationForm(FlaskForm):
     purpose = TextAreaField('Purpose for Starting Sadhana', validators=[
         DataRequired(), 
         Length(min=20, max=1000, message='Please explain your purpose in 20-1000 characters')
+    ])
+    profile_picture = FileField('Profile Picture (Optional)', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Only image files (JPG, PNG, GIF) are allowed!')
     ])
 
     def validate_username(self, username):
