@@ -1359,10 +1359,16 @@ p:has(🕉️), .sacred-text:has(🕉️) {
 
 .tantra-card .card-header,
 .purnahuti-card .card-header {
-    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
-    color: white;
-    padding: var(--spacing-lg);
-    text-align: center;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red)) !important;
+    color: white !important;
+    padding: var(--spacing-lg) !important;
+    text-align: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: var(--spacing-sm) !important;
 }
 
 .tantra-card .card-content,
@@ -2208,6 +2214,50 @@ p:has(🕉️), .sacred-text:has(🕉️) {
     display: block !important;
     color: var(--text-dark) !important;
     line-height: 1.6 !important;
+}
+
+/* Force visibility for all card headers and their content */
+.card-header,
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Specific fix for the problematic text elements */
+.invitation-card .card-header h3,
+.tantra-card .card-header h3,
+.purnahuti-card .card-header h3 {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+    font-weight: 700 !important;
+    font-size: 1.4rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+}
+
+/* Ensure icons in card headers are visible */
+.devi-symbol,
+.tantra-icon,
+.purnahuti-icon {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    font-size: 2rem !important;
+    margin-bottom: var(--spacing-sm) !important;
+    text-align: center !important;
 }
 
 /* Fix for any potential counter or badge overlapping */
@@ -3464,10 +3514,16 @@ p:has(🕉️), .sacred-text:has(🕉️) {
 }
 
 .invitation-card .card-header {
-    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
-    color: white;
-    padding: var(--spacing-lg);
-    text-align: center;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red)) !important;
+    color: white !important;
+    padding: var(--spacing-lg) !important;
+    text-align: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: var(--spacing-sm) !important;
 }
 
 .invitation-card .card-content {
@@ -3659,6 +3715,27 @@ p:has(🕉️), .sacred-text:has(🕉️) {
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
+}
+
+/* Specific fixes for card headers with red backgrounds */
+.invitation-card .card-header,
+.tantra-card .card-header,
+.purnahuti-card .card-header {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red)) !important;
+    color: white !important;
+}
+
+.invitation-card .card-header h3,
+.tantra-card .card-header h3,
+.purnahuti-card .card-header h3 {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 700 !important;
+    font-size: 1.3rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    text-align: center !important;
 }
 
 .connection-card .card-content {
