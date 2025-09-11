@@ -76,6 +76,8 @@ class DonationPurpose(db.Model):
 class OfflineDonation(db.Model):
     """Model for tracking offline donations"""
     id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.String(50), nullable=True)  # Donor ID from Google Sheets (not unique)
+    worksheet = db.Column(db.String(100), nullable=True)  # Worksheet name from Google Sheets
     donor_name = db.Column(db.String(100), nullable=False)
     donor_email = db.Column(db.String(120), nullable=True)
     donor_phone = db.Column(db.String(20), nullable=True)

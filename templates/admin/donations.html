@@ -366,8 +366,11 @@
                     <a href="{{ url_for('add_donation') }}" class="btn-admin btn-admin-success">
                         <i class="fas fa-plus me-2"></i>Add Donation
                     </a>
-                    <button id="sync-button" class="btn-admin" disabled>
+                    <button id="sync-button" class="btn-admin">
                         <i class="fas fa-sync-alt me-2"></i>Sync
+                    </button>
+                    <button id="refresh-button" class="btn-admin" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;">
+                        <i class="fas fa-refresh me-2"></i>Refresh
                     </button>
                     <button id="test-sheets-button" class="btn-admin" style="background: linear-gradient(135deg, #7c3aed, #3b82f6); border-color: #7c3aed;">
                         <i class="fas fa-table me-2"></i>Test Sheets
@@ -396,6 +399,19 @@
             <div class="admin-stat-number">{{ (recent_donations|length) or 0 }}</div>
             <div class="admin-stat-label">Recent (30 days)</div>
         </div>
+    </div>
+
+    <!-- Debug Information -->
+    <div class="alert alert-info mb-3">
+        <h6><i class="fas fa-info-circle me-2"></i>Debug Information</h6>
+        <small>
+            <strong>Data Source:</strong> {{ data_source }}<br>
+            <strong>Total Donations in DB:</strong> {{ total_donations or 0 }}<br>
+            <strong>Recent Donations (30 days):</strong> {{ (recent_donations|length) or 0 }}<br>
+            <strong>Total Amount in DB:</strong> ₹{{ "%.2f"|format(total_amount or 0) }}<br>
+            <strong>Active Purposes:</strong> {{ (all_purposes|length) or 0 }}<br>
+            <strong>Worksheet Data Categories:</strong> {{ (all_worksheet_data|length) or 0 }}
+        </small>
     </div>
 
  
@@ -503,7 +519,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            {% if donation.status == 'Verified' %}
+                                            {% if donation.is_verified %}
                                             <span class="enterprise-badge enterprise-badge-success">
                                                 <i class="fas fa-check-circle me-1"></i>Verified
                                             </span>
@@ -514,7 +530,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if donation.status != 'Verified' %}
+                                            {% if not donation.is_verified %}
                                                 <button class="btn-admin btn-admin-success" 
                                                         onclick="verifyDonation('{{ donation.id }}', '{{ donation.donor_name }}')"
                                                         title="Verify Donation">
@@ -584,6 +600,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const testSheetsButton = document.getElementById('test-sheets-button');
     if (testSheetsButton) {
         testSheetsButton.addEventListener('click', testGoogleSheets);
+    }
+    
+    // Set up refresh button event listener
+    const refreshButton = document.getElementById('refresh-button');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', function() {
+            console.log('🔄 Manual refresh requested');
+            window.location.reload();
+        });
+    }
+    
+    // Check Google Sheets connection status and enable/disable sync button
+    checkSyncStatus();
+    
+    function checkSyncStatus() {
+        // Check if Google Sheets is connected
+        fetch('/admin/sync-status')
+            .then(response => response.json())
+            .then(data => {
+                const syncButton = document.getElementById('sync-button');
+                if (syncButton) {
+                    if (data.connected) {
+                        syncButton.disabled = false;
+                        syncButton.title = 'Sync donations from Google Sheets';
+                    } else {
+                        syncButton.disabled = true;
+                        syncButton.title = 'Google Sheets not connected. Please set up credentials first.';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error checking sync status:', error);
+                const syncButton = document.getElementById('sync-button');
+                if (syncButton) {
+                    syncButton.disabled = true;
+                    syncButton.title = 'Error checking connection status';
+                }
+            });
     }
     
     function testGoogleSheets() {
@@ -662,31 +716,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const syncButton = document.getElementById('sync-button');
         const originalText = syncButton.innerHTML;
         
+        console.log('🔄 Starting sync process...');
+        
         // Show loading state
         syncButton.disabled = true;
         syncButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Syncing...';
         
-        // Perform sync
-        fetch('/admin/sync-donations')
-            .then(response => {
-                if (response.ok) {
-                    // Show success message
-                    showAlert('success', 'Donations synced successfully!');
-                    // Refresh the page to show updated data
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
-                } else {
-                    throw new Error('Sync failed');
-                }
-            })
-            .catch(error => {
-                console.error('Sync error:', error);
-                showAlert('danger', 'Failed to sync donations. Please try again.');
-                // Reset button
-                syncButton.disabled = false;
-                syncButton.innerHTML = originalText;
-            });
+        // Perform sync using API endpoint
+        fetch('/admin/sync-now', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            console.log('📡 Sync response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('📊 Sync response data:', data);
+            if (data.success) {
+                // Show success message
+                showAlert('success', data.message || 'Donations synced successfully!');
+                console.log('✅ Sync successful, refreshing page in 2 seconds...');
+                // Refresh the page to show updated data
+                setTimeout(() => {
+                    console.log('🔄 Reloading page...');
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error(data.error || 'Sync failed');
+            }
+        })
+        .catch(error => {
+            console.error('❌ Sync error:', error);
+            showAlert('danger', error.message || 'Failed to sync donations. Please try again.');
+            // Reset button
+            syncButton.disabled = false;
+            syncButton.innerHTML = originalText;
+        });
     }
     
     function showAlert(type, message) {

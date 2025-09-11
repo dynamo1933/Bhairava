@@ -24,23 +24,37 @@ class GoogleSheetsManager:
     def _connect(self):
         """Connect to Google Sheets"""
         try:
-            if not os.path.exists(self.credentials_file):
-                print(f"⚠️  Google credentials file not found: {self.credentials_file}")
-                print("ℹ️  Google Sheets integration disabled. Using local database only.")
-                print("   To enable Google Sheets integration:")
-                print("   1. Follow the guide in GOOGLE_SHEETS_SETUP.md")
-                print("   2. Create google_credentials.json file")
-                print("   3. Restart the application")
-                return False
-            
             # Define the scopes
             scopes = [
                 'https://www.googleapis.com/auth/spreadsheets',
                 'https://www.googleapis.com/auth/drive'
             ]
             
-            # Load credentials
-            creds = Credentials.from_service_account_file(self.credentials_file, scopes=scopes)
+            # Try to load credentials from environment variables first (for deployment)
+            creds = None
+            if os.getenv('GOOGLE_CREDENTIALS_JSON'):
+                try:
+                    import json
+                    credentials_json = json.loads(os.getenv('GOOGLE_CREDENTIALS_JSON'))
+                    creds = Credentials.from_service_account_info(credentials_json, scopes=scopes)
+                    print("✅ Loaded Google credentials from environment variables")
+                except Exception as e:
+                    print(f"⚠️  Error loading credentials from environment: {e}")
+            
+            # Fallback to credentials file (for local development)
+            if not creds and os.path.exists(self.credentials_file):
+                creds = Credentials.from_service_account_file(self.credentials_file, scopes=scopes)
+                print("✅ Loaded Google credentials from file")
+            
+            if not creds:
+                print(f"⚠️  Google credentials not found")
+                print("ℹ️  Google Sheets integration disabled. Using local database only.")
+                print("   To enable Google Sheets integration:")
+                print("   1. For local development: Create google_credentials.json file")
+                print("   2. For deployment: Set GOOGLE_CREDENTIALS_JSON environment variable")
+                print("   3. Restart the application")
+                return False
+            
             self.client = gspread.authorize(creds)
             
             # Open the spreadsheet
@@ -223,7 +237,7 @@ class GoogleSheetsManager:
                         amount = record.get('Amount') or record.get('Amount Collected', 0)
                         
                         donation_data = {
-                            'id': record.get('ID', ''),
+                            'id': record.get('Doner_ID', ''),  # Use correct column name
                             'donor_name': donor_name,
                             'donor_email': record.get('Donor Email', ''),
                             'donor_phone': record.get('Donor Phone', ''),
@@ -303,7 +317,7 @@ class GoogleSheetsManager:
             return []
     
     def sync_donations_from_sheets(self):
-        """Sync donations from Google Sheets to local database"""
+        """Sync donations from Google Sheets to local database - COMPLETE REFRESH"""
         try:
             if not self.spreadsheet:
                 return False, "Not connected to Google Sheets"
@@ -311,75 +325,80 @@ class GoogleSheetsManager:
             from models import DonationPurpose, OfflineDonation, db
             from datetime import datetime
             
-            # Get all donations from sheets
+            print("🔄 Starting complete refresh sync...")
+            
+            # STEP 1: Clear all existing donation data
+            print("🗑️  Clearing existing donation data...")
+            OfflineDonation.query.delete()
+            DonationPurpose.query.delete()
+            db.session.commit()
+            print("✅ Cleared all existing data")
+            
+            # STEP 2: Get all donations from Google Sheets
+            print("📥 Fetching all data from Google Sheets...")
             all_donations = self.get_all_donations_from_sheets()
+            print(f"📊 Found {len(all_donations)} donations in Google Sheets")
             
             synced_count = 0
-            updated_count = 0
+            purposes_created = set()
             
+            # STEP 3: Re-import all data fresh
             for donation_data in all_donations:
                 try:
                     # Find or create purpose
-                    purpose = DonationPurpose.query.filter_by(name=donation_data['purpose']).first()
-                    if not purpose:
+                    purpose_name = donation_data['purpose']
+                    if purpose_name not in purposes_created:
                         purpose = DonationPurpose(
-                            name=donation_data['purpose'],
-                            description=f"Purpose synced from Google Sheets",
+                            name=purpose_name,
+                            description=f"Purpose synced from Google Sheets - {purpose_name}",
                             created_by=1  # Admin user
                         )
                         db.session.add(purpose)
                         db.session.commit()
-                    
-                    # Check if donation already exists
-                    existing_donation = None
-                    if donation_data.get('id'):
-                        existing_donation = OfflineDonation.query.filter_by(id=int(donation_data['id'])).first()
-                    
-                    if existing_donation:
-                        # Update existing donation
-                        existing_donation.donor_name = donation_data['donor_name']
-                        existing_donation.donor_email = donation_data['donor_email']
-                        existing_donation.donor_phone = donation_data['donor_phone']
-                        existing_donation.amount = donation_data['amount']
-                        existing_donation.currency = donation_data['currency']
-                        existing_donation.purpose_id = purpose.id
-                        existing_donation.payment_method = donation_data['payment_method']
-                        existing_donation.reference_number = donation_data['reference_number']
-                        existing_donation.notes = donation_data['notes']
-                        existing_donation.is_verified = donation_data['status'] == 'Verified'
-                        updated_count += 1
+                        purposes_created.add(purpose_name)
+                        print(f"✅ Created purpose: {purpose_name}")
                     else:
-                        # Create new donation
-                        donation_date = datetime.now().date()
-                        if donation_data.get('donation_date'):
-                            try:
-                                donation_date = datetime.strptime(donation_data['donation_date'], '%Y-%m-%d').date()
-                            except ValueError:
-                                pass
-                        
-                        new_donation = OfflineDonation(
-                            donor_name=donation_data['donor_name'],
-                            donor_email=donation_data['donor_email'],
-                            donor_phone=donation_data['donor_phone'],
-                            amount=donation_data['amount'],
-                            currency=donation_data['currency'],
-                            purpose_id=purpose.id,
-                            donation_date=donation_date,
-                            payment_method=donation_data['payment_method'],
-                            reference_number=donation_data['reference_number'],
-                            notes=donation_data['notes'],
-                            is_verified=donation_data['status'] == 'Verified',
-                            created_by=1  # Admin user
-                        )
-                        db.session.add(new_donation)
-                        synced_count += 1
-                        
+                        purpose = DonationPurpose.query.filter_by(name=purpose_name).first()
+                    
+                    # Create new donation record
+                    donor_id = str(donation_data.get('id', '')).strip()
+                    worksheet_name = donation_data.get('purpose', '')
+                    
+                    donation_date = datetime.now().date()
+                    if donation_data.get('donation_date'):
+                        try:
+                            donation_date = datetime.strptime(donation_data['donation_date'], '%Y-%m-%d').date()
+                        except ValueError:
+                            pass
+                    
+                    new_donation = OfflineDonation(
+                        donor_id=donor_id if donor_id else None,
+                        worksheet=worksheet_name,
+                        donor_name=donation_data['donor_name'],
+                        donor_email=donation_data['donor_email'],
+                        donor_phone=donation_data['donor_phone'],
+                        amount=donation_data['amount'],
+                        currency=donation_data['currency'],
+                        purpose_id=purpose.id,
+                        donation_date=donation_date,
+                        payment_method=donation_data['payment_method'],
+                        reference_number=donation_data['reference_number'],
+                        notes=donation_data['notes'],
+                        is_verified=donation_data['status'] == 'Verified',
+                        created_by=1  # Admin user
+                    )
+                    db.session.add(new_donation)
+                    synced_count += 1
+                    
                 except Exception as e:
                     print(f"⚠️  Error syncing donation: {e}")
                     continue
             
+            # STEP 4: Commit all changes
             db.session.commit()
-            return True, f"Synced {synced_count} new donations, updated {updated_count} existing donations"
+            
+            print(f"✅ Complete refresh successful: {synced_count} donations imported")
+            return True, f"Complete refresh: {synced_count} donations imported from {len(purposes_created)} worksheets"
             
         except Exception as e:
             db.session.rollback()
@@ -543,5 +562,12 @@ class GoogleSheetsManager:
             print(f"❌ Error getting summary for worksheet '{worksheet_name}': {e}")
             return {}
 
-# Global instance
-sheets_manager = GoogleSheetsManager()
+# Global instance (lazy initialization)
+sheets_manager = None
+
+def get_sheets_manager():
+    """Get the sheets manager instance (lazy initialization)"""
+    global sheets_manager
+    if sheets_manager is None:
+        sheets_manager = GoogleSheetsManager()
+    return sheets_manager

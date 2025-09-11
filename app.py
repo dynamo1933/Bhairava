@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
-from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
 from models import db, User, DonationPurpose, OfflineDonation
 from auth import auth
 from forms import DonationPurposeForm, OfflineDonationForm, DonationSearchForm
-from google_sheets import sheets_manager
+from google_sheets import get_sheets_manager
 import os
 import socket
 import qrcode
@@ -279,82 +279,58 @@ def donations():
 @app.route('/admin/donations')
 @login_required
 def admin_donations():
-    """Admin donations management page - shows all donations from Google Sheets with tabs"""
+    """Admin donations management page - shows all donations from local database with tabs"""
     if not current_user.is_admin():
         flash('Access denied. Admin privileges required.', 'error')
         return redirect(url_for('home'))
     
     try:
-        # Try to get data from Google Sheets first
-        if sheets_manager.is_connected():
-            data_source = "Google Sheets"
+        # Always fetch from local database (after sync)
+        data_source = "Local Database"
+        
+        # Get all donations from local database
+        all_donations = OfflineDonation.query.order_by(OfflineDonation.donation_date.desc()).all()
+        
+        # Group donations by worksheet
+        all_worksheet_data = {}
+        total_donations = 0
+        total_amount = 0
+        
+        # Group by worksheet
+        worksheets_dict = {}
+        for donation in all_donations:
+            worksheet_name = donation.worksheet if donation.worksheet else (donation.purpose.name if donation.purpose else 'Uncategorized')
+            if worksheet_name not in worksheets_dict:
+                worksheets_dict[worksheet_name] = []
+            worksheets_dict[worksheet_name].append(donation)
+        
+        # Create worksheet data structure
+        for worksheet_name, donations in worksheets_dict.items():
+            worksheet_amount = sum(float(d.amount) for d in donations)
+            all_worksheet_data[worksheet_name] = {
+                'donations': donations,
+                'summary': {
+                    'total_donations': len(donations),
+                    'total_amount': worksheet_amount,
+                    'verified_donations': len([d for d in donations if d.is_verified]),
+                    'pending_donations': len([d for d in donations if not d.is_verified]),
+                    'average_donation': worksheet_amount / len(donations) if donations else 0
+                },
+                'all_donations': donations
+            }
             
-            # Get all donations from Google Sheets
-            all_donations = sheets_manager.get_all_donations_from_sheets()
-            
-            # Group donations by purpose/worksheet
-            all_worksheet_data = {}
-            total_donations = 0
-            total_amount = 0
-            
-            # Group by purpose
-            purposes_dict = {}
-            for donation in all_donations:
-                purpose_name = donation.get('purpose', 'Uncategorized')
-                if purpose_name not in purposes_dict:
-                    purposes_dict[purpose_name] = []
-                purposes_dict[purpose_name].append(donation)
-            
-            # Create worksheet data structure
-            for purpose_name, donations in purposes_dict.items():
-                purpose_amount = sum(float(d.get('amount', 0)) for d in donations)
-                all_worksheet_data[purpose_name] = {
-                    'donations': donations,
-                    'summary': {
-                        'total_donations': len(donations),
-                        'total_amount': purpose_amount,
-                        'verified_donations': len([d for d in donations if d.get('status') == 'Verified']),
-                        'pending_donations': len([d for d in donations if d.get('status') != 'Verified']),
-                        'average_donation': purpose_amount / len(donations) if donations else 0
-                    },
-                    'all_donations': donations
-                }
-                
-                total_donations += len(donations)
-                total_amount += purpose_amount
-            
-            # Get all purposes for reference
-            all_purposes = DonationPurpose.query.filter_by(is_active=True).all()
-            
-            # Get recent donations for stats (last 30 days from all data)
-            thirty_days_ago = datetime.now().date() - timedelta(days=30)
-            recent_donations = []
-            for donation in all_donations:
-                try:
-                    if donation.get('donation_date'):
-                        donation_date = datetime.strptime(donation['donation_date'], '%Y-%m-%d').date()
-                        if donation_date >= thirty_days_ago:
-                            recent_donations.append(donation)
-                except:
-                    continue
-            
-            # Sort recent donations by date
-            recent_donations.sort(key=lambda x: x.get('donation_date', ''), reverse=True)
-            
-        else:
-            # Fallback to local database
-            data_source = "Local Database"
-            all_worksheet_data = {}
-            all_purposes = DonationPurpose.query.filter_by(is_active=True).all()
-            total_donations = OfflineDonation.query.count()
-            total_amount = db.session.query(db.func.sum(OfflineDonation.amount)).scalar() or 0
-            
-            # Get recent donations (last 30 days)
-            thirty_days_ago = datetime.now() - timedelta(days=30)
-            recent_donations = OfflineDonation.query.filter(
-                OfflineDonation.created_at >= thirty_days_ago
-            ).order_by(OfflineDonation.created_at.desc()).limit(10).all()
-            
+            total_donations += len(donations)
+            total_amount += worksheet_amount
+        
+        # Get all purposes for reference
+        all_purposes = DonationPurpose.query.filter_by(is_active=True).all()
+        
+        # Get recent donations for stats (last 30 days)
+        thirty_days_ago = datetime.now().date() - timedelta(days=30)
+        recent_donations = OfflineDonation.query.filter(
+            OfflineDonation.donation_date >= thirty_days_ago
+        ).order_by(OfflineDonation.donation_date.desc()).limit(10).all()
+        
     except Exception as e:
         print(f"Error fetching donations: {e}")
         # Fallback to empty data
@@ -429,7 +405,7 @@ def add_donation():
                 'created_by': current_user.username
             }
             
-            sheets_manager.add_donation(donation_data, purpose.name)
+            get_sheets_manager().add_donation(donation_data, purpose.name)
             
             flash('Donation added successfully!', 'success')
             return redirect(url_for('admin_donations'))
@@ -478,7 +454,7 @@ def verify_donation(donation_id):
             'created_by': donation.creator.username
         }
         
-        sheets_manager.add_donation(donation_data, purpose.name)
+        get_sheets_manager().add_donation(donation_data, purpose.name)
         
         flash('Donation verified successfully!', 'success')
     
@@ -554,12 +530,12 @@ def sync_donations():
         flash('Access denied. Admin privileges required.', 'error')
         return redirect(url_for('home'))
     
-    if not sheets_manager.is_connected():
+    if not get_sheets_manager().is_connected():
         flash('❌ Google Sheets not connected. Please set up credentials first.', 'error')
         return redirect(url_for('admin_donations'))
     
     try:
-        success, message = sheets_manager.sync_donations_from_sheets()
+        success, message = get_sheets_manager().sync_donations_from_sheets()
         if success:
             flash(f'✅ {message}', 'success')
         else:
@@ -569,6 +545,57 @@ def sync_donations():
     
     return redirect(url_for('admin_donations'))
 
+@app.route('/admin/api/sync-donations', methods=['POST'])
+@login_required
+def api_sync_donations():
+    """API endpoint for syncing donations (returns JSON)"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    if not get_sheets_manager().is_connected():
+        return jsonify({
+            'success': False,
+            'error': 'Google Sheets not connected. Please set up credentials first.'
+        }), 400
+    
+    try:
+        success, message = get_sheets_manager().sync_donations_from_sheets()
+        return jsonify({
+            'success': success,
+            'message': message
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Error syncing donations: {str(e)}'
+        }), 500
+
+# Alternative sync endpoint without CSRF protection
+@app.route('/admin/sync-now', methods=['GET'])
+@login_required
+def sync_now():
+    """Alternative sync endpoint without CSRF protection"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    if not get_sheets_manager().is_connected():
+        return jsonify({
+            'success': False,
+            'error': 'Google Sheets not connected. Please set up credentials first.'
+        }), 400
+    
+    try:
+        success, message = get_sheets_manager().sync_donations_from_sheets()
+        return jsonify({
+            'success': success,
+            'message': message
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
 @app.route('/admin/sync-status')
 @login_required
 def sync_status():
@@ -577,24 +604,20 @@ def sync_status():
         return jsonify({'error': 'Access denied'}), 403
     
     try:
-        stats = sheets_manager.get_sync_statistics()
+        # Lightweight check - just verify if credentials exist
+        # Don't actually connect to Google Sheets
+        credentials_exist = (
+            os.path.exists('google_credentials.json') or 
+            os.getenv('GOOGLE_CREDENTIALS_JSON') is not None
+        )
+        
         return jsonify({
-            'connected': stats['connected'],
-            'worksheets': stats.get('worksheets', []),
-            'worksheets_count': stats.get('worksheets_count', 0),
-            'total_donations_in_sheets': stats.get('total_donations_in_sheets', 0),
-            'spreadsheet_id': sheets_manager.spreadsheet_id if stats['connected'] else None,
-            'last_sync': stats.get('last_sync'),
-            'error': stats.get('error')
+            'connected': credentials_exist,
+            'message': 'Credentials available' if credentials_exist else 'No credentials found'
         })
     except Exception as e:
         return jsonify({
             'connected': False,
-            'worksheets': [],
-            'worksheets_count': 0,
-            'total_donations_in_sheets': 0,
-            'spreadsheet_id': None,
-            'last_sync': None,
             'error': str(e)
         })
 
@@ -605,7 +628,7 @@ def admin_api_donations_from_sheets():
     if not current_user.is_admin():
         return jsonify({'error': 'Access denied'}), 403
     
-    if not sheets_manager.is_connected():
+    if not get_sheets_manager().is_connected():
         return jsonify({
             'success': False,
             'error': 'Google Sheets not connected',
@@ -614,7 +637,7 @@ def admin_api_donations_from_sheets():
         })
     
     try:
-        donations = sheets_manager.get_all_donations_from_sheets()
+        donations = get_sheets_manager().get_all_donations_from_sheets()
         return jsonify({
             'success': True,
             'donations': donations,
