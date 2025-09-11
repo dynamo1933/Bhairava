@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-plus-circle"></i> Add Donation Purpose
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.name.label(class="form-label") }}
+                            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                            {% if form.name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">A clear, descriptive name for this donation purpose (e.g., "Temple Maintenance", "Spiritual Events")</div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.description.label(class="form-label") }}
+                            {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""), rows="4") }}
+                            {% if form.description.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.description.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Detailed description of how donations for this purpose will be used</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('donation_purposes') }}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Add Purpose
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Examples Card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb text-warning"></i> Purpose Examples
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Common Purposes</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-temple-hindu text-primary"></i> <strong>Temple Maintenance</strong><br>
+                                    <small class="text-muted">Upkeep of sacred spaces, cleaning, repairs</small>
+                                </li>
+                                <li><i class="fas fa-calendar-alt text-success"></i> <strong>Spiritual Events</strong><br>
+                                    <small class="text-muted">Festivals, ceremonies, special gatherings</small>
+                                </li>
+                                <li><i class="fas fa-users text-info"></i> <strong>Community Support</strong><br>
+                                    <small class="text-muted">Helping devotees in need, food distribution</small>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Educational & Growth</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-book text-purple"></i> <strong>Educational Programs</strong><br>
+                                    <small class="text-muted">Spiritual learning, workshops, classes</small>
+                                </li>
+                                <li><i class="fas fa-seedling text-success"></i> <strong>Garden & Environment</strong><br>
+                                    <small class="text-muted">Sacred garden maintenance, environmental projects</small>
+                                </li>
+                                <li><i class="fas fa-heart text-danger"></i> <strong>Charitable Activities</strong><br>
+                                    <small class="text-muted">Supporting local charities, social causes</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle text-info"></i> Guidelines
+                    </h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><i class="fas fa-check text-success"></i> <strong>Clear Naming:</strong> Use descriptive names that donors can easily understand</li>
+                        <li><i class="fas fa-check text-success"></i> <strong>Detailed Description:</strong> Explain exactly how donations will be used</li>
+                        <li><i class="fas fa-check text-success"></i> <strong>Transparency:</strong> Be specific about fund allocation and usage</li>
+                        <li><i class="fas fa-check text-success"></i> <strong>Regular Updates:</strong> Keep descriptions current and accurate</li>
+                        <li><i class="fas fa-check text-success"></i> <strong>Purpose Alignment:</strong> Ensure purposes align with spiritual mission</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

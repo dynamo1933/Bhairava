@@ -64,3 +64,42 @@ class UserSearchForm(FlaskForm):
         ('admin', 'Admin'),
         ('user', 'User')
     ])
+
+class DonationPurposeForm(FlaskForm):
+    name = StringField('Purpose Name', validators=[DataRequired(), Length(max=100)])
+    description = TextAreaField('Description', validators=[Length(max=500)])
+
+class OfflineDonationForm(FlaskForm):
+    donor_name = StringField('Donor Name', validators=[DataRequired(), Length(max=100)])
+    donor_email = StringField('Donor Email', validators=[Optional(), Email(), Length(max=120)])
+    donor_phone = StringField('Donor Phone', validators=[Optional(), Length(max=20)])
+    amount = StringField('Amount', validators=[DataRequired()])
+    currency = SelectField('Currency', choices=[
+        ('INR', 'INR (₹)'),
+        ('USD', 'USD ($)'),
+        ('EUR', 'EUR (€)'),
+        ('GBP', 'GBP (£)')
+    ], default='INR')
+    purpose_id = SelectField('Donation Purpose', coerce=int, validators=[DataRequired()])
+    donation_date = StringField('Donation Date', validators=[DataRequired()])
+    payment_method = SelectField('Payment Method', choices=[
+        ('Cash', 'Cash'),
+        ('Bank Transfer', 'Bank Transfer'),
+        ('UPI', 'UPI'),
+        ('Cheque', 'Cheque'),
+        ('Card', 'Card Payment'),
+        ('Other', 'Other')
+    ], validators=[DataRequired()])
+    reference_number = StringField('Reference Number', validators=[Optional(), Length(max=100)])
+    notes = TextAreaField('Notes', validators=[Optional(), Length(max=500)])
+
+class DonationSearchForm(FlaskForm):
+    search_term = StringField('Search by Donor Name, Email, or Reference Number')
+    purpose_filter = SelectField('Purpose Filter', choices=[('all', 'All Purposes')])
+    status_filter = SelectField('Status Filter', choices=[
+        ('all', 'All Donations'),
+        ('verified', 'Verified'),
+        ('pending', 'Pending Verification')
+    ])
+    date_from = StringField('From Date')
+    date_to = StringField('To Date')

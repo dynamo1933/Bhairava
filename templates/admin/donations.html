@@ -1,0 +1,757 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <style>
+        /* Sacred Spiritual Table Theme - Matching Current UI */
+        .enterprise-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 3px solid #c41e3a !important;
+            position: relative;
+            margin: 20px 0;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-table thead {
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 50%, #ea580c 100%);
+            position: relative;
+        }
+        
+        .enterprise-table thead::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f59e0b, #ea580c, #c41e3a, #dc2626);
+            background-size: 300% 100%;
+            animation: sacredGlow 3s ease infinite;
+        }
+        
+        @keyframes sacredGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .enterprise-table thead th {
+            color: #fef7ed;
+            padding: 1.2rem 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            border: 2px solid rgba(254, 247, 237, 0.3) !important;
+            text-align: left;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-table thead th:not(:last-child) {
+            border-right: 2px solid rgba(254, 247, 237, 0.4) !important;
+        }
+        
+        .enterprise-table tbody tr {
+            border-bottom: 2px solid #fecaca !important;
+            background: linear-gradient(135deg, #ffffff 0%, #fef7ed 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .enterprise-table tbody tr:hover {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.15);
+        }
+        
+        .enterprise-table tbody tr:nth-child(even) {
+            background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+        }
+        
+        .enterprise-table tbody tr:nth-child(even):hover {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+        
+        .enterprise-table tbody td {
+            padding: 1.2rem 1.5rem !important;
+            border: 1px solid #fecaca !important;
+            vertical-align: middle !important;
+            color: #1a1a1a !important;
+            font-weight: 500 !important;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-table tbody td:not(:last-child) {
+            border-right: 2px solid #fecaca !important;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 3px solid #c41e3a !important;
+            background: #ffffff;
+            margin: 2rem 0;
+        }
+        
+        /* Sacred Badge Styling */
+        .enterprise-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-badge-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+        
+        .enterprise-badge-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+        }
+        
+        .enterprise-badge-info {
+            background: linear-gradient(135deg, #c41e3a, #dc2626);
+            color: #fef7ed;
+            box-shadow: 0 2px 4px rgba(196, 30, 58, 0.3);
+        }
+        
+        /* Tab Styling to Match Theme */
+        .enterprise-tabs {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 1px solid #fecaca;
+            overflow: hidden;
+        }
+        
+        .enterprise-tabs-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid #fecaca;
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
+            color: #fef7ed;
+        }
+        
+        .enterprise-tabs-header h3 {
+            color: #fef7ed;
+            font-weight: 700;
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-tabs-nav {
+            display: flex;
+            background: #fef7ed;
+            border-bottom: 1px solid #fecaca;
+            overflow-x: auto;
+        }
+        
+        .enterprise-tab-item {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            color: #5a5a5a;
+            font-weight: 500;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-tab-item:hover {
+            background: #fef2f2;
+            color: #c41e3a;
+        }
+        
+        .enterprise-tab-item.active {
+            background: #ffffff;
+            color: #c41e3a;
+            border-bottom-color: #c41e3a;
+            font-weight: 600;
+        }
+        
+        .enterprise-tab-item .badge {
+            background: #c41e3a;
+            color: #fef7ed;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .enterprise-tab-content {
+            background: white;
+        }
+        
+        .enterprise-tab-pane {
+            display: none !important;
+            padding: 2rem;
+        }
+
+        .enterprise-tab-pane.active {
+            display: block !important;
+        }
+        
+        .enterprise-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 1px solid #fecaca;
+            overflow: hidden;
+        }
+        
+        .enterprise-card-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #fecaca;
+            background: linear-gradient(135deg, #fef7ed 0%, #ffffff 100%);
+        }
+        
+        .enterprise-card-header h5 {
+            color: #1a1a1a;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-card-body {
+            padding: 2rem;
+        }
+        
+        .enterprise-empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #5a5a5a;
+        }
+        
+        .enterprise-empty-state-icon {
+            font-size: 4rem;
+            color: #fecaca;
+            margin-bottom: 1rem;
+        }
+        
+        .enterprise-empty-state h3 {
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Admin specific styling */
+        .admin-header {
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
+            color: #fef7ed;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+        }
+
+        .admin-header h1 {
+            color: #fef7ed;
+            font-weight: 700;
+            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-stat-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 2px solid #fecaca;
+            text-align: center;
+        }
+
+        .admin-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-stat-label {
+            color: #5a5a5a;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-admin {
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
+            border: 2px solid #c41e3a;
+            color: #fef7ed;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-admin:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #ea580c 100%);
+            color: #fef7ed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+            text-decoration: none;
+        }
+
+        .btn-admin-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #10b981;
+        }
+
+        .btn-admin-success:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: #fef7ed;
+        }
+    </style>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1>
+                    <i class="fas fa-database me-2"></i>Donation Management
+                </h1>
+                <p class="mb-0">Manage and monitor all donation records</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <div class="admin-actions">
+                    <a href="{{ url_for('add_donation') }}" class="btn-admin btn-admin-success">
+                        <i class="fas fa-plus me-2"></i>Add Donation
+                    </a>
+                    <button id="sync-button" class="btn-admin" disabled>
+                        <i class="fas fa-sync-alt me-2"></i>Sync
+                    </button>
+                    <button id="test-sheets-button" class="btn-admin" style="background: linear-gradient(135deg, #7c3aed, #3b82f6); border-color: #7c3aed;">
+                        <i class="fas fa-table me-2"></i>Test Sheets
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Overall Statistics Cards -->
+    <div class="admin-stats">
+        <div class="admin-stat-card">
+            <div class="admin-stat-number">{{ total_donations or 0 }}</div>
+            <div class="admin-stat-label">Total Donations</div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-number">₹{{ "%.2f"|format(total_amount or 0) }}</div>
+            <div class="admin-stat-label">Total Amount</div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-number">{{ (all_worksheet_data|length) or 0 }}</div>
+            <div class="admin-stat-label">Categories</div>
+        </div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-number">{{ (recent_donations|length) or 0 }}</div>
+            <div class="admin-stat-label">Recent (30 days)</div>
+        </div>
+    </div>
+
+ 
+    <!-- All Donations with Tabs -->
+    {% if all_worksheet_data %}
+    <div class="enterprise-tabs">
+        <div class="enterprise-tabs-header">
+            <h3 class="mb-0">
+                <i class="fas fa-database me-2"></i>All Donation Records
+            </h3>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Data Source: {{ data_source }}</span>
+                <i class="fas fa-sync-alt text-muted"></i>
+            </div>
+        </div>
+        
+        <div class="enterprise-tabs-nav">
+            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+            <button class="enterprise-tab-item {% if loop.first %}active{% endif %}" 
+                    data-tab="{{ worksheet_name|replace(' ', '')|lower }}">
+                <i class="fas fa-folder"></i>
+                <span>{{ worksheet_name }}</span>
+                <span class="badge">{{ worksheet_data.summary.total_donations }}</span>
+            </button>
+            {% endfor %}
+        </div>
+        
+        <div class="enterprise-tab-content">
+            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+            <div class="enterprise-tab-pane {% if loop.first %}active{% endif %}" 
+                 id="{{ worksheet_name|replace(' ', '')|lower }}">
+                
+                <div class="enterprise-card">
+                    <div class="enterprise-card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-table me-2"></i>{{ worksheet_name }} Donations
+                            <small class="text-muted ms-2">({{ worksheet_data.donations|length }} records)</small>
+                        </h5>
+                    </div>
+                    <div class="enterprise-card-body">
+                        <!-- Worksheet-specific KPI Cards -->
+                        <div class="admin-stats mb-4">
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-number">{{ worksheet_data.summary.total_donations }}</div>
+                                <div class="admin-stat-label">Total Donations</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-number">₹{{ "%.2f"|format(worksheet_data.summary.total_amount) }}</div>
+                                <div class="admin-stat-label">Total Amount</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-number">{{ worksheet_data.summary.verified_donations }}</div>
+                                <div class="admin-stat-label">Verified</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-number">₹{{ "%.2f"|format(worksheet_data.summary.average_donation) }}</div>
+                                <div class="admin-stat-label">Avg Donation</div>
+                            </div>
+                        </div>
+                        {% if worksheet_data.donations %}
+                        <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                            <table class="enterprise-table">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-calendar me-2"></i>Date</th>
+                                        <th><i class="fas fa-user me-2"></i>Donor Information</th>
+                                        <th><i class="fas fa-rupee-sign me-2"></i>Amount</th>
+                                        <th><i class="fas fa-credit-card me-2"></i>Payment Method</th>
+                                        <th><i class="fas fa-check-circle me-2"></i>Status</th>
+                                        <th><i class="fas fa-cogs me-2"></i>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for donation in worksheet_data.donations %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                {% if donation.donation_date %}
+                                                    {% if donation.donation_date is string %}
+                                                        <span class="fw-semibold">{{ donation.donation_date }}</span>
+                                                    {% else %}
+                                                        <span class="fw-semibold">{{ donation.donation_date.strftime('%B %d, %Y') }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="text-muted">N/A</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-semibold text-dark">{{ donation.donor_name }}</span>
+                                                {% if donation.donor_email %}
+                                                <small class="text-muted">{{ donation.donor_email }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-bold text-success fs-5">{{ donation.currency }} {{ "%.2f"|format(donation.amount) }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="enterprise-badge enterprise-badge-info">
+                                                <i class="fas fa-credit-card me-1"></i>{{ donation.payment_method }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if donation.status == 'Verified' %}
+                                            <span class="enterprise-badge enterprise-badge-success">
+                                                <i class="fas fa-check-circle me-1"></i>Verified
+                                            </span>
+                                            {% else %}
+                                            <span class="enterprise-badge enterprise-badge-warning">
+                                                <i class="fas fa-clock me-1"></i>Pending
+                                            </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if donation.status != 'Verified' %}
+                                                <button class="btn-admin btn-admin-success" 
+                                                        onclick="verifyDonation('{{ donation.id }}', '{{ donation.donor_name }}')"
+                                                        title="Verify Donation">
+                                                    <i class="fas fa-check me-1"></i>Verify
+                                                </button>
+                                            {% else %}
+                                                <span class="text-muted">
+                                                    <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="enterprise-empty-state">
+                            <div class="enterprise-empty-state-icon">
+                                <i class="fas fa-donate"></i>
+                            </div>
+                            <h3>No Donations Found</h3>
+                            <p>No donations have been recorded for this category yet.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="enterprise-card">
+        <div class="enterprise-card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-list me-2"></i>No Donations Available
+            </h5>
+        </div>
+        <div class="enterprise-card-body">
+            <div class="enterprise-empty-state">
+                <div class="enterprise-empty-state-icon">
+                    <i class="fas fa-donate"></i>
+                </div>
+                <h3>No Donations Found</h3>
+                <p>No donations have been recorded yet.</p>
+                <a href="{{ url_for('add_donation') }}" class="btn-admin btn-admin-success">
+                    <i class="fas fa-plus me-2"></i>Add First Donation
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up sync button event listener
+    const syncButton = document.getElementById('sync-button');
+    if (syncButton) {
+        syncButton.addEventListener('click', performSync);
+    }
+    
+    // Set up test sheets button event listener
+    const testSheetsButton = document.getElementById('test-sheets-button');
+    if (testSheetsButton) {
+        testSheetsButton.addEventListener('click', testGoogleSheets);
+    }
+    
+    function testGoogleSheets() {
+        const testButton = document.getElementById('test-sheets-button');
+        const testResults = document.getElementById('sheets-test-results');
+        const testContent = document.getElementById('sheets-test-content');
+        const originalText = testButton.innerHTML;
+        
+        // Show loading state
+        testButton.disabled = true;
+        testButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Testing...';
+        testResults.style.display = 'block';
+        
+        // Test Google Sheets connection
+        fetch('/admin/api/donations-from-sheets')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    testContent.innerHTML = `
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-check-circle me-2"></i>Google Sheets Connection Successful!</h6>
+                            <p><strong>Total donations found:</strong> ${data.count}</p>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Donor Name</th>
+                                        <th>Amount</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.donations.slice(0, 10).map(donation => `
+                                        <tr>
+                                            <td>${donation.donor_name || 'N/A'}</td>
+                                            <td>${donation.currency || 'INR'} ${donation.amount || 0}</td>
+                                            <td>${donation.purpose || 'N/A'}</td>
+                                            <td>${donation.status || 'N/A'}</td>
+                                            <td>${donation.donation_date || 'N/A'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        ${data.donations.length > 10 ? `<p class="text-muted">Showing first 10 of ${data.donations.length} donations</p>` : ''}
+                    `;
+                } else {
+                    testContent.innerHTML = `
+                        <div class="alert alert-danger">
+                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Google Sheets Connection Failed</h6>
+                            <p><strong>Error:</strong> ${data.error}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Test error:', error);
+                testContent.innerHTML = `
+                    <div class="alert alert-danger">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Test Failed</h6>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            })
+            .finally(() => {
+                // Reset button
+                testButton.disabled = false;
+                testButton.innerHTML = originalText;
+            });
+    }
+    
+    function performSync() {
+        const syncButton = document.getElementById('sync-button');
+        const originalText = syncButton.innerHTML;
+        
+        // Show loading state
+        syncButton.disabled = true;
+        syncButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Syncing...';
+        
+        // Perform sync
+        fetch('/admin/sync-donations')
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    showAlert('success', 'Donations synced successfully!');
+                    // Refresh the page to show updated data
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    throw new Error('Sync failed');
+                }
+            })
+            .catch(error => {
+                console.error('Sync error:', error);
+                showAlert('danger', 'Failed to sync donations. Please try again.');
+                // Reset button
+                syncButton.disabled = false;
+                syncButton.innerHTML = originalText;
+            });
+    }
+    
+    function showAlert(type, message) {
+        // Create alert element
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 350px; background: #ffffff; border: 2px solid #c41e3a; color: #1a1a1a; box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);';
+        alertDiv.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2" style="color: ${type === 'success' ? '#10b981' : '#c41e3a'};"></i>
+                <span>${message}</span>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        
+        // Insert at the top of the body
+        document.body.appendChild(alertDiv);
+        
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+    
+    // Tab functionality
+    function showTab(tabElement) {
+        // Get the tab ID from data attribute
+        const tabId = tabElement.getAttribute('data-tab');
+        
+        // Remove active class from all tabs and panes
+        document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.enterprise-tab-pane').forEach(pane => {
+            pane.classList.remove('active');
+        });
+
+        // Add active class to clicked tab
+        tabElement.classList.add('active');
+        
+        // Show corresponding pane
+        const pane = document.getElementById(tabId);
+        if (pane) {
+            pane.classList.add('active');
+        }
+    }
+    
+    // Add click event listeners to all tab buttons
+    document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showTab(this);
+        });
+    });
+    
+    // Verify donation function
+    function verifyDonation(donationId, donorName) {
+        if (confirm(`Verify donation from ${donorName}?`)) {
+            // For now, just show a message since we're working with Google Sheets data
+            showAlert('info', 'Verification feature will be available after syncing to database');
+        }
+    }
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,427 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <style>
+        /* Sacred Spiritual Table Theme - Matching Current UI */
+        .enterprise-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 3px solid #c41e3a !important;
+            position: relative;
+            margin: 20px 0;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-table thead {
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 50%, #ea580c 100%);
+            position: relative;
+        }
+        
+        .enterprise-table thead::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f59e0b, #ea580c, #c41e3a, #dc2626);
+            background-size: 300% 100%;
+            animation: sacredGlow 3s ease infinite;
+        }
+        
+        @keyframes sacredGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .enterprise-table thead th {
+            color: #fef7ed;
+            padding: 1.2rem 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            border: 2px solid rgba(254, 247, 237, 0.3) !important;
+            text-align: left;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-table thead th:not(:last-child) {
+            border-right: 2px solid rgba(254, 247, 237, 0.4) !important;
+        }
+        
+        .enterprise-table tbody tr {
+            border-bottom: 2px solid #fecaca !important;
+            background: linear-gradient(135deg, #ffffff 0%, #fef7ed 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .enterprise-table tbody tr:hover {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.15);
+        }
+        
+        .enterprise-table tbody tr:nth-child(even) {
+            background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+        }
+        
+        .enterprise-table tbody tr:nth-child(even):hover {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+        
+        .enterprise-table tbody td {
+            padding: 1.2rem 1.5rem !important;
+            border: 1px solid #fecaca !important;
+            vertical-align: middle !important;
+            color: #1a1a1a !important;
+            font-weight: 500 !important;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-table tbody td:not(:last-child) {
+            border-right: 2px solid #fecaca !important;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 3px solid #c41e3a !important;
+            background: #ffffff;
+            margin: 2rem 0;
+        }
+        
+        /* Sacred Badge Styling */
+        .enterprise-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-badge-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+        
+        .enterprise-badge-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+        }
+        
+        .enterprise-badge-info {
+            background: linear-gradient(135deg, #c41e3a, #dc2626);
+            color: #fef7ed;
+            box-shadow: 0 2px 4px rgba(196, 30, 58, 0.3);
+        }
+        
+        /* Tab Styling to Match Theme */
+        .enterprise-tabs {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 1px solid #fecaca;
+            overflow: hidden;
+        }
+        
+        .enterprise-tabs-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid #fecaca;
+            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
+            color: #fef7ed;
+        }
+        
+        .enterprise-tabs-header h3 {
+            color: #fef7ed;
+            font-weight: 700;
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-tabs-nav {
+            display: flex;
+            background: #fef7ed;
+            border-bottom: 1px solid #fecaca;
+            overflow-x: auto;
+        }
+        
+        .enterprise-tab-item {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            color: #5a5a5a;
+            font-weight: 500;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        .enterprise-tab-item:hover {
+            background: #fef2f2;
+            color: #c41e3a;
+        }
+        
+        .enterprise-tab-item.active {
+            background: #ffffff;
+            color: #c41e3a;
+            border-bottom-color: #c41e3a;
+            font-weight: 600;
+        }
+        
+        .enterprise-tab-item .badge {
+            background: #c41e3a;
+            color: #fef7ed;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .enterprise-tab-content {
+            background: white;
+        }
+        
+        .enterprise-tab-pane {
+            display: none !important;
+            padding: 2rem;
+        }
+
+        .enterprise-tab-pane.active {
+            display: block !important;
+        }
+        
+        .enterprise-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
+            border: 1px solid #fecaca;
+            overflow: hidden;
+        }
+        
+        .enterprise-card-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #fecaca;
+            background: linear-gradient(135deg, #fef7ed 0%, #ffffff 100%);
+        }
+        
+        .enterprise-card-header h5 {
+            color: #1a1a1a;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .enterprise-card-body {
+            padding: 2rem;
+        }
+        
+        .enterprise-empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #5a5a5a;
+        }
+        
+        .enterprise-empty-state-icon {
+            font-size: 4rem;
+            color: #fecaca;
+            margin-bottom: 1rem;
+        }
+        
+        .enterprise-empty-state h3 {
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+
+    {% if all_worksheet_data %}
+    <div class="enterprise-tabs">
+        <div class="enterprise-tabs-header">
+            <h3 class="mb-0">
+                <i class="fas fa-database me-2"></i>Donation Records
+            </h3>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Last updated: Today</span>
+                <i class="fas fa-sync-alt text-muted"></i>
+            </div>
+        </div>
+        
+        <div class="enterprise-tabs-nav">
+            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+            <button class="enterprise-tab-item {% if loop.first %}active{% endif %}" 
+                    data-tab="{{ worksheet_name|replace(' ', '')|lower }}">
+                <i class="fas fa-folder"></i>
+                <span>{{ worksheet_name }}</span>
+                <span class="badge">{{ worksheet_data.summary.total_donations }}</span>
+            </button>
+            {% endfor %}
+        </div>
+        
+        <div class="enterprise-tab-content">
+            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+            <div class="enterprise-tab-pane {% if loop.first %}active{% endif %}" 
+                 id="{{ worksheet_name|replace(' ', '')|lower }}">
+                
+                <div class="enterprise-card">
+                    <div class="enterprise-card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-table me-2"></i>{{ worksheet_name }} Donations
+                            <small class="text-muted ms-2">({{ worksheet_data.donations|length }} records)</small>
+                        </h5>
+                    </div>
+                    <div class="enterprise-card-body">
+                        {% if worksheet_data.donations %}
+                        <div class="table-responsive">
+                            <table class="enterprise-table">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-calendar me-2"></i>Date</th>
+                                        <th><i class="fas fa-user me-2"></i>Donor Information</th>
+                                        <th><i class="fas fa-rupee-sign me-2"></i>Amount</th>
+                                        <th><i class="fas fa-credit-card me-2"></i>Payment Method</th>
+                                        <th><i class="fas fa-check-circle me-2"></i>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for donation in worksheet_data.donations %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                {% if donation.donation_date %}
+                                                    {% if donation.donation_date is string %}
+                                                        <span class="fw-semibold">{{ donation.donation_date }}</span>
+                                                    {% else %}
+                                                        <span class="fw-semibold">{{ donation.donation_date.strftime('%B %d, %Y') }}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="text-muted">N/A</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-semibold text-dark">{{ donation.donor_name }}</span>
+                                                {% if donation.donor_email %}
+                                                <small class="text-muted">{{ donation.donor_email }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="fw-bold text-success fs-5">{{ donation.currency }} {{ "%.2f"|format(donation.amount) }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="enterprise-badge enterprise-badge-info">
+                                                <i class="fas fa-credit-card me-1"></i>{{ donation.payment_method }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if donation.is_verified or donation.status == 'Verified' %}
+                                            <span class="enterprise-badge enterprise-badge-success">
+                                                <i class="fas fa-check-circle me-1"></i>Verified
+                                            </span>
+                                            {% else %}
+                                            <span class="enterprise-badge enterprise-badge-warning">
+                                                <i class="fas fa-clock me-1"></i>Pending
+                                            </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="enterprise-empty-state">
+                            <div class="enterprise-empty-state-icon">
+                                <i class="fas fa-donate"></i>
+                            </div>
+                            <h3>No Donations Found</h3>
+                            <p>No donations have been recorded for this category yet.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function showTab(tabElement) {
+    // Get the tab ID from data attribute
+    const tabId = tabElement.getAttribute('data-tab');
+    
+    // Remove active class from all tabs and panes
+    document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.enterprise-tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
+
+    // Add active class to clicked tab
+    tabElement.classList.add('active');
+    
+    // Show corresponding pane
+    const pane = document.getElementById(tabId);
+    if (pane) {
+        pane.classList.add('active');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click event listeners to all tab buttons
+    document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showTab(this);
+        });
+    });
+    
+    console.log('Tab functionality initialized');
+    console.log('Available tabs:', document.querySelectorAll('.enterprise-tab-item').length);
+    console.log('Available panes:', document.querySelectorAll('.enterprise-tab-pane').length);
+    
+    // Debug: Log tab data
+    document.querySelectorAll('.enterprise-tab-item').forEach((tab, index) => {
+        const tabId = tab.getAttribute('data-tab');
+        const pane = document.getElementById(tabId);
+        console.log(`Tab ${index + 1}:`, {
+            tabId: tabId,
+            tabText: tab.textContent.trim(),
+            paneExists: !!pane,
+            paneVisible: pane ? pane.classList.contains('active') : false
+        });
+    });
+});
+</script>
+{% endblock %}

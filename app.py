@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory, flash
+from flask import Flask, render_template, request, jsonify, send_from_directory, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from models import db, User
+from models import db, User, DonationPurpose, OfflineDonation
 from auth import auth
+from forms import DonationPurposeForm, OfflineDonationForm, DonationSearchForm
+from google_sheets import sheets_manager
 import os
 import socket
 import qrcode
@@ -196,6 +198,435 @@ def about():
 @login_required
 def padati():
     return render_template('padati.html', page_title='Padati for You - Daiva Anughara')
+
+@app.route('/donations')
+def donations():
+    """Public donations page - shows only verified donations from local database"""
+    try:
+        # Always fetch from local database for public users
+        data_source = "Local Database"
+        
+        # Get recent verified donations (last 30 days)
+        thirty_days_ago = datetime.now().date() - timedelta(days=30)
+        recent_donations = OfflineDonation.query.filter(
+            OfflineDonation.is_verified == True,
+            OfflineDonation.donation_date >= thirty_days_ago
+        ).order_by(OfflineDonation.donation_date.desc()).limit(50).all()
+        
+        # Get all purposes for grouping
+        purposes = DonationPurpose.query.filter_by(is_active=True).all()
+        
+        # Group donations by purpose
+        all_worksheet_data = {}
+        total_donations = 0
+        total_amount = 0
+        
+        for purpose in purposes:
+            purpose_donations = [d for d in recent_donations if d.purpose_id == purpose.id]
+            
+            if purpose_donations:  # Only show purposes that have donations
+                purpose_amount = sum(d.amount for d in purpose_donations)
+                all_worksheet_data[purpose.name] = {
+                    'donations': purpose_donations,
+                    'summary': {
+                        'total_donations': len(purpose_donations),
+                        'total_amount': purpose_amount,
+                        'verified_donations': len(purpose_donations),
+                        'pending_donations': 0,
+                        'average_donation': purpose_amount / len(purpose_donations) if purpose_donations else 0
+                    },
+                    'all_donations': purpose_donations
+                }
+                
+                total_donations += len(purpose_donations)
+                total_amount += purpose_amount
+        
+        # If no purpose-specific donations, show all donations in one tab
+        if not all_worksheet_data:
+            all_worksheet_data = {
+                'All Donations': {
+                    'donations': recent_donations,
+                    'summary': {
+                        'total_donations': len(recent_donations),
+                        'total_amount': sum(d.amount for d in recent_donations),
+                        'verified_donations': len(recent_donations),
+                        'pending_donations': 0,
+                        'average_donation': sum(d.amount for d in recent_donations) / len(recent_donations) if recent_donations else 0
+                    },
+                    'all_donations': recent_donations
+                }
+            }
+            total_donations = len(recent_donations)
+            total_amount = sum(d.amount for d in recent_donations)
+        
+    except Exception as e:
+        print(f"Error fetching donations from database: {e}")
+        # Fallback to empty data
+        data_source = "Local Database"
+        all_worksheet_data = {}
+        purposes = []
+        total_donations = 0
+        total_amount = 0
+    
+    return render_template('donations.html',
+                         all_worksheet_data=all_worksheet_data,
+                         purposes=purposes,
+                         total_donations=total_donations,
+                         total_amount=total_amount,
+                         data_source=data_source,
+                         page_title="Donations")
+
+@app.route('/admin/donations')
+@login_required
+def admin_donations():
+    """Admin donations management page - shows all donations from Google Sheets with tabs"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    try:
+        # Try to get data from Google Sheets first
+        if sheets_manager.is_connected():
+            data_source = "Google Sheets"
+            
+            # Get all donations from Google Sheets
+            all_donations = sheets_manager.get_all_donations_from_sheets()
+            
+            # Group donations by purpose/worksheet
+            all_worksheet_data = {}
+            total_donations = 0
+            total_amount = 0
+            
+            # Group by purpose
+            purposes_dict = {}
+            for donation in all_donations:
+                purpose_name = donation.get('purpose', 'Uncategorized')
+                if purpose_name not in purposes_dict:
+                    purposes_dict[purpose_name] = []
+                purposes_dict[purpose_name].append(donation)
+            
+            # Create worksheet data structure
+            for purpose_name, donations in purposes_dict.items():
+                purpose_amount = sum(float(d.get('amount', 0)) for d in donations)
+                all_worksheet_data[purpose_name] = {
+                    'donations': donations,
+                    'summary': {
+                        'total_donations': len(donations),
+                        'total_amount': purpose_amount,
+                        'verified_donations': len([d for d in donations if d.get('status') == 'Verified']),
+                        'pending_donations': len([d for d in donations if d.get('status') != 'Verified']),
+                        'average_donation': purpose_amount / len(donations) if donations else 0
+                    },
+                    'all_donations': donations
+                }
+                
+                total_donations += len(donations)
+                total_amount += purpose_amount
+            
+            # Get all purposes for reference
+            all_purposes = DonationPurpose.query.filter_by(is_active=True).all()
+            
+            # Get recent donations for stats (last 30 days from all data)
+            thirty_days_ago = datetime.now().date() - timedelta(days=30)
+            recent_donations = []
+            for donation in all_donations:
+                try:
+                    if donation.get('donation_date'):
+                        donation_date = datetime.strptime(donation['donation_date'], '%Y-%m-%d').date()
+                        if donation_date >= thirty_days_ago:
+                            recent_donations.append(donation)
+                except:
+                    continue
+            
+            # Sort recent donations by date
+            recent_donations.sort(key=lambda x: x.get('donation_date', ''), reverse=True)
+            
+        else:
+            # Fallback to local database
+            data_source = "Local Database"
+            all_worksheet_data = {}
+            all_purposes = DonationPurpose.query.filter_by(is_active=True).all()
+            total_donations = OfflineDonation.query.count()
+            total_amount = db.session.query(db.func.sum(OfflineDonation.amount)).scalar() or 0
+            
+            # Get recent donations (last 30 days)
+            thirty_days_ago = datetime.now() - timedelta(days=30)
+            recent_donations = OfflineDonation.query.filter(
+                OfflineDonation.created_at >= thirty_days_ago
+            ).order_by(OfflineDonation.created_at.desc()).limit(10).all()
+            
+    except Exception as e:
+        print(f"Error fetching donations: {e}")
+        # Fallback to empty data
+        data_source = "Error - No Data Available"
+        all_worksheet_data = {}
+        all_purposes = []
+        total_donations = 0
+        total_amount = 0
+        recent_donations = []
+    
+    return render_template('admin/donations.html',
+                         page_title='Donation Management - Daiva Anughara',
+                         all_worksheet_data=all_worksheet_data,
+                         all_purposes=all_purposes,
+                         total_donations=total_donations,
+                         total_amount=total_amount,
+                         recent_donations=recent_donations,
+                         data_source=data_source)
+
+@app.route('/admin/donations/add', methods=['GET', 'POST'])
+@login_required
+def add_donation():
+    """Add new offline donation"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    form = OfflineDonationForm()
+    
+    # Populate purpose choices
+    purposes = DonationPurpose.query.filter_by(is_active=True).all()
+    form.purpose_id.choices = [(p.id, p.name) for p in purposes]
+    
+    if form.validate_on_submit():
+        try:
+            # Parse donation date
+            donation_date = datetime.strptime(form.donation_date.data, '%Y-%m-%d').date()
+            
+            # Create donation record
+            donation = OfflineDonation(
+                donor_name=form.donor_name.data,
+                donor_email=form.donor_email.data,
+                donor_phone=form.donor_phone.data,
+                amount=float(form.amount.data),
+                currency=form.currency.data,
+                purpose_id=form.purpose_id.data,
+                donation_date=donation_date,
+                payment_method=form.payment_method.data,
+                reference_number=form.reference_number.data,
+                notes=form.notes.data,
+                created_by=current_user.id
+            )
+            
+            db.session.add(donation)
+            db.session.commit()
+            
+            # Add to Google Sheets
+            purpose = DonationPurpose.query.get(form.purpose_id.data)
+            donation_data = {
+                'id': donation.id,
+                'donor_name': donation.donor_name,
+                'donor_email': donation.donor_email,
+                'donor_phone': donation.donor_phone,
+                'amount': donation.amount,
+                'currency': donation.currency,
+                'donation_date': donation.donation_date.strftime('%Y-%m-%d'),
+                'payment_method': donation.payment_method,
+                'reference_number': donation.reference_number,
+                'notes': donation.notes,
+                'is_verified': donation.is_verified,
+                'created_at': donation.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                'created_by': current_user.username
+            }
+            
+            sheets_manager.add_donation(donation_data, purpose.name)
+            
+            flash('Donation added successfully!', 'success')
+            return redirect(url_for('admin_donations'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error adding donation: {str(e)}', 'error')
+    
+    return render_template('admin/add_donation.html',
+                         page_title='Add Donation - Daiva Anughara',
+                         form=form)
+
+@app.route('/admin/donations/verify/<int:donation_id>')
+@login_required
+def verify_donation(donation_id):
+    """Verify a donation"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    donation = OfflineDonation.query.get_or_404(donation_id)
+    
+    if donation.is_verified:
+        flash('Donation is already verified.', 'info')
+    else:
+        donation.is_verified = True
+        donation.verified_at = datetime.now()
+        donation.verified_by = current_user.id
+        db.session.commit()
+        
+        # Update Google Sheets
+        purpose = donation.purpose
+        donation_data = {
+            'id': donation.id,
+            'donor_name': donation.donor_name,
+            'donor_email': donation.donor_email,
+            'donor_phone': donation.donor_phone,
+            'amount': donation.amount,
+            'currency': donation.currency,
+            'donation_date': donation.donation_date.strftime('%Y-%m-%d'),
+            'payment_method': donation.payment_method,
+            'reference_number': donation.reference_number,
+            'notes': donation.notes,
+            'is_verified': donation.is_verified,
+            'created_at': donation.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'created_by': donation.creator.username
+        }
+        
+        sheets_manager.add_donation(donation_data, purpose.name)
+        
+        flash('Donation verified successfully!', 'success')
+    
+    return redirect(url_for('admin_donations'))
+
+@app.route('/admin/donation-purposes')
+@login_required
+def donation_purposes():
+    """Manage donation purposes"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    purposes = DonationPurpose.query.order_by(DonationPurpose.created_at.desc()).all()
+    return render_template('admin/donation_purposes.html',
+                         page_title='Donation Purposes - Daiva Anughara',
+                         purposes=purposes)
+
+@app.route('/admin/donation-purposes/add', methods=['GET', 'POST'])
+@login_required
+def add_donation_purpose():
+    """Add new donation purpose"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    form = DonationPurposeForm()
+    
+    if form.validate_on_submit():
+        try:
+            purpose = DonationPurpose(
+                name=form.name.data,
+                description=form.description.data,
+                created_by=current_user.id
+            )
+            
+            db.session.add(purpose)
+            db.session.commit()
+            
+            flash('Donation purpose added successfully!', 'success')
+            return redirect(url_for('donation_purposes'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error adding donation purpose: {str(e)}', 'error')
+    
+    return render_template('admin/add_donation_purpose.html',
+                         page_title='Add Donation Purpose - Daiva Anughara',
+                         form=form)
+
+@app.route('/admin/donation-purposes/toggle/<int:purpose_id>')
+@login_required
+def toggle_donation_purpose(purpose_id):
+    """Toggle donation purpose active status"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    purpose = DonationPurpose.query.get_or_404(purpose_id)
+    purpose.is_active = not purpose.is_active
+    db.session.commit()
+    
+    status = 'activated' if purpose.is_active else 'deactivated'
+    flash(f'Donation purpose {status} successfully!', 'success')
+    
+    return redirect(url_for('donation_purposes'))
+
+@app.route('/admin/sync-donations')
+@login_required
+def sync_donations():
+    """Admin-only sync donations from Google Sheets to local database"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    if not sheets_manager.is_connected():
+        flash('❌ Google Sheets not connected. Please set up credentials first.', 'error')
+        return redirect(url_for('admin_donations'))
+    
+    try:
+        success, message = sheets_manager.sync_donations_from_sheets()
+        if success:
+            flash(f'✅ {message}', 'success')
+        else:
+            flash(f'❌ {message}', 'error')
+    except Exception as e:
+        flash(f'❌ Error syncing donations: {str(e)}', 'error')
+    
+    return redirect(url_for('admin_donations'))
+
+@app.route('/admin/sync-status')
+@login_required
+def sync_status():
+    """Check Google Sheets connection status (admin only)"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    try:
+        stats = sheets_manager.get_sync_statistics()
+        return jsonify({
+            'connected': stats['connected'],
+            'worksheets': stats.get('worksheets', []),
+            'worksheets_count': stats.get('worksheets_count', 0),
+            'total_donations_in_sheets': stats.get('total_donations_in_sheets', 0),
+            'spreadsheet_id': sheets_manager.spreadsheet_id if stats['connected'] else None,
+            'last_sync': stats.get('last_sync'),
+            'error': stats.get('error')
+        })
+    except Exception as e:
+        return jsonify({
+            'connected': False,
+            'worksheets': [],
+            'worksheets_count': 0,
+            'total_donations_in_sheets': 0,
+            'spreadsheet_id': None,
+            'last_sync': None,
+            'error': str(e)
+        })
+
+@app.route('/admin/api/donations-from-sheets')
+@login_required
+def admin_api_donations_from_sheets():
+    """Admin-only API endpoint to get donations from Google Sheets"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    if not sheets_manager.is_connected():
+        return jsonify({
+            'success': False,
+            'error': 'Google Sheets not connected',
+            'donations': [],
+            'count': 0
+        })
+    
+    try:
+        donations = sheets_manager.get_all_donations_from_sheets()
+        return jsonify({
+            'success': True,
+            'donations': donations,
+            'count': len(donations)
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'donations': [],
+            'count': 0
+        })
 
 
 # API Routes

@@ -366,14 +366,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('.action-menu-button').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Action button clicked');
             const menu = this.nextElementSibling;
+            console.log('Menu element:', menu);
+            
             document.querySelectorAll('.action-menu.is-open').forEach(openMenu => {
                 if (openMenu !== menu) {
                     openMenu.classList.remove('is-open');
                 }
             });
             menu.classList.toggle('is-open');
+            console.log('Menu classes after toggle:', menu.className);
         });
     });
 
@@ -387,15 +393,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle quick action buttons
     document.querySelectorAll('.approve-user').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Approve button clicked');
             const userId = this.dataset.userId;
+            console.log('User ID:', userId);
             executeUserAction(userId, 'approve', 'Approved via quick action');
         });
     });
     
     document.querySelectorAll('.reject-user').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Reject button clicked');
             const userId = this.dataset.userId;
+            console.log('User ID:', userId);
             openConfirmationModal('Are you sure you want to reject this user?', function() {
                 executeUserAction(userId, 'reject', 'Rejected via quick action');
             });
@@ -403,8 +417,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.querySelectorAll('.suspend-user').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Suspend button clicked');
             const userId = this.dataset.userId;
+            console.log('User ID:', userId);
             openConfirmationModal('Are you sure you want to suspend this user?', function() {
                 executeUserAction(userId, 'suspend', 'Suspended via quick action');
             });
@@ -412,8 +430,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.querySelectorAll('.reactivate-user').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Reactivate button clicked');
             const userId = this.dataset.userId;
+            console.log('User ID:', userId);
             executeUserAction(userId, 'approve', 'Reactivated via quick action');
         });
     });
@@ -501,6 +523,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function executeUserAction(userId, action, notes) {
+    console.log('Executing user action:', { userId, action, notes });
+    
+    const csrfToken = document.querySelector('input[name="csrf_token"]');
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        showMessage('Security token not found. Please refresh the page.', 'error');
+        return;
+    }
+    
     fetch('{{ url_for("auth.approve_user") }}', {
         method: 'POST',
         headers: {
@@ -510,11 +541,15 @@ function executeUserAction(userId, action, notes) {
             'user_id': userId,
             'action': action,
             'notes': notes,
-            'csrf_token': document.querySelector('input[name="csrf_token"]').value
+            'csrf_token': csrfToken.value
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
         if (data.success) {
             showMessage(data.message, 'success');
             // Reload page after short delay to show updated status
