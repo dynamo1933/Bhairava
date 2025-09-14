@@ -101,3 +101,36 @@ class OfflineDonation(db.Model):
     
     def __repr__(self):
         return f'<OfflineDonation {self.donor_name} - {self.amount} {self.currency}>'
+
+class MandalaSadhanaRegistration(db.Model):
+    """Model for Mandala Sadhana registrations"""
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), nullable=False)
+    full_name = db.Column(db.String(200), nullable=False)  # Full Name & Geo Location
+    mandala_48_commitment = db.Column(db.Boolean, nullable=False)  # 48-day Mandala commitment
+    mandala_144_commitment = db.Column(db.String(50), nullable=False)  # 144-day Mandala commitment (Yes/No/Not Yet Ready)
+    commitment_text = db.Column(db.Text, nullable=False)  # Sadhana commitment question
+    sadhana_start_date = db.Column(db.Date, nullable=False)  # When did Sadhana begin
+    sadhana_type = db.Column(db.String(100), nullable=False)  # Type of Sadhana
+    send_copy = db.Column(db.Boolean, default=False)  # Send copy of responses
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    def __repr__(self):
+        return f'<MandalaSadhanaRegistration {self.full_name} - {self.sadhana_type}>'
+    
+    def to_dict(self):
+        """Convert to dictionary for JSON serialization"""
+        return {
+            'id': self.id,
+            'email': self.email,
+            'full_name': self.full_name,
+            'mandala_48_commitment': self.mandala_48_commitment,
+            'mandala_144_commitment': self.mandala_144_commitment,
+            'commitment_text': self.commitment_text,
+            'sadhana_start_date': self.sadhana_start_date.strftime('%Y-%m-%d') if self.sadhana_start_date else None,
+            'sadhana_type': self.sadhana_type,
+            'send_copy': self.send_copy,
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None,
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S') if self.updated_at else None
+        }

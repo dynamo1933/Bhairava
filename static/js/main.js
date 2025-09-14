@@ -330,6 +330,52 @@ function initMobileMenu() {
             mobileToggle.classList.remove('is-active'); // Remove active class
         }
     });
+    
+    // Initialize mobile navigation sections
+    initMobileNavSections();
+}
+
+function initMobileNavSections() {
+    const sections = document.querySelectorAll('.mobile-nav-section');
+    
+    sections.forEach(section => {
+        const title = section.querySelector('.mobile-nav-section-title');
+        const submenu = section.querySelector('.mobile-nav-submenu');
+        
+        if (title && submenu) {
+            // Add click handler to section title
+            title.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isExpanded = submenu.style.display !== 'none';
+                
+                if (isExpanded) {
+                    submenu.style.display = 'none';
+                    title.setAttribute('aria-expanded', 'false');
+                    title.classList.remove('expanded');
+                } else {
+                    submenu.style.display = 'block';
+                    title.setAttribute('aria-expanded', 'true');
+                    title.classList.add('expanded');
+                }
+            });
+            
+            // Initialize submenu state
+            submenu.style.display = 'none';
+            title.setAttribute('aria-expanded', 'false');
+            title.setAttribute('role', 'button');
+            title.setAttribute('tabindex', '0');
+            
+            // Add keyboard support
+            title.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    title.click();
+                }
+            });
+        }
+    });
 }
 
 

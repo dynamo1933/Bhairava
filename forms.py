@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, TextAreaField, RadioField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Optional
 from datetime import datetime
 
@@ -100,6 +100,67 @@ class DonationSearchForm(FlaskForm):
         ('all', 'All Donations'),
         ('verified', 'Verified'),
         ('pending', 'Pending Verification')
+    ])
+    date_from = StringField('From Date')
+    date_to = StringField('To Date')
+
+class MandalaSadhanaRegistrationForm(FlaskForm):
+    """Form for Mandala Sadhana registration"""
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    full_name = StringField('Full Name & Geo Location', validators=[DataRequired(), Length(max=200)])
+    mandala_48_commitment = RadioField(
+        'Are you ready to commit to a 48-day (1) Mandala, honoring each day as a step into deeper presence with Bhairava?',
+        choices=[('Yes', 'Yes'), ('No', 'No')],
+        validators=[DataRequired()]
+    )
+    mandala_144_commitment = RadioField(
+        'Do you feel called to walk the full triad of 144-Days (3) Mandalas — building a sacred foundation for transformation and inner stability?',
+        choices=[('Yes', 'Yes'), ('No', 'No'), ('Not Yet Ready', 'Not Yet Ready')],
+        validators=[DataRequired()]
+    )
+    commitment_text = TextAreaField(
+        'Can you hold your Sadhana with sincerity and steadiness, even when the mind resists or the path feels silent?',
+        validators=[DataRequired(), Length(min=10, max=1000)]
+    )
+    sadhana_start_date = DateField(
+        'When did your Sadhana begin? (Mark the day of inner commitment)',
+        validators=[DataRequired()]
+    )
+    sadhana_type = SelectField(
+        'Which Sadhana are you committing to as part of your Mandala journey?',
+        choices=[
+            ('', 'Choose'),
+            ('Aṣṭamī Sādhana', 'Aṣṭamī Sādhana (Sacred observance on Krishna Paksha Aṣṭamī)'),
+            ('Prathama Charaṇa', 'Prathama Charaṇa (First foundational cycle of Sādhana)'),
+            ('Dvitīya Charaṇa', 'Dvitīya Charaṇa (Second deepening cycle of discipline and devotion)'),
+            ('Tṛtīya Charaṇa', 'Tṛtīya Charaṇa (Third, the offering of self in full surrender)'),
+            ('Rudrākṣa Anugraha Sādhana', 'Rudrākṣa Anugraha Sādhana (Receiving and practicing under Rudrākṣa grace)')
+        ],
+        validators=[DataRequired()]
+    )
+    send_copy = BooleanField('Send me a copy of my responses.')
+
+class MandalaSadhanaSearchForm(FlaskForm):
+    """Form for searching Mandala Sadhana registrations"""
+    search_term = StringField('Search by Name, Email, or Sadhana Type')
+    mandala_48_filter = SelectField('48-Day Mandala Filter', choices=[
+        ('all', 'All'),
+        ('Yes', 'Yes'),
+        ('No', 'No')
+    ])
+    mandala_144_filter = SelectField('144-Day Mandala Filter', choices=[
+        ('all', 'All'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+        ('Not Yet Ready', 'Not Yet Ready')
+    ])
+    sadhana_type_filter = SelectField('Sadhana Type Filter', choices=[
+        ('all', 'All Types'),
+        ('Aṣṭamī Sādhana', 'Aṣṭamī Sādhana'),
+        ('Prathama Charaṇa', 'Prathama Charaṇa'),
+        ('Dvitīya Charaṇa', 'Dvitīya Charaṇa'),
+        ('Tṛtīya Charaṇa', 'Tṛtīya Charaṇa'),
+        ('Rudrākṣa Anugraha Sādhana', 'Rudrākṣa Anugraha Sādhana')
     ])
     date_from = StringField('From Date')
     date_to = StringField('To Date')

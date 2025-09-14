@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-primary text-white">
+                    <h1 class="h3 mb-0">Mandala Sadhana Registration Form</h1>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <p class="lead">
+                            Namaskaram,<br>
+                            This form is created to gently receive your <strong>Mandala Sadhana details</strong> — especially the day you began your Sadhana Padathi (practice journey).
+                        </p>
+                        <p>
+                            Please share your <strong>start date</strong> with sincerity and awareness, as this marks the sacred rhythm of your practice. A single mandala is a sacred 48-day journey — or choose to walk the deeper path of 3 foundational mandalas, building the sacred ground within, into deeper alignment with the divine. Your submission helps us hold space for your Sadhana in Bhairava's grace.
+                        </p>
+                        <p class="fw-bold">
+                            May your path be steady, your heart open, and your being rooted in surrender.<br>
+                            <strong>Jai Bhairava!</strong>
+                        </p>
+                    </div>
+
+                    <form method="POST" id="mandalaForm">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label fw-bold") }}
+                            <span class="text-danger">*</span>
+                            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.full_name.label(class="form-label fw-bold") }}
+                            <span class="text-danger">*</span>
+                            {{ form.full_name(class="form-control" + (" is-invalid" if form.full_name.errors else "")) }}
+                            {% if form.full_name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.full_name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <fieldset>
+                                <legend class="form-label fw-bold">
+                                    Are you ready to commit to a 48-day (1) Mandala, honoring each day as a step into deeper presence with Bhairava?
+                                    <span class="text-danger">*</span>
+                                </legend>
+                                <div class="form-check">
+                                    {{ form.mandala_48_commitment(class="form-check-input", value="Yes", id="mandala48_yes") }}
+                                    {{ form.mandala_48_commitment.label(class="form-check-label", for="mandala48_yes") }}
+                                </div>
+                                <div class="form-check">
+                                    {{ form.mandala_48_commitment(class="form-check-input", value="No", id="mandala48_no") }}
+                                    {{ form.mandala_48_commitment.label(class="form-check-label", for="mandala48_no") }}
+                                </div>
+                                {% if form.mandala_48_commitment.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.mandala_48_commitment.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </fieldset>
+                        </div>
+
+                        <div class="mb-4">
+                            <fieldset>
+                                <legend class="form-label fw-bold">
+                                    Do you feel called to walk the full triad of 144-Days (3) Mandalas — building a sacred foundation for transformation and inner stability?
+                                    <span class="text-danger">*</span>
+                                </legend>
+                                <div class="form-check">
+                                    {{ form.mandala_144_commitment(class="form-check-input", value="Yes", id="mandala144_yes") }}
+                                    {{ form.mandala_144_commitment.label(class="form-check-label", for="mandala144_yes") }}
+                                </div>
+                                <div class="form-check">
+                                    {{ form.mandala_144_commitment(class="form-check-input", value="No", id="mandala144_no") }}
+                                    {{ form.mandala_144_commitment.label(class="form-check-label", for="mandala144_no") }}
+                                </div>
+                                <div class="form-check">
+                                    {{ form.mandala_144_commitment(class="form-check-input", value="Not Yet Ready", id="mandala144_notready") }}
+                                    {{ form.mandala_144_commitment.label(class="form-check-label", for="mandala144_notready") }}
+                                </div>
+                                {% if form.mandala_144_commitment.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.mandala_144_commitment.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </fieldset>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.commitment_text.label(class="form-label fw-bold") }}
+                            <span class="text-danger">*</span>
+                            {{ form.commitment_text(class="form-control" + (" is-invalid" if form.commitment_text.errors else ""), rows="4") }}
+                            {% if form.commitment_text.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.commitment_text.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.sadhana_start_date.label(class="form-label fw-bold") }}
+                            <span class="text-danger">*</span>
+                            {{ form.sadhana_start_date(class="form-control" + (" is-invalid" if form.sadhana_start_date.errors else "")) }}
+                            {% if form.sadhana_start_date.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.sadhana_start_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.sadhana_type.label(class="form-label fw-bold") }}
+                            <span class="text-danger">*</span>
+                            {{ form.sadhana_type(class="form-select" + (" is-invalid" if form.sadhana_type.errors else "")) }}
+                            {% if form.sadhana_type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.sadhana_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                {{ form.send_copy(class="form-check-input") }}
+                                {{ form.send_copy.label(class="form-check-label") }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-secondary me-md-2" onclick="clearForm()">
+                                <i class="fas fa-eraser"></i> Clear form
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            <strong>Jai Bhairava!</strong> 🙏
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function clearForm() {
+    document.getElementById('mandalaForm').reset();
+}
+
+// Add form validation feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('mandalaForm');
+    const inputs = form.querySelectorAll('input, textarea, select');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.checkValidity()) {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            } else {
+                this.classList.remove('is-valid');
+                this.classList.add('is-invalid');
+            }
+        });
+    });
+    
+    form.addEventListener('submit', function(e) {
+        // Remove previous validation classes
+        inputs.forEach(input => {
+            input.classList.remove('is-valid', 'is-invalid');
+        });
+        
+        // Add validation classes based on validity
+        inputs.forEach(input => {
+            if (input.checkValidity()) {
+                input.classList.add('is-valid');
+            } else {
+                input.classList.add('is-invalid');
+            }
+        });
+    });
+});
+</script>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    background: linear-gradient(135deg, #8b4513, #a0522d) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #8b4513;
+    box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.btn-primary {
+    background-color: #8b4513;
+    border-color: #8b4513;
+}
+
+.btn-primary:hover {
+    background-color: #6b3410;
+    border-color: #6b3410;
+}
+
+.form-check-input:checked {
+    background-color: #8b4513;
+    border-color: #8b4513;
+}
+
+.lead {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+legend {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.is-valid {
+    border-color: #198754;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+</style>
+{% endblock %}
+

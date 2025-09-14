@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
 from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
-from models import db, User, DonationPurpose, OfflineDonation
+from models import db, User, DonationPurpose, OfflineDonation, MandalaSadhanaRegistration
 from auth import auth
-from forms import DonationPurposeForm, OfflineDonationForm, DonationSearchForm
+from forms import DonationPurposeForm, OfflineDonationForm, DonationSearchForm, MandalaSadhanaRegistrationForm, MandalaSadhanaSearchForm
 from google_sheets import get_sheets_manager
 import os
 import socket
@@ -42,8 +42,8 @@ def get_local_ip():
 
 def get_all_network_interfaces():
     """Get all available network interfaces and their IP addresses"""
-    import netifaces
     try:
+        import netifaces  # type: ignore[import-untyped]
         interfaces = {}
         for interface in netifaces.interfaces():
             addrs = netifaces.ifaddresses(interface)
@@ -193,6 +193,11 @@ def devi():
 @app.route('/about')
 def about():
     return render_template('about.html', page_title='About - Daiva Anughara')
+
+@app.route('/youtube')
+def youtube():
+    return render_template('youtube.html', page_title='YouTube - Daiva Anughara')
+
 
 @app.route('/padati')
 @login_required
@@ -650,6 +655,256 @@ def admin_api_donations_from_sheets():
             'donations': [],
             'count': 0
         })
+
+# Mandala Sadhana Routes
+@app.route('/mandala-sadhana', methods=['GET', 'POST'])
+def mandala_sadhana_registration():
+    """Mandala Sadhana registration form"""
+    form = MandalaSadhanaRegistrationForm()
+    
+    if form.validate_on_submit():
+        try:
+            # Convert boolean values
+            mandala_48_commitment = form.mandala_48_commitment.data == 'Yes'
+            send_copy = form.send_copy.data if form.send_copy.data else False
+            
+            # Create registration record
+            registration = MandalaSadhanaRegistration(
+                email=form.email.data,
+                full_name=form.full_name.data,
+                mandala_48_commitment=mandala_48_commitment,
+                mandala_144_commitment=form.mandala_144_commitment.data,
+                commitment_text=form.commitment_text.data,
+                sadhana_start_date=form.sadhana_start_date.data,
+                sadhana_type=form.sadhana_type.data,
+                send_copy=send_copy
+            )
+            
+            db.session.add(registration)
+            db.session.commit()
+            
+            flash('Mandala Sadhana registration submitted successfully! Jai Bhairava! 🙏', 'success')
+            return redirect(url_for('mandala_sadhana_registration'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error submitting registration: {str(e)}', 'error')
+    
+    return render_template('mandala_sadhana_form.html', 
+                         page_title='Mandala Sadhana Registration - Daiva Anughara',
+                         form=form)
+
+@app.route('/api/mandala-sadhana', methods=['POST'])
+def api_mandala_sadhana_registration():
+    """API endpoint for Mandala Sadhana registration (for AJAX submissions)"""
+    try:
+        data = request.get_json()
+        
+        # Validate required fields
+        required_fields = ['email', 'full_name', 'mandala_48_commitment', 'mandala_144_commitment', 
+                          'commitment_text', 'sadhana_start_date', 'sadhana_type']
+        
+        for field in required_fields:
+            if field not in data or not data[field]:
+                return jsonify({'success': False, 'error': f'Missing required field: {field}'}), 400
+        
+        # Convert boolean values
+        mandala_48_commitment = data['mandala_48_commitment'] == 'Yes'
+        send_copy = data.get('send_copy', False)
+        
+        # Parse date
+        from datetime import datetime
+        sadhana_start_date = datetime.strptime(data['sadhana_start_date'], '%Y-%m-%d').date()
+        
+        # Create registration record
+        registration = MandalaSadhanaRegistration(
+            email=data['email'],
+            full_name=data['full_name'],
+            mandala_48_commitment=mandala_48_commitment,
+            mandala_144_commitment=data['mandala_144_commitment'],
+            commitment_text=data['commitment_text'],
+            sadhana_start_date=sadhana_start_date,
+            sadhana_type=data['sadhana_type'],
+            send_copy=send_copy
+        )
+        
+        db.session.add(registration)
+        db.session.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Mandala Sadhana registration submitted successfully! Jai Bhairava! 🙏',
+            'registration_id': registration.id
+        })
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'success': False,
+            'error': f'Error submitting registration: {str(e)}'
+        }), 500
+
+@app.route('/admin/mandala-sadhana')
+@login_required
+def admin_mandala_sadhana():
+    """Admin page for viewing Mandala Sadhana registrations"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    # Get search parameters
+    search_term = request.args.get('search_term', '')
+    mandala_48_filter = request.args.get('mandala_48_filter', 'all')
+    mandala_144_filter = request.args.get('mandala_144_filter', 'all')
+    sadhana_type_filter = request.args.get('sadhana_type_filter', 'all')
+    date_from = request.args.get('date_from', '')
+    date_to = request.args.get('date_to', '')
+    
+    # Build query
+    query = MandalaSadhanaRegistration.query
+    
+    # Apply filters
+    if search_term:
+        query = query.filter(
+            db.or_(
+                MandalaSadhanaRegistration.full_name.contains(search_term),
+                MandalaSadhanaRegistration.email.contains(search_term),
+                MandalaSadhanaRegistration.sadhana_type.contains(search_term)
+            )
+        )
+    
+    if mandala_48_filter != 'all':
+        query = query.filter(MandalaSadhanaRegistration.mandala_48_commitment == (mandala_48_filter == 'Yes'))
+    
+    if mandala_144_filter != 'all':
+        query = query.filter(MandalaSadhanaRegistration.mandala_144_commitment == mandala_144_filter)
+    
+    if sadhana_type_filter != 'all':
+        query = query.filter(MandalaSadhanaRegistration.sadhana_type == sadhana_type_filter)
+    
+    if date_from:
+        try:
+            from datetime import datetime
+            date_from_obj = datetime.strptime(date_from, '%Y-%m-%d').date()
+            query = query.filter(MandalaSadhanaRegistration.created_at >= date_from_obj)
+        except ValueError:
+            pass
+    
+    if date_to:
+        try:
+            from datetime import datetime
+            date_to_obj = datetime.strptime(date_to, '%Y-%m-%d').date()
+            query = query.filter(MandalaSadhanaRegistration.created_at <= date_to_obj)
+        except ValueError:
+            pass
+    
+    # Get registrations
+    registrations = query.order_by(MandalaSadhanaRegistration.created_at.desc()).all()
+    
+    # Get statistics
+    total_registrations = len(registrations)
+    mandala_48_yes = len([r for r in registrations if r.mandala_48_commitment])
+    mandala_144_yes = len([r for r in registrations if r.mandala_144_commitment == 'Yes'])
+    mandala_144_not_ready = len([r for r in registrations if r.mandala_144_commitment == 'Not Yet Ready'])
+    
+    # Group by sadhana type
+    sadhana_type_stats = {}
+    for registration in registrations:
+        sadhana_type = registration.sadhana_type
+        if sadhana_type not in sadhana_type_stats:
+            sadhana_type_stats[sadhana_type] = 0
+        sadhana_type_stats[sadhana_type] += 1
+    
+    # Create search form
+    search_form = MandalaSadhanaSearchForm()
+    search_form.search_term.data = search_term
+    search_form.mandala_48_filter.data = mandala_48_filter
+    search_form.mandala_144_filter.data = mandala_144_filter
+    search_form.sadhana_type_filter.data = sadhana_type_filter
+    search_form.date_from.data = date_from
+    search_form.date_to.data = date_to
+    
+    return render_template('admin/mandala_sadhana.html',
+                         page_title='Mandala Sadhana Registrations - Daiva Anughara',
+                         registrations=registrations,
+                         total_registrations=total_registrations,
+                         mandala_48_yes=mandala_48_yes,
+                         mandala_144_yes=mandala_144_yes,
+                         mandala_144_not_ready=mandala_144_not_ready,
+                         sadhana_type_stats=sadhana_type_stats,
+                         search_form=search_form)
+
+@app.route('/admin/mandala-sadhana/export')
+@login_required
+def admin_mandala_sadhana_export():
+    """Export Mandala Sadhana registrations to CSV"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    try:
+        import csv
+        from io import StringIO
+        
+        # Get all registrations
+        registrations = MandalaSadhanaRegistration.query.order_by(MandalaSadhanaRegistration.created_at.desc()).all()
+        
+        # Create CSV content
+        output = StringIO()
+        writer = csv.writer(output)
+        
+        # Write header
+        writer.writerow([
+            'ID', 'Email', 'Full Name & Geo Location', '48-Day Mandala Commitment',
+            '144-Day Mandala Commitment', 'Commitment Text', 'Sadhana Start Date',
+            'Sadhana Type', 'Send Copy', 'Created At', 'Updated At'
+        ])
+        
+        # Write data
+        for registration in registrations:
+            writer.writerow([
+                registration.id,
+                registration.email,
+                registration.full_name,
+                'Yes' if registration.mandala_48_commitment else 'No',
+                registration.mandala_144_commitment,
+                registration.commitment_text,
+                registration.sadhana_start_date.strftime('%Y-%m-%d') if registration.sadhana_start_date else '',
+                registration.sadhana_type,
+                'Yes' if registration.send_copy else 'No',
+                registration.created_at.strftime('%Y-%m-%d %H:%M:%S') if registration.created_at else '',
+                registration.updated_at.strftime('%Y-%m-%d %H:%M:%S') if registration.updated_at else ''
+            ])
+        
+        # Prepare response
+        output.seek(0)
+        from flask import Response
+        
+        return Response(
+            output.getvalue(),
+            mimetype='text/csv',
+            headers={
+                'Content-Disposition': f'attachment; filename=mandala_sadhana_registrations_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            }
+        )
+        
+    except Exception as e:
+        flash(f'Error exporting data: {str(e)}', 'error')
+        return redirect(url_for('admin_mandala_sadhana'))
+
+@app.route('/admin/mandala-sadhana/<int:registration_id>')
+@login_required
+def admin_mandala_sadhana_detail(registration_id):
+    """View detailed information about a specific registration"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    registration = MandalaSadhanaRegistration.query.get_or_404(registration_id)
+    
+    return render_template('admin/mandala_sadhana_detail.html',
+                         page_title=f'Registration Details - {registration.full_name}',
+                         registration=registration)
 
 
 # API Routes
