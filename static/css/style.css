@@ -581,13 +581,16 @@ p:has(🕉️), .sacred-text:has(🕉️) {
 .nav-desktop {
     display: flex;
     align-items: center;
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-list {
     display: flex;
     list-style: none;
-    gap: var(--spacing-lg);
+    justify-content: space-evenly;
     margin: 0;
+    width: 100%;
 }
 
 .nav-link {
@@ -602,6 +605,8 @@ p:has(🕉️), .sacred-text:has(🕉️) {
     transition: var(--transition);
     position: relative;
     border: 2px solid transparent;
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-link i {
