@@ -64,61 +64,124 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <a href="#navigation" class="skip-link">Skip to navigation</a>
     
-    <!-- Announcement Banner -->
-    <div class="announcement-banner" id="announcement-banner">
-        <div class="announcement-content">
-            <span class="om-symbol">🕉️</span>
-            <span class="announcement-text">
-                Next Astami Sadhana: <span id="next-ashtami-date">Loading...</span>
-            </span>
-            <a href="/ashtami" class="about-ashtami-link">About Ashtami</a>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <!-- Announcement -->
+            <div class="announcement-item">
+                <span class="announcement-icon">🕉️</span>
+                <span class="announcement-text">
+                    Next Astami: <span id="next-ashtami-date">Loading...</span>
+                </span>
+            </div>
         </div>
     </div>
     
-    <!-- Header -->
+    <!-- Main Header -->
     <header class="header" id="navigation">
         <div class="header-container">
-            <div class="logo">
-                <a href="/" aria-label="Daiva Anughara Home">
-                    <h1>Daiva Anughara</h1>
-                    <span class="tagline">Sacred Spiritual Practice</span>
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <a href="/" class="logo-link" aria-label="Daiva Anughara Home">
+                    <div class="logo-icon">🕉️</div>
+                    <div class="logo-text">
+                        <h1>Daiva Anughara</h1>
+                        <span class="tagline">Sacred Spiritual Practice</span>
+                    </div>
                 </a>
             </div>
             
             <!-- Desktop Navigation -->
             <nav class="nav-desktop" aria-label="Main navigation">
                 <ul class="nav-list">
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/about" class="nav-link">About</a></li>
+                    <li><a href="/" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a></li>
+                    <li><a href="/about" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About</span>
+                    </a></li>
                     <li class="nav-dropdown">
-                        <a href="#" class="nav-link">Sadhana</a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-om"></i>
+                            <span>Sadhana</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/ashtami">Ashtami</a></li>
-                            <li><a href="/padati">Padati for You</a></li>
-                            <li><a href="/mandala-sadhana">Mandala Sadhana</a></li>
+                            <li><a href="/ashtami" class="dropdown-link">
+                                <i class="fas fa-moon"></i>
+                                <span>Ashtami</span>
+                            </a></li>
+                            <li><a href="/padati" class="dropdown-link">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Padati for You</span>
+                            </a></li>
+                            <li><a href="/mandala-sadhana" class="dropdown-link">
+                                <i class="fas fa-circle-notch"></i>
+                                <span>Mandala Sadhana</span>
+                            </a></li>
                         </ul>
                     </li>
-                    <li><a href="/devi" class="nav-link">Devi</a></li>
+                    <li><a href="/devi" class="nav-link">
+                        <i class="fas fa-lotus"></i>
+                        <span>Devi</span>
+                    </a></li>
                     <li class="nav-dropdown">
-                        <a href="/documents" class="nav-link">Resources</a>
+                        <a href="/documents" class="nav-link">
+                            <i class="fas fa-book"></i>
+                            <span>Resources</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/documents#guidelines">Guidelines</a></li>
-                            <li><a href="/documents#ashtami-sadhana">Ashtami Sadhana</a></li>
-                            <li><a href="/documents#sadhana-viniyoga">Sadhana & Viniyoga</a></li>
-                            <li><a href="/youtube">YouTube</a></li>
+                            <li><a href="/documents#guidelines" class="dropdown-link">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Guidelines</span>
+                            </a></li>
+                            <li><a href="/documents#ashtami-sadhana" class="dropdown-link">
+                                <i class="fas fa-moon"></i>
+                                <span>Ashtami Sadhana</span>
+                            </a></li>
+                            <li><a href="/documents#sadhana-viniyoga" class="dropdown-link">
+                                <i class="fas fa-yoga"></i>
+                                <span>Sadhana & Viniyoga</span>
+                            </a></li>
+                            <li><a href="/youtube" class="dropdown-link">
+                                <i class="fab fa-youtube"></i>
+                                <span>YouTube</span>
+                            </a></li>
                         </ul>
                     </li>
-                    <li><a href="/donations" class="nav-link">Donations</a></li>
+                    <li><a href="/donations" class="nav-link">
+                        <i class="fas fa-donate"></i>
+                        <span>Donations</span>
+                    </a></li>
                     
                     <!-- Admin Navigation -->
                     {% if current_user.is_authenticated and current_user.is_admin() %}
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-link">Admin</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ url_for('auth.admin_users') }}">User Management</a></li>
-                            <li><a href="{{ url_for('admin_donations') }}">Donation Management</a></li>
-                            <li><a href="{{ url_for('donation_purposes') }}">Donation Purposes</a></li>
-                            <li><a href="{{ url_for('admin_mandala_sadhana') }}">Mandala Sadhana</a></li>
+                    <li class="nav-dropdown admin-dropdown">
+                        <a href="#" class="nav-link admin-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Admin</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu admin-menu">
+                            <li><a href="{{ url_for('auth.admin_users') }}" class="dropdown-link">
+                                <i class="fas fa-users-cog"></i>
+                                <span>User Management</span>
+                            </a></li>
+                            <li><a href="{{ url_for('admin_donations') }}" class="dropdown-link">
+                                <i class="fas fa-donate"></i>
+                                <span>Donation Management</span>
+                            </a></li>
+                            <li><a href="{{ url_for('donation_purposes') }}" class="dropdown-link">
+                                <i class="fas fa-list"></i>
+                                <span>Donation Purposes</span>
+                            </a></li>
+                            <li><a href="{{ url_for('admin_mandala_sadhana') }}" class="dropdown-link">
+                                <i class="fas fa-circle-notch"></i>
+                                <span>Mandala Sadhana</span>
+                            </a></li>
                         </ul>
                     </li>
                     {% endif %}

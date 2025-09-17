@@ -658,8 +658,14 @@ def admin_api_donations_from_sheets():
 
 # Mandala Sadhana Routes
 @app.route('/mandala-sadhana', methods=['GET', 'POST'])
+@login_required
 def mandala_sadhana_registration():
-    """Mandala Sadhana registration form"""
+    """Mandala Sadhana registration form - requires login"""
+    # Check if user is approved (for non-admin users)
+    if not current_user.is_admin() and not current_user.is_approved:
+        flash('Your account needs to be approved before you can access Mandala Sadhana registration.', 'warning')
+        return redirect(url_for('auth.profile'))
+    
     form = MandalaSadhanaRegistrationForm()
     
     if form.validate_on_submit():
@@ -695,8 +701,16 @@ def mandala_sadhana_registration():
                          form=form)
 
 @app.route('/api/mandala-sadhana', methods=['POST'])
+@login_required
 def api_mandala_sadhana_registration():
-    """API endpoint for Mandala Sadhana registration (for AJAX submissions)"""
+    """API endpoint for Mandala Sadhana registration (for AJAX submissions) - requires login"""
+    # Check if user is approved (for non-admin users)
+    if not current_user.is_admin() and not current_user.is_approved:
+        return jsonify({
+            'success': False, 
+            'error': 'Your account needs to be approved before you can access Mandala Sadhana registration.'
+        }), 403
+    
     try:
         data = request.get_json()
         
