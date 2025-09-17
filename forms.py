@@ -16,8 +16,7 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     full_name = StringField('Full Name', validators=[DataRequired(), Length(max=100)])
     phone = StringField('Phone Number', validators=[Length(max=20)])
-    spiritual_name = StringField('Spiritual Name (Optional)', validators=[Length(max=100)])
-    guru_name = StringField('Guru Name (Optional)', validators=[Length(max=100)])
+    address = TextAreaField('Address (Optional)', validators=[Length(max=500)])
     practice_level = SelectField('Practice Level', choices=[
         ('', 'Select Practice Level'),
         ('Beginner', 'Beginner'),

@@ -130,6 +130,23 @@
                                     </div>
                                 {% endif %}
                             </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="{{ form.address.id }}">Address (Optional)</label>
+                                <div class="input-wrapper">
+                                    {{ form.address(class="form-control", rows="3", placeholder="Enter your address (optional)") }}
+                                    <div class="input-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                </div>
+                                {% if form.address.errors %}
+                                    <div class="error-messages">
+                                        {% for error in form.address.errors %}
+                                            <span class="error">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     
@@ -167,40 +184,6 @@
                     <div class="form-section">
                         <h3>Spiritual Details</h3>
                         <div class="form-grid">
-                            <div class="form-group">
-                                <label for="{{ form.spiritual_name.id }}">Spiritual Name (Optional)</label>
-                                <div class="input-wrapper">
-                                    {{ form.spiritual_name(class="form-control", placeholder="Enter your spiritual name (optional)") }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                                {% if form.spiritual_name.errors %}
-                                    <div class="error-messages">
-                                        {% for error in form.spiritual_name.errors %}
-                                            <span class="error">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="{{ form.guru_name.id }}">Guru Name (Optional)</label>
-                                <div class="input-wrapper">
-                                    {{ form.guru_name(class="form-control", placeholder="Enter your guru's name (optional)") }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-user-graduate"></i>
-                                    </div>
-                                </div>
-                                {% if form.guru_name.errors %}
-                                    <div class="error-messages">
-                                        {% for error in form.guru_name.errors %}
-                                            <span class="error">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
                             <div class="form-group full-width">
                                 <label for="{{ form.practice_level.id }}">Practice Level</label>
                                 <div class="input-wrapper">

@@ -88,8 +88,7 @@ def register():
             email=form.email.data,
             full_name=form.full_name.data,
             phone=form.phone.data,
-            spiritual_name=form.spiritual_name.data,
-            guru_name=form.guru_name.data,
+            address=form.address.data,
             practice_level=form.practice_level.data,
             purpose=form.purpose.data,
             profile_picture=profile_picture_path

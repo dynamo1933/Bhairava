@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     full_name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20), nullable=True)
+    address = db.Column(db.Text, nullable=True)
     role = db.Column(db.String(20), default='user')  # 'admin' or 'user'
     is_approved = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
@@ -20,8 +21,6 @@ class User(UserMixin, db.Model):
     approved_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
     # Additional fields for spiritual practice
-    spiritual_name = db.Column(db.String(100), nullable=True)
-    guru_name = db.Column(db.String(100), nullable=True)
     practice_level = db.Column(db.String(50), nullable=True)  # Beginner, Intermediate, Advanced
     purpose = db.Column(db.Text, nullable=False)  # Purpose for starting sadhana
     
