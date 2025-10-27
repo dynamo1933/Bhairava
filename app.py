@@ -19,7 +19,11 @@ app = Flask(__name__)
 
 # Configuration
 app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///daiva_anughara.db'
+# PostgreSQL connection for user management via Supabase Session Pooler
+# Session Pooler is IPv4 compatible (required for Windows/network connectivity)
+# Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@[POOLER-HOST]:5432/postgres
+# Password contains @ which needs to be URL-encoded as %40
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.cuyilngsmocyhadlbrgv:_Bottlemepani%4035@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size

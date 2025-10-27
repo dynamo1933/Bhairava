@@ -26,7 +26,9 @@ def create_app():
 
     # Configuration from app.py
     app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///daiva_anughara.db'
+    # Use PostgreSQL for database migrations
+    # Password contains @ which needs to be URL-encoded as %40
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:_Bottlemepani%4035@db.cuyilngsmocyhadlbrgv.supabase.co:5432/postgres'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = 'uploads'
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
