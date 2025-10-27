@@ -25,7 +25,7 @@ function initPWA() {
     initInstallPrompt();
     initOfflineDetection();
     initAppLikeBehavior();
-    initTouchGestures();
+    // Touch gestures are handled in initAppLikeBehavior
 }
 
 function registerServiceWorker() {
@@ -490,7 +490,7 @@ function initAccessibility() {
             if (mobileNav && !mobileNav.hasAttribute('hidden')) {
                 mobileNav.setAttribute('hidden', '');
                 mobileToggle.setAttribute('aria-expanded', 'false');
-                animateHamburger(mobileToggle, false);
+                mobileToggle.classList.remove('is-active');
             }
             
             // Close search modal if open
@@ -595,7 +595,7 @@ window.addEventListener('resize', debounce(function() {
         }
         if (mobileToggle) {
             mobileToggle.setAttribute('aria-expanded', 'false');
-            animateHamburger(mobileToggle, false);
+            mobileToggle.classList.remove('is-active');
         }
     }
 }, 250));

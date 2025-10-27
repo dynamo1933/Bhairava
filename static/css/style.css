@@ -2463,7 +2463,7 @@ p:has(🕉️), .sacred-text:has(🕉️) {
 
 .om-symbol-large {
     font-size: 4rem;
-    margin-bottom: var(--spacing-md);
+    margin: 0 auto var(--spacing-md) auto;
     animation: mysticalFloat 4s ease-in-out infinite;
     display: block;
     text-align: center;
@@ -6620,42 +6620,64 @@ input:checked + .slider:before {
     pointer-events: none;
 }
 
-.hero-background {
+.padati-hero .hero-background {
     position: relative;
     z-index: 2;
-    padding: 1rem 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 2rem 1rem;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     min-height: 25vh;
-}
-
-.hero-content {
-    text-align: center;
-    max-width: 800px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    align-items: center;
-    justify-content: center;
 }
 
-.hero-text {
+.padati-hero .hero-content {
+    text-align: center !important;
+    max-width: none !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+.padati-hero .hero-text {
     z-index: 3;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+.padati-hero .hero-text .hero-title,
+.padati-hero .hero-text h1 {
+    text-align: center !important;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
 }
 
-.hero-title {
-    text-align: center;
+.padati-hero .hero-text .hero-subtitle,
+.padati-hero .hero-text p {
+    text-align: center !important;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
 }
 
-.hero-subtitle {
-    text-align: center;
+.padati-hero .hero-text .om-symbol-large {
+    text-align: center !important;
+    margin: 0 auto var(--spacing-md) auto !important;
+    display: block !important;
 }
 
 /* Main Content */
