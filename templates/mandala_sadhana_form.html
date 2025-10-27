@@ -2,145 +2,216 @@
 
 {% block title %}{{ page_title }}{% endblock %}
 
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mandala_sadhana.css') }}">
+
+<style>
+/* ===== BASIC FALLBACK STYLES ===== */
+.sadhana-hero-modern {
+    background: linear-gradient(to right, #c41e3a 0%, #ea580c 100%) !important;
+    padding: 1.5rem 0 !important;
+    min-height: 120px !important;
+}
+
+.hero-title-modern {
+    font-size: 2.5rem;
+    color: white !important;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.form-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.btn-primary-modern {
+    background: var(--primary-red);
+    color: white;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.commitment-section-modern.error {
+    border: 2px solid #c41e3a;
+    border-radius: 15px;
+    padding: 1rem;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="auth-section">
-<div class="container">
-        <div class="auth-card">
-            <div class="card-header">
-                <div class="auth-icon">🕉️</div>
-                <h2>Mandala Sadhana Registration</h2>
-                <p class="auth-subtitle">Begin your sacred 48-day journey of transformation</p>
+<!-- Enhanced Modern Hero Section -->
+<section class="sadhana-hero-modern">
+    <div class="hero-container-modern">
+        <div class="hero-content-modern">
+            <!-- Enhanced Badge with Animation -->
+            <div class="hero-badge-modern">
+                <div class="badge-container">
+                    <span class="badge-pulse-modern">
+                        <span>Sacred Journey</span>
+                    </span>
+                    <div class="badge-glow"></div>
                 </div>
+            </div>
+
+            <!-- Enhanced Title with Gradient -->
+            <h1 class="hero-title-modern">
+                <span class="title-gradient">Mandala Sadhana</span>
+                <div class="title-underline"></div>
+            </h1>
+
+            <!-- Enhanced Subtitle -->
+            <p class="hero-subtitle-modern">Your Path to Divine Transformation</p>
+
+            <!-- Enhanced Description -->
             
-            <div class="card-content">
-                <div class="user-info">
-                    <div class="user-welcome">
-                        <i class="fas fa-user-circle"></i>
-                        <div class="user-details">
-                            <h4>Welcome, {{ current_user.full_name or current_user.username }}</h4>
-                            <p class="user-email">{{ current_user.email }}</p>
-                        </div>
+        </div>
+
+        <!-- Enhanced Visual with Improved Animation -->
+        <div class="hero-visual-modern">
+            <div class="mandala-container-modern">
+                <div class="mandala-rings-modern">
+                    <div class="ring-modern ring-1-modern"></div>
+                    <div class="ring-modern ring-2-modern"></div>
+                    <div class="ring-modern ring-3-modern"></div>
+                    <div class="ring-modern ring-4-modern"></div>
+                    <div class="mandala-core-modern">
+                        <div class="core-glow"></div>
                     </div>
                 </div>
-                
-                <div class="registration-intro">
-                    <p class="intro-text">
-                        <strong>Namaskaram,</strong><br>
-                        This form is created to gently receive your <strong>Mandala Sadhana details</strong> — especially the day you began your Sadhana Padathi (practice journey).
-                    </p>
-                    <p class="intro-description">
-                        Please share your <strong>start date</strong> with sincerity and awareness, as this marks the sacred rhythm of your practice. A single mandala is a sacred 48-day journey — or choose to walk the deeper path of 3 foundational mandalas, building the sacred ground within, into deeper alignment with the divine. Your submission helps us hold space for your Sadhana in Bhairava's grace.
-                    </p>
-                    <p class="intro-blessing">
-                        May your path be steady, your heart open, and your being rooted in surrender.<br>
-                        <strong>Jai Bhairava!</strong>
-                    </p>
+                <div class="energy-waves-modern">
+                    <div class="wave-modern wave-1-modern"></div>
+                    <div class="wave-modern wave-2-modern"></div>
+                    <div class="wave-modern wave-3-modern"></div>
+                    <div class="wave-modern wave-4-modern"></div>
                 </div>
+                <div class="sacred-particles">
+                    <div class="particle particle-1">॰</div>
+                    <div class="particle particle-2">॰</div>
+                    <div class="particle particle-3">॰</div>
+                    <div class="particle particle-4">॰</div>
+                    <div class="particle particle-5">॰</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <form method="POST" id="mandalaForm" class="auth-form" novalidate>
-                        {{ form.hidden_tag() }}
-                        
-                    <div class="form-section">
-                        <h3>Personal Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="{{ form.email.id }}">Sacred Connection Email</label>
-                                <div class="input-wrapper">
-                                    {{ form.email(class="form-control", placeholder="Enter your email", autocomplete="email", value=current_user.email, **{"required": True}) }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-envelope"></i>
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+        </div>
+        <span class="scroll-text">Begin Your Journey</span>
+    </div>
+</section>
+
+<!-- Modern Main Content -->
+<section class="sadhana-content-modern">
+    <div class="container">
+        <!-- Enhanced Registration Form -->
+        <div class="form-section-modern">
+            <form method="POST" id="mandalaForm" class="registration-form-modern" novalidate>
+                {{ form.hidden_tag() }}
+
+                <!-- Single Consolidated Form Card -->
+                <div class="form-card-modern">
+                    <div class="card-header-modern">
+                        <div class="card-title-modern">
+                            <h3>Mandala Sadhana Registration</h3>
+                            <p>Complete your sacred journey details</p>
+                        </div>
+                    </div>
+
+                    <div class="form-content-modern">
+                        <!-- All form fields in single section -->
+                        <div class="form-grid-modern">
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.email.id }}" class="form-label-modern">
+                                        Email
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.email(class="form-input-modern", placeholder="Enter your email", autocomplete="email", value=current_user.email, **{"required": True}) }}
                                     </div>
-                                </div>
-                                {% if form.email.errors %}
-                                    <div class="error-messages">
-                                        {% for error in form.email.errors %}
-                                            <span class="error">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <div class="form-help">
-                                    <small>This email is pre-filled from your account. You can change it if needed.</small>
+                                    {% if form.email.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.email.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                     <div class="form-help-modern"></div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="{{ form.full_name.id }}">Full Name & Geo Location</label>
-                                <div class="input-wrapper">
-                                    {{ form.full_name(class="form-control", placeholder="Enter your full name and location", autocomplete="name", value=current_user.full_name or "", **{"required": True}) }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-user"></i>
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.full_name.id }}" class="form-label-modern">
+                                        Full Name & Geo Location
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.full_name(class="form-input-modern", placeholder="Enter your full name and location", autocomplete="name", value=current_user.full_name or "", **{"required": True}) }}
                                     </div>
-                                </div>
-                                {% if form.full_name.errors %}
-                                    <div class="error-messages">
-                                        {% for error in form.full_name.errors %}
-                                            <span class="error">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <div class="form-help">
-                                    <small>Please add your geographical location to your name (e.g., "John Smith, New York").</small>
+                                    {% if form.full_name.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.full_name.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern"></div>
                                 </div>
                             </div>
                         </div>
-                        </div>
-
-                    <div class="form-section">
-                        <h3>Sacred Commitment</h3>
-                        <p class="section-description">Your journey begins with a sacred commitment. Please reflect deeply on these questions and respond from your heart.</p>
-                        
+                    
                         <!-- 48-Day Mandala Commitment -->
-                        <div class="commitment-card">
-                            <div class="commitment-header">
-                                <div class="commitment-icon">
-                                    <i class="fas fa-circle-notch"></i>
-                                </div>
-                                <div class="commitment-title">
-                                    <h4>48-Day Sacred Mandala</h4>
-                                    <p class="commitment-subtitle">The foundation of your spiritual journey</p>
+                        <div class="commitment-section-modern">
+                            <div class="commitment-header-modern">
+                                <div class="commitment-info-modern">
+                                    <h4 class="commitment-title-modern">Single Mandala (48 Days)</h4>
                                 </div>
                             </div>
-                            <div class="commitment-content">
-                                <p class="commitment-question">Are you ready to commit to a 48-day (1) Mandala, honoring each day as a step into deeper presence with Bhairava?</p>
-                                <div class="enhanced-radio-group">
-                                    <div class="enhanced-radio-option" data-value="Yes">
-                                        <div class="radio-visual">
-                                            <div class="radio-circle">
-                                                <div class="radio-inner"></div>
-                                            </div>
-                                            <div class="radio-icon">
-                                                <i class="fas fa-check-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="radio-content">
-                                            <h5 class="radio-title">Yes, I am ready</h5>
-                                            <p class="radio-description">I commit to this sacred 48-day journey with full devotion and awareness</p>
-                                            <div class="radio-blessing">🕉️ May your path be blessed 🕉️</div>
-                                        </div>
-                                        {{ form.mandala_48_commitment(class="hidden-radio", value="Yes", id="mandala48_yes") }}
-                                    </div>
-                                    
-                                    <div class="enhanced-radio-option" data-value="No">
-                                        <div class="radio-visual">
-                                            <div class="radio-circle">
-                                                <div class="radio-inner"></div>
-                                            </div>
-                                            <div class="radio-icon">
-                                                <i class="fas fa-moon"></i>
+                            <div class="commitment-content-modern">
+                                <p class="commitment-question-modern">Are you ready to commit to a 48-day (1) Mandala, honoring each day as a step into deeper presence with Bhairava?</p>
+                                <div class="choice-grid-modern">
+                                    <label class="choice-card-modern" for="mandala48_yes">
+                                        <input type="radio" id="mandala48_yes" name="mandala_48_commitment" value="Yes" {{ 'checked' if form.mandala_48_commitment.data and form.mandala_48_commitment.data == 'Yes' else '' }}>
+                                        <div class="choice-content-modern">
+                                            <div class="choice-text-modern">
+                                                <h5>Yes, I am ready</h5>
+                                                <p>I commit to this sacred 48-day journey with full devotion and awareness</p>
                                             </div>
                                         </div>
-                                        <div class="radio-content">
-                                            <h5 class="radio-title">No, not yet</h5>
-                                            <p class="radio-description">I need more time to prepare for this sacred commitment</p>
-                                            <div class="radio-blessing">🌙 May you find the right time 🌙</div>
+                                    </label>
+
+                                    <label class="choice-card-modern" for="mandala48_no">
+                                        <input type="radio" id="mandala48_no" name="mandala_48_commitment" value="No" {{ 'checked' if form.mandala_48_commitment.data and form.mandala_48_commitment.data == 'No' else '' }}>
+                                        <div class="choice-content-modern">
+                                            <div class="choice-text-modern">
+                                                <h5>No, not yet</h5>
+                                                <p>I need more time to prepare for this sacred commitment</p>
+                                            </div>
                                         </div>
-                                        {{ form.mandala_48_commitment(class="hidden-radio", value="No", id="mandala48_no") }}
-                                    </div>
+                                    </label>
                                 </div>
                                 {% if form.mandala_48_commitment.errors %}
-                                    <div class="error-messages">
+                                    <div class="form-errors-modern">
                                         {% for error in form.mandala_48_commitment.errors %}
-                                            <span class="error">{{ error }}</span>
+                                            <span class="error-text-modern">{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
@@ -148,190 +219,165 @@
                         </div>
 
                         <!-- 144-Day Triad Commitment -->
-                        <div class="commitment-card">
-                            <div class="commitment-header">
-                                <div class="commitment-icon">
-                                    <i class="fas fa-mountain"></i>
-                                </div>
-                                <div class="commitment-title">
-                                    <h4>144-Day Sacred Triad</h4>
-                                    <p class="commitment-subtitle">The deeper path of transformation</p>
+                        <div class="commitment-section-modern">
+                            <div class="commitment-header-modern">
+                                <div class="commitment-info-modern">
+                                    <h4 class="commitment-title-modern">Triple Mandala (144 Days)</h4>
+                                    <p class="commitment-subtitle-modern">Three foundational mandalas</p>
                                 </div>
                             </div>
-                            <div class="commitment-content">
-                                <p class="commitment-question">Do you feel called to walk the full triad of 144-Days (3) Mandalas — building a sacred foundation for transformation and inner stability?</p>
-                                <div class="enhanced-radio-group">
-                                    <div class="enhanced-radio-option" data-value="Yes">
-                                        <div class="radio-visual">
-                                            <div class="radio-circle">
-                                                <div class="radio-inner"></div>
-                                            </div>
-                                            <div class="radio-icon">
-                                                <i class="fas fa-star"></i>
-                                            </div>
+                            <div class="commitment-content-modern">
+                                <p class="commitment-question-modern">Do you feel called to walk the full triad of 144-Days (3) Mandalas — building a sacred foundation for transformation and inner stability?</p>
+                                <div class="choice-grid-modern">
+                                    <label class="choice-card-modern" for="mandala144_yes">
+                                        <input type="radio" id="mandala144_yes" name="mandala_144_commitment" value="Yes" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'Yes' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>Yes, I feel the call</h5>
+                                            <p>I am drawn to the deeper path of three mandalas for profound transformation</p>
                                         </div>
-                                        <div class="radio-content">
-                                            <h5 class="radio-title">Yes, I feel the call</h5>
-                                            <p class="radio-description">I am drawn to the deeper path of three mandalas for profound transformation</p>
-                                            <div class="radio-blessing">⭐ May the stars guide your journey ⭐</div>
-                                        </div>
-                                        {{ form.mandala_144_commitment(class="hidden-radio", value="Yes", id="mandala144_yes") }}
                                     </div>
-                                    
-                                    <div class="enhanced-radio-option" data-value="No">
-                                        <div class="radio-visual">
-                                            <div class="radio-circle">
-                                                <div class="radio-inner"></div>
-                                            </div>
-                                            <div class="radio-icon">
-                                                <i class="fas fa-leaf"></i>
-                                            </div>
+                                </label>
+
+                                <label class="choice-card-modern" for="mandala144_no">
+                                    <input type="radio" id="mandala144_no" name="mandala_144_commitment" value="No" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'No' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>No, one mandala is enough</h5>
+                                            <p>I choose to focus on a single mandala for now</p>
                                         </div>
-                                        <div class="radio-content">
-                                            <h5 class="radio-title">No, one mandala is enough</h5>
-                                            <p class="radio-description">I choose to focus on a single mandala for now</p>
-                                            <div class="radio-blessing">🍃 May your practice be deep and meaningful 🍃</div>
-                                        </div>
-                                        {{ form.mandala_144_commitment(class="hidden-radio", value="No", id="mandala144_no") }}
                                     </div>
-                                    
-                                    <div class="enhanced-radio-option" data-value="Not Yet Ready">
-                                        <div class="radio-visual">
-                                            <div class="radio-circle">
-                                                <div class="radio-inner"></div>
-                                            </div>
-                                            <div class="radio-icon">
-                                                <i class="fas fa-hourglass-half"></i>
-                                            </div>
+                                </label>
+
+                                <label class="choice-card-modern" for="mandala144_notready">
+                                    <input type="radio" id="mandala144_notready" name="mandala_144_commitment" value="Not Yet Ready" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'Not Yet Ready' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>Not yet ready</h5>
+                                            <p>I need more time to prepare for this deeper commitment</p>
                                         </div>
-                                        <div class="radio-content">
-                                            <h5 class="radio-title">Not yet ready</h5>
-                                            <p class="radio-description">I need more time to prepare for this deeper commitment</p>
-                                            <div class="radio-blessing">⏳ May patience guide your timing ⏳</div>
-                                        </div>
-                                        {{ form.mandala_144_commitment(class="hidden-radio", value="Not Yet Ready", id="mandala144_notready") }}
                                     </div>
+                                    </label>
                                 </div>
                                 {% if form.mandala_144_commitment.errors %}
-                                    <div class="error-messages">
+                                    <div class="form-errors-modern">
                                         {% for error in form.mandala_144_commitment.errors %}
-                                            <span class="error">{{ error }}</span>
+                                            <span class="error-text-modern">{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
-
-                        <!-- Personal Commitment Text -->
-                        <div class="commitment-card">
-                            <div class="commitment-header">
-                                <div class="commitment-icon">
-                                    <i class="fas fa-heart"></i>
+                    
+                        <!-- Sacred Vow -->
+                        <div class="form-group-modern">
+                            <div class="input-wrapper-modern">
+                                <label for="{{ form.commitment_text.id }}" class="form-label-modern">
+                                    Can you hold your Sadhana with sincerity and steadiness, even when the mind resists or the path feels silent?
+                                </label>
+                                <div class="textarea-container-modern">
+                                    {{ form.commitment_text(class="form-input-modern form-textarea-modern", rows="6", placeholder="Please share your inner commitment and understanding of this sacred practice...", **{"required": True}) }}
                                 </div>
-                                <div class="commitment-title">
-                                    <h4>Your Sacred Vow</h4>
-                                    <p class="commitment-subtitle">Share your inner commitment</p>
+                                <div class="character-counter-modern">
+                                    <span class="current-count">0</span> / <span class="max-count">500</span> characters
+                                </div>
+                                {% if form.commitment_text.errors %}
+                                    <div class="form-errors-modern">
+                                        {% for error in form.commitment_text.errors %}
+                                            <span class="error-text-modern">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help-modern"></div>
+                            </div>
+                        
+                        <!-- Sadhana Details -->
+                        <div class="form-grid-modern">
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.sadhana_start_date.id }}" class="form-label-modern">
+                                        When did your Sadhana begin?
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.sadhana_start_date(class="form-input-modern", **{"required": True}) }}
+                                    </div>
+                                    {% if form.sadhana_start_date.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.sadhana_start_date.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern">
+                                        <small>When did your Sadhana begin? (Mark the day of inner commitment)</small>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="commitment-content">
-                                <p class="commitment-question">Can you hold your Sadhana with sincerity and steadiness, even when the mind resists or the path feels silent?</p>
-                                <div class="commitment-textarea">
-                                    <div class="input-wrapper">
-                                        {{ form.commitment_text(class="form-control", rows="5", placeholder="Please share your inner commitment and understanding of this sacred practice...", **{"required": True}) }}
-                                        <div class="input-icon">
-                                            <i class="fas fa-heart"></i>
+
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.sadhana_type.id }}" class="form-label-modern">
+                                        Which Sadhana are you committing to as part of your Mandala journey?
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.sadhana_type(class="form-input-modern", **{"required": True}) }}
+                                    </div>
+                                    {% if form.sadhana_type.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.sadhana_type.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Copy Checkbox -->
+                        <div class="form-group-modern">
+                            <div class="checkbox-container-modern">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="submit-section-modern" style="display: flex; justify-content: flex-end;">
+                            <div class="submit-container">
+                                <button type="submit" class="btn-modern btn-primary-modern" id="submitBtn">
+                                    <div class="btn-content">
+                                        <div class="btn-icon">
+                                            <i class="fas fa-rocket"></i>
+                                        </div>
+                                        <span class="btn-text-modern">Begin Sacred Journey</span>
+                                        <div class="btn-arrow">
+                                            <i class="fas fa-arrow-right"></i>
                                         </div>
                                     </div>
-                                    <div class="character-counter">
-                                        <span class="current-count">0</span> / <span class="max-count">500</span> characters
-                                    </div>
-                                </div>
-                            {% if form.commitment_text.errors %}
-                                    <div class="error-messages">
-                                    {% for error in form.commitment_text.errors %}
-                                            <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                                <div class="form-help">
-                                    <small>Share your inner commitment and understanding of this sacred practice. Be sincere and detailed in your response.</small>
-                                </div>
+                                    <span class="btn-loading-modern" style="display: none;">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Submitting...</span>
+                                    </span>
+                                    <div class="btn-shine"></div>
+                                    <div class="btn-glow"></div>
+                                </button>
                             </div>
-                        </div>
-                        </div>
-
-                    <div class="form-section">
-                        <h3>Sadhana Details</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="{{ form.sadhana_start_date.id }}">When did your Sadhana begin?</label>
-                                <div class="input-wrapper">
-                                    {{ form.sadhana_start_date(class="form-control", **{"required": True}) }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-calendar"></i>
-                                    </div>
-                                </div>
-                            {% if form.sadhana_start_date.errors %}
-                                    <div class="error-messages">
-                                    {% for error in form.sadhana_start_date.errors %}
-                                            <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                                <div class="form-help">
-                                    <small>Mark the day of your inner commitment to this practice</small>
-                                </div>
-                        </div>
-
-                            <div class="form-group">
-                                <label for="{{ form.sadhana_type.id }}">Which Sadhana are you committing to?</label>
-                                <div class="input-wrapper">
-                                    {{ form.sadhana_type(class="form-control", **{"required": True}) }}
-                                    <div class="input-icon">
-                                        <i class="fas fa-om"></i>
-                                    </div>
-                                </div>
-                            {% if form.sadhana_type.errors %}
-                                    <div class="error-messages">
-                                    {% for error in form.sadhana_type.errors %}
-                                            <span class="error">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                                <div class="form-help">
-                                    <small>Select the specific Sadhana practice you are committing to</small>
-                        </div>
-                            </div>
-                            </div>
-                        </div>
-
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            {{ form.send_copy(class="form-check-input") }}
-                            <label for="send_copy" class="checkbox-label">
-                                <i class="fas fa-envelope"></i> Send me a copy of my responses
-                            </label>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
-                            <span class="btn-text">Submit Sacred Journey</span>
-                            <span class="btn-loading" style="display: none;">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                Submitting...
-                            </span>
-                        </button>
-                    </div>
-                </form>
-                
-                <div class="auth-links">
-                    <p><a href="{{ url_for('home') }}">← Back to Home</a></p>
                 </div>
-                
-                <div class="registration-note">
-                    <div class="note-icon">🕉️</div>
-                    <p><strong>Jai Bhairava!</strong> May your journey be blessed with divine grace and inner transformation.</p>
+            </form>
+
+            <!-- Modern Footer -->
+            <div class="form-footer-modern">
+                <div class="footer-content-modern">
+                    
+
+                    <div class="blessing-card-modern">
+                        <div class="blessing-content-modern">
+                            <h4 class="blessing-title-modern">Jai Bhairava!</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -342,85 +388,126 @@
 {% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Enhanced form validation and UX
+    // Enhanced form validation and UX for modern design
     const form = document.getElementById('mandalaForm');
     const submitBtn = document.getElementById('submitBtn');
-    const btnText = submitBtn.querySelector('.btn-text');
-    const btnLoading = submitBtn.querySelector('.btn-loading');
-    
+    const btnText = submitBtn.querySelector('.btn-text-modern');
+    const btnLoading = submitBtn.querySelector('.btn-loading-modern');
+
     // Real-time validation
     const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
     inputs.forEach(input => {
         input.addEventListener('blur', validateField);
         input.addEventListener('input', clearFieldError);
     });
-    
-    // Initialize enhanced radio buttons
-    initializeEnhancedRadioButtons();
-    
+
+    // Initialize modern choice cards
+    initializeChoiceCards();
+
     // Initialize character counter
     initializeCharacterCounter();
-    
+
+    // Initialize floating labels
+    initializeFloatingLabels();
+
     function validateField(e) {
         const field = e.target;
-        const wrapper = field.closest('.form-group');
-        const errorDiv = wrapper.querySelector('.error-messages');
-        
+        const wrapper = field.closest('.input-wrapper-modern');
+        const errorDiv = wrapper.querySelector('.error-messages-modern');
+
         // Clear previous errors
         if (errorDiv) {
             errorDiv.innerHTML = '';
         }
-        
+
         // Validate field
         if (!field.value.trim()) {
             showFieldError(wrapper, 'This field is required');
             return false;
         }
-        
+
         if (field.name === 'email' && !isValidEmail(field.value)) {
             showFieldError(wrapper, 'Please enter a valid email address');
             return false;
         }
-        
+
         if (field.name === 'commitment_text' && field.value.length < 20) {
             showFieldError(wrapper, 'Please provide at least 20 characters explaining your commitment');
             return false;
         }
-        
+
         // Clear error styling
         wrapper.classList.remove('error');
         return true;
     }
-    
+
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-    
+
     function clearFieldError(e) {
-        const wrapper = e.target.closest('.form-group');
+        const wrapper = e.target.closest('.input-wrapper-modern');
         wrapper.classList.remove('error');
-        const errorDiv = wrapper.querySelector('.error-messages');
+        const errorDiv = wrapper.querySelector('.error-messages-modern');
         if (errorDiv) {
             errorDiv.innerHTML = '';
         }
     }
-    
+
     function showFieldError(wrapper, message) {
         wrapper.classList.add('error');
-        let errorDiv = wrapper.querySelector('.error-messages');
+        let errorDiv = wrapper.querySelector('.error-messages-modern');
         if (!errorDiv) {
             errorDiv = document.createElement('div');
-            errorDiv.className = 'error-messages';
+            errorDiv.className = 'error-messages-modern';
             wrapper.appendChild(errorDiv);
         }
-        errorDiv.innerHTML = `<span class="error">${message}</span>`;
+        errorDiv.innerHTML = `<span class="error-text-modern">${message}</span>`;
     }
-    
+
+    // Function to validate radio button groups
+    function validateRadioGroups() {
+        const radioGroups = ['mandala_48_commitment', 'mandala_144_commitment'];
+        let isValid = true;
+
+        radioGroups.forEach(groupName => {
+            const radios = form.querySelectorAll(`input[name="${groupName}"]`);
+            const checked = Array.from(radios).some(radio => radio.checked);
+            
+            if (!checked) {
+                // Find the commitment section and highlight it
+                const firstRadio = radios[0];
+                const commitmentSection = firstRadio.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.add('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '#c41e3a';
+                    }
+                }
+                isValid = false;
+            } else {
+                // Remove error styling if checked
+                const firstRadio = radios[0];
+                const commitmentSection = firstRadio.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.remove('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '';
+                    }
+                }
+            }
+        });
+
+        return isValid;
+    }
+
     // Form submission with loading state
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Validate all fields
         let isValid = true;
         inputs.forEach(input => {
@@ -428,10 +515,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
         });
-        
+
+        // Validate radio button groups
+        if (!validateRadioGroups()) {
+            isValid = false;
+        }
+
         if (!isValid) {
+            // Scroll to first error or radio section
+            const firstCommitmentError = form.querySelector('.commitment-section-modern.error');
+            if (firstCommitmentError) {
+                firstCommitmentError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
             // Focus first error field
-            const firstError = form.querySelector('.form-group.error');
+            const firstError = form.querySelector('.input-wrapper-modern.error');
             if (firstError) {
                 const input = firstError.querySelector('input, textarea, select');
                 if (input) {
@@ -440,504 +537,132 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return;
         }
-        
+
         // Show loading state
         submitBtn.disabled = true;
         btnText.style.display = 'none';
         btnLoading.style.display = 'inline-flex';
-        
+
         // Submit form
         form.submit();
     });
-    
+
     // Auto-focus first input
     const firstInput = form.querySelector('input[required]');
     if (firstInput) {
         firstInput.focus();
     }
-    
-    // Enhanced Radio Button Functions
-    function initializeEnhancedRadioButtons() {
-        const enhancedRadioOptions = document.querySelectorAll('.enhanced-radio-option');
-        
-        enhancedRadioOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const groupName = this.querySelector('input[type="radio"]').name;
-                const value = this.getAttribute('data-value');
-                
-                // Remove selected class from all options in the same group
-                const sameGroupOptions = document.querySelectorAll(`[data-value] input[name="${groupName}"]`);
-                sameGroupOptions.forEach(input => {
-                    input.closest('.enhanced-radio-option').classList.remove('selected');
-                });
-                
-                // Add selected class to clicked option
-                this.classList.add('selected');
-                
-                // Check the corresponding radio input
+
+    // Modern Choice Cards Functions
+    function initializeChoiceCards() {
+        const choiceCards = document.querySelectorAll('.choice-card-modern');
+
+        choiceCards.forEach(card => {
+            card.addEventListener('click', function() {
                 const radioInput = this.querySelector('input[type="radio"]');
+                const groupName = radioInput.name;
+
+                // Remove selected class from all cards in the same group
+                const sameGroupCards = document.querySelectorAll(`input[name="${groupName}"]`);
+                sameGroupCards.forEach(input => {
+                    input.closest('.choice-card-modern').classList.remove('selected');
+                });
+
+                // Add selected class to clicked card
+                this.classList.add('selected');
+
+                // Check the corresponding radio input
                 radioInput.checked = true;
-                
+
                 // Trigger change event for form validation
                 radioInput.dispatchEvent(new Event('change', { bubbles: true }));
-                
+
+                // Clear error styling when radio is selected
+                const commitmentSection = radioInput.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.remove('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '';
+                    }
+                }
+
                 // Add visual feedback
-                this.style.transform = 'translateY(-3px) scale(1.02)';
+                this.style.transform = 'translateY(-8px) scale(1.02)';
                 setTimeout(() => {
                     this.style.transform = '';
-                }, 200);
+                }, 300);
             });
-            
+
             // Add hover effects
-            option.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function() {
                 if (!this.classList.contains('selected')) {
-                    this.style.transform = 'translateY(-2px)';
+                    this.style.transform = 'translateY(-4px)';
                 }
             });
-            
-            option.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function() {
                 if (!this.classList.contains('selected')) {
                     this.style.transform = '';
                 }
             });
         });
-        
+
         // Initialize selected states based on existing values
         const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
         checkedRadios.forEach(radio => {
-            radio.closest('.enhanced-radio-option').classList.add('selected');
+            radio.closest('.choice-card-modern').classList.add('selected');
         });
     }
-    
+
     // Character Counter Function
     function initializeCharacterCounter() {
         const commitmentTextarea = document.querySelector('textarea[name="commitment_text"]');
         const currentCount = document.querySelector('.current-count');
         const maxCount = document.querySelector('.max-count');
-        
+
         if (commitmentTextarea && currentCount && maxCount) {
             commitmentTextarea.addEventListener('input', function() {
                 const count = this.value.length;
                 currentCount.textContent = count;
-                
+
                 // Update color based on character count
                 if (count > 450) {
                     currentCount.style.color = '#dc2626';
                 } else if (count > 350) {
                     currentCount.style.color = '#f59e0b';
                 } else {
-                    currentCount.style.color = 'var(--primary-green)';
+                    currentCount.style.color = 'var(--primary-red)';
                 }
             });
         }
+    }
+
+    // Floating Labels Function
+    function initializeFloatingLabels() {
+        const inputs = document.querySelectorAll('.form-input-modern');
+
+        inputs.forEach(input => {
+            const wrapper = input.closest('.input-wrapper-modern');
+            const label = wrapper.querySelector('.form-label-modern');
+
+            // Check if input has value on load
+            if (input.value.trim() !== '') {
+                label.classList.add('float');
+            }
+
+            input.addEventListener('focus', function() {
+                label.classList.add('float');
+            });
+
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    label.classList.remove('float');
+                }
+            });
+        });
     }
 });
 </script>
 {% endblock %}
 
-<style>
-/* User Info Styles */
-.user-info {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(245, 158, 11, 0.1));
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(34, 197, 94, 0.2);
-}
-
-.user-welcome {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.user-welcome i {
-    font-size: 2.5rem;
-    color: var(--primary-green);
-}
-
-.user-details h4 {
-    color: var(--primary-green);
-    margin: 0 0 0.25rem 0;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-
-.user-email {
-    color: var(--text-muted);
-    margin: 0;
-    font-size: 0.95rem;
-}
-
-/* Registration Intro Styles */
-.registration-intro {
-    background: linear-gradient(135deg, rgba(254, 247, 237, 0.8), rgba(255, 255, 255, 0.9));
-    border-radius: 15px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.intro-text {
-    font-size: 1.1rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-    line-height: 1.6;
-}
-
-.intro-description {
-    font-size: 1rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    line-height: 1.7;
-}
-
-.intro-blessing {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.1rem;
-    color: var(--accent-gold);
-    font-style: italic;
-    text-align: center;
-    margin: 0;
-}
-
-/* Section Description */
-.section-description {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    font-style: italic;
-}
-
-/* Commitment Cards */
-.commitment-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 247, 237, 0.95) 100%);
-    border-radius: 20px;
-    padding: 2.5rem;
-    margin-bottom: 2rem;
-    border: 2px solid rgba(196, 30, 58, 0.1);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-}
-
-.commitment-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-.commitment-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-green), var(--accent-gold));
-    border-radius: 20px 20px 0 0;
-}
-
-.commitment-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.commitment-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--primary-green), var(--accent-gold));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    flex-shrink: 0;
-}
-
-.commitment-title h4 {
-    color: var(--primary-green);
-    font-size: 1.5rem;
-    margin: 0 0 0.5rem 0;
-    font-weight: 600;
-}
-
-.commitment-subtitle {
-    color: var(--text-muted);
-    font-size: 1rem;
-    margin: 0;
-    font-style: italic;
-}
-
-.commitment-content {
-    position: relative;
-}
-
-.commitment-question {
-    font-size: 1.1rem;
-    color: var(--text-dark);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-    font-weight: 500;
-}
-
-/* Enhanced Radio Group */
-.enhanced-radio-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.enhanced-radio-option {
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 15px;
-    padding: 2rem;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    min-height: 120px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.enhanced-radio-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(245, 158, 11, 0.05));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.enhanced-radio-option:hover {
-    border-color: var(--primary-green);
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-}
-
-.enhanced-radio-option:hover::before {
-    opacity: 1;
-}
-
-.enhanced-radio-option.selected {
-    border-color: var(--primary-green);
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(245, 158, 11, 0.08));
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
-}
-
-.enhanced-radio-option.selected::before {
-    opacity: 1;
-}
-
-.radio-visual {
-    position: relative;
-    flex-shrink: 0;
-}
-
-.radio-circle {
-    width: 40px;
-    height: 40px;
-    border: 3px solid #e5e7eb;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    position: relative;
-    background: white;
-}
-
-.radio-inner {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--primary-green);
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.enhanced-radio-option.selected .radio-circle {
-    border-color: var(--primary-green);
-    background: var(--accent-cream);
-}
-
-.enhanced-radio-option.selected .radio-inner {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.radio-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem;
-    color: var(--primary-green);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.enhanced-radio-option.selected .radio-icon {
-    opacity: 1;
-}
-
-.radio-content {
-    flex: 1;
-    position: relative;
-    z-index: 2;
-}
-
-.radio-title {
-    color: var(--primary-green);
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.radio-description {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 0.8rem;
-}
-
-.radio-blessing {
-    font-family: 'Dancing Script', cursive;
-    color: var(--accent-gold);
-    font-size: 0.9rem;
-    font-style: italic;
-    opacity: 0.8;
-}
-
-.hidden-radio {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Commitment Textarea */
-.commitment-textarea {
-    position: relative;
-}
-
-.character-counter {
-    text-align: right;
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--text-muted);
-}
-
-.character-counter .current-count {
-    font-weight: 600;
-    color: var(--primary-green);
-}
-
-/* Animation for radio selection */
-@keyframes radioSelect {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.enhanced-radio-option.selected {
-    animation: radioSelect 0.3s ease-out;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .enhanced-radio-group {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .enhanced-radio-option {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem;
-        min-height: auto;
-    }
-    
-    .radio-visual {
-        margin-bottom: 1rem;
-    }
-    
-    .commitment-card {
-        padding: 2rem 1.5rem;
-    }
-    
-    .commitment-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-}
-
-/* Checkbox Group Styles */
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.checkbox-label {
-    cursor: pointer;
-    font-weight: 500;
-    color: var(--text-dark);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-}
-
-/* Form Help Styles */
-.form-help {
-    margin-top: 0.5rem;
-}
-
-.form-help small {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    line-height: 1.4;
-}
-
-/* Responsive adjustments for auth layout */
-@media (max-width: 768px) {
-    .radio-group {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-    }
-    
-    .radio-option {
-        padding: 1rem;
-    }
-    
-    .registration-intro {
-        padding: 1.5rem;
-    }
-}
-</style>

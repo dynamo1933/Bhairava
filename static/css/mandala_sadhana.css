@@ -1,0 +1,705 @@
+/* ===== MANDALA SADHANA - SIMPLE & CLEAN DESIGN ===== */
+/* Matches the padati page theme */
+
+/* Hero Section - Gradient Background like Padati */
+.sadhana-hero-modern {
+    background: linear-gradient(to right, #c41e3a 0%, #ea580c 100%) !important;
+    padding: 1.5rem 0 !important;
+    position: relative;
+    min-height: 120px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-container-modern {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content-modern {
+    width: 100%;
+    max-width: 900px;
+}
+
+.hero-title-modern {
+    margin-bottom: 0.5rem;
+}
+
+.title-gradient {
+    font-family: var(--font-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    display: block;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle-modern {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-family: var(--font-secondary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.description-text {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Content Section */
+.sadhana-content-modern {
+    background: white;
+    padding: 2rem 0;
+}
+
+.sadhana-content-modern .stats-section {
+    margin: 2rem 0;
+}
+
+/* Journey Stats - Simple Cards Horizontal Layout */
+.journey-stats-modern {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+}
+
+.stats-glass {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-item-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    min-width: 180px;
+    flex: 0 0 auto;
+    transition: all 0.3s ease;
+}
+
+.stat-item-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(196, 30, 58, 0.15);
+}
+
+.stat-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background: var(--section-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: #c41e3a;
+}
+
+.stat-content {
+    text-align: center;
+}
+
+.stat-divider-modern {
+    display: none;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #c41e3a;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item-modern .stat-content .stat-label,
+.stat-label {
+    font-size: 0.95rem;
+    color: #c41e3a !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Hero Quote - Removed or simplified */
+.hero-quote-modern {
+    margin-top: 3.5rem;
+    max-width: 850px;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.hero-quote-modern blockquote {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    font-style: italic;
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.hero-quote-modern cite {
+    display: block;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: normal;
+    font-weight: 600;
+}
+
+/* Hide Visual/Animation Section */
+.hero-visual-modern {
+    display: none !important;
+}
+
+.hero-badge-modern,
+.badge-container,
+.badge-pulse-modern,
+.title-underline,
+.scroll-indicator {
+    display: none !important;
+}
+
+/* Hide decorative welcome elements */
+.welcome-avatar-modern,
+.avatar-container,
+.avatar-circle-modern,
+.avatar-content,
+.avatar-sparkle,
+.avatar-orbits,
+.orbit,
+.greeting-badge,
+.welcome-greeting,
+.name-decoration,
+.status-pulse,
+.progress-glow {
+    display: none !important;
+}
+
+/* Ensure hero section has gradient background */
+section.sadhana-hero-modern {
+    background: linear-gradient(to right, #c41e3a 0%, #ea580c 100%) !important;
+}
+
+/* Welcome Section - Simple Card */
+.sadhana-content-modern .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.welcome-section-modern {
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+.intro-section-modern {
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+.form-section-modern {
+    padding: 0 1rem;
+}
+
+.welcome-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.welcome-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+/* Make welcome header horizontal */
+.welcome-header-modern {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.welcome-details-modern {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.welcome-name-modern,
+.welcome-email-modern,
+.welcome-status-modern {
+    display: inline-block;
+    margin: 0 1rem 0 0;
+}
+
+.welcome-name-modern .name-text {
+    font-size: 1.5rem;
+    color: #c41e3a;
+    font-weight: 700;
+    margin: 0;
+}
+
+.welcome-email-modern {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.welcome-status-modern {
+    display: inline-flex;
+}
+
+.status-badge-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(196, 30, 58, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--primary-red);
+}
+
+.status-icon {
+    display: inline-flex;
+}
+
+.user-progress-modern {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.progress-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c41e3a;
+}
+
+.progress-percentage {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c41e3a;
+}
+
+.progress-bar-modern {
+    height: 8px;
+    background: rgba(196, 30, 58, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #c41e3a, #ea580c);
+    transition: width 0.3s ease;
+}
+
+.progress-steps {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(196, 30, 58, 0.3);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.step-dot.active {
+    background: #c41e3a;
+    box-shadow: 0 0 10px rgba(196, 30, 58, 0.5);
+}
+
+.step-line {
+    height: 2px;
+    flex: 1;
+    background: rgba(196, 30, 58, 0.3);
+}
+
+.step-line.active {
+    background: linear-gradient(90deg, #c41e3a, #ea580c);
+}
+
+/* Intro Section - Combined with Welcome */
+.intro-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.intro-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+.intro-title-modern {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.intro-text-modern {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.journey-options-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.option-card-modern {
+    background: var(--section-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.option-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+}
+
+.option-content-modern h4 {
+    font-family: var(--font-primary);
+    font-size: 1.3rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+/* Form Progress - Simple */
+.form-progress-modern {
+    margin-bottom: 3rem;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .step-circle {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+    color: white;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.progress-step.active .step-label {
+    color: var(--primary-red);
+}
+
+/* Form Cards - Simple & Clean */
+.form-card-modern {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.form-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+.card-header-modern {
+    padding: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-title-modern h3 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.card-title-modern p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.form-content-modern {
+    padding: 2rem;
+}
+
+.form-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.form-label-modern {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.form-input-modern {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-secondary);
+    transition: var(--transition);
+}
+
+.form-input-modern:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+}
+
+/* Choice Cards - Simple */
+.choice-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.choice-card-modern {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.choice-card-modern:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-red);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+}
+
+.choice-card-modern.selected {
+    border-color: var(--primary-red);
+    background: var(--highlight-color);
+}
+
+.choice-text-modern h5 {
+    font-size: 1.1rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.choice-text-modern p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Form Actions */
+.form-actions-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.form-actions-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+/* Submit Button - Simple */
+.btn-primary-modern {
+    background: var(--primary-red);
+    color: white;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary-modern:hover {
+    background: var(--secondary-red);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.3);
+}
+
+.btn-primary-modern:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title-gradient {
+        font-size: 2.2rem;
+    }
+    
+    .hero-subtitle-modern {
+        font-size: 1.2rem;
+    }
+    
+    .description-text {
+        font-size: 1rem;
+    }
+    
+    .journey-stats-modern {
+        gap: 1rem;
+    }
+    
+    .stats-glass {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stat-item-modern {
+        padding: 1rem 1.5rem;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .form-grid-modern {
+        grid-template-columns: 1fr;
+    }
+    
+    .choice-grid-modern {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Welcome details responsive */
+    .welcome-details-modern {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .welcome-name-modern,
+    .welcome-email-modern,
+    .welcome-status-modern {
+        margin: 0;
+    }
+    
+    .progress-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .progress-step {
+        width: 100%;
+    }
+}

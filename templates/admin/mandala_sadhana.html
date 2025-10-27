@@ -6,132 +6,217 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Mandala Sadhana Registrations</h1>
-                <div>
-                    <a href="{{ url_for('admin_mandala_sadhana_export') }}" class="btn btn-success">
-                        <i class="fas fa-download"></i> Export CSV
-                    </a>
-                </div>
-            </div>
-
-            <!-- Statistics Cards -->
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="card-title">{{ total_registrations }}</h4>
-                                    <p class="card-text">Total Registrations</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-users fa-2x"></i>
-                                </div>
-                            </div>
+            <!-- Modern Header Section -->
+            <div class="admin-header-modern">
+                <div class="header-content-modern">
+                    <div class="header-title-modern">
+                        <div class="title-icon-modern">
+                            <i class="fas fa-circle-notch"></i>
+                        </div>
+                        <div class="title-text-modern">
+                            <h1 class="page-title-modern">Mandala Sadhana Registrations</h1>
+                            <p class="page-subtitle-modern">Manage and track sacred journey commitments</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-success text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="card-title">{{ mandala_48_yes }}</h4>
-                                    <p class="card-text">48-Day Commitments</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-calendar-check fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-warning text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="card-title">{{ mandala_144_yes }}</h4>
-                                    <p class="card-text">144-Day Commitments</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-calendar-alt fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-info text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="card-title">{{ mandala_144_not_ready }}</h4>
-                                    <p class="card-text">Not Yet Ready</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-clock fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="header-actions-modern">
+                        <a href="{{ url_for('admin_mandala_sadhana_export') }}" class="btn-action-modern">
+                            <i class="fas fa-download"></i>
+                            <span>Export CSV</span>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Search and Filter Form -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Search & Filter</h5>
+            <!-- Modern Statistics Cards -->
+            <div class="stats-grid-modern">
+                <div class="stat-card-modern total-registrations">
+                    <div class="stat-icon-modern">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content-modern">
+                        <div class="stat-number-modern">{{ total_registrations }}</div>
+                        <div class="stat-label-modern">Total Registrations</div>
+                        <div class="stat-description-modern">Sacred journey participants</div>
+                    </div>
+                    <div class="stat-trend-modern">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form method="GET" class="row g-3">
-                        <div class="col-md-3">
-                            {{ search_form.search_term.label(class="form-label") }}
-                            {{ search_form.search_term(class="form-control") }}
+
+                <div class="stat-card-modern mandala-48">
+                    <div class="stat-icon-modern">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content-modern">
+                        <div class="stat-number-modern">{{ mandala_48_yes }}</div>
+                        <div class="stat-label-modern">48-Day Commitments</div>
+                        <div class="stat-description-modern">Foundation journey</div>
+                    </div>
+                    <div class="stat-trend-modern">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card-modern mandala-144">
+                    <div class="stat-icon-modern">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="stat-content-modern">
+                        <div class="stat-number-modern">{{ mandala_144_yes }}</div>
+                        <div class="stat-label-modern">144-Day Commitments</div>
+                        <div class="stat-description-modern">Advanced transformation</div>
+                    </div>
+                    <div class="stat-trend-modern">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card-modern not-ready">
+                    <div class="stat-icon-modern">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content-modern">
+                        <div class="stat-number-modern">{{ mandala_144_not_ready }}</div>
+                        <div class="stat-label-modern">Preparing</div>
+                        <div class="stat-description-modern">Contemplating journey</div>
+                    </div>
+                    <div class="stat-trend-modern">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modern Search and Filter Form -->
+            <div class="filter-section-modern">
+                <div class="filter-card-modern">
+                    <div class="filter-header-modern">
+                        <div class="filter-icon-modern">
+                            <i class="fas fa-search"></i>
                         </div>
-                        <div class="col-md-2">
-                            {{ search_form.mandala_48_filter.label(class="form-label") }}
-                            {{ search_form.mandala_48_filter(class="form-select") }}
+                        <div class="filter-title-modern">
+                            <h3>Search & Filter</h3>
+                            <p>Find specific registrations and commitments</p>
                         </div>
-                        <div class="col-md-2">
-                            {{ search_form.mandala_144_filter.label(class="form-label") }}
-                            {{ search_form.mandala_144_filter(class="form-select") }}
+                    </div>
+
+                    <form method="GET" class="filter-form-modern">
+                        <div class="filter-grid-modern">
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.search_term.id }}" class="filter-label-modern">
+                                    <i class="fas fa-search"></i>
+                                    Search Term
+                                </label>
+                                <div class="filter-input-wrapper-modern">
+                                    {{ search_form.search_term(class="filter-input-modern", placeholder="Name, email, or sadhana type...") }}
+                                    <div class="filter-input-icon-modern">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.mandala_48_filter.id }}" class="filter-label-modern">
+                                    <i class="fas fa-calendar-check"></i>
+                                    48-Day Commitment
+                                </label>
+                                <div class="filter-select-wrapper-modern">
+                                    {{ search_form.mandala_48_filter(class="filter-select-modern") }}
+                                    <div class="filter-select-icon-modern">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.mandala_144_filter.id }}" class="filter-label-modern">
+                                    <i class="fas fa-mountain"></i>
+                                    144-Day Commitment
+                                </label>
+                                <div class="filter-select-wrapper-modern">
+                                    {{ search_form.mandala_144_filter(class="filter-select-modern") }}
+                                    <div class="filter-select-icon-modern">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.sadhana_type_filter.id }}" class="filter-label-modern">
+                                    <i class="fas fa-om"></i>
+                                    Sadhana Type
+                                </label>
+                                <div class="filter-select-wrapper-modern">
+                                    {{ search_form.sadhana_type_filter(class="filter-select-modern") }}
+                                    <div class="filter-select-icon-modern">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.date_from.id }}" class="filter-label-modern">
+                                    <i class="fas fa-calendar"></i>
+                                    From Date
+                                </label>
+                                <div class="filter-input-wrapper-modern">
+                                    {{ search_form.date_from(class="filter-input-modern", type="date") }}
+                                    <div class="filter-input-icon-modern">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-group-modern">
+                                <label for="{{ search_form.date_to.id }}" class="filter-label-modern">
+                                    <i class="fas fa-calendar"></i>
+                                    To Date
+                                </label>
+                                <div class="filter-input-wrapper-modern">
+                                    {{ search_form.date_to(class="filter-input-modern", type="date") }}
+                                    <div class="filter-input-icon-modern">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            {{ search_form.sadhana_type_filter.label(class="form-label") }}
-                            {{ search_form.sadhana_type_filter(class="form-select") }}
-                        </div>
-                        <div class="col-md-1">
-                            {{ search_form.date_from.label(class="form-label") }}
-                            {{ search_form.date_from(class="form-control", type="date") }}
-                        </div>
-                        <div class="col-md-1">
-                            {{ search_form.date_to.label(class="form-label") }}
-                            {{ search_form.date_to(class="form-control", type="date") }}
-                        </div>
-                        <div class="col-md-1 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> Search
+
+                        <div class="filter-actions-modern">
+                            <button type="submit" class="btn-filter-modern">
+                                <i class="fas fa-search"></i>
+                                <span>Search</span>
                             </button>
+                            <a href="{{ url_for('admin_mandala_sadhana') }}" class="btn-clear-modern">
+                                <i class="fas fa-times"></i>
+                                <span>Clear</span>
+                            </a>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Sadhana Type Statistics -->
+            <!-- Modern Sadhana Type Statistics -->
             {% if sadhana_type_stats %}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Sadhana Type Distribution</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
+            <div class="sadhana-stats-modern">
+                <div class="sadhana-stats-card-modern">
+                    <div class="sadhana-stats-header-modern">
+                        <div class="sadhana-stats-icon-modern">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="sadhana-stats-title-modern">
+                            <h3>Sadhana Type Distribution</h3>
+                            <p>Practice preferences among participants</p>
+                        </div>
+                    </div>
+
+                    <div class="sadhana-stats-grid-modern">
                         {% for sadhana_type, count in sadhana_type_stats.items() %}
-                        <div class="col-md-4 mb-2">
-                            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
-                                <span class="fw-bold">{{ sadhana_type }}</span>
-                                <span class="badge bg-primary">{{ count }}</span>
+                        <div class="sadhana-stat-item-modern">
+                            <div class="sadhana-stat-info-modern">
+                                <div class="sadhana-stat-name-modern">{{ sadhana_type }}</div>
+                                <div class="sadhana-stat-count-modern">{{ count }} participants</div>
+                            </div>
+                            <div class="sadhana-stat-badge-modern">
+                                <span class="badge-count-modern">{{ count }}</span>
                             </div>
                         </div>
                         {% endfor %}
@@ -140,85 +225,172 @@
             </div>
             {% endif %}
 
-            <!-- Registrations Table -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">All Registrations</h5>
-                </div>
-                <div class="card-body">
+            <!-- Modern Registrations Table -->
+            <div class="registrations-section-modern">
+                <div class="registrations-card-modern">
+                    <div class="registrations-header-modern">
+                        <div class="registrations-icon-modern">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="registrations-title-modern">
+                            <h3>All Registrations</h3>
+                            <p>Sacred journey participants and their commitments</p>
+                        </div>
+                    </div>
+
                     {% if registrations %}
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name & Location</th>
-                                    <th>Email</th>
-                                    <th>48-Day</th>
-                                    <th>144-Day</th>
-                                    <th>Sadhana Type</th>
-                                    <th>Start Date</th>
-                                    <th>Registered</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for registration in registrations %}
-                                <tr>
-                                    <td>{{ registration.id }}</td>
-                                    <td>
-                                        <strong>{{ registration.full_name }}</strong>
-                                    </td>
-                                    <td>{{ registration.email }}</td>
-                                    <td>
-                                        {% if registration.mandala_48_commitment %}
-                                            <span class="badge bg-success">Yes</span>
-                                        {% else %}
-                                            <span class="badge bg-secondary">No</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if registration.mandala_144_commitment == 'Yes' %}
-                                            <span class="badge bg-success">Yes</span>
-                                        {% elif registration.mandala_144_commitment == 'No' %}
-                                            <span class="badge bg-secondary">No</span>
-                                        {% else %}
-                                            <span class="badge bg-warning">Not Yet Ready</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info">{{ registration.sadhana_type }}</span>
-                                    </td>
-                                    <td>
-                                        {% if registration.sadhana_start_date %}
-                                            {{ registration.sadhana_start_date.strftime('%Y-%m-%d') }}
-                                        {% else %}
-                                            -
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if registration.created_at %}
-                                            {{ registration.created_at.strftime('%Y-%m-%d %H:%M') }}
-                                        {% else %}
-                                            -
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <a href="{{ url_for('admin_mandala_sadhana_detail', registration_id=registration.id) }}" 
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="table-container-modern">
+                        <div class="table-wrapper-modern">
+                            <table class="registrations-table-modern">
+                                <thead class="table-header-modern">
+                                    <tr>
+                                        <th class="table-cell-modern id-cell">
+                                            <div class="cell-content-modern">
+                                                <span class="cell-label-modern">ID</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern name-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-user"></i>
+                                                <span class="cell-label-modern">Name & Location</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern email-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-envelope"></i>
+                                                <span class="cell-label-modern">Email</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern commitment-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span class="cell-label-modern">48-Day</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern commitment-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-mountain"></i>
+                                                <span class="cell-label-modern">144-Day</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern sadhana-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-om"></i>
+                                                <span class="cell-label-modern">Sadhana Type</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern date-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-calendar"></i>
+                                                <span class="cell-label-modern">Start Date</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern registered-cell">
+                                            <div class="cell-content-modern">
+                                                <i class="fas fa-clock"></i>
+                                                <span class="cell-label-modern">Registered</span>
+                                            </div>
+                                        </th>
+                                        <th class="table-cell-modern actions-cell">
+                                            <div class="cell-content-modern">
+                                                <span class="cell-label-modern">Actions</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-body-modern">
+                                    {% for registration in registrations %}
+                                    <tr class="table-row-modern" data-registration-id="{{ registration.id }}">
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                <span class="registration-id-modern">#{{ registration.id }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                <div class="participant-info-modern">
+                                                    <div class="participant-name-modern">{{ registration.full_name }}</div>
+                                                    <div class="participant-location-modern"><i class="fas fa-map-marker-alt"></i> Sacred Journey</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                <div class="email-info-modern">
+                                                    <div class="email-address-modern">{{ registration.email }}</div>
+                                                    <div class="email-status-modern"><i class="fas fa-check"></i> Verified</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                {% if registration.mandala_48_commitment %}
+                                                    <span class="status-badge-modern commitment-yes"><i class="fas fa-check"></i> Committed</span>
+                                                {% else %}
+                                                    <span class="status-badge-modern commitment-no"><i class="fas fa-times"></i> Not Ready</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                {% if registration.mandala_144_commitment == 'Yes' %}
+                                                    <span class="status-badge-modern commitment-advanced"><i class="fas fa-star"></i> Advanced</span>
+                                                {% elif registration.mandala_144_commitment == 'No' %}
+                                                    <span class="status-badge-modern commitment-basic"><i class="fas fa-seedling"></i> Basic</span>
+                                                {% else %}
+                                                    <span class="status-badge-modern commitment-preparing"><i class="fas fa-clock"></i> Preparing</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                <span class="sadhana-type-badge-modern">{{ registration.sadhana_type }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                {% if registration.sadhana_start_date %}
+                                                    <div class="start-date-modern">{{ registration.sadhana_start_date.strftime('%b %d, %Y') }}</div>
+                                                    <div class="start-day-modern">{{ registration.sadhana_start_date.strftime('%A') }}</div>
+                                                {% else %}
+                                                    <span class="no-data-modern">-</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                {% if registration.created_at %}
+                                                    <div class="register-date-modern">{{ registration.created_at.strftime('%b %d') }}</div>
+                                                    <div class="register-time-modern">{{ registration.created_at.strftime('%H:%M') }}</div>
+                                                {% else %}
+                                                    <span class="no-data-modern">-</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="table-cell-modern">
+                                            <div class="cell-content-modern">
+                                                <a href="{{ url_for('admin_mandala_sadhana_detail', registration_id=registration.id) }}"
+                                                   class="action-btn-modern">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span>View</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     {% else %}
-                    <div class="text-center py-5">
-                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
-                        <h5 class="text-muted">No registrations found</h5>
-                        <p class="text-muted">Try adjusting your search criteria.</p>
+                    <div class="empty-state-modern">
+                        <div class="empty-state-icon-modern">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="empty-state-content-modern">
+                            <h4 class="empty-state-title-modern">No registrations found</h4>
+                            <p class="empty-state-description-modern">Try adjusting your search criteria or check back later for new participants.</p>
+                        </div>
                     </div>
                     {% endif %}
                 </div>
@@ -228,23 +400,992 @@
 </div>
 
 <style>
-.card {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    border: 1px solid rgba(0, 0, 0, 0.125);
+/* ===== MODERN ADMIN MANDALA SADHANA STYLES ===== */
+
+/* Modern Admin Header */
+.admin-header-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 247, 237, 0.95));
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.table th {
-    border-top: none;
+.admin-header-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-gold));
+}
+
+.header-content-modern {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.header-title-modern {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.title-icon-modern {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 10px 25px rgba(196, 30, 58, 0.3);
+}
+
+.title-text-modern {
+    flex: 1;
+}
+
+.page-title-modern {
+    font-family: var(--font-mystical);
+    font-size: 2.2rem;
+    color: var(--primary-red);
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+}
+
+.page-subtitle-modern {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.header-actions-modern {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-action-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-action-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(196, 30, 58, 0.4);
+    color: white;
+}
+
+.btn-action-modern i {
+    font-size: 1.1rem;
+}
+
+/* Modern Statistics Grid */
+.stats-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 247, 237, 0.95));
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.stat-card-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-gold));
+}
+
+.stat-card-modern.total-registrations::before {
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+.stat-card-modern.mandala-48::before {
+    background: linear-gradient(90deg, var(--accent-gold), var(--spiritual-orange));
+}
+
+.stat-card-modern.mandala-144::before {
+    background: linear-gradient(90deg, var(--spiritual-purple), var(--primary-red));
+}
+
+.stat-card-modern.not-ready::before {
+    background: linear-gradient(90deg, var(--text-muted), var(--spiritual-blue));
+}
+
+.stat-icon-modern {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3);
+    margin-bottom: 1rem;
+}
+
+.stat-card-modern.total-registrations .stat-icon-modern {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+}
+
+.stat-card-modern.mandala-48 .stat-icon-modern {
+    background: linear-gradient(135deg, var(--accent-gold), var(--spiritual-orange));
+}
+
+.stat-card-modern.mandala-144 .stat-icon-modern {
+    background: linear-gradient(135deg, var(--spiritual-purple), var(--primary-red));
+}
+
+.stat-card-modern.not-ready .stat-icon-modern {
+    background: linear-gradient(135deg, var(--text-muted), var(--spiritual-blue));
+}
+
+.stat-content-modern {
+    flex: 1;
+}
+
+.stat-number-modern {
+    font-family: var(--font-mystical);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card-modern.total-registrations .stat-number-modern {
+    color: var(--primary-red);
+}
+
+.stat-card-modern.mandala-48 .stat-number-modern {
+    color: var(--spiritual-orange);
+}
+
+.stat-card-modern.mandala-144 .stat-number-modern {
+    color: var(--spiritual-purple);
+}
+
+.stat-card-modern.not-ready .stat-number-modern {
+    color: var(--text-muted);
+}
+
+.stat-label-modern {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.stat-description-modern {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.stat-trend-modern {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--primary-red);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Modern Filter Section */
+.filter-section-modern {
+    margin-bottom: 2rem;
+}
+
+.filter-card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 247, 237, 0.95));
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    overflow: hidden;
+}
+
+.filter-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-gold));
+}
+
+.filter-header-modern {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.filter-icon-modern {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 6px 15px rgba(196, 30, 58, 0.3);
+}
+
+.filter-title-modern h3 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin: 0 0 0.25rem 0;
     font-weight: 600;
 }
 
-.badge {
-    font-size: 0.75em;
+.filter-title-modern p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1rem;
 }
 
-.btn-sm {
+.filter-form-modern {
+    padding: 2rem;
+}
+
+.filter-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filter-group-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-label-modern {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-red);
+    font-size: 0.95rem;
+}
+
+.filter-label-modern i {
+    font-size: 1rem;
+}
+
+.filter-input-wrapper-modern,
+.filter-select-wrapper-modern {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filter-input-modern,
+.filter-select-modern {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-right: 3rem;
+    border: 2px solid rgba(196, 30, 58, 0.2);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.filter-input-modern:focus,
+.filter-select-modern:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+    background: white;
+}
+
+.filter-input-icon-modern,
+.filter-select-icon-modern {
+    position: absolute;
+    right: 1rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    font-size: 0.9rem;
+}
+
+.filter-input-modern:focus + .filter-input-icon-modern,
+.filter-select-modern:focus + .filter-select-icon-modern {
+    color: var(--primary-red);
+}
+
+.filter-actions-modern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.btn-filter-modern,
+.btn-clear-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-filter-modern {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
+}
+
+.btn-filter-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.4);
+}
+
+.btn-clear-modern {
+    background: rgba(196, 30, 58, 0.1);
+    color: var(--primary-red);
+    border: 1px solid rgba(196, 30, 58, 0.2);
+}
+
+.btn-clear-modern:hover {
+    background: var(--primary-red);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
+}
+
+/* Modern Sadhana Stats */
+.sadhana-stats-modern {
+    margin-bottom: 2rem;
+}
+
+.sadhana-stats-card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 247, 237, 0.95));
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    overflow: hidden;
+}
+
+.sadhana-stats-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-gold));
+}
+
+.sadhana-stats-header-modern {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.sadhana-stats-icon-modern {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 6px 15px rgba(196, 30, 58, 0.3);
+}
+
+.sadhana-stats-title-modern h3 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+}
+
+.sadhana-stats-title-modern p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1rem;
+}
+
+.sadhana-stats-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.sadhana-stat-item-modern {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sadhana-stat-item-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-red);
+}
+
+.sadhana-stat-info-modern {
+    flex: 1;
+}
+
+.sadhana-stat-name-modern {
+    font-weight: 600;
+    color: var(--primary-red);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.sadhana-stat-count-modern {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.sadhana-stat-badge-modern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-count-modern {
+    background: linear-gradient(135deg, var(--accent-gold), var(--spiritual-orange));
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Modern Registrations Section */
+.registrations-section-modern {
+    margin-bottom: 2rem;
+}
+
+.registrations-card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 247, 237, 0.95));
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    overflow: hidden;
+}
+
+.registrations-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-gold));
+}
+
+.registrations-header-modern {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.registrations-icon-modern {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 6px 15px rgba(196, 30, 58, 0.3);
+}
+
+.registrations-title-modern h3 {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+}
+
+.registrations-title-modern p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Modern Table Styles */
+.table-container-modern {
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+}
+
+.table-wrapper-modern {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.registrations-table-modern {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-header-modern {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+}
+
+.table-header-modern th {
+    padding: 1.5rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    position: relative;
+}
+
+.table-header-modern th:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.table-cell-modern {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+    vertical-align: middle;
+    background: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.table-row-modern:hover .table-cell-modern {
+    background: rgba(196, 30, 58, 0.05);
+}
+
+.table-row-modern:last-child .table-cell-modern {
+    border-bottom: none;
+}
+
+.cell-content-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.cell-label-modern {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-header-modern .cell-label-modern {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.table-body-modern .cell-content-modern {
+    gap: 0.5rem;
+}
+
+/* Specific cell styling */
+.id-cell {
+    width: 80px;
+}
+
+.name-cell {
+    min-width: 200px;
+}
+
+.email-cell {
+    min-width: 250px;
+}
+
+.commitment-cell {
+    width: 120px;
+}
+
+.sadhana-cell {
+    width: 150px;
+}
+
+.date-cell {
+    width: 120px;
+}
+
+.registered-cell {
+    width: 100px;
+}
+
+.actions-cell {
+    width: 100px;
+}
+
+/* Registration ID */
+.registration-id-modern {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Participant Info */
+.participant-info-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.participant-name-modern {
+    font-weight: 600;
+    color: var(--primary-red);
+    font-size: 1rem;
+}
+
+.participant-location-modern {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Email Info */
+.email-info-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.email-address-modern {
+    font-weight: 500;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.email-status-modern {
+    font-size: 0.75rem;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+/* Status Badges */
+.status-badge-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.commitment-yes {
+    background: linear-gradient(135deg, var(--accent-gold), var(--spiritual-orange));
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.commitment-no {
+    background: rgba(196, 30, 58, 0.1);
+    color: var(--primary-red);
+    border: 1px solid rgba(196, 30, 58, 0.2);
+}
+
+.commitment-advanced {
+    background: linear-gradient(135deg, var(--spiritual-purple), var(--primary-red));
+    color: white;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.commitment-basic {
+    background: linear-gradient(135deg, var(--accent-gold), var(--spiritual-orange));
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.commitment-preparing {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--text-muted);
+    border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+/* Sadhana Type Badge */
+.sadhana-type-badge-modern {
+    background: linear-gradient(135deg, var(--spiritual-blue), var(--primary-red));
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Date Info */
+.start-date-modern,
+.register-date-modern {
+    font-weight: 600;
+    color: var(--primary-red);
+    font-size: 0.9rem;
+}
+
+.start-day-modern,
+.register-time-modern {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.no-data-modern {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Action Button */
+.action-btn-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+    transition: all 0.3s ease;
+}
+
+.action-btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(196, 30, 58, 0.4);
+    color: white;
+}
+
+/* Empty State */
+.empty-state-modern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-state-icon-modern {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    box-shadow: 0 15px 35px rgba(196, 30, 58, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state-title-modern {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--primary-red);
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.empty-state-description-modern {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content-modern {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .header-title-modern {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .stats-grid-modern {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .filter-grid-modern {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .filter-actions-modern {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn-filter-modern,
+    .btn-clear-modern {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .sadhana-stats-grid-modern {
+        grid-template-columns: 1fr;
+    }
+
+    .table-wrapper-modern {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .registrations-table-modern {
+        min-width: 800px;
+    }
+
+    .table-cell-modern {
+        padding: 1rem 0.75rem;
+    }
+
+    .cell-content-modern {
+        gap: 0.25rem;
+    }
+
+    .participant-info-modern,
+    .email-info-modern {
+        gap: 0.25rem;
+    }
+
+    .participant-name-modern,
+    .email-address-modern {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header-modern {
+        padding: 2rem 1.5rem;
+    }
+
+    .page-title-modern {
+        font-size: 1.8rem;
+    }
+
+    .filter-header-modern,
+    .filter-form-modern {
+        padding: 1.5rem;
+    }
+
+    .registrations-header-modern {
+        padding: 1.5rem;
+    }
+
+    .empty-state-modern {
+        padding: 3rem 1.5rem;
+    }
+
+    .empty-state-icon-modern {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+
+    .empty-state-title-modern {
+        font-size: 1.5rem;
+    }
 }
 </style>
 {% endblock %}

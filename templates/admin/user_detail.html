@@ -76,41 +76,137 @@
                     </div>
                 </div>
 
-                <div class="mandala-access-card">
-                    <h4>🕉️ Mandala Access</h4>
-                    <form method="POST" action="{{ url_for('auth.update_mandala_access', user_id=user.id) }}" class="mandala-access-form">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <div class="mandala-access-grid">
-                            <div class="mandala-access-item granted">
-                                <div class="mandala-icon">🕉️</div>
-                                <div class="mandala-info">
-                                    <strong>Mandala 1</strong>
-                                    <small>Access Granted</small>
+                <div class="progress-section">
+                    <h4>🕉️ Spiritual Progress</h4>
+
+                    <!-- Vertical Progress Bar -->
+                    <div class="vertical-progress-container">
+                        <div class="progress-track">
+                            {% for stage_num in range(1, 7) %}
+                                {% set stage_info = user.get_stage_info(stage_num) %}
+                                {% set is_current = stage_num == user.get_current_stage() %}
+                                {% set is_completed = stage_info.is_completed %}
+
+                                <div class="progress-step {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
+                                    <div class="progress-node">
+                                        <div class="node-circle {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
+                                            {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% elif stage_num == 3 %}✨{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
+                                        </div>
+                                        {% if is_completed %}
+                                            <div class="completion-check">✓</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="progress-info">
+                                        <div class="stage-name">{{ stage_info.stage_name }}</div>
+                                        {% if stage_info.completion_date %}
+                                            <div class="completion-date">Completed: {{ stage_info.completion_date.strftime('%b %d, %Y') }}</div>
+                                        {% elif stage_info.start_date and is_current %}
+                                            <div class="start-date">Started: {{ stage_info.start_date.strftime('%b %d, %Y') }}</div>
+                                        {% elif is_current %}
+                                            <div class="current-status">Current Stage</div>
+                                        {% else %}
+                                            <div class="locked-status">🔒 Locked</div>
+                                        {% endif %}
+                                        {% if stage_info.duration_days > 0 %}
+                                            <div class="duration">Duration: {{ stage_info.duration_days }} days</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="mandala-status">✓</div>
+
+                                {% if stage_num < 6 %}
+                                    <div class="progress-connector {% if is_completed %}completed{% else %}locked{% endif %}"></div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Current Status -->
+                    <div class="current-status-card">
+                        <h5>Current Status</h5>
+                        {% set next_stage = user.get_next_required_stage() %}
+                        {% if next_stage %}
+                            <p><strong>Next Required Stage:</strong> {{ user.get_stage_info(next_stage).stage_name }}</p>
+                        {% else %}
+                            <p><strong>All stages completed! 🎉</strong></p>
+                        {% endif %}
+                        <p><strong>Current Stage:</strong> {{ user.get_stage_info(user.get_current_stage()).stage_name }}</p>
+                    </div>
+                </div>
+
+                <div class="stage-access-card">
+                    <h4>📋 Stage Management</h4>
+                    <form method="POST" action="{{ url_for('auth.update_stage_access', user_id=user.id) }}" class="stage-access-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="stage-access-grid">
+                            <div class="stage-access-item granted">
+                                <div class="stage-icon">🕉️</div>
+                                <div class="stage-info">
+                                    <strong>Mandala 1</strong>
+                                    <small>Auto-granted</small>
+                                </div>
+                                <div class="stage-status">✓</div>
                             </div>
-                            <div class="mandala-access-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}">
-                                <div class="mandala-icon">🌟</div>
-                                <div class="mandala-info">
+                            <div class="stage-access-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}">
+                                <div class="stage-icon">🌟</div>
+                                <div class="stage-info">
                                     <strong>Mandala 2</strong>
                                     <small>{% if user.mandala_2_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
                                 </div>
-                                <div class="mandala-status">
+                                <div class="stage-status">
                                     <label class="switch">
                                         <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
                             </div>
-                            <div class="mandala-access-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}">
-                                <div class="mandala-icon">✨</div>
-                                <div class="mandala-info">
+                            <div class="stage-access-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}">
+                                <div class="stage-icon">✨</div>
+                                <div class="stage-info">
                                     <strong>Mandala 3</strong>
                                     <small>{% if user.mandala_3_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
                                 </div>
-                                <div class="mandala-status">
+                                <div class="stage-status">
                                     <label class="switch">
                                         <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="stage-access-item {% if user.rudraksha_5_mukhi_access %}granted{% else %}locked{% endif %}">
+                                <div class="stage-icon">📿</div>
+                                <div class="stage-info">
+                                    <strong>Rudraksha 5 Mukhi</strong>
+                                    <small>{% if user.rudraksha_5_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
+                                </div>
+                                <div class="stage-status">
+                                    <label class="switch">
+                                        <input type="checkbox" name="rudraksha_5_mukhi_access" {% if user.rudraksha_5_mukhi_access %}checked{% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="stage-access-item {% if user.rudraksha_11_mukhi_access %}granted{% else %}locked{% endif %}">
+                                <div class="stage-icon">🔮</div>
+                                <div class="stage-info">
+                                    <strong>Rudraksha 11 Mukhi</strong>
+                                    <small>{% if user.rudraksha_11_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
+                                </div>
+                                <div class="stage-status">
+                                    <label class="switch">
+                                        <input type="checkbox" name="rudraksha_11_mukhi_access" {% if user.rudraksha_11_mukhi_access %}checked{% endif %}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="stage-access-item {% if user.rudraksha_14_mukhi_access %}granted{% else %}locked{% endif %}">
+                                <div class="stage-icon">💎</div>
+                                <div class="stage-info">
+                                    <strong>Rudraksha 14 Mukhi</strong>
+                                    <small>{% if user.rudraksha_14_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
+                                </div>
+                                <div class="stage-status">
+                                    <label class="switch">
+                                        <input type="checkbox" name="rudraksha_14_mukhi_access" {% if user.rudraksha_14_mukhi_access %}checked{% endif %}>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -118,6 +214,34 @@
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Access</button>
                     </form>
+
+                    <!-- Stage Actions -->
+                    <div class="stage-actions">
+                        <h5>Stage Actions</h5>
+                        <div class="action-buttons">
+                            {% for stage_num in range(1, 7) %}
+                                {% set stage_info = user.get_stage_info(stage_num) %}
+                                {% if stage_info.has_access and not stage_info.is_completed %}
+                                    <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Mark {{ stage_info.stage_name }} as completed?')">
+                                            <i class="fas fa-check"></i> Complete {{ stage_info.stage_name }}
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                {% if stage_info.is_completed %}
+                                    <form method="POST" action="{{ url_for('auth.reset_user_stage', user_id=user.id) }}" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Reset {{ stage_info.stage_name }} and all subsequent stages?')">
+                                            <i class="fas fa-undo"></i> Reset {{ stage_info.stage_name }}
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

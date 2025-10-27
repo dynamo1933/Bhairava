@@ -1,0 +1,322 @@
+[1mdiff --git a/templates/padati.html b/templates/padati.html[m
+[1mindex 92688a5..e0c08fd 100644[m
+[1m--- a/templates/padati.html[m
+[1m+++ b/templates/padati.html[m
+[36m@@ -1,183 +1,302 @@[m
+ {% extends "base.html" %}[m
+ [m
+ {% block content %}[m
+[31m-<div class="padati-container">[m
+[31m-    <!-- Page Header -->[m
+[31m-    <div class="page-header">[m
+[31m-        <div class="header-content">[m
+[31m-            <h1 class="page-title">🕉️ Padati for You</h1>[m
+[31m-            <p class="page-subtitle">Sacred spiritual practices and teachings</p>[m
+[32m+[m[32m<!-- Hero Section -->[m
+[32m+[m[32m<section class="padati-hero">[m
+[32m+[m[32m    <div class="hero-background">[m
+[32m+[m[32m        <div class="hero-content">[m
+[32m+[m[32m            <div class="hero-text">[m
+[32m+[m[32m                <div class="om-symbol-large">🕉️</div>[m
+[32m+[m[32m                <h1 class="hero-title">Spiritual Progress</h1>[m
+[32m+[m[32m                <p class="hero-subtitle">Your journey through the sacred stages of spiritual development</p>[m
+[32m+[m[32m            </div>[m
+[32m+[m[41m            [m
+         </div>[m
+[32m+[m[41m        [m
+     </div>[m
+[32m+[m[32m</section>[m
+ [m
+[31m-    <!-- Mandala Tabs -->[m
+[31m-    <div class="mandala-tabs">[m
+[31m-        <div class="tab-navigation">[m
+[31m-            <button class="tab-button active" data-tab="mandala1">[m
+[31m-                <span class="tab-icon">🕉️</span>[m
+[31m-                <span class="tab-text">Mandala 1</span>[m
+[31m-                {% if current_user.has_mandala_access(1) %}[m
+[31m-                    <span class="access-badge access-granted">✓ Access Granted</span>[m
+[31m-                {% else %}[m
+[31m-                    <span class="access-badge access-denied">✗ No Access</span>[m
+[31m-                {% endif %}[m
+[31m-            </button>[m
+[31m-            [m
+[31m-            <button class="tab-button" data-tab="mandala2" {% if not current_user.has_mandala_access(2) %}disabled{% endif %}>[m
+[31m-                <span class="tab-icon">🌟</span>[m
+[31m-                <span class="tab-text">Mandala 2</span>[m
+[31m-                {% if current_user.has_mandala_access(2) %}[m
+[31m-                    <span class="access-badge access-granted">✓ Access Granted</span>[m
+[31m-                {% else %}[m
+[31m-                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>[m
+[31m-                {% endif %}[m
+[31m-            </button>[m
+[31m-            [m
+[31m-            <button class="tab-button" data-tab="mandala3" {% if not current_user.has_mandala_access(3) %}disabled{% endif %}>[m
+[31m-                <span class="tab-icon">✨</span>[m
+[31m-                <span class="tab-text">Mandala 3</span>[m
+[31m-                {% if current_user.has_mandala_access(3) %}[m
+[31m-                    <span class="access-badge access-granted">✓ Access Granted</span>[m
+[31m-                {% else %}[m
+[31m-                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>[m
+[31m-                {% endif %}[m
+[31m-            </button>[m
+[31m-        </div>[m
+[32m+[m[32m<!-- Main Content Container -->[m
+[32m+[m[32m<div class="padati-main">[m
+[32m+[m[32m    <div class="container">[m
+[32m+[m[32m        <!-- Progress Overview -->[m
+ [m
+[31m-        <!-- Tab Content -->[m
+[31m-        <div class="tab-content">[m
+[31m-            <!-- Mandala 1 Content -->[m
+[31m-            <div class="tab-pane active" id="mandala1">[m
+[31m-                <div class="mandala-content">[m
+[31m-                    <div class="mandala-header">[m
+[31m-                        <h2>🕉️ Mandala 1 - Foundation</h2>[m
+[31m-                        <p class="mandala-description">Sacred practices for spiritual foundation and awakening</p>[m
+[31m-                    </div>[m
+[31m-                    [m
+[31m-                    <div class="coming-soon-card">[m
+[31m-                        <div class="card-icon">🚧</div>[m
+[31m-                        <h3>Features Coming Soon</h3>[m
+[31m-                        <p>Sacred content and practices for Mandala 1 are being prepared with utmost care and devotion.</p>[m
+[31m-                        <div class="progress-indicator">[m
+[31m-                            <div class="progress-bar">[m
+[31m-                                <div class="progress-fill" style="width: 75%"></div>[m
+[31m-                            </div>[m
+[31m-                            <span class="progress-text">75% Complete</span>[m
+[31m-                        </div>[m
+[31m-                    </div>[m
+[31m-                </div>[m
+[31m-            </div>[m
+[32m+[m[32m        <!-- Progress Section -->[m
+[32m+[m[32m        <div class="progress-section">[m
+[32m+[m[32m            <!-- Horizontal Progress Bar -->[m
+[32m+[m[32m            <div class="progress-container">[m
+[32m+[m[32m                <div class="progress-track-modern">[m
+[32m+[m[32m                    {% for stage_num in range(1, 7) %}[m
+[32m+[m[32m                        {% set stage_info = current_user.get_stage_info(stage_num) %}[m
+[32m+[m[32m                        {% set is_current = stage_num == current_user.get_current_stage() %}[m
+[32m+[m[32m                        {% set is_completed = stage_num < current_user.get_current_stage() and stage_info.has_access %}[m
+[32m+[m[32m                        {% set is_accessible = stage_info.has_access %}[m
+ [m
+[31m-            <!-- Mandala 2 Content -->[m
+[31m-            <div class="tab-pane" id="mandala2">[m
+[31m-                <div class="mandala-content">[m
+[31m-                    <div class="mandala-header">[m
+[31m-                        <h2>🌟 Mandala 2 - Advancement</h2>[m
+[31m-                        <p class="mandala-description">Advanced spiritual practices and deeper teachings</p>[m
+[31m-                    </div>[m
+[31m-                    [m
+[31m-                    {% if current_user.has_mandala_access(2) %}[m
+[31m-                        <div class="coming-soon-card">[m
+[31m-                            <div class="card-icon">🚧</div>[m
+[31m-                            <h3>Features Coming Soon</h3>[m
+[31m-                            <p>Advanced practices for Mandala 2 are being prepared for your spiritual journey.</p>[m
+[31m-                            <div class="progress-indicator">[m
+[31m-                                <div class="progress-bar">[m
+[31m-                                    <div class="progress-fill" style="width: 45%"></div>[m
+[32m+[m[32m                        <div class="progress-step-modern {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">[m
+[32m+[m[32m                            <div class="step-visual">[m
+[32m+[m[32m                                <div class="step-circle {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">[m
+[32m+[m[32m                                    {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% elif stage_num == 3 %}✨{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}[m
+                                 </div>[m
+[31m-                                <span class="progress-text">45% Complete</span>[m
+[32m+[m[32m                                {% if is_completed %}[m
+[32m+[m[32m                                    <div class="completion-badge">✓</div>[m
+[32m+[m[32m                                {% endif %}[m
+                             </div>[m
+[31m-                        </div>[m
+[31m-                    {% else %}[m
+[31m-                        <div class="access-required-card">[m
+[31m-                            <div class="card-icon">🔒</div>[m
+[31m-                            <h3>Access Required</h3>[m
+[31m-                            <p>Mandala 2 requires admin approval. Please contact an administrator to request access.</p>[m
+[31m-                            <div class="access-info">[m
+[31m-                                <p><strong>Current Status:</strong> Pending Approval</p>[m
+[31m-                                <p><strong>Requirements:</strong> Completion of Mandala 1 practices</p>[m
+[32m+[m[32m                            <div class="step-content">[m
+[32m+[m[32m                                <div class="step-title">{{ stage_info.stage_name }}</div>[m
+[32m+[m[32m                                {% if is_completed %}[m
+[32m+[m[32m                                    <div class="step-status completed">Completed</div>[m
+[32m+[m[32m                                {% elif stage_info.completion_date %}[m
+[32m+[m[32m                                    <div class="step-date">Completed {{ stage_info.completion_date.strftime('%b %d, %Y') }}</div>[m
+[32m+[m[32m                                {% elif stage_info.start_date and is_current %}[m
+[32m+[m[32m                                    <div class="step-date">Started {{ stage_info.start_date.strftime('%b %d, %Y') }}</div>[m
+[32m+[m[32m                                {% elif is_current %}[m
+[32m+[m[32m                                    <div class="step-status current">Current Stage</div>[m
+[32m+[m[32m                                {% elif is_accessible %}[m
+[32m+[m[32m                                    <div class="step-status accessible">Access Granted</div>[m
+[32m+[m[32m                                {% else %}[m
+[32m+[m[32m                                    <div class="step-status locked">🔒 Locked</div>[m
+[32m+[m[32m                                {% endif %}[m
+[32m+[m[32m                                {% if stage_info.duration_days > 0 %}[m
+[32m+[m[32m                                    <div class="step-duration">{{ stage_info.duration_days }} days</div>[m
+[32m+[m[32m                                {% endif %}[m
+                             </div>[m
+                         </div>[m
+[31m-                    {% endif %}[m
+[31m-                </div>[m
+[31m-            </div>[m
+ [m
+[31m-            <!-- Mandala 3 Content -->[m
+[31m-            <div class="tab-pane" id="mandala3">[m
+[31m-                <div class="mandala-content">[m
+[31m-                    <div class="mandala-header">[m
+[31m-                        <h2>✨ Mandala 3 - Mastery</h2>[m
+[31m-                        <p class="mandala-description">Master-level practices and profound spiritual wisdom</p>[m
+[31m-                    </div>[m
+[31m-                    [m
+[31m-                    {% if current_user.has_mandala_access(3) %}[m
+[31m-                        <div class="coming-soon-card">[m
+[31m-                            <div class="card-icon">🚧</div>[m
+[31m-                            <h3>Features Coming Soon</h3>[m
+[31m-                            <p>Master-level practices for Mandala 3 are being prepared for advanced practitioners.</p>[m
+[31m-                            <div class="progress-indicator">[m
+[31m-                                <div class="progress-bar">[m
+[31m-                                    <div class="progress-fill" style="width: 25%"></div>[m
+[31m-                                </div>[m
+[31m-                                <span class="progress-text">25% Complete</span>[m
+[32m+[m[32m                        {% if stage_num < 6 %}[m
+[32m+[m[32m                            <div class="transition-arrow {% if is_completed or (is_current and stage_num < current_user.get_current_stage()) %}completed{% else %}locked{% endif %}">[m
+[32m+[m[32m                                {% if is_completed %}[m
+[32m+[m[32m                                    ✓[m
+[32m+[m[32m                                {% else %}[m
+[32m+[m[32m                                    ➤[m
+[32m+[m[32m                                {% endif %}[m
+                             </div>[m
+[31m-                        </div>[m
+[31m-                    {% else %}[m
+[31m-                        <div class="access-required-card">[m
+[31m-                            <div class="card-icon">🔒</div>[m
+[31m-                            <h3>Access Required</h3>[m
+[31m-                            <p>Mandala 3 requires admin approval and completion of previous mandalas.</p>[m
+[31m-                            <div class="access-info">[m
+[31m-                                <p><strong>Current Status:</strong> Pending Approval</p>[m
+[31m-                                <p><strong>Requirements:</strong> Completion of Mandala 1 & 2 practices</p>[m
+[31m-                            </div>[m
+[31m-                        </div>[m
+[31m-                    {% endif %}[m
+[32m+[m[32m                        {% endif %}[m
+[32m+[m[32m                    {% endfor %}[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m            <div class="sacred-reminder">[m
+[32m+[m[32m                <div class="reminder-icon">🙏</div>[m
+[32m+[m[32m                <div class="reminder-content">[m
+[32m+[m[32m                    <p class="reminder-text">[m
+[32m+[m[32m                        <em>"Each stage unfolds in divine timing. Trust the process, surrender to the journey."</em>[m
+[32m+[m[32m                    </p>[m
+[32m+[m[32m                    <div class="reminder-attribution">— Guru Bhairava</div>[m
+                 </div>[m
+             </div>[m
+         </div>[m
+[31m-    </div>[m
+[32m+[m[32m        </section>[m
+ [m
+[31m-    <!-- Access Information -->[m
+[31m-    <div class="access-info-section">[m
+[31m-        <div class="info-card">[m
+[31m-            <h3>📋 Access Information</h3>[m
+[31m-            <div class="access-status">[m
+[31m-                <div class="status-item">[m
+[31m-                    <span class="status-icon">🕉️</span>[m
+[31m-                    <span class="status-text">Mandala 1: <strong>{% if current_user.has_mandala_access(1) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>[m
+[31m-                </div>[m
+[31m-                <div class="status-item">[m
+[31m-                    <span class="status-icon">🌟</span>[m
+[31m-                    <span class="status-text">Mandala 2: <strong>{% if current_user.has_mandala_access(2) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>[m
+[31m-                </div>[m
+[31m-                <div class="status-item">[m
+[31m-                    <span class="status-icon">✨</span>[m
+[31m-                    <span class="status-text">Mandala 3: <strong>{% if current_user.has_mandala_access(3) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>[m
+[32m+[m[41m       [m
+[32m+[m[32m        <!-- No Access State -->[m
+[32m+[m[32m        {% if not current_user.has_mandala_access(1) and not current_user.has_mandala_access(2) and not current_user.has_mandala_access(3) and not current_user.has_mandala_access(4) and not current_user.has_mandala_access(5) and not current_user.has_mandala_access(6) %}[m
+[32m+[m[32m        <section class="welcome-section">[m
+[32m+[m[32m            <div class="welcome-card">[m
+[32m+[m[41m                [m
+[32m+[m[32m                <h3 class="welcome-title"><span class="om-symbol">🕉️</span> Welcome to Your Spiritual Journey</h3>[m
+[32m+[m[32m                <p>Your sacred path begins here. Contact an administrator to receive access to the foundational teachings and begin your spiritual practice.</p>[m
+[32m+[m[32m                <div class="welcome-actions">[m
+[32m+[m[32m                    <div class="action-item">[m
+[32m+[m[32m                        <div class="action-icon">📧</div>[m
+[32m+[m[32m                        <div class="action-content">[m
+[32m+[m[32m                            <h4>Contact Admin</h4>[m
+[32m+[m[32m                            <p>Request access to start your journey</p>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    <div class="action-item">[m
+[32m+[m[32m                        <div class="action-icon">📚</div>[m
+[32m+[m[32m                        <div class="action-content">[m
+[32m+[m[32m                            <h4>Study Guidelines</h4>[m
+[32m+[m[32m                            <p>Learn about the spiritual practices</p>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </div>[m
+                 </div>[m
+             </div>[m
+[31m-            <p class="access-note">Access to higher mandalas is granted progressively based on your spiritual practice and admin approval.</p>[m
+[31m-        </div>[m
+[32m+[m[32m        </section>[m
+[32m+[m[32m        {% endif %}[m
+     </div>[m
+ </div>[m
+[32m+[m[32m{% endblock %}[m
+ [m
+[32m+[m[32m{% block extra_scripts %}[m
+ <script>[m
+ document.addEventListener('DOMContentLoaded', function() {[m
+[31m-    const tabButtons = document.querySelectorAll('.tab-button');[m
+[31m-    const tabPanes = document.querySelectorAll('.tab-pane');[m
+[32m+[m[32m    // Enhanced interactions for the redesigned status section[m
+[32m+[m[32m    enhanceStatusSection();[m
+ [m
+[31m-    tabButtons.forEach(button => {[m
+[31m-        button.addEventListener('click', function() {[m
+[31m-            const targetTab = this.getAttribute('data-tab');[m
+[31m-            [m
+[31m-            // Remove active class from all buttons and panes[m
+[31m-            tabButtons.forEach(btn => btn.classList.remove('active'));[m
+[31m-            tabPanes.forEach(pane => pane.classList.remove('active'));[m
+[31m-            [m
+[31m-            // Add active class to clicked button and corresponding pane[m
+[31m-            this.classList.add('active');[m
+[31m-            document.getElementById(targetTab).classList.add('active');[m
+[32m+[m[32m    // Progress bar animations[m
+[32m+[m[32m    animateProgressBar();[m
+[32m+[m
+[32m+[m[32m    function enhanceStatusSection() {[m
+[32m+[m[32m        // Add hover effects to metric cards[m
+[32m+[m[32m        const metricCards = document.querySelectorAll('.metric-card');[m
+[32m+[m[32m        metricCards.forEach(card => {[m
+[32m+[m[32m            card.addEventListener('mouseenter', function() {[m
+[32m+[m[32m                this.style.transform = 'translateY(-3px) scale(1.02)';[m
+[32m+[m[32m            });[m
+[32m+[m
+[32m+[m[32m            card.addEventListener('mouseleave', function() {[m
+[32m+[m[32m                this.style.transform = 'translateY(0) scale(1)';[m
+[32m+[m[32m            });[m
+[32m+[m[32m        });[m
+[32m+[m
+[32m+[m[32m        // Add click interaction for journey metrics[m
+[32m+[m[32m        const nextStageCard = document.querySelector('.next-stage-card');[m
+[32m+[m[32m        if (nextStageCard) {[m
+[32m+[m[32m            nextStageCard.addEventListener('click', function() {[m
+[32m+[m[32m                const nextStageTitle = this.querySelector('.next-stage-body h4');[m
+[32m+[m[32m                if (nextStageTitle) {[m
+[32m+[m[32m                    showNotification(`Exploring ${nextStageTitle.textContent}`, 'info');[m
+[32m+[m[32m                }[m
+[32m+[m[32m            });[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Animate timeline items[m
+[32m+[m[32m        const timelineItems = document.querySelectorAll('.timeline-item');[m
+[32m+[m[32m        timelineItems.forEach((item, index) => {[m
+[32m+[m[32m            setTimeout(() => {[m
+[32m+[m[32m                item.style.opacity = '1';[m
+[32m+[m[32m                item.style.transform = 'translateX(0)';[m
+[32m+[m[32m            }, 300 + (index * 100));[m
+[32m+[m[32m        });[m
+[32m+[m
+[32m+[m[32m        // Add completion celebration animation[m
+[32m+[m[32m        const completionStatus = document.querySelector('.completion-status-enhanced');[m
+[32m+[m[32m        if (completionStatus) {[m

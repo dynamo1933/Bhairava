@@ -205,26 +205,144 @@ def admin_user_detail(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('admin/user_detail.html', title='User Detail', page_title='User Detail - Daiva Anughara', user=user)
 
-@auth.route('/admin/user/<int:user_id>/mandala-access', methods=['POST'])
+@auth.route('/admin/user/<int:user_id>/stage-access', methods=['POST'])
 @login_required
-def update_mandala_access(user_id):
+def update_stage_access(user_id):
     if not current_user.is_admin():
         flash('Access denied. Admin privileges required.', 'error')
         return redirect(url_for('auth.admin_users'))
-    
+
     user = User.query.get_or_404(user_id)
-    
-    # Get mandala access updates from form
+
+    # Get stage access updates from form (stages 1-6)
     mandala_2_access = request.form.get('mandala_2_access') == 'on'
     mandala_3_access = request.form.get('mandala_3_access') == 'on'
-    
-    # Update mandala access
+    rudraksha_5_mukhi_access = request.form.get('rudraksha_5_mukhi_access') == 'on'
+    rudraksha_11_mukhi_access = request.form.get('rudraksha_11_mukhi_access') == 'on'
+    rudraksha_14_mukhi_access = request.form.get('rudraksha_14_mukhi_access') == 'on'
+
+    # Update stage access
     user.mandala_2_access = mandala_2_access
     user.mandala_3_access = mandala_3_access
-    
+    user.rudraksha_5_mukhi_access = rudraksha_5_mukhi_access
+    user.rudraksha_11_mukhi_access = rudraksha_11_mukhi_access
+    user.rudraksha_14_mukhi_access = rudraksha_14_mukhi_access
+
+    # Check if user should start the next available stage
+    next_stage = user.get_next_required_stage()
+    if next_stage and not getattr(user, f'mandala_{next_stage}_started_at' if next_stage <= 3 else f'rudraksha_{5 if next_stage == 4 else 11 if next_stage == 5 else 14}_mukhi_started_at', None):
+        user.start_stage(next_stage)
+
     db.session.commit()
-    
-    flash(f'Mandala access updated for {user.username}', 'success')
+
+    flash(f'Stage access updated for {user.username}', 'success')
+    return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+@auth.route('/admin/user/<int:user_id>/complete-stage', methods=['POST'])
+@login_required
+def complete_user_stage(user_id):
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('auth.admin_users'))
+
+    user = User.query.get_or_404(user_id)
+    stage_number = int(request.form.get('stage_number', 0))
+
+    if stage_number < 1 or stage_number > 6:
+        flash('Invalid stage number', 'error')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+    # Check if user has access to this stage
+    if not user.has_mandala_access(stage_number):
+        flash('User does not have access to this stage', 'error')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+    # Check if stage is already completed
+    if user.is_stage_completed(stage_number):
+        flash('Stage is already completed', 'warning')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+    # Complete the stage
+    user.complete_stage(stage_number)
+
+    # Grant access to next stage if this is not the last stage
+    if stage_number < 6:
+        next_stage = stage_number + 1
+        access_fields = {
+            2: 'mandala_2_access',
+            3: 'mandala_3_access',
+            4: 'rudraksha_5_mukhi_access',
+            5: 'rudraksha_11_mukhi_access',
+            6: 'rudraksha_14_mukhi_access'
+        }
+
+        if next_stage in access_fields:
+            setattr(user, access_fields[next_stage], True)
+            user.start_stage(next_stage)
+
+    db.session.commit()
+
+    flash(f'Stage {stage_number} completed for {user.username}', 'success')
+    return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+@auth.route('/admin/user/<int:user_id>/reset-stage', methods=['POST'])
+@login_required
+def reset_user_stage(user_id):
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('auth.admin_users'))
+
+    user = User.query.get_or_404(user_id)
+    stage_number = int(request.form.get('stage_number', 0))
+
+    if stage_number < 1 or stage_number > 6:
+        flash('Invalid stage number', 'error')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
+    # Reset stage completion and dates
+    completion_fields = {
+        1: 'mandala_1_completed_at',
+        2: 'mandala_2_completed_at',
+        3: 'mandala_3_completed_at',
+        4: 'rudraksha_5_mukhi_completed_at',
+        5: 'rudraksha_11_mukhi_completed_at',
+        6: 'rudraksha_14_mukhi_completed_at'
+    }
+
+    start_fields = {
+        1: 'mandala_1_started_at',
+        2: 'mandala_2_started_at',
+        3: 'mandala_3_started_at',
+        4: 'rudraksha_5_mukhi_started_at',
+        5: 'rudraksha_11_mukhi_started_at',
+        6: 'rudraksha_14_mukhi_started_at'
+    }
+
+    if stage_number in completion_fields:
+        setattr(user, completion_fields[stage_number], None)
+        setattr(user, start_fields[stage_number], None)
+
+    # If resetting a stage, also reset all subsequent stages
+    for i in range(stage_number + 1, 7):
+        if i in completion_fields:
+            setattr(user, completion_fields[i], None)
+            setattr(user, start_fields[i], None)
+
+        # Remove access to subsequent stages
+        if i == 2:
+            user.mandala_2_access = False
+        elif i == 3:
+            user.mandala_3_access = False
+        elif i == 4:
+            user.rudraksha_5_mukhi_access = False
+        elif i == 5:
+            user.rudraksha_11_mukhi_access = False
+        elif i == 6:
+            user.rudraksha_14_mukhi_access = False
+
+    db.session.commit()
+
+    flash(f'Stage {stage_number} and subsequent stages reset for {user.username}', 'success')
     return redirect(url_for('auth.admin_user_detail', user_id=user_id))
 
 @auth.route('/profile')

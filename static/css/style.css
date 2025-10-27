@@ -6597,6 +6597,299 @@ input:checked + .slider:before {
     }
 }
 
+/* ===== PADATI PAGE STYLES ===== */
+
+/* Hero Section */
+.padati-hero {
+    position: relative;
+    min-height: 25vh;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 50%, var(--accent-orange) 100%);
+    color: white;
+    overflow: hidden;
+}
+
+.padati-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="om-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" font-family="serif" font-size="16" fill="rgba(255,255,255,0.1)">🕉️</text></pattern></defs><rect width="100" height="100" fill="url(%23om-pattern)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.hero-background {
+    position: relative;
+    z-index: 2;
+    padding: 1rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 25vh;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-text {
+    z-index: 3;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-title {
+    text-align: center;
+}
+
+.hero-subtitle {
+    text-align: center;
+}
+
+/* Main Content */
+.padati-main {
+    background: var(--highlight-color);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.padati-main .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Progress Section */
+.progress-section {
+    margin-bottom: 3rem;
+}
+
+.progress-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.progress-track-modern {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+.progress-step-modern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    padding: 1rem;
+    background: #fefefe;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.progress-step-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.progress-step-modern.completed {
+    background: linear-gradient(135deg, #6ee7b7, #34d399);
+    color: white;
+    border-color: #34d399;
+}
+
+.progress-step-modern.current {
+    background: linear-gradient(135deg, #f87171, #ef4444);
+    color: white;
+    border-color: #ef4444;
+    box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
+}
+
+.progress-step-modern.accessible {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: white;
+    border-color: #818cf8;
+}
+
+.progress-step-modern.locked {
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    color: white;
+    border-color: #9ca3af;
+    opacity: 0.7;
+}
+
+.step-visual {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: white;
+    border: 3px solid currentColor;
+}
+
+.step-circle.completed {
+    background: white;
+    color: #10b981;
+}
+
+.step-circle.current {
+    background: white;
+    color: #c41e3a;
+}
+
+.step-circle.accessible {
+    background: white;
+    color: #4338ca;
+}
+
+.step-circle.locked {
+    background: white;
+    color: #9ca3af;
+}
+
+.completion-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #10b981;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.step-content {
+    text-align: center;
+    width: 100%;
+}
+
+.step-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.step-status {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.step-status.completed {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.step-status.current {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.step-status.accessible {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.step-status.locked {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.step-date {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin-bottom: 0.25rem;
+}
+
+.step-duration {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.transition-arrow {
+    font-size: 1.5rem;
+    color: #d1d5db;
+    flex-shrink: 0;
+}
+
+.transition-arrow.completed {
+    color: #10b981;
+}
+
+.transition-arrow.locked {
+    color: #e5e7eb;
+}
+
+.sacred-reminder {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.reminder-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.reminder-content {
+    flex: 1;
+}
+
+.reminder-text {
+    font-size: 1rem;
+    color: #78350f;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+ позвон-content p {
+    font-size: 0.9rem;
+    color: var(--text-sacred);
+    margin: 0;
+}
+
+.reminder-attribution {
+    font-size: 0.9rem;
+    color: #92400e;
+    font-weight: 600;
+    text-align: right;
+}
+
 /* ===== MOBILE-SPECIFIC ENHANCEMENTS ===== */
 /* Better mobile scrolling */
 @media (max-width: 768px) {

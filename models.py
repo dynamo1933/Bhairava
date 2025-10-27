@@ -31,6 +31,27 @@ class User(UserMixin, db.Model):
     mandala_1_access = db.Column(db.Boolean, default=True)  # All users get access to Mandala 1
     mandala_2_access = db.Column(db.Boolean, default=False)  # Admin must approve
     mandala_3_access = db.Column(db.Boolean, default=False)  # Admin must approve
+
+    # Rudraksha access permissions
+    rudraksha_5_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    rudraksha_11_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    rudraksha_14_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+
+    # Stage completion dates
+    mandala_1_completed_at = db.Column(db.DateTime, nullable=True)
+    mandala_2_completed_at = db.Column(db.DateTime, nullable=True)
+    mandala_3_completed_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_5_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_11_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_14_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+
+    # Stage start dates (for duration calculation)
+    mandala_1_started_at = db.Column(db.DateTime, nullable=True)
+    mandala_2_started_at = db.Column(db.DateTime, nullable=True)
+    mandala_3_started_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_5_mukhi_started_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_11_mukhi_started_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_14_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -44,15 +65,151 @@ class User(UserMixin, db.Model):
     def can_login(self):
         return self.is_active and (self.is_admin() or self.is_approved)
     
-    def has_mandala_access(self, mandala_number):
-        """Check if user has access to a specific mandala"""
-        if mandala_number == 1:
+    def has_mandala_access(self, stage_number):
+        """Check if user has access to a specific stage (mandala or rudraksha)"""
+        if stage_number == 1:
             return self.mandala_1_access
-        elif mandala_number == 2:
+        elif stage_number == 2:
             return self.mandala_2_access
-        elif mandala_number == 3:
+        elif stage_number == 3:
             return self.mandala_3_access
+        elif stage_number == 4:  # Rudraksha 5 Mukhi
+            return self.rudraksha_5_mukhi_access
+        elif stage_number == 5:  # Rudraksha 11 Mukhi
+            return self.rudraksha_11_mukhi_access
+        elif stage_number == 6:  # Rudraksha 14 Mukhi
+            return self.rudraksha_14_mukhi_access
         return False
+
+    def get_current_stage(self):
+        """Get the current stage the user is on (1-6)"""
+        stages = [1, 2, 3, 4, 5, 6]
+        for stage in stages:
+            if not self.has_mandala_access(stage):
+                return stage - 1 if stage > 1 else 1
+        return 6  # All stages completed
+
+    def get_next_required_stage(self):
+        """Get the next stage that needs to be completed"""
+        current = self.get_current_stage()
+        if current < 6:
+            return current + 1
+        return None  # All stages completed
+
+    def is_stage_completed(self, stage_number):
+        """Check if a specific stage is completed"""
+        completion_dates = {
+            1: self.mandala_1_completed_at,
+            2: self.mandala_2_completed_at,
+            3: self.mandala_3_completed_at,
+            4: self.rudraksha_5_mukhi_completed_at,
+            5: self.rudraksha_11_mukhi_completed_at,
+            6: self.rudraksha_14_mukhi_completed_at
+        }
+        return completion_dates.get(stage_number) is not None
+
+    def get_stage_duration_days(self, stage_number):
+        """Get duration spent on a specific stage in days"""
+        start_dates = {
+            1: self.mandala_1_started_at,
+            2: self.mandala_2_started_at,
+            3: self.mandala_3_started_at,
+            4: self.rudraksha_5_mukhi_started_at,
+            5: self.rudraksha_11_mukhi_started_at,
+            6: self.rudraksha_14_mukhi_started_at
+        }
+        completion_dates = {
+            1: self.mandala_1_completed_at,
+            2: self.mandala_2_completed_at,
+            3: self.mandala_3_completed_at,
+            4: self.rudraksha_5_mukhi_completed_at,
+            5: self.rudraksha_11_mukhi_completed_at,
+            6: self.rudraksha_14_mukhi_completed_at
+        }
+
+        start_date = start_dates.get(stage_number)
+        completion_date = completion_dates.get(stage_number)
+
+        if start_date and completion_date:
+            return (completion_date - start_date).days
+        elif start_date and not completion_date:
+            # Stage started but not completed
+            return (datetime.utcnow() - start_date).days
+        return 0
+
+    def complete_stage(self, stage_number):
+        """Mark a stage as completed and set completion date"""
+        from datetime import datetime
+
+        completion_dates = {
+            1: 'mandala_1_completed_at',
+            2: 'mandala_2_completed_at',
+            3: 'mandala_3_completed_at',
+            4: 'rudraksha_5_mukhi_completed_at',
+            5: 'rudraksha_11_mukhi_completed_at',
+            6: 'rudraksha_14_mukhi_completed_at'
+        }
+
+        field_name = completion_dates.get(stage_number)
+        if field_name:
+            setattr(self, field_name, datetime.utcnow())
+
+    def start_stage(self, stage_number):
+        """Mark a stage as started and set start date"""
+        from datetime import datetime
+
+        start_dates = {
+            1: 'mandala_1_started_at',
+            2: 'mandala_2_started_at',
+            3: 'mandala_3_started_at',
+            4: 'rudraksha_5_mukhi_started_at',
+            5: 'rudraksha_11_mukhi_started_at',
+            6: 'rudraksha_14_mukhi_started_at'
+        }
+
+        field_name = start_dates.get(stage_number)
+        if field_name:
+            setattr(self, field_name, datetime.utcnow())
+
+    def get_stage_info(self, stage_number):
+        """Get comprehensive info about a stage"""
+        stage_names = {
+            1: 'Mandala 1',
+            2: 'Mandala 2',
+            3: 'Mandala 3',
+            4: 'Rudraksha 5 Mukhi',
+            5: 'Rudraksha 11 Mukhi',
+            6: 'Rudraksha 14 Mukhi'
+        }
+
+        # Get completion and start dates based on stage number
+        completion_dates = {
+            1: self.mandala_1_completed_at,
+            2: self.mandala_2_completed_at,
+            3: self.mandala_3_completed_at,
+            4: self.rudraksha_5_mukhi_completed_at,
+            5: self.rudraksha_11_mukhi_completed_at,
+            6: self.rudraksha_14_mukhi_completed_at
+        }
+
+        start_dates = {
+            1: self.mandala_1_started_at,
+            2: self.mandala_2_started_at,
+            3: self.mandala_3_started_at,
+            4: self.rudraksha_5_mukhi_started_at,
+            5: self.rudraksha_11_mukhi_started_at,
+            6: self.rudraksha_14_mukhi_started_at
+        }
+
+        return {
+            'stage_number': stage_number,
+            'stage_name': stage_names.get(stage_number, 'Unknown'),
+            'has_access': self.has_mandala_access(stage_number),
+            'is_completed': self.is_stage_completed(stage_number),
+            'completion_date': completion_dates.get(stage_number),
+            'start_date': start_dates.get(stage_number),
+            'duration_days': self.get_stage_duration_days(stage_number)
+        }
     
     def __repr__(self):
         return f'<User {self.username}>'

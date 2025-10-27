@@ -1,183 +1,302 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="padati-container">
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="header-content">
-            <h1 class="page-title">🕉️ Padati for You</h1>
-            <p class="page-subtitle">Sacred spiritual practices and teachings</p>
-        </div>
-    </div>
-
-    <!-- Mandala Tabs -->
-    <div class="mandala-tabs">
-        <div class="tab-navigation">
-            <button class="tab-button active" data-tab="mandala1">
-                <span class="tab-icon">🕉️</span>
-                <span class="tab-text">Mandala 1</span>
-                {% if current_user.has_mandala_access(1) %}
-                    <span class="access-badge access-granted">✓ Access Granted</span>
-                {% else %}
-                    <span class="access-badge access-denied">✗ No Access</span>
-                {% endif %}
-            </button>
+<!-- Hero Section -->
+<section class="padati-hero">
+    <div class="hero-background">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="om-symbol-large">🕉️</div>
+                <h1 class="hero-title">Spiritual Progress</h1>
+                <p class="hero-subtitle">Your journey through the sacred stages of spiritual development</p>
+            </div>
             
-            <button class="tab-button" data-tab="mandala2" {% if not current_user.has_mandala_access(2) %}disabled{% endif %}>
-                <span class="tab-icon">🌟</span>
-                <span class="tab-text">Mandala 2</span>
-                {% if current_user.has_mandala_access(2) %}
-                    <span class="access-badge access-granted">✓ Access Granted</span>
-                {% else %}
-                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>
-                {% endif %}
-            </button>
-            
-            <button class="tab-button" data-tab="mandala3" {% if not current_user.has_mandala_access(3) %}disabled{% endif %}>
-                <span class="tab-icon">✨</span>
-                <span class="tab-text">Mandala 3</span>
-                {% if current_user.has_mandala_access(3) %}
-                    <span class="access-badge access-granted">✓ Access Granted</span>
-                {% else %}
-                    <span class="access-badge access-denied">🔒 Admin Approval Required</span>
-                {% endif %}
-            </button>
         </div>
-
-        <!-- Tab Content -->
-        <div class="tab-content">
-            <!-- Mandala 1 Content -->
-            <div class="tab-pane active" id="mandala1">
-                <div class="mandala-content">
-                    <div class="mandala-header">
-                        <h2>🕉️ Mandala 1 - Foundation</h2>
-                        <p class="mandala-description">Sacred practices for spiritual foundation and awakening</p>
-                    </div>
-                    
-                    <div class="coming-soon-card">
-                        <div class="card-icon">🚧</div>
-                        <h3>Features Coming Soon</h3>
-                        <p>Sacred content and practices for Mandala 1 are being prepared with utmost care and devotion.</p>
-                        <div class="progress-indicator">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
-                            </div>
-                            <span class="progress-text">75% Complete</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mandala 2 Content -->
-            <div class="tab-pane" id="mandala2">
-                <div class="mandala-content">
-                    <div class="mandala-header">
-                        <h2>🌟 Mandala 2 - Advancement</h2>
-                        <p class="mandala-description">Advanced spiritual practices and deeper teachings</p>
-                    </div>
-                    
-                    {% if current_user.has_mandala_access(2) %}
-                        <div class="coming-soon-card">
-                            <div class="card-icon">🚧</div>
-                            <h3>Features Coming Soon</h3>
-                            <p>Advanced practices for Mandala 2 are being prepared for your spiritual journey.</p>
-                            <div class="progress-indicator">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 45%"></div>
-                                </div>
-                                <span class="progress-text">45% Complete</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="access-required-card">
-                            <div class="card-icon">🔒</div>
-                            <h3>Access Required</h3>
-                            <p>Mandala 2 requires admin approval. Please contact an administrator to request access.</p>
-                            <div class="access-info">
-                                <p><strong>Current Status:</strong> Pending Approval</p>
-                                <p><strong>Requirements:</strong> Completion of Mandala 1 practices</p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Mandala 3 Content -->
-            <div class="tab-pane" id="mandala3">
-                <div class="mandala-content">
-                    <div class="mandala-header">
-                        <h2>✨ Mandala 3 - Mastery</h2>
-                        <p class="mandala-description">Master-level practices and profound spiritual wisdom</p>
-                    </div>
-                    
-                    {% if current_user.has_mandala_access(3) %}
-                        <div class="coming-soon-card">
-                            <div class="card-icon">🚧</div>
-                            <h3>Features Coming Soon</h3>
-                            <p>Master-level practices for Mandala 3 are being prepared for advanced practitioners.</p>
-                            <div class="progress-indicator">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 25%"></div>
-                                </div>
-                                <span class="progress-text">25% Complete</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="access-required-card">
-                            <div class="card-icon">🔒</div>
-                            <h3>Access Required</h3>
-                            <p>Mandala 3 requires admin approval and completion of previous mandalas.</p>
-                            <div class="access-info">
-                                <p><strong>Current Status:</strong> Pending Approval</p>
-                                <p><strong>Requirements:</strong> Completion of Mandala 1 & 2 practices</p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        
     </div>
+</section>
 
-    <!-- Access Information -->
-    <div class="access-info-section">
-        <div class="info-card">
-            <h3>📋 Access Information</h3>
-            <div class="access-status">
-                <div class="status-item">
-                    <span class="status-icon">🕉️</span>
-                    <span class="status-text">Mandala 1: <strong>{% if current_user.has_mandala_access(1) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-icon">🌟</span>
-                    <span class="status-text">Mandala 2: <strong>{% if current_user.has_mandala_access(2) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-icon">✨</span>
-                    <span class="status-text">Mandala 3: <strong>{% if current_user.has_mandala_access(3) %}✓ Granted{% else %}✗ Denied{% endif %}</strong></span>
+<!-- Main Content Container -->
+<div class="padati-main">
+    <div class="container">
+        <!-- Progress Overview -->
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <!-- Horizontal Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-track-modern">
+                    {% for stage_num in range(1, 7) %}
+                        {% set stage_info = current_user.get_stage_info(stage_num) %}
+                        {% set is_current = stage_num == current_user.get_current_stage() %}
+                        {% set is_completed = stage_num < current_user.get_current_stage() and stage_info.has_access %}
+                        {% set is_accessible = stage_info.has_access %}
+
+                        <div class="progress-step-modern {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
+                            <div class="step-visual">
+                                <div class="step-circle {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
+                                    {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% elif stage_num == 3 %}✨{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
+                                </div>
+                                {% if is_completed %}
+                                    <div class="completion-badge">✓</div>
+                                {% endif %}
+                            </div>
+                            <div class="step-content">
+                                <div class="step-title">{{ stage_info.stage_name }}</div>
+                                {% if is_completed %}
+                                    <div class="step-status completed">Completed</div>
+                                {% elif stage_info.completion_date %}
+                                    <div class="step-date">Completed {{ stage_info.completion_date.strftime('%b %d, %Y') }}</div>
+                                {% elif stage_info.start_date and is_current %}
+                                    <div class="step-date">Started {{ stage_info.start_date.strftime('%b %d, %Y') }}</div>
+                                {% elif is_current %}
+                                    <div class="step-status current">Current Stage</div>
+                                {% elif is_accessible %}
+                                    <div class="step-status accessible">Access Granted</div>
+                                {% else %}
+                                    <div class="step-status locked">🔒 Locked</div>
+                                {% endif %}
+                                {% if stage_info.duration_days > 0 %}
+                                    <div class="step-duration">{{ stage_info.duration_days }} days</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if stage_num < 6 %}
+                            <div class="transition-arrow {% if is_completed or (is_current and stage_num < current_user.get_current_stage()) %}completed{% else %}locked{% endif %}">
+                                {% if is_completed %}
+                                    ✓
+                                {% else %}
+                                    ➤
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <p class="access-note">Access to higher mandalas is granted progressively based on your spiritual practice and admin approval.</p>
+            <div class="sacred-reminder">
+                <div class="reminder-icon">🙏</div>
+                <div class="reminder-content">
+                    <p class="reminder-text">
+                        <em>"Each stage unfolds in divine timing. Trust the process, surrender to the journey."</em>
+                    </p>
+                    <div class="reminder-attribution">— Guru Bhairava</div>
+                </div>
+            </div>
         </div>
+        </section>
+
+       
+        <!-- No Access State -->
+        {% if not current_user.has_mandala_access(1) and not current_user.has_mandala_access(2) and not current_user.has_mandala_access(3) and not current_user.has_mandala_access(4) and not current_user.has_mandala_access(5) and not current_user.has_mandala_access(6) %}
+        <section class="welcome-section">
+            <div class="welcome-card">
+                
+                <h3 class="welcome-title"><span class="om-symbol">🕉️</span> Welcome to Your Spiritual Journey</h3>
+                <p>Your sacred path begins here. Contact an administrator to receive access to the foundational teachings and begin your spiritual practice.</p>
+                <div class="welcome-actions">
+                    <div class="action-item">
+                        <div class="action-icon">📧</div>
+                        <div class="action-content">
+                            <h4>Contact Admin</h4>
+                            <p>Request access to start your journey</p>
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-icon">📚</div>
+                        <div class="action-content">
+                            <h4>Study Guidelines</h4>
+                            <p>Learn about the spiritual practices</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
     </div>
 </div>
+{% endblock %}
 
+{% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabPanes = document.querySelectorAll('.tab-pane');
+    // Enhanced interactions for the redesigned status section
+    enhanceStatusSection();
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all buttons and panes
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabPanes.forEach(pane => pane.classList.remove('active'));
-            
-            // Add active class to clicked button and corresponding pane
-            this.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
+    // Progress bar animations
+    animateProgressBar();
+
+    function enhanceStatusSection() {
+        // Add hover effects to metric cards
+        const metricCards = document.querySelectorAll('.metric-card');
+        metricCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
         });
+
+        // Add click interaction for journey metrics
+        const nextStageCard = document.querySelector('.next-stage-card');
+        if (nextStageCard) {
+            nextStageCard.addEventListener('click', function() {
+                const nextStageTitle = this.querySelector('.next-stage-body h4');
+                if (nextStageTitle) {
+                    showNotification(`Exploring ${nextStageTitle.textContent}`, 'info');
+                }
+            });
+        }
+
+        // Animate timeline items
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 300 + (index * 100));
+        });
+
+        // Add completion celebration animation
+        const completionStatus = document.querySelector('.completion-status-enhanced');
+        if (completionStatus) {
+            const celebrationIcon = completionStatus.querySelector('.completion-icon-large');
+            if (celebrationIcon) {
+                celebrationIcon.style.animation = 'celebrate 2s ease-in-out infinite';
+            }
+        }
+    }
+
+    function animateProgressBar() {
+        const progressSteps = document.querySelectorAll('.progress-step-modern');
+        let delay = 0;
+
+        progressSteps.forEach(step => {
+            setTimeout(() => {
+                step.style.opacity = '1';
+                step.style.transform = 'translateY(0)';
+            }, delay);
+            delay += 200;
+        });
+    }
+
+    // Enhanced interactions for the redesigned status section
+    enhanceRedesignedStatusSection();
+});
+
+function enhanceRedesignedStatusSection() {
+    // Add hover effects to new stat cards
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Add click interactions for new buttons
+    const nextStagePreview = document.querySelector('.next-stage-preview');
+    if (nextStagePreview) {
+        nextStagePreview.addEventListener('click', function() {
+            const nextStageTitle = this.querySelector('.preview-info h5');
+            if (nextStageTitle) {
+                showNotification(`Exploring ${nextStageTitle.textContent}`, 'info');
+            }
+        });
+    }
+
+    // Animate timeline markers in the compact timeline
+    const timelineMarkers = document.querySelectorAll('.timeline-marker');
+    timelineMarkers.forEach((marker, index) => {
+        setTimeout(() => {
+            marker.style.opacity = '1';
+            marker.style.transform = 'translateX(-50%) scale(1)';
+        }, 500 + (index * 100));
+    });
+
+    // Add celebration animation for completion
+    const completionCelebration = document.querySelector('.completion-celebration');
+    if (completionCelebration) {
+        const celebrationIcon = completionCelebration.querySelector('.celebration-icon');
+        if (celebrationIcon) {
+            celebrationIcon.style.animation = 'celebrate 3s ease-in-out infinite';
+        }
+    }
+}
+
+// New functions for the redesigned status section
+function showStageGuidance(stageNum) {
+    showNotification(`Guidance for Stage ${stageNum} will be displayed`, 'info');
+    // Here you could open a modal or redirect to guidance content
+}
+
+function accessNextStage(stageNum) {
+    showNotification(`Accessing Stage ${stageNum}...`, 'success');
+    // Here you could redirect to the stage content or trigger access logic
+}
+
+function requestStageAccess(stageNum) {
+    showNotification(`Stage ${stageNum} access request sent to administrators`, 'success');
+    // Here you could trigger an API call to request access
+}
+
+function exploreAdvancedPractices() {
+    showNotification('Redirecting to advanced practices...', 'info');
+    // Here you could redirect to advanced content
+}
+
+function shareSpiritualJourney() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Spiritual Journey',
+            text: 'I have completed my spiritual journey through all sacred stages!',
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        showNotification('Journey completion shared successfully!', 'success');
+    }
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+
+    // Add to page
+    document.body.appendChild(notification);
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 3000);
+}
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     });
 });
 </script>

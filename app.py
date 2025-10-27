@@ -671,15 +671,15 @@ def mandala_sadhana_registration():
     if form.validate_on_submit():
         try:
             # Convert boolean values
-            mandala_48_commitment = form.mandala_48_commitment.data == 'Yes'
-            send_copy = form.send_copy.data if form.send_copy.data else False
+            mandala_48_commitment = (form.mandala_48_commitment.data == 'Yes') if form.mandala_48_commitment.data else False
+            send_copy = (form.send_copy.data == 'True') if form.send_copy.data else False
             
             # Create registration record
             registration = MandalaSadhanaRegistration(
                 email=form.email.data,
                 full_name=form.full_name.data,
                 mandala_48_commitment=mandala_48_commitment,
-                mandala_144_commitment=form.mandala_144_commitment.data,
+                mandala_144_commitment=form.mandala_144_commitment.data or 'No',
                 commitment_text=form.commitment_text.data,
                 sadhana_start_date=form.sadhana_start_date.data,
                 sadhana_type=form.sadhana_type.data,

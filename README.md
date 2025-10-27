@@ -23,6 +23,7 @@ Daiva Anughara is a sacred digital space that provides access to authentic spiri
 - **Sacred Color Scheme** - Army Green (#637457), Light Green (#8BBB67), Cream (#FCFBDF)
 - **Typography** - Roboto for headings, Open Sans for body text
 - **Spiritual Symbols** - Proper use of Om symbol (🕉️) and sacred imagery
+- **Custom Icons** - Devi navigation uses Unicode cherry blossom (🌸) for divine feminine representation
 - **Smooth Animations** - Gentle transitions honoring the spiritual nature
 
 ### 📱 Technical Features
@@ -282,3 +283,287 @@ For spiritual guidance and technical support:
 🕉️ **Om Namah Shivaya** 🕉️
 
 *May the divine grace of Bhairava guide your spiritual journey.*
+
+
+
+### Colors
+
+Modify the CSS variables in `static/css/style.css`:
+
+
+
+```css
+
+:root {
+
+    --primary-green: #637457;      /* Army Green */
+
+    --secondary-green: #8BBB67;    /* Light Green */
+
+    --accent-cream: #FCFBDF;       /* Cream */
+
+    --text-dark: #212121;          /* Dark Text */
+
+}
+
+```
+
+
+
+### Typography
+
+Update font imports in `templates/base.html`:
+
+
+
+```html
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+```
+
+
+
+## 📱 Responsive Design
+
+
+
+The website is built with a mobile-first approach:
+
+
+
+- **Mobile**: 480px and below
+
+- **Tablet**: 481px to 1279px
+
+- **Desktop**: 1280px and above
+
+
+
+## ♿ Accessibility Features
+
+
+
+- **Skip Links** - Quick navigation for screen readers
+
+- **ARIA Labels** - Proper labeling for interactive elements
+
+- **Keyboard Navigation** - Full keyboard support
+
+- **Focus Indicators** - Clear focus states
+
+- **Screen Reader Support** - Semantic HTML structure
+
+
+
+## 🔍 Search Functionality
+
+
+
+The site-wide search includes:
+
+
+
+- **Real-time Results** - As you type (debounced)
+
+- **Content Grouping** - Results organized by page
+
+- **Query Highlighting** - Matched terms highlighted
+
+- **Search History** - Local storage for recent searches
+
+- **Keyboard Shortcuts** - Ctrl/Cmd + K to open search
+
+
+
+## ⏰ Countdown Timer
+
+
+
+Features include:
+
+
+
+- **Real-time Updates** - Updates every minute/30 seconds
+
+- **Visual Feedback** - Different styles for urgent/approaching times
+
+- **Notifications** - Browser notifications for urgent countdowns
+
+- **Error Handling** - Graceful fallbacks for API failures
+
+
+
+## 🚀 Deployment
+
+
+
+### Production Setup
+
+
+
+1. **Set environment variables**
+
+   ```bash
+
+   export FLASK_ENV=production
+
+   export FLASK_DEBUG=0
+
+   ```
+
+
+
+2. **Use production WSGI server**
+
+   ```bash
+
+   pip install gunicorn
+
+   gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
+   ```
+
+
+
+3. **Configure reverse proxy** (Nginx/Apache)
+
+
+
+### Docker Deployment
+
+
+
+```dockerfile
+
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+```
+
+
+
+## 🧪 Testing
+
+
+
+Run basic tests:
+
+
+
+```bash
+
+python -m pytest tests/
+
+```
+
+
+
+## 📊 Performance
+
+
+
+- **Optimized Images** - WebP format support
+
+- **Minified Assets** - Compressed CSS/JS
+
+- **Lazy Loading** - Images load as needed
+
+- **Caching** - Browser and server-side caching
+
+
+
+## 🔒 Security
+
+
+
+- **CSRF Protection** - Flask-WTF integration
+
+- **Input Validation** - Sanitized user inputs
+
+- **Secure Headers** - Security-focused HTTP headers
+
+- **Rate Limiting** - API request throttling
+
+
+
+## 🤝 Contributing
+
+
+
+1. Fork the repository
+
+2. Create a feature branch
+
+3. Make your changes
+
+4. Test thoroughly
+
+5. Submit a pull request
+
+
+
+## 📄 License
+
+
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+
+## 🙏 Sacred Notice
+
+
+
+**Important**: This website contains sacred spiritual content. Please approach with reverence and respect. The knowledge shared here is offered freely as a transmission of divine grace, not as a commercial transaction.
+
+
+
+## 📞 Support
+
+
+
+For spiritual guidance and technical support:
+
+- **Spiritual Matters**: Contact through the website
+
+- **Technical Issues**: Open an issue on GitHub
+
+
+
+## 🌟 Acknowledgments
+
+
+
+- **Bhairava Sadhana** tradition and lineage
+
+- **Sādhanā Paddhati** methodology
+
+- **Sacred spiritual community**
+
+- **Open source contributors**
+
+
+
+---
+
+
+
+🕉️ **Om Namah Shivaya** 🕉️
+
+
+
+*May the divine grace of Bhairava guide your spiritual journey.*
+
+

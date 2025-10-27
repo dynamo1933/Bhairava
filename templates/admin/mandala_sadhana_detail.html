@@ -6,101 +6,170 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h3 mb-0">Registration Details</h1>
-                <div>
-                    <a href="{{ url_for('admin_mandala_sadhana') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to List
-                    </a>
+            <!-- Modern Header -->
+            <div class="detail-header-modern">
+                <div class="detail-header-content-modern">
+                    <div class="detail-title-section-modern">
+                        <div class="detail-title-icon-modern">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="detail-title-text-modern">
+                            <h1 class="detail-title-modern">Registration Details</h1>
+                            <p class="detail-subtitle-modern">Complete sacred journey participant information</p>
+                        </div>
+                    </div>
+                    <div class="detail-actions-modern">
+                        <a href="{{ url_for('admin_mandala_sadhana') }}" class="btn-back-modern">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Back to List</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-8">
-                    <!-- Registration Details Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
+                    <!-- Modern Registration Details Card -->
+                    <div class="detail-card-modern">
+                        <div class="detail-card-header-modern">
+                            <div class="detail-card-icon-modern">
                                 <i class="fas fa-user"></i> 
-                                {{ registration.full_name }}
-                            </h5>
+                            </div>
+                            <div class="detail-card-title-modern">
+                                <h3 class="detail-card-name-modern">{{ registration.full_name }}</h3>
+                                <p class="detail-card-subtitle-modern">Sacred Journey Participant</p>
+                            </div>
+                            <div class="detail-card-id-modern">
+                                <span class="registration-number-modern">#{{ registration.id }}</span>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="text-muted">Contact Information</h6>
-                                    <p><strong>Email:</strong> {{ registration.email }}</p>
-                                    <p><strong>Registration ID:</strong> #{{ registration.id }}</p>
+                        <div class="detail-card-content-modern">
+                            <div class="detail-info-grid-modern">
+                                <div class="detail-info-section-modern">
+                                    <div class="detail-info-header-modern">
+                                        <div class="detail-info-icon-modern">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <h4 class="detail-info-title-modern">Contact Information</h4>
+                                    </div>
+                                    <div class="detail-info-items-modern">
+                                        <div class="detail-info-item-modern">
+                                            <div class="detail-info-label-modern">Email Address</div>
+                                            <div class="detail-info-value-modern">{{ registration.email }}</div>
+                                        </div>
+                                        <div class="detail-info-item-modern">
+                                            <div class="detail-info-label-modern">Registration ID</div>
+                                            <div class="detail-info-value-modern">#{{ registration.id }}</div>
+                                        </div>
+                                        <div class="detail-info-item-modern">
+                                            <div class="detail-info-label-modern">Status</div>
+                                            <div class="detail-info-value-modern">
+                                                <span class="status-indicator-modern active"><i class="fas fa-check-circle"></i> Active</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h6 class="text-muted">Timeline</h6>
-                                    <p><strong>Registered:</strong> 
+                                <div class="detail-info-section-modern">
+                                    <div class="detail-info-header-modern">
+                                        <div class="detail-info-icon-modern">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <h4 class="detail-info-title-modern">Timeline</h4>
+                                    </div>
+                                    <div class="detail-info-items-modern">
+                                        <div class="detail-info-item-modern">
+                                            <div class="detail-info-label-modern">Registered</div>
+                                            <div class="detail-info-value-modern">
                                         {% if registration.created_at %}
-                                            {{ registration.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                                    <div class="timeline-date-modern">{{ registration.created_at.strftime('%B %d, %Y') }}</div>
+                                                    <div class="timeline-time-modern">{{ registration.created_at.strftime('%I:%M %p') }}</div>
                                         {% else %}
-                                            Not available
+                                                    <span class="no-data-modern">Not available</span>
                                         {% endif %}
-                                    </p>
-                                    <p><strong>Last Updated:</strong> 
+                                            </div>
+                                        </div>
+                                        <div class="detail-info-item-modern">
+                                            <div class="detail-info-label-modern">Last Updated</div>
+                                            <div class="detail-info-value-modern">
                                         {% if registration.updated_at %}
-                                            {{ registration.updated_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                                    <div class="timeline-date-modern">{{ registration.updated_at.strftime('%B %d, %Y') }}</div>
+                                                    <div class="timeline-time-modern">{{ registration.updated_at.strftime('%I:%M %p') }}</div>
                                         {% else %}
-                                            Not available
+                                                    <span class="no-data-modern">Not available</span>
                                         {% endif %}
-                                    </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mandala Commitments Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-calendar-alt"></i> 
-                                Mandala Commitments
-                            </h5>
+                    <!-- Modern Mandala Commitments Card -->
+                    <div class="detail-card-modern">
+                        <div class="detail-card-header-modern">
+                            <div class="detail-card-icon-modern">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="detail-card-title-modern">
+                                <h3 class="detail-card-name-modern">Mandala Commitments</h3>
+                                <p class="detail-card-subtitle-modern">Sacred journey dedication levels</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div class="me-3">
+                        <div class="detail-card-content-modern">
+                            <div class="commitments-grid-modern">
+                                <div class="commitment-item-modern">
+                                    <div class="commitment-visual-modern">
+                                        {% if registration.mandala_48_commitment %}
+                                            <div class="commitment-icon-modern committed">
+                                                <i class="fas fa-check-circle"></i>
+                                            </div>
+                                        {% else %}
+                                            <div class="commitment-icon-modern pending">
+                                                <i class="fas fa-circle-notch"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="commitment-info-modern">
+                                        <h4 class="commitment-title-modern">48-Day Foundation</h4>
+                                        <p class="commitment-description-modern">Ready to commit to a 48-day journey</p>
+                                        <div class="commitment-status-modern">
                                             {% if registration.mandala_48_commitment %}
-                                                <i class="fas fa-check-circle text-success fa-2x"></i>
+                                                <span class="commitment-badge-modern committed"><i class="fas fa-check"></i> Committed</span>
                                             {% else %}
-                                                <i class="fas fa-times-circle text-secondary fa-2x"></i>
+                                                <span class="commitment-badge-modern pending"><i class="fas fa-clock"></i> Considering</span>
                                             {% endif %}
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-1">48-Day Mandala</h6>
-                                            <p class="mb-0 text-muted">Ready to commit to a 48-day journey</p>
-                                            <span class="badge {% if registration.mandala_48_commitment %}bg-success{% else %}bg-secondary{% endif %}">
-                                                {% if registration.mandala_48_commitment %}Yes{% else %}No{% endif %}
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div class="me-3">
+
+                                <div class="commitment-item-modern">
+                                    <div class="commitment-visual-modern">
+                                        {% if registration.mandala_144_commitment == 'Yes' %}
+                                            <div class="commitment-icon-modern advanced">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        {% elif registration.mandala_144_commitment == 'No' %}
+                                            <div class="commitment-icon-modern basic">
+                                                <i class="fas fa-seedling"></i>
+                                            </div>
+                                        {% else %}
+                                            <div class="commitment-icon-modern preparing">
+                                                <i class="fas fa-clock"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="commitment-info-modern">
+                                        <h4 class="commitment-title-modern">144-Day Advanced</h4>
+                                        <p class="commitment-description-modern">Full triad of 3 Mandalas transformation</p>
+                                        <div class="commitment-status-modern">
                                             {% if registration.mandala_144_commitment == 'Yes' %}
-                                                <i class="fas fa-check-circle text-success fa-2x"></i>
+                                                <span class="commitment-badge-modern advanced"><i class="fas fa-star"></i> Advanced</span>
                                             {% elif registration.mandala_144_commitment == 'No' %}
-                                                <i class="fas fa-times-circle text-secondary fa-2x"></i>
+                                                <span class="commitment-badge-modern basic"><i class="fas fa-seedling"></i> Foundation Only</span>
                                             {% else %}
-                                                <i class="fas fa-clock text-warning fa-2x"></i>
+                                                <span class="commitment-badge-modern preparing"><i class="fas fa-clock"></i> Preparing</span>
                                             {% endif %}
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-1">144-Day Mandala</h6>
-                                            <p class="mb-0 text-muted">Full triad of 3 Mandalas</p>
-                                            <span class="badge 
-                                                {% if registration.mandala_144_commitment == 'Yes' %}bg-success
-                                                {% elif registration.mandala_144_commitment == 'No' %}bg-secondary
-                                                {% else %}bg-warning{% endif %}">
-                                                {{ registration.mandala_144_commitment }}
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -108,124 +177,220 @@
                         </div>
                     </div>
 
-                    <!-- Sadhana Details Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
+                    <!-- Modern Sadhana Details Card -->
+                    <div class="detail-card-modern">
+                        <div class="detail-card-header-modern">
+                            <div class="detail-card-icon-modern">
                                 <i class="fas fa-om"></i> 
-                                Sadhana Details
-                            </h5>
+                            </div>
+                            <div class="detail-card-title-modern">
+                                <h3 class="detail-card-name-modern">Sadhana Details</h3>
+                                <p class="detail-card-subtitle-modern">Practice specifications and preferences</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="text-muted">Sadhana Type</h6>
-                                    <p class="mb-3">
-                                        <span class="badge bg-info fs-6">{{ registration.sadhana_type }}</span>
-                                    </p>
-                                    
-                                    <h6 class="text-muted">Sadhana Start Date</h6>
-                                    <p class="mb-3">
-                                        {% if registration.sadhana_start_date %}
-                                            <i class="fas fa-calendar"></i> 
-                                            {{ registration.sadhana_start_date.strftime('%B %d, %Y') }}
-                                        {% else %}
-                                            Not specified
-                                        {% endif %}
-                                    </p>
+                        <div class="detail-card-content-modern">
+                            <div class="sadhana-details-grid-modern">
+                                <div class="sadhana-detail-item-modern">
+                                    <div class="sadhana-detail-header-modern">
+                                        <div class="sadhana-detail-icon-modern">
+                                            <i class="fas fa-om"></i>
+                                        </div>
+                                        <h4 class="sadhana-detail-title-modern">Practice Type</h4>
+                                    </div>
+                                    <div class="sadhana-detail-content-modern">
+                                        <span class="sadhana-type-badge-detail-modern">{{ registration.sadhana_type }}</span>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h6 class="text-muted">Communication Preferences</h6>
-                                    <p class="mb-3">
-                                        <i class="fas fa-envelope"></i> 
-                                        {% if registration.send_copy %}
-                                            <span class="text-success">Send copy of responses</span>
+
+                                <div class="sadhana-detail-item-modern">
+                                    <div class="sadhana-detail-header-modern">
+                                        <div class="sadhana-detail-icon-modern">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <h4 class="sadhana-detail-title-modern">Journey Start</h4>
+                                    </div>
+                                    <div class="sadhana-detail-content-modern">
+                                        {% if registration.sadhana_start_date %}
+                                            <div class="start-date-detail-modern">{{ registration.sadhana_start_date.strftime('%B %d, %Y') }}</div>
+                                            <div class="start-day-detail-modern">{{ registration.sadhana_start_date.strftime('%A') }}</div>
                                         {% else %}
-                                            <span class="text-muted">No copy requested</span>
+                                            <span class="no-sadhana-date-modern">Not specified</span>
                                         {% endif %}
-                                    </p>
+                                    </div>
+                                </div>
+
+                                <div class="sadhana-detail-item-modern">
+                                    <div class="sadhana-detail-header-modern">
+                                        <div class="sadhana-detail-icon-modern">
+                                        <i class="fas fa-envelope"></i> 
+                                        </div>
+                                        <h4 class="sadhana-detail-title-modern">Communication</h4>
+                                    </div>
+                                    <div class="sadhana-detail-content-modern">
+                                        {% if registration.send_copy %}
+                                            <span class="communication-badge-modern requested"><i class="fas fa-envelope"></i> Copy Requested</span>
+                                        {% else %}
+                                            <span class="communication-badge-modern none"><i class="fas fa-envelope-open"></i> No Copy</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Commitment Text Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-quote-left"></i> 
-                                Personal Commitment
-                            </h5>
+                    <!-- Modern Personal Commitment Card -->
+                    <div class="detail-card-modern">
+                        <div class="detail-card-header-modern">
+                            <div class="detail-card-icon-modern">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="detail-card-title-modern">
+                                <h3 class="detail-card-name-modern">Personal Commitment</h3>
+                                <p class="detail-card-subtitle-modern">Inner dedication and spiritual vow</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <blockquote class="blockquote">
-                                <p class="mb-0">{{ registration.commitment_text }}</p>
-                            </blockquote>
+                        <div class="detail-card-content-modern">
+                            <div class="commitment-text-container-modern">
+                                <div class="commitment-text-quote-modern">
+                                    <div class="quote-mark-modern">"</div>
+                                    <blockquote class="commitment-quote-modern">{{ registration.commitment_text }}</blockquote>
+                                    <div class="quote-mark-modern end">"</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <!-- Quick Actions Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-tools"></i> 
-                                Quick Actions
-                            </h5>
+                    <!-- Modern Quick Actions Card -->
+                    <div class="sidebar-card-modern">
+                        <div class="sidebar-card-header-modern">
+                            <div class="sidebar-card-icon-modern">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="sidebar-card-title-modern">
+                                <h3 class="sidebar-card-name-modern">Quick Actions</h3>
+                                <p class="sidebar-card-subtitle-modern">Manage this registration</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-grid gap-2">
-                                <a href="mailto:{{ registration.email }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-envelope"></i> Send Email
+                        <div class="sidebar-card-content-modern">
+                            <div class="action-buttons-modern">
+                                <a href="mailto:{{ registration.email }}" class="action-button-modern primary">
+                                    <div class="action-button-icon-modern">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="action-button-content-modern">
+                                        <div class="action-button-title-modern">Send Email</div>
+                                        <div class="action-button-description-modern">Contact participant</div>
+                                    </div>
                                 </a>
-                                <button class="btn btn-outline-info" onclick="copyToClipboard('{{ registration.email }}')">
-                                    <i class="fas fa-copy"></i> Copy Email
+
+                                <button class="action-button-modern secondary" onclick="copyToClipboard('{{ registration.email }}')">
+                                    <div class="action-button-icon-modern">
+                                        <i class="fas fa-copy"></i>
+                                    </div>
+                                    <div class="action-button-content-modern">
+                                        <div class="action-button-title-modern">Copy Email</div>
+                                        <div class="action-button-description-modern">Copy to clipboard</div>
+                                    </div>
                                 </button>
-                                <button class="btn btn-outline-secondary" onclick="printRegistration()">
-                                    <i class="fas fa-print"></i> Print Details
+
+                                <button class="action-button-modern tertiary" onclick="printRegistration()">
+                                    <div class="action-button-icon-modern">
+                                        <i class="fas fa-print"></i>
+                                    </div>
+                                    <div class="action-button-content-modern">
+                                        <div class="action-button-title-modern">Print Details</div>
+                                        <div class="action-button-description-modern">Generate report</div>
+                                    </div>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Registration Summary Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
+                    <!-- Modern Registration Summary Card -->
+                    <div class="sidebar-card-modern">
+                        <div class="sidebar-card-header-modern">
+                            <div class="sidebar-card-icon-modern">
                                 <i class="fas fa-info-circle"></i> 
-                                Summary
-                            </h5>
+                            </div>
+                            <div class="sidebar-card-title-modern">
+                                <h3 class="sidebar-card-name-modern">Summary</h3>
+                                <p class="sidebar-card-subtitle-modern">At a glance overview</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled mb-0">
-                                <li class="mb-2">
-                                    <i class="fas fa-user text-primary"></i> 
-                                    <strong>Participant:</strong> {{ registration.full_name }}
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-calendar text-success"></i> 
-                                    <strong>48-Day:</strong> 
-                                    {% if registration.mandala_48_commitment %}Committed{% else %}Not Committed{% endif %}
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-calendar-alt text-warning"></i> 
-                                    <strong>144-Day:</strong> {{ registration.mandala_144_commitment }}
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-om text-info"></i> 
-                                    <strong>Practice:</strong> {{ registration.sadhana_type }}
-                                </li>
-                                <li class="mb-0">
-                                    <i class="fas fa-clock text-secondary"></i> 
-                                    <strong>Started:</strong> 
+                        <div class="sidebar-card-content-modern">
+                            <div class="summary-list-modern">
+                                <div class="summary-item-modern">
+                                    <div class="summary-icon-modern">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="summary-content-modern">
+                                        <div class="summary-label-modern">Participant</div>
+                                        <div class="summary-value-modern">{{ registration.full_name }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-item-modern">
+                                    <div class="summary-icon-modern">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="summary-content-modern">
+                                        <div class="summary-label-modern">48-Day</div>
+                                        <div class="summary-value-modern">
+                                            {% if registration.mandala_48_commitment %}
+                                                <span class="summary-status-modern committed"><i class="fas fa-check"></i> Committed</span>
+                                            {% else %}
+                                                <span class="summary-status-modern pending"><i class="fas fa-times"></i> Not Ready</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-item-modern">
+                                    <div class="summary-icon-modern">
+                                        <i class="fas fa-mountain"></i>
+                                    </div>
+                                    <div class="summary-content-modern">
+                                        <div class="summary-label-modern">144-Day</div>
+                                        <div class="summary-value-modern">
+                                            {% if registration.mandala_144_commitment == 'Yes' %}
+                                                <span class="summary-status-modern advanced"><i class="fas fa-star"></i> Advanced</span>
+                                            {% elif registration.mandala_144_commitment == 'No' %}
+                                                <span class="summary-status-modern basic"><i class="fas fa-seedling"></i> Foundation</span>
+                                            {% else %}
+                                                <span class="summary-status-modern preparing"><i class="fas fa-clock"></i> Preparing</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-item-modern">
+                                    <div class="summary-icon-modern">
+                                        <i class="fas fa-om"></i>
+                                    </div>
+                                    <div class="summary-content-modern">
+                                        <div class="summary-label-modern">Practice</div>
+                                        <div class="summary-value-modern">{{ registration.sadhana_type }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-item-modern">
+                                    <div class="summary-icon-modern">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="summary-content-modern">
+                                        <div class="summary-label-modern">Started</div>
+                                        <div class="summary-value-modern">
                                     {% if registration.sadhana_start_date %}
-                                        {{ registration.sadhana_start_date.strftime('%m/%d/%Y') }}
+                                                {{ registration.sadhana_start_date.strftime('%b %d, %Y') }}
                                     {% else %}
-                                        Not specified
+                                                <span class="no-data-modern">Not specified</span>
                                     {% endif %}
-                                </li>
-                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -288,6 +453,9 @@ function printRegistration() {
 }
 </style>
 {% endblock %}
+
+
+
 
 
 
