@@ -14,19 +14,26 @@ import threading
 import time
 from datetime import datetime, timedelta
 from zeroconf import ServiceInfo, Zeroconf
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-# Configuration
-app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
+# Configuration - Use environment variables with fallbacks
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here-change-in-production')
 # PostgreSQL connection for user management via Supabase Session Pooler
 # Session Pooler is IPv4 compatible (required for Windows/network connectivity)
 # Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@[POOLER-HOST]:5432/postgres
 # Password contains @ which needs to be URL-encoded as %40
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.cuyilngsmocyhadlbrgv:_Bottlemepani%4035@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'SQLALCHEMY_DATABASE_URI',
+    'postgresql://postgres.cuyilngsmocyhadlbrgv:_Bottlemepani%4035@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
+app.config['MAX_CONTENT_LENGTH'] = int(os.getenv('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB max file size
 
 # PostgreSQL connection pooling configuration to prevent "connection closed unexpectedly" errors
 # pool_pre_ping: Tests connections before use to detect stale/disconnected connections
@@ -45,7 +52,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 }
 
 # Network configuration
-NETWORK_PORT = 5000
+NETWORK_PORT = int(os.getenv('PORT', 5000))
 
 def get_local_ip():
     """Get the local IP address of the machine"""

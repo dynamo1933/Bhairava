@@ -1,0 +1,25 @@
+# Copy this file to .env (or set these as environment variables in your hosting platform)
+
+# Flask Configuration
+SECRET_KEY=your-secret-key-here-change-in-production
+FLASK_ENV=production
+PORT=5000
+
+# Database Configuration (Supabase PostgreSQL)
+# Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@[POOLER-HOST]:5432/postgres
+# Remember to URL-encode special characters in password (@ becomes %40)
+SQLALCHEMY_DATABASE_URI=postgresql://postgres.cuyilngsmocyhadlbrgv:_Bottlemepani%4035@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres
+
+# Upload Configuration
+UPLOAD_FOLDER=uploads
+MAX_CONTENT_LENGTH=16777216
+
+# Google Sheets API (Optional - if using Google Sheets integration)
+# Paste your entire service account JSON here as a string
+GOOGLE_CREDENTIALS_JSON=
+
+# Instructions:
+# 1. Copy this file
+# 2. Rename to .env
+# 3. Fill in your actual values
+# 4. Never commit .env to git (already in .gitignore)
