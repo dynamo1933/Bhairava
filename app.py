@@ -178,6 +178,43 @@ login_manager.login_message_category = 'info'
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
 
+# Initialize database and create admin user (runs when app starts, including via gunicorn)
+def initialize_database():
+    """Initialize database tables and create admin user if needed"""
+    try:
+        with app.app_context():
+            db.create_all()
+            
+            # Create admin user if it doesn't exist
+            admin = User.query.filter_by(role='admin').first()
+            if not admin:
+                admin = User(
+                    username='admin',
+                    email='admin@daivaanughara.com',
+                    full_name='Administrator',
+                    role='admin',
+                    is_approved=True,
+                    is_active=True,
+                    purpose='Administrator account for system management and user approval.',
+                    mandala_1_access=True,
+                    mandala_2_access=True,
+                    mandala_3_access=True
+                )
+                admin.set_password('admin123')  # Change this password in production!
+                
+                db.session.add(admin)
+                db.session.commit()
+                print("✅ Admin user created successfully!")
+                print("   Username: admin")
+                print("   Password: admin123")
+                print("   ⚠️  Please change the password after first login!")
+    except Exception as e:
+        print(f"⚠️  Warning: Database initialization error: {e}")
+        # Don't crash if database initialization fails - might be a connection issue
+
+# Run initialization
+initialize_database()
+
 @login_manager.user_loader
 def load_user(user_id):
     """Load user by ID with connection error handling"""
