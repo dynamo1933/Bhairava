@@ -109,3 +109,4 @@ You can access this backup anytime if needed.
 
 The application is now running on PostgreSQL via Supabase Session Pooler.
 
+

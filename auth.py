@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from urllib.parse import urlparse
-from models import db, User
+from models import db, User, StageAccessRequest
 from forms import LoginForm, RegistrationForm, AdminApprovalForm, UserSearchForm
 from datetime import datetime
 import os
@@ -152,10 +152,14 @@ def admin_users():
     
     users = query.order_by(User.created_at.desc()).all()
     
+    # Get all pending stage access requests
+    pending_requests = StageAccessRequest.query.filter_by(status='pending').order_by(StageAccessRequest.requested_at.desc()).all()
+    
     return render_template('admin/users.html', 
                          title='User Management',
                          page_title='User Management - Daiva Anughara',
                          users=users,
+                         pending_requests=pending_requests,
                          search_form=search_form,
                          approval_form=approval_form)
 
@@ -203,7 +207,17 @@ def admin_user_detail(user_id):
         return redirect(url_for('home'))
     
     user = User.query.get_or_404(user_id)
-    return render_template('admin/user_detail.html', title='User Detail', page_title='User Detail - Daiva Anughara', user=user)
+    # Get pending stage access requests for this user
+    pending_requests = StageAccessRequest.query.filter_by(
+        user_id=user_id,
+        status='pending'
+    ).order_by(StageAccessRequest.requested_at.desc()).all()
+    
+    return render_template('admin/user_detail.html', 
+                         title='User Detail', 
+                         page_title='User Detail - Daiva Anughara', 
+                         user=user,
+                         pending_requests=pending_requests)
 
 @auth.route('/admin/user/<int:user_id>/stage-access', methods=['POST'])
 @login_required
@@ -512,3 +526,117 @@ def user_kpi_data():
         }
     }
     return jsonify(data)
+
+@auth.route('/request_stage_access', methods=['POST'])
+@login_required
+def request_stage_access():
+    """Allow users to request access for a locked stage"""
+    try:
+        stage_number = request.form.get('stage_number', type=int)
+        
+        if not stage_number or stage_number < 1 or stage_number > 6:
+            return jsonify({'success': False, 'message': 'Invalid stage number'}), 400
+        
+        # Check if user already has access to this stage
+        if current_user.has_mandala_access(stage_number):
+            return jsonify({'success': False, 'message': 'You already have access to this stage'}), 400
+        
+        # Check if there's already a pending request for this stage
+        existing_request = StageAccessRequest.query.filter_by(
+            user_id=current_user.id,
+            stage_number=stage_number,
+            status='pending'
+        ).first()
+        
+        if existing_request:
+            return jsonify({'success': False, 'message': 'You already have a pending request for this stage'}), 400
+        
+        # Create new request
+        new_request = StageAccessRequest(
+            user_id=current_user.id,
+            stage_number=stage_number,
+            status='pending'
+        )
+        
+        db.session.add(new_request)
+        db.session.commit()
+        
+        stage_names = {
+            1: 'Mandala 1',
+            2: 'Mandala 2',
+            3: 'Mandala 3',
+            4: 'Rudraksha 5 Mukhi',
+            5: 'Rudraksha 11 Mukhi',
+            6: 'Rudraksha 14 Mukhi'
+        }
+        stage_name = stage_names.get(stage_number, f'Stage {stage_number}')
+        
+        return jsonify({
+            'success': True,
+            'message': f'Access request for {stage_name} has been sent to administrators'
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500
+
+@auth.route('/admin/approve_stage_request/<int:request_id>', methods=['POST'])
+@login_required
+def approve_stage_request(request_id):
+    """Admin endpoint to approve a stage access request"""
+    if not current_user.is_admin():
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    try:
+        access_request = StageAccessRequest.query.get_or_404(request_id)
+        
+        if access_request.status != 'pending':
+            return jsonify({'success': False, 'message': 'Request has already been processed'}), 400
+        
+        action = request.form.get('action', 'approve')  # 'approve' or 'reject'
+        
+        if action == 'approve':
+            # Grant access to the stage
+            user = access_request.user
+            
+            # Grant access based on stage number
+            if access_request.stage_number == 2:
+                user.mandala_2_access = True
+            elif access_request.stage_number == 3:
+                user.mandala_3_access = True
+            elif access_request.stage_number == 4:
+                user.rudraksha_5_mukhi_access = True
+            elif access_request.stage_number == 5:
+                user.rudraksha_11_mukhi_access = True
+            elif access_request.stage_number == 6:
+                user.rudraksha_14_mukhi_access = True
+            
+            # Start the stage if it's the next one
+            next_stage = user.get_next_required_stage()
+            if next_stage == access_request.stage_number:
+                user.start_stage(access_request.stage_number)
+            
+            access_request.status = 'approved'
+            access_request.reviewed_at = datetime.utcnow()
+            access_request.reviewed_by = current_user.id
+            
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'message': f'Access to {access_request.get_stage_name()} has been granted to {user.username}'
+            })
+        else:  # reject
+            access_request.status = 'rejected'
+            access_request.reviewed_at = datetime.utcnow()
+            access_request.reviewed_by = current_user.id
+            
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'message': f'Access request for {access_request.get_stage_name()} has been rejected'
+            })
+            
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500

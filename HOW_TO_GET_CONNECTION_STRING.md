@@ -45,3 +45,4 @@ postgresql://postgres:_Bottlemepani%4035@aws-0-[some-number].pooler.supabase.com
 
 Where `aws-0-[some-number].pooler.supabase.com` is your pooler hostname.
 
+

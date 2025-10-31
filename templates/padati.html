@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 <!-- Hero Section -->
 <section class="padati-hero">
     <div class="hero-background">
@@ -31,6 +32,8 @@
                         {% set is_current = stage_num == current_user.get_current_stage() %}
                         {% set is_completed = stage_num < current_user.get_current_stage() and stage_info.has_access %}
                         {% set is_accessible = stage_info.has_access %}
+                        {% set next_required_stage = current_user.get_next_required_stage() %}
+                        {% set is_next_stage = stage_num == next_required_stage %}
 
                         <div class="progress-step-modern {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
                             <div class="step-visual">
@@ -58,6 +61,11 @@
                                 {% endif %}
                                 {% if stage_info.duration_days > 0 %}
                                     <div class="step-duration">{{ stage_info.duration_days }} days</div>
+                                {% endif %}
+                                {% if not is_accessible and not is_completed and is_next_stage %}
+                                    <button class="btn-request-access" data-stage="{{ stage_num }}" onclick="requestStageAccess({{ stage_num }})">
+                                        Request Access
+                                    </button>
                                 {% endif %}
                             </div>
                         </div>
@@ -241,8 +249,43 @@ function accessNextStage(stageNum) {
 }
 
 function requestStageAccess(stageNum) {
-    showNotification(`Stage ${stageNum} access request sent to administrators`, 'success');
-    // Here you could trigger an API call to request access
+    const btn = document.querySelector(`.btn-request-access[data-stage="${stageNum}"]`);
+    if (btn.disabled) return;
+    
+    btn.disabled = true;
+    btn.textContent = 'Requesting...';
+    
+    // Get CSRF token
+    const csrfToken = document.querySelector('input[name="csrf_token"]')?.value || '';
+    
+    fetch('{{ url_for("auth.request_stage_access") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'stage_number': stageNum,
+            'csrf_token': csrfToken
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message || `Stage ${stageNum} access request sent to administrators`, 'success');
+            btn.textContent = 'Requested';
+            btn.classList.add('requested');
+        } else {
+            showNotification(data.message || 'Failed to submit request. Please try again.', 'error');
+            btn.disabled = false;
+            btn.textContent = 'Request Access';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('An error occurred. Please try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Request Access';
+    });
 }
 
 function exploreAdvancedPractices() {

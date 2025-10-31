@@ -242,6 +242,31 @@
                             {% endfor %}
                         </div>
                     </div>
+                    
+                    <!-- Pending Stage Access Requests -->
+                    {% if pending_requests %}
+                    <div class="pending-requests-card">
+                        <h4>📋 Pending Access Requests</h4>
+                        <div class="requests-list">
+                            {% for request in pending_requests %}
+                            <div class="request-item-detail" data-request-id="{{ request.id }}">
+                                <div class="request-info">
+                                    <div class="request-stage">{{ request.get_stage_name() }}</div>
+                                    <div class="request-date">Requested {{ request.requested_at.strftime('%b %d, %Y at %I:%M %p') }}</div>
+                                </div>
+                                <div class="request-actions">
+                                    <button class="btn btn-success btn-sm btn-approve-request" data-request-id="{{ request.id }}">
+                                        <i class="fas fa-check"></i> Approve
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-reject-request" data-request-id="{{ request.id }}">
+                                        <i class="fas fa-times"></i> Reject
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -309,7 +334,75 @@ document.addEventListener('DOMContentLoaded', function() {
             executeUserAction(userId, 'approve', 'Reactivated via user detail page');
         });
     });
+    
+    // Handle stage access request approvals
+    document.querySelectorAll('.btn-approve-request').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const requestId = this.dataset.requestId;
+            approveStageRequest(requestId, 'approve');
+        });
+    });
+    
+    // Handle stage access request rejections
+    document.querySelectorAll('.btn-reject-request').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const requestId = this.dataset.requestId;
+            openConfirmationModal('Are you sure you want to reject this access request?', function() {
+                approveStageRequest(requestId, 'reject');
+            });
+        });
+    });
 });
+
+function approveStageRequest(requestId, action) {
+    const csrfToken = '{{ csrf_token() }}';
+    const btn = document.querySelector(`.btn-approve-request[data-request-id="${requestId}"], .btn-reject-request[data-request-id="${requestId}"]`);
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
+    
+    fetch(`/auth/admin/approve_stage_request/${requestId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'action': action,
+            'csrf_token': csrfToken
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage(data.message, 'success');
+            // Remove the request item from the list
+            const requestItem = document.querySelector(`.request-item-detail[data-request-id="${requestId}"]`);
+            if (requestItem) {
+                requestItem.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    requestItem.remove();
+                    // Reload page to update stage access
+                    setTimeout(() => location.reload(), 500);
+                }, 300);
+            }
+        } else {
+            showMessage('Error: ' + data.message, 'error');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+            }
+        }
+    })
+    .catch(error => {
+        showMessage('An error occurred. Please try again.', 'error');
+        console.error('Error:', error);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+        }
+    });
+}
 
 function executeUserAction(userId, action, notes) {
     fetch('{{ url_for("auth.approve_user") }}', {

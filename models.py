@@ -290,3 +290,33 @@ class MandalaSadhanaRegistration(db.Model):
             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None,
             'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S') if self.updated_at else None
         }
+
+class StageAccessRequest(db.Model):
+    """Model for tracking stage access requests from users"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    stage_number = db.Column(db.Integer, nullable=False)  # Stage 1-6
+    status = db.Column(db.String(20), default='pending')  # 'pending', 'approved', 'rejected'
+    requested_at = db.Column(db.DateTime, default=datetime.utcnow)
+    reviewed_at = db.Column(db.DateTime, nullable=True)
+    reviewed_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    notes = db.Column(db.Text, nullable=True)
+    
+    # Relationships
+    user = db.relationship('User', foreign_keys=[user_id], backref='stage_access_requests')
+    reviewer = db.relationship('User', foreign_keys=[reviewed_by], backref='reviewed_requests')
+    
+    def get_stage_name(self):
+        """Get human-readable stage name"""
+        stage_names = {
+            1: 'Mandala 1',
+            2: 'Mandala 2',
+            3: 'Mandala 3',
+            4: 'Rudraksha 5 Mukhi',
+            5: 'Rudraksha 11 Mukhi',
+            6: 'Rudraksha 14 Mukhi'
+        }
+        return stage_names.get(self.stage_number, f'Stage {self.stage_number}')
+    
+    def __repr__(self):
+        return f'<StageAccessRequest {self.user.username} - Stage {self.stage_number} - {self.status}>'

@@ -50,16 +50,20 @@
             </div>
         </div>
         
-        <!-- Loading State -->
-        <div id="loadingState" class="loading-state" style="display: none;">
-            <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i>
-            </div>
-            <p>Loading users...</p>
-        </div>
+        <!-- Main Content Layout: Two Columns -->
+        <div class="admin-layout-container">
+            <!-- Left Column: Users Content -->
+            <div class="admin-main-content">
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state" style="display: none;">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <p>Loading users...</p>
+                </div>
 
-        <!-- Users Grid -->
-        <div class="users-grid" id="usersGrid">
+                <!-- Users Grid -->
+                <div class="users-grid" id="usersGrid">
             {% if users %}
                 {% for user in users %}
                 <div class="user-card {% if not user.is_approved %}pending-approval{% endif %}" data-user-id="{{ user.id }}">
@@ -146,46 +150,98 @@
                     <p>No users found matching your criteria.</p>
                 </div>
             {% endif %}
+                </div>
+
+                <!-- KPIs and Charts Section -->
+                <div class="kpi-charts-section">
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <h4>Total Users</h4>
+                            <p id="kpi-total-users" class="kpi-value">--</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Approved Users</h4>
+                            <p id="kpi-approved-users" class="kpi-value">--</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Pending Users</h4>
+                            <p id="kpi-pending-users" class="kpi-value">--</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Suspended Users</h4>
+                            <p id="kpi-suspended-users" class="kpi-value">--</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Days to Approval</h4>
+                            <p id="kpi-avg-approval-days" class="kpi-value">--</p>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h4>User Status Distribution</h4>
+                            <canvas id="userStatusChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Mandala Access Distribution</h4>
+                            <canvas id="mandalaAccessChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Stage Access Requests Sidebar -->
+            <div class="requests-sidebar">
+                <div class="requests-section">
+                    <div class="section-header">
+                        <div class="header-icon">📋</div>
+                        <h3 class="section-title">Pending Requests</h3>
+                        <div class="header-decoration"></div>
+                    </div>
+                    <div class="requests-container">
+                        {% if pending_requests %}
+                            <div class="requests-list scrollable">
+                                {% for request in pending_requests %}
+                                <div class="request-item" data-request-id="{{ request.id }}" data-user-id="{{ request.user_id }}">
+                                    <div class="request-content" onclick="window.location.href='{{ url_for('auth.admin_user_detail', user_id=request.user_id) }}'">
+                                        <div class="request-user-info">
+                                            <div class="request-user-avatar">
+                                                <img src="https://i.pravatar.cc/40?u={{ request.user_id }}" alt="User Avatar">
+                                            </div>
+                                            <div class="request-user-details">
+                                                <div class="request-user-name">{{ request.user.full_name }}</div>
+                                                <div class="request-user-email">@{{ request.user.username }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="request-stage-info">
+                                            <div class="request-stage-name">{{ request.get_stage_name() }}</div>
+                                            <div class="request-date">Requested {{ request.requested_at.strftime('%b %d, %Y at %I:%M %p') }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="request-actions" onclick="event.stopPropagation()">
+                                        <button class="btn-approve-request btn btn-sm btn-success" data-request-id="{{ request.id }}" title="Approve">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button class="btn-reject-request btn btn-sm btn-danger" data-request-id="{{ request.id }}" title="Reject">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="no-requests">
+                                <div class="no-requests-icon">✅</div>
+                                <p>No pending stage access requests</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-        <!-- KPIs and Charts Section -->
-        <div class="kpi-charts-section">
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <h4>Total Users</h4>
-                    <p id="kpi-total-users" class="kpi-value">--</p>
-                </div>
-                <div class="kpi-card">
-                    <h4>Approved Users</h4>
-                    <p id="kpi-approved-users" class="kpi-value">--</p>
-                </div>
-                <div class="kpi-card">
-                    <h4>Pending Users</h4>
-                    <p id="kpi-pending-users" class="kpi-value">--</p>
-                </div>
-                <div class="kpi-card">
-                    <h4>Suspended Users</h4>
-                    <p id="kpi-suspended-users" class="kpi-value">--</p>
-                </div>
-                <div class="kpi-card">
-                    <h4>Avg. Days to Approval</h4>
-                    <p id="kpi-avg-approval-days" class="kpi-value">--</p>
-                </div>
-            </div>
-
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <h4>User Status Distribution</h4>
-                    <canvas id="userStatusChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <h4>Mandala Access Distribution</h4>
-                    <canvas id="mandalaAccessChart"></canvas>
-                </div>
-            </div>
-        </div>
 
 <!-- Purpose Modal -->
 <div id="purpose-modal" class="purpose-modal">
@@ -520,7 +576,92 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Call the function when the page loads
     fetchAndRenderKpiData();
+    
+    // Handle stage access request approvals
+    document.querySelectorAll('.btn-approve-request').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const requestId = this.dataset.requestId;
+            approveStageRequest(requestId, 'approve');
+        });
+    });
+    
+    // Handle stage access request rejections
+    document.querySelectorAll('.btn-reject-request').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const requestId = this.dataset.requestId;
+            openConfirmationModal('Are you sure you want to reject this access request?', function() {
+                approveStageRequest(requestId, 'reject');
+            });
+        });
+    });
 });
+
+function approveStageRequest(requestId, action) {
+    const csrfToken = document.querySelector('input[name="csrf_token"]');
+    if (!csrfToken) {
+        showMessage('Security token not found. Please refresh the page.', 'error');
+        return;
+    }
+    
+    const btn = document.querySelector(`.btn-approve-request[data-request-id="${requestId}"], .btn-reject-request[data-request-id="${requestId}"]`);
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
+    
+    fetch(`{{ url_for('auth.approve_stage_request', request_id=0) }}`.replace('0', requestId), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'action': action,
+            'csrf_token': csrfToken.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage(data.message, 'success');
+            // Remove the request item from the list
+            const requestItem = document.querySelector(`.request-item[data-request-id="${requestId}"]`);
+            if (requestItem) {
+                requestItem.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    requestItem.remove();
+                    // Check if no more requests
+                    const requestsList = document.querySelector('.requests-list');
+                    if (requestsList && requestsList.querySelectorAll('.request-item').length === 0) {
+                        requestsList.innerHTML = `
+                            <div class="no-requests">
+                                <div class="no-requests-icon">✅</div>
+                                <p>No pending stage access requests</p>
+                            </div>
+                        `;
+                    }
+                }, 300);
+            }
+        } else {
+            showMessage('Error: ' + data.message, 'error');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+            }
+        }
+    })
+    .catch(error => {
+        showMessage('An error occurred. Please try again.', 'error');
+        console.error('Error:', error);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+        }
+    });
+}
 
 function executeUserAction(userId, action, notes) {
     console.log('Executing user action:', { userId, action, notes });

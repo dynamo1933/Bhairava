@@ -28,6 +28,22 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
+# PostgreSQL connection pooling configuration to prevent "connection closed unexpectedly" errors
+# pool_pre_ping: Tests connections before use to detect stale/disconnected connections
+# pool_recycle: Recycles connections after 1 hour to prevent server-side timeouts
+# pool_size: Base number of connections to maintain
+# max_overflow: Maximum number of connections beyond pool_size that can be created
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True,  # Test connections before using them
+    'pool_recycle': 3600,   # Recycle connections after 1 hour (prevent server-side timeouts)
+    'pool_size': 5,         # Base number of connections to maintain
+    'max_overflow': 10,      # Maximum overflow connections
+    'connect_args': {
+        'connect_timeout': 10,  # Connection timeout in seconds
+        'options': '-c statement_timeout=30000'  # Query timeout (30 seconds)
+    }
+}
+
 # Network configuration
 NETWORK_PORT = 5000
 
@@ -157,7 +173,14 @@ app.register_blueprint(auth, url_prefix='/auth')
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    """Load user by ID with connection error handling"""
+    try:
+        return User.query.get(int(user_id))
+    except Exception as e:
+        # Log connection errors but don't crash the app
+        print(f"⚠️  Database connection error in load_user: {e}")
+        # Return None to indicate user could not be loaded
+        return None
 
 # Sample Ashtami dates data
 ASHTAMI_DATES = [
