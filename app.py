@@ -13,7 +13,13 @@ import base64
 import threading
 import time
 from datetime import datetime, timedelta
-from zeroconf import ServiceInfo, Zeroconf
+try:
+    from zeroconf import ServiceInfo, Zeroconf
+    ZEROCONF_AVAILABLE = True
+except ImportError:
+    ZEROCONF_AVAILABLE = False
+    ServiceInfo = None
+    Zeroconf = None
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -120,6 +126,9 @@ def generate_qr_code(url):
 
 def register_mdns_service():
     """Register the application as an mDNS service for automatic discovery"""
+    if not ZEROCONF_AVAILABLE:
+        print("⚠️  Zeroconf not available, skipping mDNS registration")
+        return None, None
     try:
         local_ip = get_local_ip()
         hostname = socket.gethostname()
@@ -209,8 +218,11 @@ def initialize_database():
                 print("   Password: admin123")
                 print("   ⚠️  Please change the password after first login!")
     except Exception as e:
+        import traceback
         print(f"⚠️  Warning: Database initialization error: {e}")
+        print(f"   Traceback: {traceback.format_exc()}")
         # Don't crash if database initialization fails - might be a connection issue
+        # But log the full error for debugging
 
 # Run initialization
 initialize_database()
@@ -241,6 +253,24 @@ ASHTAMI_DATES = [
         'description': 'Krishna Paksha Ashtami'
     }
 ]
+
+# Health check endpoint for Railway
+@app.route('/health')
+def health():
+    """Health check endpoint for Railway monitoring"""
+    try:
+        # Basic health check - just verify the app is running
+        return jsonify({
+            'status': 'healthy',
+            'service': 'Daiva Anughara',
+            'timestamp': datetime.utcnow().isoformat()
+        }), 200
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'error': str(e),
+            'timestamp': datetime.utcnow().isoformat()
+        }), 500
 
 # Routes
 @app.route('/')
