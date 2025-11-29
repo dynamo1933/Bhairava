@@ -35,27 +35,29 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here-change-
 # Password contains @ which needs to be URL-encoded as %40
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'SQLALCHEMY_DATABASE_URI',
-    'postgresql://postgres.cuyilngsmocyhadlbrgv:_Bottlemepani%4035@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres'
+    'sqlite:///daiva_anughara.db'  # Use SQLite for local development
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = int(os.getenv('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB max file size
 
-# PostgreSQL connection pooling configuration to prevent "connection closed unexpectedly" errors
-# pool_pre_ping: Tests connections before use to detect stale/disconnected connections
-# pool_recycle: Recycles connections after 1 hour to prevent server-side timeouts
-# pool_size: Base number of connections to maintain
-# max_overflow: Maximum number of connections beyond pool_size that can be created
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'pool_pre_ping': True,  # Test connections before using them
-    'pool_recycle': 3600,   # Recycle connections after 1 hour (prevent server-side timeouts)
-    'pool_size': 5,         # Base number of connections to maintain
-    'max_overflow': 10,      # Maximum overflow connections
-    'connect_args': {
-        'connect_timeout': 10,  # Connection timeout in seconds
-        'options': '-c statement_timeout=30000'  # Query timeout (30 seconds)
+# Database connection pooling configuration
+# Only apply PostgreSQL-specific options when using PostgreSQL
+db_uri = app.config['SQLALCHEMY_DATABASE_URI']
+if db_uri.startswith('postgresql'):
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 3600,
+        'pool_size': 5,
+        'max_overflow': 10,
+        'connect_args': {
+            'connect_timeout': 10,
+            'options': '-c statement_timeout=30000'
+        }
     }
-}
+else:
+    # SQLite doesn't need these options
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
 
 # Network configuration
 NETWORK_PORT = int(os.getenv('PORT', 5000))
@@ -756,6 +758,81 @@ def admin_api_donations_from_sheets():
             'donations': [],
             'count': 0
         })
+
+# Stage Routes - Individual stage pages
+@app.route('/stage/<int:stage_num>')
+@login_required
+def stage_page(stage_num):
+    """Individual stage page - requires login and access"""
+    # Validate stage number
+    if stage_num < 1 or stage_num > 6:
+        flash('Invalid stage number.', 'error')
+        return redirect(url_for('padati'))
+    
+    # Check if user has access to this stage
+    if not current_user.has_mandala_access(stage_num):
+        flash('You do not have access to this stage yet. Please complete the previous stages first.', 'warning')
+        return redirect(url_for('padati'))
+    
+    # Get stage information
+    stage_info = current_user.get_stage_info(stage_num)
+    
+    # Stage names and descriptions
+    stage_data = {
+        1: {
+            'name': 'Mandala 1',
+            'phase': 'Pratham Charna',
+            'description': 'The first sacred mandala of your spiritual journey.',
+            'icon': '🕉️',
+            'type': 'mandala'
+        },
+        2: {
+            'name': 'Mandala 2',
+            'phase': 'Pratham Charna',
+            'description': 'The second sacred mandala, deepening your practice.',
+            'icon': '🌟',
+            'type': 'mandala'
+        },
+        3: {
+            'name': 'Mandala 3',
+            'phase': 'Pratham Charna',
+            'description': 'The third sacred mandala, completing the first phase.',
+            'icon': '✨',
+            'type': 'mandala'
+        },
+        4: {
+            'name': '8 Mukhi Rudraksha',
+            'phase': 'Rudraksha Diksha',
+            'description': 'Sacred 8 Mukhi Rudraksha initiation after completing Pratham Charna.',
+            'icon': '📿',
+            'type': 'rudraksha',
+            'image': 'images/8 Mukhi _ Achtgesicht Rudraksha Nepal 20-22 mm.jpeg'
+        },
+        5: {
+            'name': '11 Mukhi Rudraksha',
+            'phase': 'Rudraksha Diksha',
+            'description': 'Sacred 11 Mukhi Rudraksha initiation.',
+            'icon': '📿',
+            'type': 'rudraksha',
+            'image': 'images/rudraksha/rudrakha_11_mukhi.jpeg'
+        },
+        6: {
+            'name': '14 Mukhi Rudraksha',
+            'phase': 'Rudraksha Diksha',
+            'description': 'Sacred 14 Mukhi Rudraksha initiation, the highest diksha.',
+            'icon': '💎',
+            'type': 'rudraksha',
+            'image': 'images/rudraksha/rudarakha_14_muki.jpeg'
+        }
+    }
+    
+    current_stage_data = stage_data.get(stage_num, {})
+    
+    return render_template('stage.html',
+                         page_title=f"{current_stage_data.get('name', 'Stage')} - Daiva Anughara",
+                         stage_num=stage_num,
+                         stage_info=stage_info,
+                         stage_data=current_stage_data)
 
 # Mandala Sadhana Routes
 @app.route('/mandala-sadhana', methods=['GET', 'POST'])
