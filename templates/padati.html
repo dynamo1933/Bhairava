@@ -2,385 +2,550 @@
 
 {% block extra_styles %}
 <style>
-/* ===== PADATI PAGE - SPIRITUAL JOURNEY STRUCTURE ===== */
+/* ===== PADATI PAGE - ENHANCED UI/UX ===== */
 
-.padati-hero {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 3rem 1.5rem;
-    text-align: center;
+/* Page Header */
+.padati-header {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 50%, var(--accent-orange) 100%);
+    padding: 2rem 1.5rem;
     position: relative;
     overflow: hidden;
 }
 
-.padati-hero::before {
+.padati-header::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,215,0,0.08)" stroke-width="0.5"/><circle cx="50" cy="50" r="20" fill="none" stroke="rgba(255,215,0,0.06)" stroke-width="0.5"/></svg>');
-    background-size: 200px 200px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
+    background-size: 150px 150px;
     opacity: 0.5;
 }
 
-.hero-content {
+.header-layout {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.header-image {
+    flex-shrink: 0;
+}
+
+.header-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.3);
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.3),
+        0 0 0 2px rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.header-image img:hover {
+    transform: scale(1.05);
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.4),
+        0 0 0 3px rgba(255,255,255,0.2);
+}
+
+.header-content {
+    text-align: left;
+}
+
+.header-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    display: inline-block;
+}
+
+.header-title {
+    font-family: var(--font-mystical);
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 0.3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.header-subtitle {
+    font-family: var(--font-sacred);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+    font-style: italic;
+}
+
+/* Main Content */
+.padati-main {
+    background: linear-gradient(180deg, #fef2f2 0%, #fce7e7 50%, #fef2f2 100%);
+    min-height: 100vh;
+    padding: 2.5rem 1rem 3rem;
+    position: relative;
+}
+
+/* Subtle background pattern */
+.padati-main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(196, 30, 58, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.padati-container {
+    max-width: 1100px;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
 }
 
-.om-symbol-large {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    animation: pulse-glow 3s ease-in-out infinite;
+/* ===== FLOW JOURNEY ===== */
+.flow-journey {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-@keyframes pulse-glow {
-    0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-    50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4); }
-}
-
-.hero-title {
-    font-family: var(--font-primary);
-    font-size: 2.5rem;
-    color: #ffd700;
+/* ===== PHASE SECTION ===== */
+.phase-section {
     margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    padding: 0.5rem 0;
 }
 
-.hero-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* Main Container */
-.padati-main {
-    padding: 2rem 1rem;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* ===== SPIRITUAL JOURNEY STRUCTURE ===== */
-.journey-structure {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-}
-
-/* Phase Card Container */
-.phase-card {
-    width: 100%;
-    max-width: 700px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border: 2px solid #e8e8e8;
-}
-
-.phase-card.diksha-card {
-    border-color: #f59e0b;
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-}
-
-.phase-card.empty-phase {
-    border-style: dashed;
-    border-color: #d1d5db;
-    background: #f9fafb;
-}
-
-/* Phase Table Layout */
-.phase-table {
-    display: table;
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.phase-row {
-    display: table-row;
-}
-
-.phase-header {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 1.2rem 1rem;
-    background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 100%);
-    color: white;
-    font-family: var(--font-primary);
-    font-size: 1.2rem;
-    font-weight: 600;
-    width: 35%;
-    border-right: 3px solid rgba(255,255,255,0.2);
-    text-align: center;
-}
-
-.diksha-card .phase-header {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-}
-
-.empty-phase .phase-header {
-    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-}
-
-.phase-content {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 0;
-    padding-right: 0.5rem;
-}
-
-/* Stage Items */
-.stage-items {
-    display: flex;
-    flex-direction: column;
-}
-
-.stage-item {
+/* Phase Header Bar */
+.phase-header-bar {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+    backdrop-filter: blur(10px);
+    padding: 0.9rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 
+        0 4px 20px rgba(196, 30, 58, 0.08),
+        0 1px 3px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.8);
     display: flex;
     align-items: center;
-    padding: 1rem 1rem 1rem 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    transition: all 0.3s ease;
     gap: 0.75rem;
-    min-height: 70px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(196, 30, 58, 0.1);
 }
 
-.stage-item:last-child {
-    border-bottom: none;
+.phase-header-bar.diksha {
+    border-color: rgba(245, 158, 11, 0.15);
+    box-shadow: 
+        0 4px 20px rgba(245, 158, 11, 0.08),
+        0 1px 3px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
-.stage-item:hover {
-    background: rgba(196, 30, 58, 0.05);
+.phase-icon-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 8px rgba(196, 30, 58, 0.3);
 }
 
-.stage-item.clickable {
-    cursor: pointer;
+.phase-header-bar.diksha .phase-icon-badge {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%);
+    box-shadow: 0 3px 8px rgba(245, 158, 11, 0.3);
 }
 
-.stage-item.clickable:hover {
-    background: rgba(196, 30, 58, 0.1);
-    transform: translateX(5px);
-}
-
-.diksha-card .stage-item.clickable:hover {
-    background: rgba(245, 158, 11, 0.15);
-}
-
-/* Stage Link */
-.stage-link {
-    text-decoration: none;
+.phase-header-title {
+    font-family: var(--font-mystical);
+    font-size: 0.95rem;
     color: var(--primary-red);
-    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
 }
 
-.stage-link:hover {
-    color: #991b1b;
-    text-decoration: underline;
-}
-
-.diksha-card .stage-link {
-    color: #d97706;
-}
-
-.diksha-card .stage-link:hover {
+.phase-header-bar.diksha .phase-header-title {
     color: #b45309;
 }
 
-/* Stage Arrow */
-.stage-arrow {
-    color: #9ca3af;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    margin-left: auto;
+/* ===== FLOW ROW ===== */
+.flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
 }
 
-.stage-item.clickable:hover .stage-arrow {
-    color: var(--primary-red);
-    transform: translateX(3px);
+.flow-row.reverse {
+    flex-direction: row-reverse;
 }
 
-.diksha-card .stage-item.clickable:hover .stage-arrow {
-    color: #d97706;
+.flow-row.align-end {
+    justify-content: flex-end;
 }
 
-.diksha-card .stage-item:hover {
-    background: rgba(245, 158, 11, 0.1);
-}
-
-/* Stage Status Icon */
-.stage-status-icon {
-    width: 28px;
-    height: 28px;
+/* Start/End Markers */
+.flow-marker {
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
+    background: linear-gradient(135deg, #fff 0%, #fef2f2 100%);
+    border: 3px solid var(--primary-red);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    flex-shrink: 0;
-}
-
-.stage-status-icon.completed {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-}
-
-.stage-status-icon.current {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-    animation: pulse 2s infinite;
-}
-
-.stage-status-icon.accessible {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-    color: white;
-}
-
-.stage-status-icon.locked {
-    background: #e5e7eb;
-    color: #9ca3af;
-}
-
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
-}
-
-/* Stage Info */
-.stage-info {
-    flex: 1 1 80px;
-    min-width: 80px;
-}
-
-.stage-name {
-    font-family: var(--font-primary);
+    color: var(--primary-red);
     font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 0.15rem;
-}
-
-.stage-status-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.stage-status-text.completed { color: #10b981; }
-.stage-status-text.current { color: #3b82f6; font-weight: 600; }
-.stage-status-text.accessible { color: #8b5cf6; }
-.stage-status-text.locked { color: #9ca3af; }
-
-/* Rudraksha Image */
-.rudraksha-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #f59e0b;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
     flex-shrink: 0;
-}
-
-/* Request Access Button */
-.btn-request-access {
-    padding: 0.4rem 0.75rem;
-    background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 100%);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
+    box-shadow: 
+        0 4px 15px rgba(196, 30, 58, 0.2),
+        inset 0 2px 4px rgba(255,255,255,0.8);
     transition: all 0.3s ease;
-    flex-shrink: 0;
-    white-space: nowrap;
-    margin-left: auto;
 }
 
-.btn-request-access:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+.flow-marker:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
 }
 
-.btn-request-access:disabled,
-.btn-request-access.requested {
-    background: #9ca3af;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+/* Flow Cards Container */
+.flow-cards {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    padding: 0.5rem 0;
 }
 
-/* Empty Phase Placeholder */
-.empty-placeholder {
-    padding: 2rem;
-    text-align: center;
-    color: #9ca3af;
-    font-style: italic;
+.flow-row.reverse .flow-cards {
+    flex-direction: row-reverse;
 }
 
-.empty-placeholder i {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-/* ===== ARROW CONNECTOR ===== */
-.arrow-connector {
+/* ===== STAGE CARD ===== */
+.stage-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem 0;
-    position: relative;
+    min-width: 170px;
+    max-width: 200px;
+    flex: 1;
+    cursor: default;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 0.5rem;
 }
 
-.arrow-connector .arrow-line {
-    width: 3px;
-    height: 30px;
-    background: linear-gradient(to bottom, var(--primary-red), #f59e0b);
-    border-radius: 3px;
-    position: relative;
+.stage-card.clickable {
+    cursor: pointer;
 }
 
-.arrow-connector .arrow-line::before,
-.arrow-connector .arrow-line::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
+.stage-card.clickable:hover {
+    transform: translateY(-8px);
+}
+
+.stage-card.clickable:hover .card-body {
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.15),
+        0 8px 16px rgba(0,0,0,0.1);
+}
+
+/* Card Status Icon */
+.card-status-icon {
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.arrow-connector .arrow-line::before {
-    top: -3px;
-    background: var(--primary-red);
-}
-
-.arrow-connector .arrow-line::after {
-    bottom: -3px;
-    background: #f59e0b;
-}
-
-.arrow-connector .arrow-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--primary-red) 0%, #f59e0b 100%);
-    border-radius: 50%;
+    background: linear-gradient(135deg, #fff 0%, #f9fafb 100%);
+    border: 3px solid #e5e7eb;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1rem;
-    margin-top: 8px;
-    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
-    animation: arrow-bounce 2s ease-in-out infinite;
+    font-size: 0.9rem;
+    margin-bottom: -16px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-@keyframes arrow-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(4px); }
+.stage-card.clickable:hover .card-status-icon {
+    transform: scale(1.15);
+}
+
+/* Status variants */
+.card-status-icon.completed { 
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #10b981;
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.card-status-icon.current { 
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #f59e0b 100%);
+    border-color: var(--accent-gold);
+    color: white;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    animation: currentPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes currentPulse {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 4px 25px rgba(245, 158, 11, 0.6);
+        transform: scale(1.08);
+    }
+}
+
+.card-status-icon.accessible { 
+    background: linear-gradient(135deg, var(--spiritual-purple) 0%, #7c3aed 100%);
+    border-color: var(--spiritual-purple);
+    color: white;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+
+.card-status-icon.locked { 
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-color: #d1d5db;
+    color: #9ca3af;
+}
+
+/* Card Body */
+.card-body {
+    width: 100%;
+    padding: 1.75rem 1.25rem 1.25rem;
+    border-radius: 18px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Active/Accessible card style */
+.card-body.active {
+    background: linear-gradient(145deg, #4fd1c5 0%, #38b2ac 50%, #319795 100%);
+    box-shadow: 
+        0 10px 30px rgba(56, 178, 172, 0.3),
+        0 4px 12px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.card-body.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Locked card style */
+.card-body.locked {
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.06),
+        0 3px 10px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+    border: 1px solid rgba(203, 213, 225, 0.5);
+}
+
+/* Coming soon style */
+.card-body.coming-soon {
+    background: linear-gradient(145deg, #fafafa 0%, #f5f5f5 50%, #e5e5e5 100%);
+    box-shadow: 
+        0 6px 20px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+    border: 2px dashed #d4d4d4;
+}
+
+/* Rudraksha card styles */
+.card-body.rudraksha {
+    background: linear-gradient(145deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+    box-shadow: 
+        0 10px 30px rgba(251, 191, 36, 0.25),
+        0 4px 12px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.card-body.rudraksha.locked {
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* Rudraksha image */
+.rudraksha-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.8);
+    margin: 0 auto 0.6rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.stage-card.clickable:hover .rudraksha-img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.card-body.locked .rudraksha-img {
+    filter: grayscale(40%) opacity(0.8);
+    border-color: rgba(203, 213, 225, 0.8);
+}
+
+/* Card text */
+.card-title {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+}
+
+.card-body.active .card-title {
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.card-body.locked .card-title,
+.card-body.coming-soon .card-title {
+    color: #64748b;
+}
+
+.card-body.rudraksha .card-title {
+    color: #92400e;
+}
+
+.card-body.rudraksha.locked .card-title {
+    color: #64748b;
+}
+
+.card-status-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.card-body.active .card-status-text {
+    color: rgba(255,255,255,0.9);
+}
+
+.card-body.locked .card-status-text,
+.card-body.coming-soon .card-status-text {
+    color: #94a3b8;
+}
+
+.card-body.rudraksha .card-status-text {
+    color: #b45309;
+}
+
+.card-body.rudraksha.locked .card-status-text {
+    color: #94a3b8;
+}
+
+/* Request button */
+.btn-request {
+    margin-top: 0.6rem;
+    padding: 0.4rem 0.9rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+    color: var(--primary-red);
+    border: none;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    letter-spacing: 0.3px;
+}
+
+.btn-request:hover {
+    background: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-request:disabled,
+.btn-request.sent {
+    background: rgba(255,255,255,0.6);
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== FLOW ARROWS ===== */
+.flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    flex-shrink: 0;
+}
+
+.flow-arrow svg {
+    width: 40px;
+    height: 24px;
+    color: #cbd5e1;
+    transition: all 0.3s ease;
+}
+
+.flow-arrow.active svg {
+    color: #94a3b8;
+}
+
+/* Section Connector */
+.section-connector {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.section-connector-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.connector-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.connector-line {
+    width: 3px;
+    height: 30px;
+    background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 50%, #cbd5e1 100%);
+    border-radius: 2px;
+}
+
+.connector-arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 9px solid #94a3b8;
+    margin-top: -1px;
 }
 
 /* ===== SACRED REMINDER ===== */
@@ -388,15 +553,22 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin-top: 2rem;
-    border-left: 4px solid #f59e0b;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+    backdrop-filter: blur(10px);
+    padding: 1.25rem 1.5rem;
+    border-radius: 20px;
+    margin-top: 2.5rem;
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    box-shadow: 
+        0 8px 30px rgba(245, 158, 11, 0.08),
+        0 2px 8px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
 .reminder-icon {
     font-size: 2rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .reminder-content {
@@ -405,14 +577,16 @@
 
 .reminder-text {
     font-family: var(--font-sacred);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--text-dark);
     margin-bottom: 0.3rem;
+    font-style: italic;
+    line-height: 1.6;
 }
 
 .reminder-attribution {
-    font-size: 0.9rem;
-    color: var(--text-muted);
+    font-size: 0.85rem;
+    color: var(--primary-red);
     font-weight: 600;
 }
 
@@ -422,28 +596,34 @@
 }
 
 .welcome-card {
-    background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 
+        0 8px 30px rgba(196, 30, 58, 0.06),
+        0 2px 8px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8);
     text-align: center;
+    border: 1px solid rgba(196, 30, 58, 0.08);
 }
 
 .welcome-title {
-    font-family: var(--font-primary);
-    font-size: 1.5rem;
+    font-family: var(--font-mystical);
+    font-size: 1.25rem;
     color: var(--primary-red);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .welcome-card > p {
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
 }
 
 .welcome-actions {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -451,83 +631,218 @@
 .action-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: #f9fafb;
-    border-radius: 8px;
+    gap: 0.75rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--highlight-color);
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.action-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
 }
 
 .action-icon {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .action-content h4 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-dark);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 
 .action-content p {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
+    margin: 0;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 9999;
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    animation: notifSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 320px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.notification-success { border-left: 4px solid #10b981; }
+.notification-error { border-left: 4px solid #ef4444; }
+.notification-info { border-left: 4px solid var(--spiritual-blue); }
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.notification-message {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.notification-close:hover {
+    color: var(--primary-red);
+    transform: scale(1.1);
+}
+
+@keyframes notifSlide {
+    from { transform: translateX(100%) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 1.8rem;
-    }
-    
-    .phase-table {
-        display: block;
-    }
-    
-    .phase-row {
-        display: block;
-    }
-    
-    .phase-header {
-        display: block;
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid rgba(255,255,255,0.2);
-        padding: 1rem;
-        font-size: 1.1rem;
-    }
-    
-    .phase-content {
-        display: block;
-    }
-    
-    .stage-item {
+@media (max-width: 900px) {
+    .flow-row {
         flex-wrap: wrap;
-        padding: 1rem;
-        gap: 0.8rem;
+        justify-content: center;
+        gap: 0.5rem;
     }
     
-    .stage-info {
-        flex: 1 1 120px;
-        min-width: 120px;
+    .flow-row.reverse {
+        flex-direction: row;
     }
     
-    .stage-name {
-        font-size: 1rem;
+    .flow-row.align-end {
+        justify-content: center;
     }
     
-    .rudraksha-image {
-        width: 50px;
-        height: 50px;
+    .flow-cards {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.25rem;
     }
     
-    .btn-request-access {
-        padding: 0.4rem 0.8rem;
+    .flow-row.reverse .flow-cards {
+        flex-direction: row;
+    }
+    
+    .flow-marker {
+        display: none;
+    }
+    
+    .flow-arrow {
+        display: none;
+    }
+    
+    .section-connector {
+        display: none;
+    }
+    
+    .stage-card {
+        min-width: 140px;
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-layout {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .header-content {
+        text-align: center;
+    }
+    
+    .header-image img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .header-title {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .padati-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .header-image img {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .header-title {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .header-icon {
+        font-size: 2rem;
+    }
+    
+    .padati-main {
+        padding: 1.5rem 0.75rem 2.5rem;
+    }
+    
+    .phase-header-bar {
+        padding: 0.75rem 1rem;
+        border-radius: 30px;
+    }
+    
+    .phase-header-title {
         font-size: 0.8rem;
-        flex: 0 0 auto;
+        letter-spacing: 1px;
     }
     
-    .rudraksha-image {
-        width: 50px;
-        height: 50px;
+    .stage-card {
+        min-width: 120px;
+        max-width: 145px;
+    }
+    
+    .card-status-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        margin-bottom: -14px;
+    }
+    
+    .card-body {
+        padding: 1.25rem 0.75rem 0.9rem;
+        border-radius: 14px;
+    }
+    
+    .card-title {
+        font-size: 0.85rem;
+    }
+    
+    .card-status-text {
+        font-size: 0.7rem;
+    }
+    
+    .rudraksha-img {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .sacred-reminder {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.25rem;
     }
     
     .welcome-actions {
@@ -535,44 +850,9 @@
     }
     
     .action-item {
+        width: 100%;
         justify-content: center;
     }
-}
-
-/* Notification styles */
-.notification {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    z-index: 9999;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    animation: slideIn 0.3s ease;
-}
-
-.notification-success { border-left: 4px solid #10b981; }
-.notification-error { border-left: 4px solid #ef4444; }
-.notification-info { border-left: 4px solid #3b82f6; }
-
-.notification-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.notification-close {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #9ca3af;
-}
-
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
 }
 </style>
 {% endblock %}
@@ -580,321 +860,253 @@
 {% block content %}
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-<!-- Hero Section -->
-<section class="padati-hero">
-    <div class="hero-content">
-        <div class="om-symbol-large">🕉️</div>
-        <h1 class="hero-title">Spiritual Progress</h1>
-        <p class="hero-subtitle">Your journey through the sacred stages of spiritual development</p>
+<!-- Page Header -->
+<section class="padati-header">
+    <div class="header-layout">
+        <div class="header-image">
+            <img src="{{ url_for('static', filename='images/bhairav_with_sadhak.jpg') }}" alt="Bhairava with Sadhak">
+        </div>
+        <div class="header-content">
+            <h1 class="header-title">Spiritual Progress</h1>
+            <p class="header-subtitle">Your sacred journey through the stages of awakening</p>
+        </div>
     </div>
 </section>
 
-<!-- Main Content Container -->
+<!-- Main Content -->
 <div class="padati-main">
-    <div class="container">
+    <div class="padati-container">
         
-        <!-- Spiritual Journey Structure -->
-        <div class="journey-structure">
+        <div class="flow-journey">
             
-            <!-- ===== PRATHAM CHARNA (First Phase) ===== -->
-            <div class="phase-card">
-                <div class="phase-table">
-                    <div class="phase-row">
-                        <div class="phase-header">
-                            Pratham Charna
-                        </div>
-                        <div class="phase-content">
-                            <div class="stage-items">
-                                {% for stage_num in [1, 2, 3] %}
-                                    {% set stage_info = current_user.get_stage_info(stage_num) %}
-                                    {% set is_current = stage_num == current_user.get_current_stage() %}
-                                    {% set is_completed = stage_info.is_completed %}
-                                    {% set is_accessible = stage_info.has_access %}
-                                    {% set next_required_stage = current_user.get_next_required_stage() %}
-                                    {% set is_next_stage = stage_num == next_required_stage %}
-                                    
-                                    <div class="stage-item {% if is_accessible or is_completed %}clickable{% endif %}" {% if is_accessible or is_completed %}onclick="window.location.href='/stage/{{ stage_num }}'"{% endif %}>
-                                        <div class="stage-status-icon {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
-                                            {% if is_completed %}
-                                                <i class="fas fa-check"></i>
-                                            {% elif is_current %}
-                                                <i class="fas fa-circle"></i>
-                                            {% elif is_accessible %}
-                                                <i class="fas fa-unlock"></i>
-                                            {% else %}
-                                                <i class="fas fa-lock"></i>
-                                            {% endif %}
-                                        </div>
-                                        <div class="stage-info">
-                                            {% if is_accessible or is_completed %}
-                                                <a href="/stage/{{ stage_num }}" class="stage-name stage-link">Mandala {{ stage_num }}</a>
-                                            {% else %}
-                                                <div class="stage-name">Mandala {{ stage_num }}</div>
-                                            {% endif %}
-                                            <div class="stage-status-text {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
-                                                {% if is_completed %}
-                                                    Completed {% if stage_info.completion_date %}{{ stage_info.completion_date.strftime('%b %d, %Y') }}{% endif %}
-                                                {% elif is_current %}
-                                                    Current Stage {% if stage_info.start_date %} - Started {{ stage_info.start_date.strftime('%b %d, %Y') }}{% endif %}
-                                                {% elif is_accessible %}
-                                                    Access Granted
-                                                {% else %}
-                                                    🔒 Locked
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        {% if is_accessible or is_completed %}
-                                            <div class="stage-arrow">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                        {% endif %}
-                                        {% if not is_accessible and not is_completed and is_next_stage %}
-                                            <button class="btn-request-access" data-stage="{{ stage_num }}" onclick="event.stopPropagation(); requestStageAccess({{ stage_num }})">
-                                                Request Access
-                                            </button>
-                                        {% endif %}
+            <!-- ===== PRATHAM CHARANA ===== -->
+            <div class="phase-section">
+                <div class="phase-header-bar">
+                    <div class="phase-icon-badge">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <span class="phase-header-title">Pratham Charana — Foundation of Sadhana</span>
+                </div>
+                
+                <div class="flow-row">
+                    <div class="flow-marker">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    
+                    <div class="flow-cards">
+                        {% for stage_num in [1, 2, 3] %}
+                            {% set stage_info = current_user.get_stage_info(stage_num) %}
+                            {% set is_current = stage_num == current_user.get_current_stage() %}
+                            {% set is_completed = stage_info.is_completed %}
+                            {% set is_accessible = stage_info.has_access %}
+                            {% set next_required_stage = current_user.get_next_required_stage() %}
+                            {% set is_next_stage = stage_num == next_required_stage %}
+                            
+                            {% if stage_num > 1 %}
+                            <div class="flow-arrow {% if is_accessible or is_completed %}active{% endif %}">
+                                <svg viewBox="0 0 35 22" fill="none">
+                                    <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="stage-card {% if is_accessible or is_completed %}clickable{% endif %}" 
+                                 {% if is_accessible or is_completed %}onclick="window.location.href='/stage/{{ stage_num }}'"{% endif %}>
+                                <div class="card-status-icon {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
+                                    {% if is_completed %}<i class="fas fa-check"></i>
+                                    {% elif is_current %}<i class="fas fa-star"></i>
+                                    {% elif is_accessible %}<i class="fas fa-unlock"></i>
+                                    {% else %}<i class="fas fa-lock"></i>{% endif %}
+                                </div>
+                                <div class="card-body {% if is_accessible or is_completed %}active{% else %}locked{% endif %}">
+                                    <div class="card-title">Mandala {{ stage_num }}</div>
+                                    <div class="card-status-text">
+                                        {% if is_completed %}Completed
+                                        {% elif is_current %}Current
+                                        {% elif is_accessible %}Ready
+                                        {% else %}Locked{% endif %}
                                     </div>
-                                {% endfor %}
+                                    {% if not is_accessible and not is_completed and is_next_stage %}
+                                    <button class="btn-request" data-stage="{{ stage_num }}" onclick="event.stopPropagation(); requestStageAccess({{ stage_num }})">
+                                        Request
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Connector -->
+            <div class="section-connector">
+                <div class="section-connector-line">
+                    <div class="connector-dot"></div>
+                    <div class="connector-line"></div>
+                    <div class="connector-line"></div>
+                    <div class="connector-arrow-down"></div>
+                </div>
+            </div>
+            
+            <!-- ===== RUDRAKSHA DIKSHA 8 & 11 ===== -->
+            <div class="phase-section">
+                <div class="phase-header-bar diksha">
+                    <div class="phase-icon-badge">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <span class="phase-header-title">Rudraksha Diksha — 8 & 11 Mukhi</span>
+                </div>
+                
+                <div class="flow-row align-end">
+                    <div class="flow-cards">
+                        <!-- 11 Mukhi -->
+                        {% set stage_info_5 = current_user.get_stage_info(5) %}
+                        {% set is_current_5 = 5 == current_user.get_current_stage() %}
+                        {% set is_completed_5 = stage_info_5.is_completed %}
+                        {% set is_accessible_5 = stage_info_5.has_access %}
+                        {% set is_next_stage_5 = 5 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_5 or is_completed_5 %}clickable{% endif %}" 
+                             {% if is_accessible_5 or is_completed_5 %}onclick="window.location.href='/stage/5'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_5 %}completed{% elif is_current_5 %}current{% elif is_accessible_5 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_5 %}<i class="fas fa-check"></i>
+                                {% elif is_current_5 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_5 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
+                            </div>
+                            <div class="card-body rudraksha {% if not is_accessible_5 and not is_completed_5 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}" alt="11 Mukhi" class="rudraksha-img">
+                                <div class="card-title">11 Mukhi</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_5 %}Received{% elif is_current_5 %}Current{% elif is_accessible_5 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if not is_accessible_5 and not is_completed_5 and is_next_stage_5 %}
+                                <button class="btn-request" data-stage="5" onclick="event.stopPropagation(); requestStageAccess(5)">Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow {% if is_accessible_5 or is_completed_5 %}active{% endif %}">
+                            <svg viewBox="0 0 35 22" fill="none">
+                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- 8 Mukhi -->
+                        {% set stage_info_4 = current_user.get_stage_info(4) %}
+                        {% set is_current_4 = 4 == current_user.get_current_stage() %}
+                        {% set is_completed_4 = stage_info_4.is_completed %}
+                        {% set is_accessible_4 = stage_info_4.has_access %}
+                        {% set is_next_stage_4 = 4 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_4 or is_completed_4 %}clickable{% endif %}" 
+                             {% if is_accessible_4 or is_completed_4 %}onclick="window.location.href='/stage/4'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_4 %}completed{% elif is_current_4 %}current{% elif is_accessible_4 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_4 %}<i class="fas fa-check"></i>
+                                {% elif is_current_4 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_4 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
+                            </div>
+                            <div class="card-body rudraksha {% if not is_accessible_4 and not is_completed_4 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/8 Mukhi _ Achtgesicht Rudraksha Nepal 20-22 mm.jpeg') }}" alt="8 Mukhi" class="rudraksha-img">
+                                <div class="card-title">8 Mukhi</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_4 %}Received{% elif is_current_4 %}Current{% elif is_accessible_4 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if not is_accessible_4 and not is_completed_4 and is_next_stage_4 %}
+                                <button class="btn-request" data-stage="4" onclick="event.stopPropagation(); requestStageAccess(4)">Request</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Arrow Connector -->
-            <div class="arrow-connector">
-                <div class="arrow-line"></div>
-                <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
-            </div>
-            
-            <!-- ===== RUDRAKSHA DIKSHA (8 & 11 Mukhi) ===== -->
-            <div class="phase-card diksha-card">
-                <div class="phase-table">
-                    <div class="phase-row">
-                        <div class="phase-header">
-                            <i class="fas fa-gem"></i><br>
-                            Rudraksha Diksha
-                        </div>
-                        <div class="phase-content">
-                            <div class="stage-items">
-                                <!-- 8 Mukhi -->
-                                {% set stage_info_4 = current_user.get_stage_info(4) %}
-                                {% set is_current_4 = 4 == current_user.get_current_stage() %}
-                                {% set is_completed_4 = stage_info_4.is_completed %}
-                                {% set is_accessible_4 = stage_info_4.has_access %}
-                                {% set is_next_stage_4 = 4 == current_user.get_next_required_stage() %}
-                                
-                                <div class="stage-item {% if is_accessible_4 or is_completed_4 %}clickable{% endif %}" {% if is_accessible_4 or is_completed_4 %}onclick="window.location.href='/stage/4'"{% endif %}>
-                                    <div class="stage-status-icon {% if is_completed_4 %}completed{% elif is_current_4 %}current{% elif is_accessible_4 %}accessible{% else %}locked{% endif %}">
-                                        {% if is_completed_4 %}
-                                            <i class="fas fa-check"></i>
-                                        {% elif is_current_4 %}
-                                            <i class="fas fa-circle"></i>
-                                        {% elif is_accessible_4 %}
-                                            <i class="fas fa-unlock"></i>
-                                        {% else %}
-                                            <i class="fas fa-lock"></i>
-                                        {% endif %}
-                                    </div>
-                                    <div class="stage-info">
-                                        {% if is_accessible_4 or is_completed_4 %}
-                                            <a href="/stage/4" class="stage-name stage-link">8 Mukhi</a>
-                                        {% else %}
-                                            <div class="stage-name">8 Mukhi</div>
-                                        {% endif %}
-                                        <div class="stage-status-text {% if is_completed_4 %}completed{% elif is_current_4 %}current{% elif is_accessible_4 %}accessible{% else %}locked{% endif %}">
-                                            {% if is_completed_4 %}
-                                                Diksha Received
-                                            {% elif is_current_4 %}
-                                                Current Stage
-                                            {% elif is_accessible_4 %}
-                                                Access Granted
-                                            {% else %}
-                                                🔒 Complete Pratham Charna first
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <img src="{{ url_for('static', filename='images/8 Mukhi _ Achtgesicht Rudraksha Nepal 20-22 mm.jpeg') }}" alt="8 Mukhi Rudraksha" class="rudraksha-image">
-                                    {% if is_accessible_4 or is_completed_4 %}
-                                        <div class="stage-arrow">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                    {% endif %}
-                                    {% if not is_accessible_4 and not is_completed_4 and is_next_stage_4 %}
-                                        <button class="btn-request-access" data-stage="4" onclick="event.stopPropagation(); requestStageAccess(4)">
-                                            Request Access
-                                        </button>
-                                    {% endif %}
-                                </div>
-                                
-                                <!-- 11 Mukhi -->
-                                {% set stage_info_5 = current_user.get_stage_info(5) %}
-                                {% set is_current_5 = 5 == current_user.get_current_stage() %}
-                                {% set is_completed_5 = stage_info_5.is_completed %}
-                                {% set is_accessible_5 = stage_info_5.has_access %}
-                                {% set is_next_stage_5 = 5 == current_user.get_next_required_stage() %}
-                                
-                                <div class="stage-item {% if is_accessible_5 or is_completed_5 %}clickable{% endif %}" {% if is_accessible_5 or is_completed_5 %}onclick="window.location.href='/stage/5'"{% endif %}>
-                                    <div class="stage-status-icon {% if is_completed_5 %}completed{% elif is_current_5 %}current{% elif is_accessible_5 %}accessible{% else %}locked{% endif %}">
-                                        {% if is_completed_5 %}
-                                            <i class="fas fa-check"></i>
-                                        {% elif is_current_5 %}
-                                            <i class="fas fa-circle"></i>
-                                        {% elif is_accessible_5 %}
-                                            <i class="fas fa-unlock"></i>
-                                        {% else %}
-                                            <i class="fas fa-lock"></i>
-                                        {% endif %}
-                                    </div>
-                                    <div class="stage-info">
-                                        {% if is_accessible_5 or is_completed_5 %}
-                                            <a href="/stage/5" class="stage-name stage-link">11 Mukhi</a>
-                                        {% else %}
-                                            <div class="stage-name">11 Mukhi</div>
-                                        {% endif %}
-                                        <div class="stage-status-text {% if is_completed_5 %}completed{% elif is_current_5 %}current{% elif is_accessible_5 %}accessible{% else %}locked{% endif %}">
-                                            {% if is_completed_5 %}
-                                                Diksha Received
-                                            {% elif is_current_5 %}
-                                                Current Stage
-                                            {% elif is_accessible_5 %}
-                                                Access Granted
-                                            {% else %}
-                                                🔒 Locked
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}" alt="11 Mukhi Rudraksha" class="rudraksha-image">
-                                    {% if is_accessible_5 or is_completed_5 %}
-                                        <div class="stage-arrow">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                    {% endif %}
-                                    {% if not is_accessible_5 and not is_completed_5 and is_next_stage_5 %}
-                                        <button class="btn-request-access" data-stage="5" onclick="event.stopPropagation(); requestStageAccess(5)">
-                                            Request Access
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Section Connector -->
+            <div class="section-connector">
+                <div class="section-connector-line">
+                    <div class="connector-dot"></div>
+                    <div class="connector-line"></div>
+                    <div class="connector-line"></div>
+                    <div class="connector-arrow-down"></div>
                 </div>
             </div>
             
-            <!-- Arrow Connector -->
-            <div class="arrow-connector">
-                <div class="arrow-line"></div>
-                <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
-            </div>
-            
-            <!-- ===== DUTIYA CHARANA (Second Phase) ===== -->
-            <div class="phase-card empty-phase">
-                <div class="phase-table">
-                    <div class="phase-row">
-                        <div class="phase-header">
-                            Dutiya Charana
-                        </div>
-                        <div class="phase-content">
-                            <div class="empty-placeholder">
+            <!-- ===== DUTIYA CHARANA & BEYOND ===== -->
+            <div class="phase-section">
+                <div class="phase-header-bar">
+                    <div class="phase-icon-badge">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <span class="phase-header-title">Dutiya Charana & Beyond</span>
+                </div>
+                
+                <div class="flow-row">
+                    <div class="flow-cards">
+                        <!-- Dutiya Charana -->
+                        <div class="stage-card">
+                            <div class="card-status-icon locked">
                                 <i class="fas fa-hourglass-half"></i>
-                                Coming Soon
+                            </div>
+                            <div class="card-body coming-soon">
+                                <div class="card-title">Dutiya Charana</div>
+                                <div class="card-status-text">Coming Soon</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Arrow Connector -->
-            <div class="arrow-connector">
-                <div class="arrow-line"></div>
-                <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
-            </div>
-            
-            <!-- ===== RUDRAKSHA DIKSHA (14 Mukhi) ===== -->
-            <div class="phase-card diksha-card">
-                <div class="phase-table">
-                    <div class="phase-row">
-                        <div class="phase-header">
-                            <i class="fas fa-gem"></i><br>
-                            Rudraksha Diksha
+                        
+                        <div class="flow-arrow">
+                            <svg viewBox="0 0 35 22" fill="none">
+                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="phase-content">
-                            <div class="stage-items">
-                                <!-- 14 Mukhi -->
-                                {% set stage_info_6 = current_user.get_stage_info(6) %}
-                                {% set is_current_6 = 6 == current_user.get_current_stage() %}
-                                {% set is_completed_6 = stage_info_6.is_completed %}
-                                {% set is_accessible_6 = stage_info_6.has_access %}
-                                {% set is_next_stage_6 = 6 == current_user.get_next_required_stage() %}
-                                
-                                <div class="stage-item {% if is_accessible_6 or is_completed_6 %}clickable{% endif %}" {% if is_accessible_6 or is_completed_6 %}onclick="window.location.href='/stage/6'"{% endif %}>
-                                    <div class="stage-status-icon {% if is_completed_6 %}completed{% elif is_current_6 %}current{% elif is_accessible_6 %}accessible{% else %}locked{% endif %}">
-                                        {% if is_completed_6 %}
-                                            <i class="fas fa-check"></i>
-                                        {% elif is_current_6 %}
-                                            <i class="fas fa-circle"></i>
-                                        {% elif is_accessible_6 %}
-                                            <i class="fas fa-unlock"></i>
-                                        {% else %}
-                                            <i class="fas fa-lock"></i>
-                                        {% endif %}
-                                    </div>
-                                    <div class="stage-info">
-                                        {% if is_accessible_6 or is_completed_6 %}
-                                            <a href="/stage/6" class="stage-name stage-link">14 Mukhi</a>
-                                        {% else %}
-                                            <div class="stage-name">14 Mukhi</div>
-                                        {% endif %}
-                                        <div class="stage-status-text {% if is_completed_6 %}completed{% elif is_current_6 %}current{% elif is_accessible_6 %}accessible{% else %}locked{% endif %}">
-                                            {% if is_completed_6 %}
-                                                Diksha Received
-                                            {% elif is_current_6 %}
-                                                Current Stage
-                                            {% elif is_accessible_6 %}
-                                                Access Granted
-                                            {% else %}
-                                                🔒 Complete previous stages first
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <img src="{{ url_for('static', filename='images/rudraksha/rudarakha_14_muki.jpeg') }}" alt="14 Mukhi Rudraksha" class="rudraksha-image">
-                                    {% if is_accessible_6 or is_completed_6 %}
-                                        <div class="stage-arrow">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                    {% endif %}
-                                    {% if not is_accessible_6 and not is_completed_6 and is_next_stage_6 %}
-                                        <button class="btn-request-access" data-stage="6" onclick="event.stopPropagation(); requestStageAccess(6)">
-                                            Request Access
-                                        </button>
-                                    {% endif %}
+                        
+                        <!-- 14 Mukhi -->
+                        {% set stage_info_6 = current_user.get_stage_info(6) %}
+                        {% set is_current_6 = 6 == current_user.get_current_stage() %}
+                        {% set is_completed_6 = stage_info_6.is_completed %}
+                        {% set is_accessible_6 = stage_info_6.has_access %}
+                        {% set is_next_stage_6 = 6 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_6 or is_completed_6 %}clickable{% endif %}" 
+                             {% if is_accessible_6 or is_completed_6 %}onclick="window.location.href='/stage/6'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_6 %}completed{% elif is_current_6 %}current{% elif is_accessible_6 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_6 %}<i class="fas fa-check"></i>
+                                {% elif is_current_6 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_6 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
+                            </div>
+                            <div class="card-body rudraksha {% if not is_accessible_6 and not is_completed_6 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/rudraksha/rudarakha_14_muki.jpeg') }}" alt="14 Mukhi" class="rudraksha-img">
+                                <div class="card-title">14 Mukhi</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_6 %}Received{% elif is_current_6 %}Current{% elif is_accessible_6 %}Ready{% else %}Locked{% endif %}
                                 </div>
+                                {% if not is_accessible_6 and not is_completed_6 and is_next_stage_6 %}
+                                <button class="btn-request" data-stage="6" onclick="event.stopPropagation(); requestStageAccess(6)">Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow">
+                            <svg viewBox="0 0 35 22" fill="none">
+                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- Tritiya Charana -->
+                        <div class="stage-card">
+                            <div class="card-status-icon locked">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="card-body coming-soon">
+                                <div class="card-title">Tritiya Charana</div>
+                                <div class="card-status-text">Coming Soon</div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Arrow Connector -->
-            <div class="arrow-connector">
-                <div class="arrow-line"></div>
-                <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
-            </div>
-            
-            <!-- ===== TRITIYA CHARNA (Third Phase) ===== -->
-            <div class="phase-card empty-phase">
-                <div class="phase-table">
-                    <div class="phase-row">
-                        <div class="phase-header">
-                            Tritiya Charna
-                        </div>
-                        <div class="phase-content">
-                            <div class="empty-placeholder">
-                                <i class="fas fa-hourglass-half"></i>
-                                Coming Soon
-                            </div>
-                        </div>
+                    
+                    <div class="flow-marker">
+                        <i class="fas fa-flag-checkered"></i>
                     </div>
                 </div>
             </div>
@@ -906,31 +1118,31 @@
             <div class="reminder-icon">🙏</div>
             <div class="reminder-content">
                 <p class="reminder-text">
-                    <em>"Each stage unfolds in divine timing. Trust the process, surrender to the journey."</em>
+                    "Each stage unfolds in divine timing. Trust the process, surrender to the journey."
                 </p>
                 <div class="reminder-attribution">— Guru Bhairava</div>
             </div>
         </div>
         
-        <!-- No Access State -->
+        <!-- Welcome Section -->
         {% if not current_user.has_mandala_access(1) and not current_user.has_mandala_access(2) and not current_user.has_mandala_access(3) and not current_user.has_mandala_access(4) and not current_user.has_mandala_access(5) and not current_user.has_mandala_access(6) %}
         <section class="welcome-section">
             <div class="welcome-card">
-                <h3 class="welcome-title"><span class="om-symbol">🕉️</span> Welcome to Your Spiritual Journey</h3>
-                <p>Your sacred path begins here. Contact an administrator to receive access to the foundational teachings and begin your spiritual practice.</p>
+                <h3 class="welcome-title">🕉️ Welcome to Your Spiritual Journey</h3>
+                <p>Contact an administrator to receive access and begin your spiritual practice.</p>
                 <div class="welcome-actions">
                     <div class="action-item">
                         <div class="action-icon">📧</div>
                         <div class="action-content">
                             <h4>Contact Admin</h4>
-                            <p>Request access to start your journey</p>
+                            <p>Request access to start</p>
                         </div>
                     </div>
                     <div class="action-item">
                         <div class="action-icon">📚</div>
                         <div class="action-content">
                             <h4>Study Guidelines</h4>
-                            <p>Learn about the spiritual practices</p>
+                            <p>Learn about practices</p>
                         </div>
                     </div>
                 </div>
@@ -945,46 +1157,38 @@
 {% block extra_scripts %}
 <script>
 function requestStageAccess(stageNum) {
-    const btn = document.querySelector(`.btn-request-access[data-stage="${stageNum}"]`);
-    if (btn.disabled) return;
+    const btn = document.querySelector(`.btn-request[data-stage="${stageNum}"]`);
+    if (!btn || btn.disabled) return;
     
     btn.disabled = true;
-    btn.textContent = 'Requesting...';
+    btn.textContent = 'Sending...';
     
-    // Get CSRF token
     const csrfToken = document.querySelector('input[name="csrf_token"]')?.value || '';
     
     fetch('{{ url_for("auth.request_stage_access") }}', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'stage_number': stageNum,
-            'csrf_token': csrfToken
-        })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ 'stage_number': stageNum, 'csrf_token': csrfToken })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification(data.message || `Stage ${stageNum} access request sent to administrators`, 'success');
-            btn.textContent = 'Requested';
-            btn.classList.add('requested');
+            showNotification(data.message || `Request sent for Stage ${stageNum}`, 'success');
+            btn.textContent = 'Sent';
+            btn.classList.add('sent');
         } else {
-            showNotification(data.message || 'Failed to submit request. Please try again.', 'error');
+            showNotification(data.message || 'Request failed', 'error');
             btn.disabled = false;
-            btn.textContent = 'Request Access';
+            btn.textContent = 'Request';
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        showNotification('An error occurred. Please try again.', 'error');
+        showNotification('An error occurred', 'error');
         btn.disabled = false;
-        btn.textContent = 'Request Access';
+        btn.textContent = 'Request';
     });
 }
 
-// Notification system
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -994,37 +1198,42 @@ function showNotification(message, type = 'info') {
             <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
         </div>
     `;
-
     document.body.appendChild(notification);
-
-    setTimeout(() => {
-        if (notification.parentElement) {
-            notification.remove();
-        }
-    }, 3000);
+    setTimeout(() => notification.remove(), 3500);
 }
 
-// Add entrance animations
+// Smooth entrance animation
 document.addEventListener('DOMContentLoaded', function() {
-    const phaseCards = document.querySelectorAll('.phase-card');
-    const arrows = document.querySelectorAll('.arrow-connector');
+    const cards = document.querySelectorAll('.stage-card');
+    const arrows = document.querySelectorAll('.flow-arrow');
+    const markers = document.querySelectorAll('.flow-marker');
     
-    phaseCards.forEach((card, index) => {
+    cards.forEach((card, i) => {
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
+        card.style.transform = 'translateY(25px) scale(0.95)';
         setTimeout(() => {
-            card.style.transition = 'all 0.5s ease';
+            card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 150);
+            card.style.transform = 'translateY(0) scale(1)';
+        }, i * 100 + 100);
     });
     
-    arrows.forEach((arrow, index) => {
+    arrows.forEach((arrow, i) => {
         arrow.style.opacity = '0';
         setTimeout(() => {
-            arrow.style.transition = 'opacity 0.3s ease';
+            arrow.style.transition = 'opacity 0.4s ease';
             arrow.style.opacity = '1';
-        }, (index + 1) * 150 + 100);
+        }, i * 100 + 200);
+    });
+    
+    markers.forEach((marker, i) => {
+        marker.style.opacity = '0';
+        marker.style.transform = 'scale(0.5)';
+        setTimeout(() => {
+            marker.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            marker.style.opacity = '1';
+            marker.style.transform = 'scale(1)';
+        }, 50);
     });
 });
 </script>

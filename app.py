@@ -293,6 +293,10 @@ def ashtami():
 def devi():
     return render_template('devi.html', page_title='Devi Maa - Daiva Anughara')
 
+@app.route('/guru-bhairava')
+def guru_bhairava():
+    return render_template('guru_bhairava.html', page_title='Guru Bhairava - Daiva Anughara')
+
 @app.route('/about')
 def about():
     return render_template('about.html', page_title='About - Daiva Anughara')
@@ -307,8 +311,8 @@ def youtube():
 def padati():
     return render_template('padati.html', page_title='Padati for You - Daiva Anughara')
 
-@app.route('/donations')
-def donations():
+@app.route('/bhiksha')
+def bhiksha():
     """Public donations page - shows only verified donations from local database"""
     try:
         # Always fetch from local database for public users
