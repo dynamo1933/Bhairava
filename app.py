@@ -305,6 +305,44 @@ def vishesh_sadhana():
     """Vishesh Sadhana page - coming soon, requires login"""
     return render_template('vishesh_sadhana.html', page_title='Vishesh Sãdhana - Daiva Anughara')
 
+@app.route('/devi-stage/<int:stage_num>')
+@login_required
+def devi_stage_page(stage_num):
+    """Individual Devi Mandala stage page - requires login"""
+    # Validate stage number (1-3 for Devi Mandalas)
+    if stage_num < 1 or stage_num > 3:
+        flash('Invalid Devi Mandala number.', 'error')
+        return redirect(url_for('devi_padathi'))
+    
+    # Stage data for Devi Mandalas
+    stage_data = {
+        1: {
+            'name': 'Mandala 1',
+            'days': 33,
+            'description': 'Begin your sacred journey with Maa Kamakhya - 33 days of devotion',
+            'icon': '🌸'
+        },
+        2: {
+            'name': 'Mandala 2',
+            'days': 66,
+            'description': 'Deepen your connection with the Divine Feminine - 66 days of practice',
+            'icon': '🌺'
+        },
+        3: {
+            'name': 'Mandala 3',
+            'days': 99,
+            'description': 'Complete transformation through 99 days of sacred sadhana',
+            'icon': '💐'
+        }
+    }
+    
+    current_stage_data = stage_data.get(stage_num, {})
+    
+    return render_template('devi_stage.html',
+                         page_title=f"Devi {current_stage_data.get('name', 'Mandala')} - Daiva Anughara",
+                         stage_num=stage_num,
+                         stage_data=current_stage_data)
+
 @app.route('/guru-bhairava')
 def guru_bhairava():
     return render_template('guru_bhairava.html', page_title='Guru Bhairava - Daiva Anughara')

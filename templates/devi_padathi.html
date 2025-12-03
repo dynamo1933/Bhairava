@@ -805,7 +805,7 @@
                             {% endif %}
                             
                             <div class="stage-card {% if is_accessible or is_completed %}clickable{% endif %}" 
-                                 {% if is_accessible or is_completed %}onclick="window.location.href='/devi'"{% endif %}>
+                                 {% if is_accessible or is_completed %}onclick="window.location.href='/devi-stage/{{ mandala_num }}'"{% endif %}>
                                 <div class="card-status-icon {% if is_completed %}completed{% elif is_current %}current{% elif is_accessible %}accessible{% else %}locked{% endif %}">
                                     {% if is_completed %}<i class="fas fa-check"></i>
                                     {% elif is_current %}<i class="fas fa-star"></i>
