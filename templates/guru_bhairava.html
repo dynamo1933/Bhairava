@@ -453,6 +453,285 @@
     }
 }
 
+/* Dhyanam Card with Background Image on Hover */
+.step-card.dhyanam-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.step-card.dhyanam-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/static/images/bhairava_black_v2.jpg');
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.step-card.dhyanam-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13, 8, 21, 0.9) 0%, rgba(30, 10, 40, 0.88) 50%, rgba(50, 20, 30, 0.85) 100%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.step-card.dhyanam-card .step-header,
+.step-card.dhyanam-card .step-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Default state - normal colors */
+.step-card.dhyanam-card .step-title {
+    color: var(--primary-red);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.step-card.dhyanam-card .step-sanskrit {
+    color: var(--text-muted);
+    transition: color 0.4s ease;
+}
+
+.step-card.dhyanam-card .step-content p {
+    color: var(--text-dark);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.step-card.dhyanam-card .breath-practice {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    transition: all 0.4s ease;
+}
+
+.step-card.dhyanam-card .breath-title {
+    color: #166534;
+    transition: color 0.4s ease;
+}
+
+.step-card.dhyanam-card .breath-label {
+    color: #166534;
+    transition: color 0.4s ease;
+}
+
+.step-card.dhyanam-card .breath-text {
+    color: var(--text-dark);
+    transition: color 0.4s ease;
+}
+
+.step-card.dhyanam-card .breath-sanskrit {
+    color: var(--text-muted);
+    transition: color 0.4s ease;
+}
+
+/* Hover state - show image and change colors */
+.step-card.dhyanam-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: transparent;
+}
+
+.step-card.dhyanam-card:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.step-card.dhyanam-card:hover::after {
+    opacity: 1;
+}
+
+.step-card.dhyanam-card:hover .step-title {
+    color: #ffd700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.step-card.dhyanam-card:hover .step-sanskrit {
+    color: rgba(255, 215, 0, 0.8);
+}
+
+.step-card.dhyanam-card:hover .step-content p {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.step-card.dhyanam-card:hover .breath-practice {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.step-card.dhyanam-card:hover .breath-title {
+    color: #ffd700;
+}
+
+.step-card.dhyanam-card:hover .breath-label {
+    color: #ffd700;
+}
+
+.step-card.dhyanam-card:hover .breath-text {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.step-card.dhyanam-card:hover .breath-sanskrit {
+    color: rgba(255, 215, 0, 0.7);
+}
+
+.step-card.dhyanam-card .dhyanam-closing {
+    color: var(--primary-red);
+    transition: color 0.4s ease;
+}
+
+.step-card.dhyanam-card:hover .dhyanam-closing {
+    color: rgba(255, 215, 0, 0.9);
+}
+
+/* Prarthana Card with Background Image on Hover */
+.step-card.prarthana-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.step-card.prarthana-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/static/images/bhairava_black.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.step-card.prarthana-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 5, 20, 0.9) 0%, rgba(25, 10, 35, 0.88) 50%, rgba(40, 15, 25, 0.85) 100%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.step-card.prarthana-card .step-header,
+.step-card.prarthana-card .step-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Default state - normal colors */
+.step-card.prarthana-card .step-title {
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.step-card.prarthana-card .step-sanskrit {
+    transition: color 0.4s ease;
+}
+
+.step-card.prarthana-card .step-content p {
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.step-card.prarthana-card .mantra-box {
+    transition: all 0.4s ease;
+}
+
+.step-card.prarthana-card .mantra-title {
+    transition: color 0.4s ease;
+}
+
+.step-card.prarthana-card .mantra-sanskrit {
+    transition: color 0.4s ease;
+}
+
+.step-card.prarthana-card .mantra-transliteration {
+    transition: color 0.4s ease;
+}
+
+.step-card.prarthana-card .visualization-box {
+    transition: all 0.4s ease;
+}
+
+.step-card.prarthana-card .visualization-title {
+    transition: color 0.4s ease;
+}
+
+.step-card.prarthana-card .visualization-text {
+    transition: color 0.4s ease;
+}
+
+/* Hover state - show image and change colors */
+.step-card.prarthana-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: transparent;
+}
+
+.step-card.prarthana-card:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.step-card.prarthana-card:hover::after {
+    opacity: 1;
+}
+
+.step-card.prarthana-card:hover .step-title {
+    color: #ffd700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.step-card.prarthana-card:hover .step-sanskrit {
+    color: rgba(255, 215, 0, 0.8);
+}
+
+.step-card.prarthana-card:hover .step-content p {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.step-card.prarthana-card:hover .mantra-box {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+    border-color: rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.step-card.prarthana-card:hover .mantra-title {
+    color: #ffd700;
+}
+
+.step-card.prarthana-card:hover .mantra-sanskrit {
+    color: rgba(255, 215, 0, 0.95);
+}
+
+.step-card.prarthana-card:hover .mantra-transliteration {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.step-card.prarthana-card:hover .visualization-box {
+    background: rgba(255, 215, 0, 0.1);
+    border-left-color: #ffd700;
+}
+
+.step-card.prarthana-card:hover .visualization-title {
+    color: #ffd700;
+}
+
+.step-card.prarthana-card:hover .visualization-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 /* Steps Grid Layout */
 .steps-grid {
     display: grid;
@@ -981,7 +1260,7 @@
         <div class="steps-grid">
             <!-- Row 1: Steps 1 & 2 -->
             <!-- Step 1 -->
-            <div class="step-card">
+            <div class="step-card prarthana-card">
                 <div class="step-header">
                     <div class="step-number">1</div>
                     <div>
@@ -1093,7 +1372,7 @@
 
             <!-- Row 3: Steps 4 & 5 -->
             <!-- Step 4 -->
-            <div class="step-card">
+            <div class="step-card dhyanam-card">
                 <div class="step-header">
                     <div class="step-number">4</div>
                     <div>
@@ -1119,7 +1398,7 @@
                         </div>
                     </div>
                     
-                    <p style="text-align: center; font-style: italic; color: var(--text-muted);">
+                    <p class="dhyanam-closing" style="text-align: center; font-style: italic;">
                         Feel the boundary between you and Him dissolve.
                     </p>
                 </div>

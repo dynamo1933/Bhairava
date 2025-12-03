@@ -887,6 +887,14 @@ p:has(🕉️), .sacred-text:has(🕉️) {
 
 /* ===== MAIN CONTENT ===== */
 .main-content {
+    min-height: auto;
+    padding: 0;
+}
+
+/* Restore min-height for pages that need it */
+.main-content:has(.hero-section),
+.main-content:has(.devi-hero-section),
+.main-content:has(.padati-main) {
     min-height: 70vh;
     padding: var(--spacing-md) 0;
 }

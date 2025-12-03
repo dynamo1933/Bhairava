@@ -293,6 +293,18 @@ def ashtami():
 def devi():
     return render_template('devi.html', page_title='Devi Maa - Daiva Anughara')
 
+@app.route('/devi-padathi')
+@login_required
+def devi_padathi():
+    """Devi Padathi page - requires login, shows 3 Mandala progress cards"""
+    return render_template('devi_padathi.html', page_title='Devi Padathi - Daiva Anughara')
+
+@app.route('/vishesh-sadhana')
+@login_required
+def vishesh_sadhana():
+    """Vishesh Sadhana page - coming soon, requires login"""
+    return render_template('vishesh_sadhana.html', page_title='Vishesh Sãdhana - Daiva Anughara')
+
 @app.route('/guru-bhairava')
 def guru_bhairava():
     return render_template('guru_bhairava.html', page_title='Guru Bhairava - Daiva Anughara')

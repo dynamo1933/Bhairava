@@ -579,6 +579,53 @@ def request_stage_access():
         db.session.rollback()
         return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500
 
+@auth.route('/request_devi_stage_access', methods=['POST'])
+@login_required
+def request_devi_stage_access():
+    """Allow users to request access for a locked Devi Mandala stage"""
+    try:
+        mandala_number = request.form.get('mandala_number', type=int)
+        
+        if not mandala_number or mandala_number < 1 or mandala_number > 3:
+            return jsonify({'success': False, 'message': 'Invalid mandala number'}), 400
+        
+        # Check if user is approved
+        if not current_user.is_approved:
+            return jsonify({'success': False, 'message': 'Your account needs to be approved first'}), 400
+        
+        # Check if there's already a pending request for this Devi mandala
+        # Using stage_number 101, 102, 103 for Devi mandalas to distinguish from Bhairava stages
+        devi_stage_number = 100 + mandala_number
+        
+        existing_request = StageAccessRequest.query.filter_by(
+            user_id=current_user.id,
+            stage_number=devi_stage_number,
+            status='pending'
+        ).first()
+        
+        if existing_request:
+            return jsonify({'success': False, 'message': 'You already have a pending request for this Devi Mandala'}), 400
+        
+        # Create new request
+        new_request = StageAccessRequest(
+            user_id=current_user.id,
+            stage_number=devi_stage_number,
+            status='pending'
+        )
+        
+        db.session.add(new_request)
+        db.session.commit()
+        
+        mandala_days = {1: 33, 2: 66, 3: 99}
+        
+        return jsonify({
+            'success': True,
+            'message': f'Access request for Devi Mandala {mandala_number} ({mandala_days.get(mandala_number, 33)} days) has been sent to administrators'
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500
+
 @auth.route('/admin/approve_stage_request/<int:request_id>', methods=['POST'])
 @login_required
 def approve_stage_request(request_id):

@@ -411,6 +411,33 @@
     border-color: rgba(203, 213, 225, 0.8);
 }
 
+/* Mandala card images */
+.mandala-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.card-body.active .mandala-img {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.card-body.locked .mandala-img {
+    filter: grayscale(50%) opacity(0.7);
+    border-color: rgba(203, 213, 225, 0.6);
+}
+
+.stage-card.clickable:hover .mandala-img {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+}
+
 /* Card text */
 .card-title {
     font-family: var(--font-primary);
@@ -919,6 +946,13 @@
                                     {% else %}<i class="fas fa-lock"></i>{% endif %}
                                 </div>
                                 <div class="card-body {% if is_accessible or is_completed %}active{% else %}locked{% endif %}">
+                                    {% if stage_num == 1 %}
+                                    <img src="{{ url_for('static', filename='images/stage_headers/mandala_1_header.jpg') }}" alt="Mandala 1" class="mandala-img">
+                                    {% elif stage_num == 2 %}
+                                    <img src="{{ url_for('static', filename='images/stage_headers/mandala_2_header.jpg') }}" alt="Mandala 2" class="mandala-img">
+                                    {% elif stage_num == 3 %}
+                                    <img src="{{ url_for('static', filename='images/stage_headers/mandala_3_header.jpg') }}" alt="Mandala 3" class="mandala-img">
+                                    {% endif %}
                                     <div class="card-title">Mandala {{ stage_num }}</div>
                                     <div class="card-status-text">
                                         {% if is_completed %}Completed

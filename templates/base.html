@@ -129,10 +129,27 @@
                             </a></li>
                         </ul>
                     </li>
-                    <li><a href="/devi" class="nav-link">
-                        <span class="nav-icon-unicode">🌸</span>
-                        <span>Devi</span>
-                    </a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon-unicode">🌸</span>
+                            <span>Devi</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/devi" class="dropdown-link">
+                                <i class="fas fa-lotus"></i>
+                                <span>Devi</span>
+                            </a></li>
+                            <li><a href="/devi-padathi" class="dropdown-link">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Devi Padathi</span>
+                            </a></li>
+                            <li><a href="/vishesh-sadhana" class="dropdown-link">
+                                <i class="fas fa-star"></i>
+                                <span>Vishesh Sãdhana</span>
+                            </a></li>
+                        </ul>
+                    </li>
                     <li><a href="http://localhost:5000/youtube" class="nav-link">
                         <i class="fab fa-youtube"></i>
                         <span>YouTube</span>
@@ -227,7 +244,15 @@
                 </ul>
             </li>
             
-            <li><a href="/devi" class="mobile-nav-link"><span class="mobile-nav-icon-unicode">🌸</span> Devi</a></li>
+            <!-- Devi Section -->
+            <li class="mobile-nav-section">
+                <span class="mobile-nav-section-title"><span class="mobile-nav-icon-unicode">🌸</span> Devi</span>
+                <ul class="mobile-nav-submenu">
+                    <li><a href="/devi" class="mobile-nav-link"><i class="fas fa-lotus"></i> Devi</a></li>
+                    <li><a href="/devi-padathi" class="mobile-nav-link"><i class="fas fa-user-circle"></i> Devi Padathi</a></li>
+                    <li><a href="/vishesh-sadhana" class="mobile-nav-link"><i class="fas fa-star"></i> Vishesh Sãdhana</a></li>
+                </ul>
+            </li>
 
             <li><a href="http://localhost:5000/youtube" class="mobile-nav-link"><i class="fab fa-youtube"></i> YouTube</a></li>
 

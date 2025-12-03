@@ -1,308 +1,1516 @@
 {% extends "base.html" %}
 
+{% block extra_styles %}
+<style>
+/* ===== USER DETAIL PAGE REDESIGN ===== */
+.user-detail-dashboard {
+    min-height: 100vh;
+    padding: var(--spacing-lg) 0;
+}
+
+.user-detail-dashboard .container {
+    max-width: 1400px;
+}
+
+/* Back Button & Header */
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 12px 20px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    transform: translateX(-4px);
+}
+
+.detail-title {
+    flex: 1;
+}
+
+.detail-title h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.detail-title p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+}
+
+/* Main Grid Layout */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: var(--spacing-xl);
+}
+
+/* Profile Card */
+.profile-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    position: sticky;
+    top: 100px;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    padding: var(--spacing-xl);
+    text-align: center;
+    position: relative;
+}
+
+.profile-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: var(--card-bg);
+    border-radius: 50%;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    overflow: hidden;
+    margin: 0 auto var(--spacing-md);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.profile-username {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 4px 0 0;
+    font-size: 1rem;
+}
+
+.profile-spiritual {
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    margin: 4px 0 0;
+    font-size: 0.95rem;
+}
+
+.profile-badges {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+.profile-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-badge.admin {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1d4ed8;
+}
+
+.profile-badge.approved {
+    background: rgba(255, 255, 255, 0.95);
+    color: #16a34a;
+}
+
+.profile-badge.pending {
+    background: rgba(255, 255, 255, 0.95);
+    color: #d97706;
+}
+
+.profile-badge.suspended {
+    background: rgba(255, 255, 255, 0.95);
+    color: #dc2626;
+}
+
+.profile-badge.role {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.profile-body {
+    padding: var(--spacing-xl);
+    padding-top: calc(var(--spacing-xl) + 20px);
+}
+
+.info-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.info-section-title i {
+    color: var(--primary-red);
+}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+}
+
+.info-row:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--accent-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-sm);
+    color: var(--primary-red);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: var(--text-dark);
+    word-break: break-word;
+}
+
+.purpose-box {
+    background: var(--accent-cream);
+    border-radius: 12px;
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+.purpose-box p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* Action Buttons */
+.action-section {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    background: var(--accent-cream);
+}
+
+.action-section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-md);
+}
+
+.action-buttons-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-button.approve {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+}
+
+.action-button.approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+}
+
+.action-button.reject {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.action-button.reject:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.action-button.suspend {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.action-button.suspend:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+}
+
+.action-button.reactivate {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+}
+
+.action-button.reactivate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Right Column */
+.detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Spiritual Progress Card */
+.progress-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.card-header-bar {
+    background: linear-gradient(135deg, var(--spiritual-purple), #6366f1);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header-bar h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-shadow: none;
+}
+
+.current-stage-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+}
+
+.progress-content {
+    padding: var(--spacing-lg);
+}
+
+/* Timeline Progress */
+.timeline-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+}
+
+.timeline-step {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+
+.timeline-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.node-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.node-icon.completed {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+.node-icon.current {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.node-icon.locked {
+    background: #e5e7eb;
+    color: #9ca3af;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4); }
+    50% { box-shadow: 0 4px 25px rgba(196, 30, 58, 0.6); }
+}
+
+.node-check {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: #22c55e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.node-connector {
+    width: 3px;
+    height: 30px;
+    background: #e5e7eb;
+    margin: 4px 0;
+}
+
+.node-connector.completed {
+    background: linear-gradient(180deg, #22c55e, #16a34a);
+}
+
+.timeline-info {
+    flex: 1;
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-md);
+    min-height: 78px;
+}
+
+.stage-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.stage-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.stage-tag {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stage-tag.completed {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.stage-tag.current {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.stage-tag.locked {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.stage-tag.date {
+    background: var(--accent-cream);
+    color: var(--text-muted);
+}
+
+/* Stage Access Management Card */
+.access-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.access-header {
+    background: linear-gradient(135deg, var(--accent-orange), #f59e0b);
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.access-header h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-shadow: none;
+}
+
+.access-content {
+    padding: var(--spacing-lg);
+}
+
+.access-grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.access-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--accent-cream);
+    border-radius: 14px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.access-item.granted {
+    border-color: rgba(34, 197, 94, 0.3);
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+}
+
+.access-item.locked {
+    border-color: rgba(229, 231, 235, 0.5);
+}
+
+.access-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-right: var(--spacing-md);
+    flex-shrink: 0;
+}
+
+.access-item.granted .access-icon {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.access-item.locked .access-icon {
+    background: #e5e7eb;
+}
+
+.access-info {
+    flex: 1;
+}
+
+.access-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+.access-status-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.access-toggle {
+    flex-shrink: 0;
+}
+
+/* Modern Toggle Switch */
+.toggle-switch {
+    position: relative;
+    width: 56px;
+    height: 30px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb;
+    transition: 0.4s;
+    border-radius: 30px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+.access-submit {
+    margin-top: var(--spacing-lg);
+}
+
+.access-submit button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    transition: all 0.3s ease;
+}
+
+.access-submit button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
+}
+
+/* Stage Actions Card */
+.stage-actions-card {
+    background: var(--accent-cream);
+    border-radius: 14px;
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.stage-actions-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.stage-actions-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.stage-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stage-action-btn.complete {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+}
+
+.stage-action-btn.complete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.stage-action-btn.reset {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.stage-action-btn.reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Pending Requests Card */
+.requests-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.requests-header {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.requests-header h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-shadow: none;
+}
+
+.request-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.requests-content {
+    padding: var(--spacing-lg);
+}
+
+.request-item {
+    background: var(--accent-cream);
+    border-radius: 12px;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.request-item:last-child {
+    margin-bottom: 0;
+}
+
+.request-item:hover {
+    border-color: var(--primary-red);
+}
+
+.request-stage-name {
+    font-weight: 600;
+    color: var(--primary-red);
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.request-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.request-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.request-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.request-btn.approve {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+}
+
+.request-btn.approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.request-btn.reject {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.request-btn.reject:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.no-requests {
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.no-requests-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.no-requests p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.modal-header h3 i {
+    color: var(--accent-orange);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: var(--primary-red);
+    background: var(--accent-cream);
+}
+
+.modal-body {
+    padding: var(--spacing-lg);
+}
+
+.modal-body p {
+    margin: 0;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    background: var(--accent-cream);
+    border-radius: 0 0 20px 20px;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.modal-btn.secondary {
+    background: white;
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+.modal-btn.secondary:hover {
+    border-color: var(--text-muted);
+}
+
+.modal-btn.danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.modal-btn.danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Toast Container */
+.toast-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.toast {
+    background: white;
+    border-radius: 14px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    animation: toastSlide 0.4s ease;
+    max-width: 400px;
+}
+
+@keyframes toastSlide {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.toast.success {
+    border-left: 4px solid #22c55e;
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast-icon {
+    font-size: 1.3rem;
+}
+
+.toast.success .toast-icon {
+    color: #22c55e;
+}
+
+.toast.error .toast-icon {
+    color: #ef4444;
+}
+
+.toast-content {
+    flex: 1;
+    font-weight: 500;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-close:hover {
+    background: var(--accent-cream);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-card {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .timeline-step {
+        flex-direction: column;
+    }
+    
+    .timeline-node {
+        flex-direction: row;
+        width: auto;
+        gap: var(--spacing-sm);
+    }
+    
+    .node-connector {
+        width: 30px;
+        height: 3px;
+    }
+    
+    .timeline-info {
+        padding-left: 0;
+        padding-top: var(--spacing-sm);
+    }
+    
+    .access-item {
+        flex-wrap: wrap;
+    }
+    
+    .access-toggle {
+        width: 100%;
+        margin-top: var(--spacing-sm);
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="admin-section user-detail-page">
+<section class="user-detail-dashboard">
     <div class="container">
-        <div class="page-header">
-            <a href="{{ url_for('auth.admin_users') }}" class="btn btn-secondary">← Back to Users</a>
-            <h2 class="section-title">User Details</h2>
+        <!-- Header -->
+        <div class="detail-header">
+            <a href="{{ url_for('auth.admin_users') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Users</span>
+            </a>
+            <div class="detail-title">
+                <h1>User Profile</h1>
+                <p>View and manage user details, access, and progress</p>
+            </div>
         </div>
 
-        <div class="user-detail-grid">
-            <!-- Left Column: User Info -->
-            <div class="user-info-col">
-                <div class="user-detail-card">
-                    <div class="card-header">
-                        <div class="user-avatar">
-                            <img src="https://i.pravatar.cc/150?u={{ user.id }}" alt="User Avatar">
-                        </div>
-                        <div class="user-primary-info">
-                            <h3 class="user-name">{{ user.full_name }}</h3>
-                            <p class="user-username">@{{ user.username }}</p>
-                            {% if user.spiritual_name %}
-                                <p class="user-spiritual-name">({{ user.spiritual_name }})</p>
-                            {% endif %}
-                        </div>
+        <!-- Main Grid -->
+        <div class="detail-grid">
+            <!-- Left Column: Profile Card -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://i.pravatar.cc/240?u={{ user.id }}" alt="{{ user.full_name }}">
                     </div>
-                    <div class="card-content">
-                        <h4>Basic Information</h4>
-                        <div class="info-grid">
-                            <div class="info-item"><span class="info-label">Email:</span> <span class="info-value">{{ user.email }}</span></div>
-                            <div class="info-item"><span class="info-label">Phone:</span> <span class="info-value">{{ user.phone or 'N/A' }}</span></div>
-                            <div class="info-item"><span class="info-label">Joined:</span> <span class="info-value">{{ user.created_at.strftime('%b %d, %Y') }}</span></div>
-                        </div>
-                        <hr>
-                        <h4>Spiritual Practice</h4>
-                        <div class="info-grid">
-                            <div class="info-item"><span class="info-label">Guru:</span> <span class="info-value">{{ user.guru_name or 'N/A' }}</span></div>
-                            <div class="info-item"><span class="info-label">Level:</span> <span class="info-value">{{ user.practice_level or 'N/A' }}</span></div>
-                        </div>
-                        <hr>
-                        <h4>Purpose for Sadhana</h4>
-                        <p class="purpose-text">{{ user.purpose }}</p>
+                    <h2 class="profile-name">{{ user.full_name }}</h2>
+                    <p class="profile-username">@{{ user.username }}</p>
+                    {% if user.spiritual_name %}
+                        <p class="profile-spiritual">"{{ user.spiritual_name }}"</p>
+                    {% endif %}
+                    <div class="profile-badges">
+                        {% if user.is_admin() %}
+                            <span class="profile-badge admin">Admin</span>
+                        {% elif user.is_approved %}
+                            <span class="profile-badge approved">Approved</span>
+                        {% elif not user.is_active %}
+                            <span class="profile-badge suspended">Suspended</span>
+                        {% else %}
+                            <span class="profile-badge pending">Pending</span>
+                        {% endif %}
+                        <span class="profile-badge role">{{ user.role|title }}</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Right Column: Actions and Status -->
-            <div class="user-actions-col">
-                <div class="user-status-card">
-                    <h4>Account Status</h4>
-                    <div class="status-grid">
-                        <div class="info-item"><span class="info-label">Role:</span> <span class="role-badge role-{{ user.role }}">{{ user.role|title }}</span></div>
-                        <div class="info-item"><span class="info-label">Status:</span>
-                            {% if user.is_admin() %}
-                                <span class="status-badge status-admin">Admin</span>
-                            {% elif user.is_approved %}
-                                <span class="status-badge status-approved">Approved</span>
-                            {% elif not user.is_active %}
-                                <span class="status-badge status-suspended">Suspended</span>
-                            {% else %}
-                                <span class="status-badge status-pending">Pending</span>
-                            {% endif %}
+                <div class="profile-body">
+                    <!-- Basic Info -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fas fa-user"></i>
+                            <span>Basic Information</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">{{ user.email }}</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon"><i class="fas fa-phone"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">{{ user.phone or 'Not provided' }}</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon"><i class="fas fa-calendar"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Joined</span>
+                                <span class="info-value">{{ user.created_at.strftime('%B %d, %Y') }}</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="quick-actions">
-                        {% if not user.is_admin() %}
-                            {% if user.is_approved and user.is_active %}
-                                <button class="btn btn-warning suspend-user" data-user-id="{{ user.id }}"><i class="fas fa-pause-circle"></i> Suspend User</button>
-                            {% elif not user.is_approved and user.is_active %}
-                                <button class="btn btn-success approve-user" data-user-id="{{ user.id }}"><i class="fas fa-check-circle"></i> Approve User</button>
-                                <button class="btn btn-danger reject-user" data-user-id="{{ user.id }}"><i class="fas fa-times-circle"></i> Reject User</button>
-                            {% elif not user.is_active %}
-                                <button class="btn btn-success reactivate-user" data-user-id="{{ user.id }}"><i class="fas fa-play-circle"></i> Reactivate User</button>
-                            {% endif %}
+
+                    <!-- Spiritual Info -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fas fa-om"></i>
+                            <span>Spiritual Practice</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon"><i class="fas fa-praying-hands"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Guru</span>
+                                <span class="info-value">{{ user.guru_name or 'Not specified' }}</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon"><i class="fas fa-layer-group"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Practice Level</span>
+                                <span class="info-value">{{ user.practice_level or 'Not specified' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Purpose -->
+                    {% if user.purpose %}
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fas fa-heart"></i>
+                            <span>Purpose for Sadhana</span>
+                        </div>
+                        <div class="purpose-box">
+                            <p>{{ user.purpose }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Quick Actions -->
+                {% if not user.is_admin() %}
+                <div class="action-section">
+                    <div class="action-section-title">Quick Actions</div>
+                    <div class="action-buttons-grid">
+                        {% if user.is_approved and user.is_active %}
+                            <button class="action-button suspend suspend-user" data-user-id="{{ user.id }}">
+                                <i class="fas fa-pause-circle"></i> Suspend User
+                            </button>
+                        {% elif not user.is_approved and user.is_active %}
+                            <button class="action-button approve approve-user" data-user-id="{{ user.id }}">
+                                <i class="fas fa-check-circle"></i> Approve User
+                            </button>
+                            <button class="action-button reject reject-user" data-user-id="{{ user.id }}">
+                                <i class="fas fa-times-circle"></i> Reject User
+                            </button>
+                        {% elif not user.is_active %}
+                            <button class="action-button reactivate reactivate-user" data-user-id="{{ user.id }}">
+                                <i class="fas fa-play-circle"></i> Reactivate User
+                            </button>
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+            </div>
 
-                <div class="progress-section">
-                    <h4>🕉️ Spiritual Progress</h4>
-
-                    <!-- Vertical Progress Bar -->
-                    <div class="vertical-progress-container">
-                        <div class="progress-track">
+            <!-- Right Column: Progress & Access -->
+            <div class="detail-content">
+                <!-- Spiritual Progress -->
+                <div class="progress-card">
+                    <div class="card-header-bar">
+                        <h3><i class="fas fa-route"></i> Spiritual Journey</h3>
+                        <span class="current-stage-badge">
+                            {{ user.get_stage_info(user.get_current_stage()).stage_name }}
+                        </span>
+                    </div>
+                    <div class="progress-content">
+                        <div class="timeline-progress">
                             {% for stage_num in range(1, 7) %}
                                 {% set stage_info = user.get_stage_info(stage_num) %}
                                 {% set is_current = stage_num == user.get_current_stage() %}
                                 {% set is_completed = stage_info.is_completed %}
 
-                                <div class="progress-step {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
-                                    <div class="progress-node">
-                                        <div class="node-circle {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
+                                <div class="timeline-step">
+                                    <div class="timeline-node">
+                                        <div class="node-icon {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
                                             {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% elif stage_num == 3 %}✨{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
+                                            {% if is_completed %}
+                                                <span class="node-check"><i class="fas fa-check"></i></span>
+                                            {% endif %}
                                         </div>
-                                        {% if is_completed %}
-                                            <div class="completion-check">✓</div>
+                                        {% if stage_num < 6 %}
+                                            <div class="node-connector {% if is_completed %}completed{% endif %}"></div>
                                         {% endif %}
                                     </div>
-                                    <div class="progress-info">
+                                    <div class="timeline-info">
                                         <div class="stage-name">{{ stage_info.stage_name }}</div>
-                                        {% if stage_info.completion_date %}
-                                            <div class="completion-date">Completed: {{ stage_info.completion_date.strftime('%b %d, %Y') }}</div>
-                                        {% elif stage_info.start_date and is_current %}
-                                            <div class="start-date">Started: {{ stage_info.start_date.strftime('%b %d, %Y') }}</div>
-                                        {% elif is_current %}
-                                            <div class="current-status">Current Stage</div>
-                                        {% else %}
-                                            <div class="locked-status">🔒 Locked</div>
-                                        {% endif %}
-                                        {% if stage_info.duration_days > 0 %}
-                                            <div class="duration">Duration: {{ stage_info.duration_days }} days</div>
-                                        {% endif %}
+                                        <div class="stage-meta">
+                                            {% if is_completed %}
+                                                <span class="stage-tag completed"><i class="fas fa-check"></i> Completed</span>
+                                                {% if stage_info.completion_date %}
+                                                    <span class="stage-tag date"><i class="fas fa-calendar-check"></i> {{ stage_info.completion_date.strftime('%b %d, %Y') }}</span>
+                                                {% endif %}
+                                            {% elif is_current %}
+                                                <span class="stage-tag current"><i class="fas fa-circle"></i> In Progress</span>
+                                                {% if stage_info.start_date %}
+                                                    <span class="stage-tag date"><i class="fas fa-calendar"></i> Started {{ stage_info.start_date.strftime('%b %d, %Y') }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="stage-tag locked"><i class="fas fa-lock"></i> Locked</span>
+                                            {% endif %}
+                                            {% if stage_info.duration_days > 0 %}
+                                                <span class="stage-tag date"><i class="fas fa-hourglass-half"></i> {{ stage_info.duration_days }} days</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage Access Management -->
+                <div class="access-card">
+                    <div class="access-header">
+                        <h3><i class="fas fa-key"></i> Stage Access Management</h3>
+                    </div>
+                    <div class="access-content">
+                        <form method="POST" action="{{ url_for('auth.update_stage_access', user_id=user.id) }}" id="accessForm">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <div class="access-grid">
+                                <!-- Mandala 1 - Always granted -->
+                                <div class="access-item granted">
+                                    <div class="access-icon">🕉️</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Mandala 1</div>
+                                        <div class="access-status-text">Auto-granted to all users</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <span style="color: #22c55e; font-weight: 600;"><i class="fas fa-check-circle"></i></span>
                                     </div>
                                 </div>
 
-                                {% if stage_num < 6 %}
-                                    <div class="progress-connector {% if is_completed %}completed{% else %}locked{% endif %}"></div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
+                                <!-- Mandala 2 -->
+                                <div class="access-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}">
+                                    <div class="access-icon">🌟</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Mandala 2</div>
+                                        <div class="access-status-text">{% if user.mandala_2_access %}Access granted{% else %}Requires approval{% endif %}</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
 
-                    <!-- Current Status -->
-                    <div class="current-status-card">
-                        <h5>Current Status</h5>
-                        {% set next_stage = user.get_next_required_stage() %}
-                        {% if next_stage %}
-                            <p><strong>Next Required Stage:</strong> {{ user.get_stage_info(next_stage).stage_name }}</p>
-                        {% else %}
-                            <p><strong>All stages completed! 🎉</strong></p>
-                        {% endif %}
-                        <p><strong>Current Stage:</strong> {{ user.get_stage_info(user.get_current_stage()).stage_name }}</p>
+                                <!-- Mandala 3 -->
+                                <div class="access-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}">
+                                    <div class="access-icon">✨</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Mandala 3</div>
+                                        <div class="access-status-text">{% if user.mandala_3_access %}Access granted{% else %}Requires approval{% endif %}</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Rudraksha 5 Mukhi -->
+                                <div class="access-item {% if user.rudraksha_5_mukhi_access %}granted{% else %}locked{% endif %}">
+                                    <div class="access-icon">📿</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Rudraksha 5 Mukhi</div>
+                                        <div class="access-status-text">{% if user.rudraksha_5_mukhi_access %}Access granted{% else %}Requires approval{% endif %}</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="rudraksha_5_mukhi_access" {% if user.rudraksha_5_mukhi_access %}checked{% endif %}>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Rudraksha 11 Mukhi -->
+                                <div class="access-item {% if user.rudraksha_11_mukhi_access %}granted{% else %}locked{% endif %}">
+                                    <div class="access-icon">🔮</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Rudraksha 11 Mukhi</div>
+                                        <div class="access-status-text">{% if user.rudraksha_11_mukhi_access %}Access granted{% else %}Requires approval{% endif %}</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="rudraksha_11_mukhi_access" {% if user.rudraksha_11_mukhi_access %}checked{% endif %}>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Rudraksha 14 Mukhi -->
+                                <div class="access-item {% if user.rudraksha_14_mukhi_access %}granted{% else %}locked{% endif %}">
+                                    <div class="access-icon">💎</div>
+                                    <div class="access-info">
+                                        <div class="access-name">Rudraksha 14 Mukhi</div>
+                                        <div class="access-status-text">{% if user.rudraksha_14_mukhi_access %}Access granted{% else %}Requires approval{% endif %}</div>
+                                    </div>
+                                    <div class="access-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="rudraksha_14_mukhi_access" {% if user.rudraksha_14_mukhi_access %}checked{% endif %}>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="access-submit">
+                                <button type="submit">
+                                    <i class="fas fa-save"></i> Save Access Changes
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Stage Actions -->
+                        <div class="stage-actions-card">
+                            <div class="stage-actions-title">
+                                <i class="fas fa-tasks"></i> Stage Completion Actions
+                            </div>
+                            <div class="stage-actions-grid">
+                                {% for stage_num in range(1, 7) %}
+                                    {% set stage_info = user.get_stage_info(stage_num) %}
+                                    {% if stage_info.has_access and not stage_info.is_completed %}
+                                        <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}" style="display: inline;">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                            <button type="submit" class="stage-action-btn complete" onclick="return confirm('Mark {{ stage_info.stage_name }} as completed?')">
+                                                <i class="fas fa-check"></i> Complete {{ stage_info.stage_name }}
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                    {% if stage_info.is_completed %}
+                                        <form method="POST" action="{{ url_for('auth.reset_user_stage', user_id=user.id) }}" style="display: inline;">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                            <button type="submit" class="stage-action-btn reset" onclick="return confirm('Reset {{ stage_info.stage_name }} and all subsequent stages?')">
+                                                <i class="fas fa-undo"></i> Reset {{ stage_info.stage_name }}
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="stage-access-card">
-                    <h4>📋 Stage Management</h4>
-                    <form method="POST" action="{{ url_for('auth.update_stage_access', user_id=user.id) }}" class="stage-access-form">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <div class="stage-access-grid">
-                            <div class="stage-access-item granted">
-                                <div class="stage-icon">🕉️</div>
-                                <div class="stage-info">
-                                    <strong>Mandala 1</strong>
-                                    <small>Auto-granted</small>
-                                </div>
-                                <div class="stage-status">✓</div>
-                            </div>
-                            <div class="stage-access-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}">
-                                <div class="stage-icon">🌟</div>
-                                <div class="stage-info">
-                                    <strong>Mandala 2</strong>
-                                    <small>{% if user.mandala_2_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
-                                </div>
-                                <div class="stage-status">
-                                    <label class="switch">
-                                        <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="stage-access-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}">
-                                <div class="stage-icon">✨</div>
-                                <div class="stage-info">
-                                    <strong>Mandala 3</strong>
-                                    <small>{% if user.mandala_3_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
-                                </div>
-                                <div class="stage-status">
-                                    <label class="switch">
-                                        <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="stage-access-item {% if user.rudraksha_5_mukhi_access %}granted{% else %}locked{% endif %}">
-                                <div class="stage-icon">📿</div>
-                                <div class="stage-info">
-                                    <strong>Rudraksha 5 Mukhi</strong>
-                                    <small>{% if user.rudraksha_5_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
-                                </div>
-                                <div class="stage-status">
-                                    <label class="switch">
-                                        <input type="checkbox" name="rudraksha_5_mukhi_access" {% if user.rudraksha_5_mukhi_access %}checked{% endif %}>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="stage-access-item {% if user.rudraksha_11_mukhi_access %}granted{% else %}locked{% endif %}">
-                                <div class="stage-icon">🔮</div>
-                                <div class="stage-info">
-                                    <strong>Rudraksha 11 Mukhi</strong>
-                                    <small>{% if user.rudraksha_11_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
-                                </div>
-                                <div class="stage-status">
-                                    <label class="switch">
-                                        <input type="checkbox" name="rudraksha_11_mukhi_access" {% if user.rudraksha_11_mukhi_access %}checked{% endif %}>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="stage-access-item {% if user.rudraksha_14_mukhi_access %}granted{% else %}locked{% endif %}">
-                                <div class="stage-icon">💎</div>
-                                <div class="stage-info">
-                                    <strong>Rudraksha 14 Mukhi</strong>
-                                    <small>{% if user.rudraksha_14_mukhi_access %}Access Granted{% else %}Admin Approval Required{% endif %}</small>
-                                </div>
-                                <div class="stage-status">
-                                    <label class="switch">
-                                        <input type="checkbox" name="rudraksha_14_mukhi_access" {% if user.rudraksha_14_mukhi_access %}checked{% endif %}>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Access</button>
-                    </form>
-
-                    <!-- Stage Actions -->
-                    <div class="stage-actions">
-                        <h5>Stage Actions</h5>
-                        <div class="action-buttons">
-                            {% for stage_num in range(1, 7) %}
-                                {% set stage_info = user.get_stage_info(stage_num) %}
-                                {% if stage_info.has_access and not stage_info.is_completed %}
-                                    <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}" style="display: inline;">
-                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="stage_number" value="{{ stage_num }}">
-                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Mark {{ stage_info.stage_name }} as completed?')">
-                                            <i class="fas fa-check"></i> Complete {{ stage_info.stage_name }}
-                                        </button>
-                                    </form>
-                                {% endif %}
-                                {% if stage_info.is_completed %}
-                                    <form method="POST" action="{{ url_for('auth.reset_user_stage', user_id=user.id) }}" style="display: inline;">
-                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="stage_number" value="{{ stage_num }}">
-                                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Reset {{ stage_info.stage_name }} and all subsequent stages?')">
-                                            <i class="fas fa-undo"></i> Reset {{ stage_info.stage_name }}
-                                        </button>
-                                    </form>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                <!-- Pending Requests -->
+                {% if pending_requests %}
+                <div class="requests-card">
+                    <div class="requests-header">
+                        <h3><i class="fas fa-clock"></i> Pending Access Requests</h3>
+                        <span class="request-count">{{ pending_requests|length }}</span>
                     </div>
-                    
-                    <!-- Pending Stage Access Requests -->
-                    {% if pending_requests %}
-                    <div class="pending-requests-card">
-                        <h4>📋 Pending Access Requests</h4>
-                        <div class="requests-list">
-                            {% for request in pending_requests %}
-                            <div class="request-item-detail" data-request-id="{{ request.id }}">
-                                <div class="request-info">
-                                    <div class="request-stage">{{ request.get_stage_name() }}</div>
-                                    <div class="request-date">Requested {{ request.requested_at.strftime('%b %d, %Y at %I:%M %p') }}</div>
-                                </div>
-                                <div class="request-actions">
-                                    <button class="btn btn-success btn-sm btn-approve-request" data-request-id="{{ request.id }}">
-                                        <i class="fas fa-check"></i> Approve
-                                    </button>
-                                    <button class="btn btn-danger btn-sm btn-reject-request" data-request-id="{{ request.id }}">
-                                        <i class="fas fa-times"></i> Reject
-                                    </button>
-                                </div>
+                    <div class="requests-content">
+                        {% for request in pending_requests %}
+                        <div class="request-item" data-request-id="{{ request.id }}">
+                            <div class="request-stage-name">{{ request.get_stage_name() }}</div>
+                            <div class="request-date">
+                                <i class="fas fa-calendar-alt"></i> Requested {{ request.requested_at.strftime('%B %d, %Y at %I:%M %p') }}
                             </div>
-                            {% endfor %}
+                            <div class="request-buttons">
+                                <button class="request-btn approve btn-approve-request" data-request-id="{{ request.id }}">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button class="request-btn reject btn-reject-request" data-request-id="{{ request.id }}">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
 
-<!-- Success/Error Messages -->
-<div id="message-container" class="message-container" style="display: none;">
-    <div class="message-content">
-        <span id="message-text"></span>
-        <button class="message-close" onclick="hideMessage()">×</button>
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-exclamation-triangle"></i> Confirm Action</h3>
+            <button class="modal-close" onclick="closeConfirmModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmMessage"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn secondary" onclick="closeConfirmModal()">Cancel</button>
+            <button class="modal-btn danger" id="confirmActionBtn">Confirm</button>
+        </div>
     </div>
 </div>
 
-<!-- Confirmation Modal -->
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm Action</h3>
-            <button class="modal-close" onclick="closeConfirmationModal()">×</button>
-        </div>
-        <div class="modal-body">
-            <p id="confirmation-message"></p>
-        </div>
-        <div class="modal-footer">
-            <button id="confirm-action-btn" class="btn btn-danger">Confirm</button>
-            <button class="btn btn-secondary" onclick="closeConfirmationModal()">Cancel</button>
-        </div>
-    </div>
-</div>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle quick action buttons
+    setupUserActions();
+    setupRequestActions();
+    setupAccessFormValidation();
+});
+
+function setupUserActions() {
     document.querySelectorAll('.approve-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
@@ -313,7 +1521,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.reject-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            openConfirmationModal('Are you sure you want to reject this user?', function() {
+            openConfirmModal('Are you sure you want to reject this user? This action cannot be undone.', function() {
                 executeUserAction(userId, 'reject', 'Rejected via user detail page');
             });
         });
@@ -322,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.suspend-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const userId = this.dataset.userId;
-            openConfirmationModal('Are you sure you want to suspend this user?', function() {
+            openConfirmModal('Are you sure you want to suspend this user? They will lose access to all content.', function() {
                 executeUserAction(userId, 'suspend', 'Suspended via user detail page');
             });
         });
@@ -334,32 +1542,81 @@ document.addEventListener('DOMContentLoaded', function() {
             executeUserAction(userId, 'approve', 'Reactivated via user detail page');
         });
     });
-    
-    // Handle stage access request approvals
+}
+
+function setupRequestActions() {
     document.querySelectorAll('.btn-approve-request').forEach(btn => {
         btn.addEventListener('click', function() {
             const requestId = this.dataset.requestId;
-            approveStageRequest(requestId, 'approve');
+            handleStageRequest(requestId, 'approve');
         });
     });
     
-    // Handle stage access request rejections
     document.querySelectorAll('.btn-reject-request').forEach(btn => {
         btn.addEventListener('click', function() {
             const requestId = this.dataset.requestId;
-            openConfirmationModal('Are you sure you want to reject this access request?', function() {
-                approveStageRequest(requestId, 'reject');
+            openConfirmModal('Are you sure you want to reject this access request?', function() {
+                handleStageRequest(requestId, 'reject');
             });
         });
     });
-});
+}
 
-function approveStageRequest(requestId, action) {
+function setupAccessFormValidation() {
+    const form = document.getElementById('accessForm');
+    const toggles = form.querySelectorAll('.toggle-switch input');
+    
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            const item = this.closest('.access-item');
+            if (this.checked) {
+                item.classList.remove('locked');
+                item.classList.add('granted');
+            } else {
+                item.classList.remove('granted');
+                item.classList.add('locked');
+            }
+        });
+    });
+}
+
+function executeUserAction(userId, action, notes) {
+    const csrfToken = '{{ csrf_token() }}';
+    
+    fetch('{{ url_for("auth.approve_user") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'user_id': userId,
+            'action': action,
+            'notes': notes,
+            'csrf_token': csrfToken
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, 'success');
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('An error occurred. Please try again.', 'error');
+        console.error('Error:', error);
+    });
+}
+
+function handleStageRequest(requestId, action) {
     const csrfToken = '{{ csrf_token() }}';
     const btn = document.querySelector(`.btn-approve-request[data-request-id="${requestId}"], .btn-reject-request[data-request-id="${requestId}"]`);
+    
     if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     }
     
     fetch(`/auth/admin/approve_stage_request/${requestId}`, {
@@ -375,19 +1632,17 @@ function approveStageRequest(requestId, action) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showMessage(data.message, 'success');
-            // Remove the request item from the list
-            const requestItem = document.querySelector(`.request-item-detail[data-request-id="${requestId}"]`);
+            showToast(data.message, 'success');
+            const requestItem = document.querySelector(`.request-item[data-request-id="${requestId}"]`);
             if (requestItem) {
-                requestItem.style.animation = 'fadeOut 0.3s ease-out';
+                requestItem.style.animation = 'fadeOut 0.3s ease-out forwards';
                 setTimeout(() => {
                     requestItem.remove();
-                    // Reload page to update stage access
                     setTimeout(() => location.reload(), 500);
                 }, 300);
             }
         } else {
-            showMessage('Error: ' + data.message, 'error');
+            showToast('Error: ' + data.message, 'error');
             if (btn) {
                 btn.disabled = false;
                 btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
@@ -395,7 +1650,7 @@ function approveStageRequest(requestId, action) {
         }
     })
     .catch(error => {
-        showMessage('An error occurred. Please try again.', 'error');
+        showToast('An error occurred. Please try again.', 'error');
         console.error('Error:', error);
         if (btn) {
             btn.disabled = false;
@@ -404,68 +1659,62 @@ function approveStageRequest(requestId, action) {
     });
 }
 
-function executeUserAction(userId, action, notes) {
-    fetch('{{ url_for("auth.approve_user") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'user_id': userId,
-            'action': action,
-            'notes': notes,
-            'csrf_token': '{{ csrf_token() }}'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showMessage(data.message, 'success');
-            // Reload page after short delay to show updated status
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showMessage(data.message, 'error');
-        }
-    })
-    .catch(error => {
-        showMessage('An error occurred. Please try again.', 'error');
-        console.error('Error:', error);
-    });
-}
-
-function showMessage(message, type) {
-    const container = document.getElementById('message-container');
-    const messageText = document.getElementById('message-text');
+function openConfirmModal(message, onConfirm) {
+    document.getElementById('confirmMessage').textContent = message;
+    document.getElementById('confirmModal').classList.add('active');
     
-    messageText.textContent = message;
-    container.className = `message-container message-${type}`;
-    container.style.display = 'block';
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => hideMessage(), 5000);
-}
-
-function hideMessage() {
-    document.getElementById('message-container').style.display = 'none';
-}
-
-function openConfirmationModal(message, onConfirm) {
-    const modal = document.getElementById('confirmation-modal');
-    const messageElement = document.getElementById('confirmation-message');
-    const confirmBtn = document.getElementById('confirm-action-btn');
-
-    messageElement.textContent = message;
-    modal.style.display = 'flex';
-
+    const confirmBtn = document.getElementById('confirmActionBtn');
     confirmBtn.onclick = function() {
         onConfirm();
-        closeConfirmationModal();
+        closeConfirmModal();
     };
 }
 
-function closeConfirmationModal() {
-    const modal = document.getElementById('confirmation-modal');
-    modal.style.display = 'none';
+function closeConfirmModal() {
+    document.getElementById('confirmModal').classList.remove('active');
 }
+
+function showToast(message, type) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <span class="toast-icon">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        </span>
+        <span class="toast-content">${message}</span>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'toastSlide 0.3s ease-out reverse forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
+
+// Modal close on outside click
+document.getElementById('confirmModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeConfirmModal();
+    }
+});
+
+// Keyboard accessibility
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeConfirmModal();
+    }
+});
+
+// Animation keyframes
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(20px); }
+    }
+`;
+document.head.appendChild(style);
 </script>
 {% endblock %}
