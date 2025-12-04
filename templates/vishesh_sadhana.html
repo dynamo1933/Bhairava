@@ -2,128 +2,112 @@
 
 {% block extra_styles %}
 <style>
-/* ===== VISHESH SADHANA PAGE - GURU BHAIRAVA THEME ===== */
+/* ===== VISHESH SADHANA PAGE - MATCHING APPLICATION THEME ===== */
 
-/* Hero Section - Horizontal Layout */
-.guru-hero {
-    background: linear-gradient(135deg, #1a0a1a 0%, #2d1f3d 30%, #4a1942 70%, #6b2c5f 100%);
-    padding: 2rem 1.5rem;
+/* Hero Section */
+.vishesh-hero {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 50%, #7c1526 100%);
+    padding: 3rem 1.5rem;
     position: relative;
     overflow: hidden;
-    min-height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.guru-hero::before {
+.vishesh-hero::before {
     content: '';
     position: absolute;
-    left: -100px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 500px;
-    height: 500px;
-    background: 
-        radial-gradient(circle, transparent 30%, rgba(255,100,100,0.03) 31%, rgba(255,100,100,0.03) 32%, transparent 33%),
-        radial-gradient(circle, transparent 45%, rgba(255,100,100,0.03) 46%, rgba(255,100,100,0.03) 47%, transparent 48%),
-        radial-gradient(circle, transparent 60%, rgba(255,100,100,0.03) 61%, rgba(255,100,100,0.03) 62%, transparent 63%),
-        radial-gradient(circle, transparent 75%, rgba(255,100,100,0.03) 76%, rgba(255,100,100,0.03) 77%, transparent 78%);
-    opacity: 0.8;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="sacredPattern" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23sacredPattern)"/></svg>');
+    opacity: 0.5;
     pointer-events: none;
 }
 
-.hero-content {
+.hero-container {
     position: relative;
     z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 3rem;
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
 }
 
-.guru-image-container {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.hero-image-wrapper {
+    flex-shrink: 0;
 }
 
-.guru-image {
-    width: 180px;
-    height: 180px;
+.hero-image {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid rgba(255, 100, 100, 0.8);
-    box-shadow: 0 0 40px rgba(255, 100, 100, 0.5), 0 0 80px rgba(150, 50, 100, 0.3);
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-.hero-text {
-    flex: 1;
+.hero-text-content {
     text-align: center;
+    flex: 1;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+
+.badge-icon {
+    font-size: 1.2rem;
+}
+
+.badge-text {
+    color: #fff;
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .hero-title {
     font-family: var(--font-mystical);
     font-size: 2.5rem;
-    color: #ff9999;
-    margin-bottom: 0.4rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    letter-spacing: 4px;
-    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 3px;
 }
 
 .hero-subtitle {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1.1rem;
-    font-style: italic;
-    margin-bottom: 0.75rem;
     font-family: var(--font-sacred);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.75rem;
+    font-style: italic;
 }
 
 .hero-sanskrit {
     font-family: var(--font-mystical);
-    font-size: 1.4rem;
-    color: #ffcc99;
+    font-size: 1.3rem;
+    color: var(--accent-gold);
     letter-spacing: 2px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Desktop: Ensure horizontal layout */
-@media (min-width: 768px) {
-    .hero-content {
-        flex-direction: row !important;
-    }
-    
-    .guru-image {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .hero-title {
-        font-size: 3rem;
-    }
-}
-
-/* Mobile: Stack vertically */
-@media (max-width: 767px) {
-    .guru-hero {
-        padding: 1.5rem 1rem;
-        min-height: auto;
-    }
-    
-    .hero-content {
+@media (max-width: 768px) {
+    .hero-container {
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
     }
     
-    .guru-image {
-        width: 120px;
-        height: 120px;
+    .hero-image {
+        width: 150px;
+        height: 150px;
     }
     
     .hero-title {
@@ -131,39 +115,66 @@
     }
     
     .hero-subtitle {
-        font-size: 0.95rem;
-    }
-    
-    .hero-sanskrit {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 
-/* Main Content Container */
-.guru-main {
+/* Main Content */
+.vishesh-main {
     padding: 2rem 1.25rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 @media (min-width: 768px) {
-    .guru-main {
+    .vishesh-main {
         padding: 2.5rem 2rem;
     }
 }
 
-@media (min-width: 1200px) {
-    .guru-main {
-        padding: 3rem 2.5rem;
-    }
+/* Section Header - Matching App Style */
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-/* Section Card Base */
+.header-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.decoration-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+}
+
+.decoration-symbol {
+    font-size: 1.5rem;
+}
+
+.section-title {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-family: var(--font-secondary);
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Content Cards */
 .content-card {
     background: var(--card-bg);
     border-radius: var(--border-radius-lg);
     padding: 2rem 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     box-shadow: 0 4px 20px var(--shadow-color);
     border: 1px solid var(--border-color);
 }
@@ -171,81 +182,51 @@
 @media (min-width: 768px) {
     .content-card {
         padding: 2.5rem 3rem;
-        margin-bottom: 2rem;
     }
 }
 
-@media (min-width: 1200px) {
-    .content-card {
-        padding: 3rem 4rem;
-    }
-}
-
-/* Section Titles */
-.section-title {
-    font-family: var(--font-primary);
-    font-size: 1.6rem;
-    color: var(--primary-red);
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 0.75rem;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #6b2c5f, #ff6666);
-    border-radius: 2px;
-}
-
-/* Introduction Card */
+/* Introduction Card - Warm Theme */
 .intro-card {
-    background: linear-gradient(135deg, #1a0a1a 0%, #2d1f3d 100%);
-    border-left: 4px solid #ff6666;
-    color: white;
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+    color: #fff;
 }
 
 .intro-title {
     font-family: var(--font-mystical);
     font-size: 1.5rem;
-    color: #ffcc99;
+    color: var(--accent-gold);
     margin-bottom: 1rem;
     text-align: center;
 }
 
 .intro-text {
     font-family: var(--font-secondary);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 1.05rem;
     line-height: 1.9;
     text-align: justify;
 }
 
 .intro-text em {
-    color: #ff9999;
+    color: var(--accent-gold);
     font-style: italic;
 }
 
-/* Sanskrit Verse */
+/* Sanskrit Verse - Warm Theme */
 .sanskrit-verse {
-    background: linear-gradient(135deg, #2d1f3d 0%, #4a1942 100%);
+    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
     border-radius: var(--border-radius);
     padding: 1.5rem;
     margin: 1.5rem 0;
     text-align: center;
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .sanskrit-text {
     font-family: var(--font-sacred);
     font-size: 1.2rem;
-    color: #ffcc99;
+    color: var(--primary-red);
     line-height: 1.8;
     margin-bottom: 0.5rem;
 }
@@ -253,14 +234,14 @@
 .sanskrit-transliteration {
     font-family: var(--font-sacred);
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-muted);
     font-style: italic;
 }
 
 .sanskrit-meaning {
     font-family: var(--font-secondary);
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-dark);
     margin-top: 0.75rem;
     font-style: italic;
 }
@@ -277,42 +258,34 @@
 @media (max-width: 600px) {
     .nights-grid {
         grid-template-columns: 1fr;
-        gap: 0.75rem;
     }
 }
 
 .night-card {
-    position: relative;
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
     border-radius: var(--border-radius-lg);
     padding: 1.5rem;
     text-align: center;
-    border: 1px solid rgba(255, 100, 100, 0.2);
+    border: 1px solid rgba(196, 30, 58, 0.15);
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #2d1f3d 0%, #4a1942 100%);
-    overflow: hidden;
 }
 
 .night-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(255, 100, 100, 0.2);
-    border-color: rgba(255, 100, 100, 0.5);
-}
-
-.night-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    border-color: var(--primary-red);
 }
 
 .night-name {
-    font-family: var(--font-mystical);
+    font-family: var(--font-primary);
     font-size: 1.1rem;
-    color: #ffcc99;
+    color: var(--primary-red);
     margin-bottom: 0.5rem;
 }
 
 .night-desc {
     font-family: var(--font-secondary);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-dark);
     font-size: 0.9rem;
     line-height: 1.6;
 }
@@ -348,7 +321,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.8);
     border-radius: var(--border-radius);
     border: 1px solid rgba(245, 158, 11, 0.2);
 }
@@ -369,15 +342,14 @@
     background: var(--card-bg);
     border-radius: var(--border-radius-lg);
     padding: 1.5rem;
-    margin-bottom: 0;
     border: 1px solid var(--border-color);
     box-shadow: 0 2px 10px var(--shadow-color);
     transition: all 0.3s ease;
 }
 
 .step-card:hover {
-    background: #fefefe;
-    box-shadow: 0 4px 15px var(--shadow-color), inset 4px 0 0 var(--primary-red);
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border-left: 4px solid var(--primary-red);
     transform: translateY(-2px);
 }
 
@@ -416,7 +388,7 @@
     flex-shrink: 0;
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #6b2c5f, #ff6666);
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -452,11 +424,7 @@
     margin-bottom: 0.75rem;
 }
 
-.step-content p:last-child {
-    margin-bottom: 0;
-}
-
-/* Mantra Box within Steps */
+/* Mantra Box */
 .mantra-box {
     background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
     border-radius: var(--border-radius);
@@ -488,27 +456,27 @@
     font-style: italic;
 }
 
-/* Dark Mantra Box */
+/* Dark Mantra Box - Updated to match theme */
 .mantra-box.dark {
-    background: linear-gradient(135deg, #2d1f3d 0%, #4a1942 100%);
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
 }
 
 .mantra-box.dark .mantra-title {
-    color: #ffcc99;
+    color: var(--accent-gold);
 }
 
 .mantra-box.dark .mantra-sanskrit {
-    color: #ff9999;
+    color: #fff;
 }
 
 .mantra-box.dark .mantra-transliteration {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* Visualization Box */
 .visualization-box {
-    background: rgba(196, 30, 58, 0.05);
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
     border-radius: var(--border-radius);
     padding: 1rem;
     margin: 1rem 0;
@@ -595,22 +563,20 @@
     line-height: 1.8;
 }
 
-/* Sacred Quote */
+/* Sacred Quote - Warm Theme */
 .sacred-quote {
-    background: linear-gradient(135deg, #2d1f3d 0%, #4a1942 100%);
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
     border-radius: var(--border-radius-lg);
     padding: 2rem 1.5rem;
     text-align: center;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 100, 100, 0.3);
-    box-shadow: 0 4px 20px rgba(100, 50, 100, 0.2);
+    margin-bottom: 2rem;
     position: relative;
+    box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 @media (min-width: 768px) {
     .sacred-quote {
         padding: 2.5rem 3rem;
-        margin-bottom: 2rem;
     }
 }
 
@@ -618,7 +584,7 @@
     content: '"';
     font-family: var(--font-mystical);
     font-size: 4rem;
-    color: rgba(255, 100, 100, 0.2);
+    color: rgba(255, 255, 255, 0.15);
     position: absolute;
     top: 0;
     left: 1rem;
@@ -636,7 +602,7 @@
 
 .quote-attribution {
     font-family: var(--font-secondary);
-    color: #ffcc99;
+    color: var(--accent-gold);
     font-size: 0.95rem;
 }
 
@@ -690,10 +656,26 @@
     line-height: 1.7;
 }
 
+/* Final Blessing Card */
+.final-blessing-card {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+    text-align: center;
+}
+
+.final-blessing-card .intro-title {
+    color: var(--accent-gold);
+}
+
+.final-blessing-card .intro-text {
+    color: rgba(255, 255, 255, 0.95);
+    text-align: center;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .section-title {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
     
     .intro-title {
@@ -703,25 +685,16 @@
     .intro-text {
         font-size: 1rem;
     }
-    
-    .steps-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .step-card.full-width {
-        max-width: 100%;
-    }
 }
 
 @media (max-width: 480px) {
-    .guru-main {
+    .vishesh-main {
         padding: 1.5rem 1rem;
     }
     
     .content-card {
         padding: 1.5rem 1.25rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     
     .step-card {
@@ -733,14 +706,18 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="guru-hero">
-    <div class="hero-content">
-        <div class="guru-image-container">
-            <img src="{{ url_for('static', filename='images/bhairava_black.jpg') }}" 
+<section class="vishesh-hero">
+    <div class="hero-container">
+        <div class="hero-image-wrapper">
+            <img src="{{ url_for('static', filename='images/kamakhaya_maa_with_baba_header.jpg') }}" 
                  alt="Kāmākhyā-Bhairava" 
-                 class="guru-image">
+                 class="hero-image">
         </div>
-        <div class="hero-text">
+        <div class="hero-text-content">
+            <div class="hero-badge">
+                <span class="badge-icon">🔱</span>
+                <span class="badge-text">Sacred Sadhana</span>
+            </div>
             <h1 class="hero-title">Kāmākhyā–Bhairava</h1>
             <p class="hero-subtitle">Vishesh Sãdhana Guidelines — His Grace on us!</p>
             <div class="hero-sanskrit">॥ भैरव अनुग्रह ॥</div>
@@ -749,7 +726,7 @@
 </section>
 
 <!-- Main Content -->
-<div class="guru-main">
+<div class="vishesh-main">
     
     <!-- Introduction -->
     <div class="content-card intro-card">
@@ -759,16 +736,16 @@
             each offering unique blessings and transformative power for Tantra sadhakas.
         </p>
         
-        <div class="sanskrit-verse">
-            <div class="sanskrit-text">
+        <div class="sanskrit-verse" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
+            <div class="sanskrit-text" style="color: var(--accent-gold);">
                 रक्तवर्णां त्रिनेत्रां च चन्द्रसूर्याग्निलोचनाम्।<br>
                 स्मेरमुखीं वराभीति हस्तां कामाख्यां नमाम्यहम्॥
             </div>
-            <div class="sanskrit-transliteration">
+            <div class="sanskrit-transliteration" style="color: rgba(255,255,255,0.85);">
                 Raktavarnām trinetrām ca candrasūryāgnilocanām,<br>
                 Smeramukhīm varābhīti hastām Kāmākhyām namāmyaham.
             </div>
-            <div class="sanskrit-meaning">
+            <div class="sanskrit-meaning" style="color: rgba(255,255,255,0.75);">
                 — I bow to Kāmākhyā, red in complexion, three-eyed, with moon, sun and fire as eyes, 
                 with a smiling face and hands bestowing boons and fearlessness.
             </div>
@@ -783,10 +760,15 @@
 
     <!-- Four Sacred Nights -->
     <div class="content-card">
-        <h2 class="section-title">Four Sacred Nights for Sadhana</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem; font-family: var(--font-secondary);">
-            Choose any of these spiritually charged nights to perform this powerful sadhana:
-        </p>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🌙</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Four Sacred Nights for Sadhana</h2>
+            <p class="section-subtitle">Choose any of these spiritually charged nights to perform this powerful sadhana</p>
+        </div>
         
         <div class="nights-grid">
             <div class="night-card">
@@ -830,7 +812,15 @@
 
     <!-- Time and Place -->
     <div class="content-card preparation-card">
-        <h2 class="section-title">Time and Place</h2>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🕐</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Time and Place</h2>
+            <p class="section-subtitle">Sacred timing and space preparation</p>
+        </div>
         
         <div class="prep-subsection">
             <h3 class="prep-subsection-title"><i class="fas fa-clock"></i> Sacred Timing</h3>
@@ -875,7 +865,15 @@
 
     <!-- Step-by-Step Guide -->
     <div class="content-card">
-        <h2 class="section-title">Pūrvasevā (Preparation) — Step by Step</h2>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">📿</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Pūrvasevā (Preparation) — Step by Step</h2>
+            <p class="section-subtitle">Follow these sacred steps with devotion</p>
+        </div>
         
         <div class="steps-grid">
             <!-- Step 1 - Full Width -->
@@ -1031,7 +1029,15 @@
 
     <!-- Dhyana -->
     <div class="content-card">
-        <h2 class="section-title">Dhyāna (Meditation Verse)</h2>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🧘</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Dhyāna (Meditation Verse)</h2>
+            <p class="section-subtitle">Sacred visualization and contemplation</p>
+        </div>
         
         <div class="visualization-box">
             <div class="visualization-title">🔱 Sacred Visualization</div>
@@ -1055,12 +1061,15 @@
 
     <!-- Bali & Tattva Offerings -->
     <div class="content-card">
-        <h2 class="section-title">Bali & Tattva Offerings</h2>
-        
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem; font-family: var(--font-secondary);">
-            This is symbolic offering — no harm or violence. These two nights represent cutting the ego (Naraka) 
-            and absorbing darkness into light (Amāvasyā).
-        </p>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🍈</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Bali & Tattva Offerings</h2>
+            <p class="section-subtitle">Symbolic offering — representing transformation and light</p>
+        </div>
         
         <div class="step-card">
             <div class="step-header">
@@ -1096,7 +1105,15 @@
 
     <!-- Japa & Main Mantras -->
     <div class="content-card">
-        <h2 class="section-title">Japa & Main Mantras</h2>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🔱</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Japa & Main Mantras</h2>
+            <p class="section-subtitle">Sacred mantras for invocation and blessing</p>
+        </div>
         
         <div class="steps-grid">
             <div class="step-card">
@@ -1160,11 +1177,15 @@
 
     <!-- Arādhana & Pūrnāhuti -->
     <div class="content-card">
-        <h2 class="section-title">Arādhana & Pūrnāhuti</h2>
-        
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">
-            Light camphor, ring bell or damaru and chant:
-        </p>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🔔</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Arādhana & Pūrnāhuti</h2>
+            <p class="section-subtitle">Light camphor, ring bell or damaru and chant</p>
+        </div>
         
         <div class="mantra-box dark" style="max-width: 600px; margin: 0 auto;">
             <div class="mantra-sanskrit">
@@ -1183,11 +1204,15 @@
 
     <!-- Guru Parampara -->
     <div class="content-card">
-        <h2 class="section-title">Closing — Guru Parampara</h2>
-        
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">
-            Close your eyes and offer salutation to Guru Parampara:
-        </p>
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🙏</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Closing — Guru Parampara</h2>
+            <p class="section-subtitle">Close your eyes and offer salutation to the lineage</p>
+        </div>
         
         <div class="parampara-grid">
             <div class="parampara-item"><span class="parampara-name">Om Gurubhyo Namah</span></div>
@@ -1241,9 +1266,9 @@
     </div>
 
     <!-- Final Blessing -->
-    <div class="content-card intro-card" style="text-align: center;">
+    <div class="content-card final-blessing-card">
         <h2 class="intro-title">॥ ॐ भैरवाय नमः ॐ कामाख्यै नमः ॥</h2>
-        <p class="intro-text" style="text-align: center; font-size: 1.2rem;">
+        <p class="intro-text" style="font-size: 1.2rem;">
             May Bhairava guide and bless your Sadhana!
         </p>
     </div>

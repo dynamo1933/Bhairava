@@ -1102,6 +1102,9 @@
             </div>
         </div>
 
+        <!-- CSRF Token for AJAX requests -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <!-- Search & Filter -->
         <div class="search-section">
             <div class="search-header">

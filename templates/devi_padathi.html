@@ -755,7 +755,7 @@
 <section class="devi-padati-header">
     <div class="header-layout">
         <div class="header-image">
-            <img src="{{ url_for('static', filename='images/devi_kamakhya.jpg') }}" alt="Maa Kamakhya" onerror="this.src='{{ url_for('static', filename='images/bhairav_with_sadhak.jpg') }}'">
+            <img src="{{ url_for('static', filename='images/kamakhaya_maa_yoni_pith.jpg') }}" alt="Maa Kamakhya Yoni Pith" onerror="this.src='{{ url_for('static', filename='images/bhairav_with_sadhak.jpg') }}'">
         </div>
         <div class="header-content">
             <h1 class="header-title">Devi Padathi</h1>
@@ -813,8 +813,8 @@
                                     {% else %}<i class="fas fa-lock"></i>{% endif %}
                                 </div>
                                 <div class="card-body {% if is_accessible or is_completed %}active{% else %}locked{% endif %}">
-                                    <img src="{{ url_for('static', filename='images/devi_mandala_' ~ mandala_num ~ '.jpg') }}" 
-                                         alt="Mandala {{ mandala_num }}" 
+                                    <img src="{{ url_for('static', filename='images/kamakhaya_maa_mandla_' ~ mandala_num ~ '_header.jpg') }}" 
+                                         alt="Kamakhya Maa Mandala {{ mandala_num }}" 
                                          class="mandala-img"
                                          onerror="this.src='{{ url_for('static', filename='images/stage_headers/mandala_' ~ mandala_num ~ '_header.jpg') }}'">
                                     <div class="card-title">Mandala {{ mandala_num }}</div>

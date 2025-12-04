@@ -1,104 +1,848 @@
 {% extends "base.html" %}
 
+{% block extra_styles %}
+<style>
+/* ===== DEVI PAGE - MATCHING APPLICATION THEME ===== */
+
+/* Hero Section */
+.devi-hero {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 50%, #7c1526 100%);
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.devi-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="sacredPattern" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="40" cy="40" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23sacredPattern)"/></svg>');
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    margin-bottom: 1.25rem;
+    backdrop-filter: blur(10px);
+}
+
+.badge-icon {
+    font-size: 1.3rem;
+}
+
+.badge-text {
+    color: #fff;
+    font-family: var(--font-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.hero-title {
+    font-family: var(--font-mystical);
+    font-size: 2.8rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 4px;
+}
+
+.hero-subtitle {
+    font-family: var(--font-sacred);
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1rem;
+    font-style: italic;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-description {
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto 1.5rem;
+}
+
+.hero-invitation {
+    font-family: var(--font-sacred);
+    font-size: 1.1rem;
+    color: var(--accent-gold);
+    line-height: 2;
+    margin-bottom: 2rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    font-family: var(--font-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-hero.primary {
+    background: var(--accent-gold);
+    color: #1a1a1a;
+}
+
+.btn-hero.primary:hover {
+    background: #fbbf24;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+}
+
+.btn-hero.secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-hero.secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .devi-hero {
+        padding: 2rem 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-hero {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+}
+
+/* Main Content */
+.devi-main {
+    padding: 2rem 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .devi-main {
+        padding: 2.5rem 2rem;
+    }
+}
+
+/* Section Header - Matching App Style */
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.decoration-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+}
+
+.decoration-symbol {
+    font-size: 1.5rem;
+}
+
+.section-title {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-family: var(--font-secondary);
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Content Cards */
+.content-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+@media (min-width: 768px) {
+    .content-card {
+        padding: 2.5rem 3rem;
+    }
+}
+
+/* Introduction Card - Warm Theme */
+.intro-card {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+    color: #fff;
+}
+
+.intro-title {
+    font-family: var(--font-mystical);
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.intro-text {
+    font-family: var(--font-secondary);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    text-align: justify;
+}
+
+.intro-text em {
+    color: var(--accent-gold);
+    font-style: italic;
+}
+
+/* Sacred Quote */
+.sacred-quote {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+@media (min-width: 768px) {
+    .sacred-quote {
+        padding: 2.5rem 3rem;
+    }
+}
+
+.sacred-quote::before {
+    content: '"';
+    font-family: var(--font-mystical);
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.15);
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    line-height: 1;
+}
+
+.quote-text {
+    font-family: var(--font-sacred);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+}
+
+.quote-attribution {
+    font-family: var(--font-secondary);
+    color: var(--accent-gold);
+    font-size: 0.95rem;
+}
+
+/* Kamakhya Section */
+.kamakhya-card {
+    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+    border-left: 4px solid var(--accent-orange);
+}
+
+.sacred-text {
+    font-family: var(--font-secondary);
+    color: var(--text-dark);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    text-align: justify;
+    margin-bottom: 1.25rem;
+}
+
+.power-highlight {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border-radius: var(--border-radius);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.power-highlight .highlight-text {
+    font-family: var(--font-sacred);
+    color: #fff;
+    font-size: 1.1rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.power-quotes {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(196, 30, 58, 0.15);
+}
+
+.power-quotes .quote-item {
+    font-family: var(--font-sacred);
+    color: var(--primary-red);
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent-orange);
+}
+
+.power-quotes .quote-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid rgba(196, 30, 58, 0.15);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+    border-color: var(--primary-red);
+}
+
+.stat-number {
+    font-family: var(--font-mystical);
+    font-size: 2rem;
+    color: var(--primary-red);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-family: var(--font-secondary);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .stat-item {
+        padding: 1rem;
+    }
+}
+
+/* Sacred Nights / Navratri Grid */
+.navratri-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.navratri-item {
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid rgba(196, 30, 58, 0.15);
+    transition: all 0.3s ease;
+}
+
+.navratri-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+    border-color: var(--primary-red);
+}
+
+.navratri-item.special {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+}
+
+.navratri-item .navratri-name {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.navratri-item.special .navratri-name {
+    color: #fff;
+}
+
+.navratri-item .navratri-desc {
+    font-family: var(--font-secondary);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.navratri-item.special .navratri-desc {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Guidelines Grid */
+.guidelines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.guideline-card {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.guideline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+    border-color: var(--primary-red);
+}
+
+.guideline-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.guideline-card h4 {
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.guideline-card p {
+    font-family: var(--font-secondary);
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Mandala Options */
+.mandala-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.mandala-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    border: 2px solid var(--border-color);
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mandala-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px var(--shadow-color);
+    border-color: var(--primary-red);
+}
+
+.mandala-card.featured {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: -2rem;
+    background: var(--accent-gold);
+    color: #1a1a1a;
+    padding: 0.25rem 2.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transform: rotate(45deg);
+}
+
+.mandala-number {
+    font-family: var(--font-mystical);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.mandala-card.featured .mandala-number {
+    color: var(--accent-gold);
+}
+
+.mandala-content h4 {
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    color: var(--primary-red);
+    margin-bottom: 0.75rem;
+}
+
+.mandala-card.featured .mandala-content h4 {
+    color: #fff;
+}
+
+.mandala-content p {
+    font-family: var(--font-secondary);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.mandala-card.featured .mandala-content p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.mandala-features {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mandala-features .feature {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    color: var(--primary-red);
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.mandala-card.featured .mandala-features .feature {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Purnahuti Card */
+.purnahuti-card {
+    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+    border-left: 4px solid var(--accent-gold);
+}
+
+.purnahuti-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.purnahuti-highlight {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border-radius: var(--border-radius);
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.purnahuti-highlight .highlight-text {
+    font-family: var(--font-sacred);
+    color: #fff;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Final Blessing Card */
+.blessing-card {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border: none;
+    text-align: center;
+    padding: 2.5rem 2rem;
+}
+
+.blessing-decoration {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.blessing-content h4 {
+    font-family: var(--font-mystical);
+    font-size: 1.3rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+}
+
+.blessing-text {
+    font-family: var(--font-sacred);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    line-height: 2;
+}
+
+.blessing-text p {
+    margin-bottom: 0.5rem;
+}
+
+.blessing-final {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    margin-top: 0.75rem;
+}
+
+/* Devi Calling Section */
+.devi-calling {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.devi-calling h4 {
+    font-family: var(--font-mystical);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin: 0;
+}
+
+.calling-decoration {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+/* Invitation Points */
+.invitation-points {
+    margin: 1.5rem 0;
+}
+
+.point-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+}
+
+.point-icon {
+    font-size: 1.25rem;
+}
+
+.point-text {
+    font-family: var(--font-sacred);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    font-style: italic;
+}
+
+/* Notes Card */
+.notes-card {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(196, 30, 58, 0.15);
+}
+
+.notes-card h4 {
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+.note-icon {
+    color: var(--accent-orange);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.note-item span:last-child {
+    font-family: var(--font-secondary);
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .intro-title {
+        font-size: 1.3rem;
+    }
+    
+    .intro-text {
+        font-size: 1rem;
+    }
+    
+    .mandala-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .devi-main {
+        padding: 1.5rem 1rem;
+    }
+    
+    .content-card {
+        padding: 1.5rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .guidelines-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Hero Section with Professional Design -->
-<section class="devi-hero-section">
-    <div class="hero-background">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-container">
-                <div class="hero-text-content">
-                    <div class="hero-badge">
-                        <span class="badge-icon">🌸</span>
-                        <span class="badge-text">Divine Feminine</span>
-                    </div>
-                    <h1 class="hero-title">Welcome to Devi Space</h1>
-                    <p class="hero-subtitle">A sacred pause in your journey, where the grace of Devi begins to unfold, one subtle step at a time.</p>
-                    <p class="hero-description">
-                        As it is often said — Guru Bhairava is the foundation (Adharaha), upon which all sadhanas rest, and upon this powerful ground, Devi descends… to anchor, to bless, and to guide.
-                    </p>
-                    <p class="hero-invitation">
-                        This space is an invitation —<br>
-                        To come a little closer.<br>
-                        To listen a little deeper.<br>
-                        To remember Her call that now echoes within.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="#kamakhya" class="btn btn-primary btn-large">
-                            <span class="btn-icon">🔮</span>
-                            Discover Kamakhya
-                        </a>
-                        <a href="#sadhana" class="btn btn-secondary btn-large">
-                            <span class="btn-icon">🕉️</span>
-                            Begin Sadhana
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="sacred-symbol">🌸</div>
-                    <div class="floating-elements">
-                        <div class="floating-element">🌟</div>
-                        <div class="floating-element">💎</div>
-                        <div class="floating-element">✨</div>
-                    </div>
-                </div>
-            </div>
+<!-- Hero Section -->
+<section class="devi-hero">
+    <div class="hero-container">
+        <div class="hero-badge">
+            <span class="badge-icon">🌸</span>
+            <span class="badge-text">Divine Feminine</span>
+        </div>
+        <h1 class="hero-title">Welcome to Devi Space</h1>
+        <p class="hero-subtitle">A sacred pause in your journey, where the grace of Devi begins to unfold, one subtle step at a time.</p>
+        <p class="hero-description">
+            As it is often said — Guru Bhairava is the foundation (Adharaha), upon which all sadhanas rest, and upon this powerful ground, Devi descends… to anchor, to bless, and to guide.
+        </p>
+        <p class="hero-invitation">
+            This space is an invitation —<br>
+            To come a little closer.<br>
+            To listen a little deeper.<br>
+            To remember Her call that now echoes within.
+        </p>
+        <div class="hero-actions">
+            <a href="#kamakhya" class="btn-hero primary">
+                <span>🔮</span> Discover Kamakhya
+            </a>
+            <a href="#sadhana" class="btn-hero secondary">
+                <span>🕉️</span> Begin Sadhana
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Sacred Invitation Section -->
-<section class="invitation-section">
-    <div class="container">
-        <div class="section-header">
-            <div class="header-decoration">
-                <span class="decoration-line"></span>
-                <span class="decoration-symbol">🌸</span>
-                <span class="decoration-line"></span>
+<!-- Main Content -->
+<div class="devi-main">
+
+    <!-- Sacred Invitation Section -->
+    <div class="content-card intro-card">
+        <h2 class="intro-title">🌸 Sacred Invitation 🌸</h2>
+        <p class="intro-text">
+            As it is often said — Guru Bhairava is the foundation (Adharaha), upon which all sadhanas rest, and upon this powerful ground, Devi descends… to anchor, to bless, and to guide.
+        </p>
+        
+        <div class="invitation-points">
+            <div class="point-item">
+                <span class="point-icon">🌱</span>
+                <span class="point-text">To come a little closer</span>
             </div>
-            <h2 class="section-title">Sacred Invitation</h2>
-            <p class="section-subtitle">An invitation to connect with the divine feminine</p>
+            <div class="point-item">
+                <span class="point-icon">🎵</span>
+                <span class="point-text">To listen a little deeper</span>
+            </div>
+            <div class="point-item">
+                <span class="point-icon">💫</span>
+                <span class="point-text">To remember Her call that now echoes within</span>
+            </div>
         </div>
         
-        <div class="invitation-content">
-            <div class="invitation-card">
-                <div class="card-header">
-                    <div class="devi-symbol">🌟</div>
-                    <h3>The Foundation of All Sadhanas</h3>
-                </div>
-                <div class="card-content">
-                    <p class="sacred-text">
-                        As it is often said — Guru Bhairava is the foundation (Adharaha), upon which all sadhanas rest, and upon this powerful ground, Devi descends… to anchor, to bless, and to guide.
-                    </p>
-                    
-                    <div class="invitation-points">
-                        <div class="point-item">
-                            <span class="point-icon">🌱</span>
-                            <span class="point-text">To come a little closer</span>
-                        </div>
-                        <div class="point-item">
-                            <span class="point-icon">🎵</span>
-                            <span class="point-text">To listen a little deeper</span>
-                        </div>
-                        <div class="point-item">
-                            <span class="point-icon">💫</span>
-                            <span class="point-text">To remember Her call that now echoes within</span>
-                        </div>
-                    </div>
-                    
-                    <div class="devi-calling">
-                        <h4>It's Devi Calling…</h4>
-                        <div class="calling-decoration">✨</div>
-                    </div>
-                </div>
-            </div>
+        <div class="devi-calling">
+            <div class="calling-decoration">✨</div>
+            <h4>It's Devi Calling…</h4>
+            <div class="calling-decoration">✨</div>
         </div>
     </div>
-</section>
 
-<!-- Kamakhya Maa Section -->
-<section id="kamakhya" class="kamakhya-section">
-    <div class="container">
+    <!-- Kamakhya Maa Section -->
+    <div id="kamakhya" class="content-card kamakhya-card">
         <div class="section-header">
             <div class="header-decoration">
                 <span class="decoration-line"></span>
@@ -109,78 +853,65 @@
             <p class="section-subtitle">The complete embodiment of divine feminine energy</p>
         </div>
         
-        <div class="kamakhya-content">
-            <div class="content-grid">
-                <div class="content-main">
-                    <div class="main-text">
-                        <p class="sacred-text">
-                            Maa Kamakhya is not just another Devi—She is Purna Shakti, the complete embodiment of all forms of the Divine Feminine. She is the source, the center, and the culmination of every Devi Aradhana, whether known or unknown.
-                        </p>
-                        
-                        <p class="sacred-text">
-                            Every mantra, every offering made to any form of Shakti—be it Maa Kali, Maa Tara, Maa Chhinnamasta, Maa Dhumavati, or the countless undocumented swaroopas of the Mahavidyas—ultimately reaches Her Yoni Peetha, the sacred seat of cosmic creation. This is the power of Kamakhya. She is the living presiding deity of all 51 Shakti Peethas, still vibrant, still active, still accessible.
-                        </p>
-                        
-                        <p class="sacred-text">
-                            She is the pragya swaroopini, the awakened womb-consciousness of the universe. She governs all three paths of spiritual evolution—Dakshina (right-hand path), Madhyama (middle path), and Vama (left-hand path). In Vamachara Tantra, the so-called "left-hand path," Kamakhya is not a part—She is the heart.
-                        </p>
-                        
-                        <div class="power-highlight">
-                            <p class="highlight-text">
-                                To those who dare to walk the path of fire and truth, She is the final gate.
-                            </p>
-                        </div>
-                        
-                        <p class="sacred-text">
-                            Kamakhya is not mythology, not metaphor—She is the ultimate reality behind all Devi worship. She is the hidden pulse behind every tantric rite, the Yoni Shakti where all desires dissolve and all awakenings arise.
-                        </p>
-                        
-                        <div class="power-quotes">
-                            <p class="quote-item">She is creation's pulse, destruction's fire, and the stillness in between.</p>
-                            <p class="quote-item">She is not just worshipped—She is experienced.</p>
-                            <p class="quote-item">She is not found in temples—She is found in you.</p>
-                        </div>
-                        
-                        <p class="sacred-text">
-                            To walk the path of Kamakhya is to walk into your own deepest truth.<br>
-                            And once you enter, nothing in you remains the same.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="content-sidebar">
-                    <div class="power-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">51</div>
-                            <div class="stat-label">Shakti Peethas</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Spiritual Paths</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">Divine Forms</div>
-                        </div>
-                    </div>
-                    
-                    <div class="sacred-quote">
-                        <div class="quote-card">
-                            <div class="quote-icon">💎</div>
-                            <p class="quote-text">
-                                "She is not just a deity to worship—She is the living presence that transforms every cell of your being."
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <p class="sacred-text">
+            Maa Kamakhya is not just another Devi—She is Purna Shakti, the complete embodiment of all forms of the Divine Feminine. She is the source, the center, and the culmination of every Devi Aradhana, whether known or unknown.
+        </p>
+        
+        <p class="sacred-text">
+            Every mantra, every offering made to any form of Shakti—be it Maa Kali, Maa Tara, Maa Chhinnamasta, Maa Dhumavati, or the countless undocumented swaroopas of the Mahavidyas—ultimately reaches Her Yoni Peetha, the sacred seat of cosmic creation. This is the power of Kamakhya. She is the living presiding deity of all 51 Shakti Peethas, still vibrant, still active, still accessible.
+        </p>
+        
+        <p class="sacred-text">
+            She is the pragya swaroopini, the awakened womb-consciousness of the universe. She governs all three paths of spiritual evolution—Dakshina (right-hand path), Madhyama (middle path), and Vama (left-hand path). In Vamachara Tantra, the so-called "left-hand path," Kamakhya is not a part—She is the heart.
+        </p>
+        
+        <div class="power-highlight">
+            <p class="highlight-text">
+                To those who dare to walk the path of fire and truth, She is the final gate.
+            </p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">51</div>
+                <div class="stat-label">Shakti Peethas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Spiritual Paths</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Divine Forms</div>
             </div>
         </div>
+        
+        <p class="sacred-text">
+            Kamakhya is not mythology, not metaphor—She is the ultimate reality behind all Devi worship. She is the hidden pulse behind every tantric rite, the Yoni Shakti where all desires dissolve and all awakenings arise.
+        </p>
+        
+        <div class="power-quotes">
+            <p class="quote-item">She is creation's pulse, destruction's fire, and the stillness in between.</p>
+            <p class="quote-item">She is not just worshipped—She is experienced.</p>
+            <p class="quote-item">She is not found in temples—She is found in you.</p>
+        </div>
+        
+        <p class="sacred-text">
+            To walk the path of Kamakhya is to walk into your own deepest truth.<br>
+            And once you enter, nothing in you remains the same.
+        </p>
     </div>
-</section>
 
-<!-- Tantra and Yoni Peetha Section -->
-<section class="tantra-section">
-    <div class="container">
+    <!-- Sacred Quote -->
+    <div class="sacred-quote">
+        <p class="quote-text">
+            "She is not just a deity to worship—She is the living presence that transforms every cell of your being."
+        </p>
+        <p class="quote-attribution">— Shakti Tantra</p>
+    </div>
+
+    <!-- Tantra and Yoni Peetha Section -->
+    <div class="content-card">
         <div class="section-header">
             <div class="header-decoration">
                 <span class="decoration-line"></span>
@@ -191,62 +922,57 @@
             <p class="section-subtitle">Sadhana is not done to reach Maa — it's to remember She was never apart</p>
         </div>
         
-        <div class="tantra-content">
-            <div class="tantra-card">
-                <div class="card-header">
-                    <div class="tantra-icon">🔮</div>
-                    <h3>Welcome to the Sacred Path of Kamakhya Maa Sadhana</h3>
-                </div>
-                <div class="card-content">
-                    <p class="sacred-text">
-                        This is not just a practice—this is a call. A divine invitation into the mysteries of the Mother of All – Maa Kamakhya, the embodiment of Shakti, desire, transformation, and liberation.
-                    </p>
-                    
-                    <p class="sacred-text">
-                        Kamakhya Sadhana Paddhati is a sacred doorway to receive Her grace, a deeply personal journey that aligns your inner rhythm with the cosmic pulse of the Devi herself.
-                    </p>
-                    
-                    <div class="sadhana-timing">
-                        <h4>Sacred Timing</h4>
-                        <p>This Sadhana can be undertaken on any Shukla Paksha Ekadashi or Ashtami, and holds profound potency during any of the five Navratris—especially the two Gupta Navratris, which remain hidden, powerful, and spiritually intense.</p>
-                        
-                        <div class="navratri-list">
-                            <div class="navratri-item">
-                                <span class="navratri-name">Chaitra Navratri (Spring)</span>
-                            </div>
-                            <div class="navratri-item">
-                                <span class="navratri-name">Ashwin Navratri (Autumn – the most widely celebrated)</span>
-                            </div>
-                            <div class="navratri-item special">
-                                <span class="navratri-name">Magha Gupta Navratri (Winter – secret, for advanced seekers)</span>
-                            </div>
-                            <div class="navratri-item special">
-                                <span class="navratri-name">Ashadha Gupta Navratri (Monsoon – extremely potent for Tantric and Bhairavi Sadhana)</span>
-                            </div>
-                            <div class="navratri-item">
-                                <span class="navratri-name">Sharad Purnima Navratri (lesser-known but practiced in specific traditions)</span>
-                            </div>
-                        </div>
-                        
-                        <p class="sacred-text">
-                            Among these, Gupta Navratris are deeply revered by serious Sadhakas and Tantriks. These are the hidden windows of immense energy shifts where the Devi's power flows inward and silently—accessible only to those who seek with true intent.
-                        </p>
-                        
-                        <div class="gupta-highlight">
-                            <p class="highlight-text">
-                                During these times, Devi does not look for outer pomp, but for inner readiness.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <p class="sacred-text">
+            This is not just a practice—this is a call. A divine invitation into the mysteries of the Mother of All – Maa Kamakhya, the embodiment of Shakti, desire, transformation, and liberation.
+        </p>
+        
+        <p class="sacred-text">
+            Kamakhya Sadhana Paddhati is a sacred doorway to receive Her grace, a deeply personal journey that aligns your inner rhythm with the cosmic pulse of the Devi herself.
+        </p>
+        
+        <div class="notes-card">
+            <h4>🌙 Sacred Timing</h4>
+            <p style="margin-bottom: 1rem; font-family: var(--font-secondary); color: var(--text-dark); line-height: 1.7;">
+                This Sadhana can be undertaken on any Shukla Paksha Ekadashi or Ashtami, and holds profound potency during any of the five Navratris—especially the two Gupta Navratris, which remain hidden, powerful, and spiritually intense.
+            </p>
+        </div>
+        
+        <div class="navratri-grid">
+            <div class="navratri-item">
+                <div class="navratri-name">Chaitra Navratri</div>
+                <div class="navratri-desc">Spring — New beginnings and spiritual renewal</div>
+            </div>
+            <div class="navratri-item">
+                <div class="navratri-name">Ashwin Navratri</div>
+                <div class="navratri-desc">Autumn — The most widely celebrated Navratri</div>
+            </div>
+            <div class="navratri-item special">
+                <div class="navratri-name">Magha Gupta Navratri</div>
+                <div class="navratri-desc">Winter — Secret, for advanced seekers</div>
+            </div>
+            <div class="navratri-item special">
+                <div class="navratri-name">Ashadha Gupta Navratri</div>
+                <div class="navratri-desc">Monsoon — Extremely potent for Tantric and Bhairavi Sadhana</div>
+            </div>
+            <div class="navratri-item">
+                <div class="navratri-name">Sharad Purnima Navratri</div>
+                <div class="navratri-desc">Lesser-known but practiced in specific traditions</div>
             </div>
         </div>
+        
+        <p class="sacred-text" style="margin-top: 1.5rem;">
+            Among these, Gupta Navratris are deeply revered by serious Sadhakas and Tantriks. These are the hidden windows of immense energy shifts where the Devi's power flows inward and silently—accessible only to those who seek with true intent.
+        </p>
+        
+        <div class="power-highlight">
+            <p class="highlight-text">
+                During these times, Devi does not look for outer pomp, but for inner readiness.
+            </p>
+        </div>
     </div>
-</section>
 
-<!-- Divine Connection Section -->
-<section class="connection-section">
-    <div class="container">
+    <!-- Divine Connection Section -->
+    <div class="content-card">
         <div class="section-header">
             <div class="header-decoration">
                 <span class="decoration-line"></span>
@@ -257,42 +983,23 @@
             <p class="section-subtitle">The path to divine feminine connection</p>
         </div>
         
-        <div class="connection-content">
-            <div class="connection-card">
-                <div class="card-header">
-                    <div class="connection-icon">🦋</div>
-                    <h3>Your Heart's Call</h3>
-                </div>
-                <div class="card-content">
-                    <p class="sacred-text">
-                        You do not need elaborate initiations or Diksha. If your heart calls, you are ready. Kamakhya Maa chooses those who are meant to come close. And once you begin, nothing remains the same.
-                    </p>
-                    
-                    <div class="why-kamakhya">
-                        <h4>Why Kamakhya Sadhana?</h4>
-                        <p class="sacred-text">
-                            In every age, those who have walked the path of Kamakhya Sadhana have experienced transformation beyond measure—inwardly and outwardly. Her energy does not just bless you, it shatters illusions, brings clarity, stirs dormant powers, and awakens you to your true potential.
-                        </p>
-                        
-                        <p class="sacred-text">
-                            She is the Devi who holds the Yonipitha, the secret of all creation. Her Sadhana is not for escape—it is for those who wish to live fully awakened.
-                        </p>
-                    </div>
-                    
-                    <div class="devi-calling-final">
-                        <div class="calling-decoration">✨</div>
-                        <h4>Come close, Sadhaka.<br>She is waiting.</h4>
-                        <div class="calling-decoration">✨</div>
-                    </div>
-                </div>
-            </div>
+        <p class="sacred-text">
+            You do not need elaborate initiations or Diksha. If your heart calls, you are ready. Kamakhya Maa chooses those who are meant to come close. And once you begin, nothing remains the same.
+        </p>
+        
+        <div class="notes-card">
+            <h4>🌟 Why Kamakhya Sadhana?</h4>
+            <p style="margin-bottom: 1rem; font-family: var(--font-secondary); color: var(--text-dark); line-height: 1.7;">
+                In every age, those who have walked the path of Kamakhya Sadhana have experienced transformation beyond measure—inwardly and outwardly. Her energy does not just bless you, it shatters illusions, brings clarity, stirs dormant powers, and awakens you to your true potential.
+            </p>
+            <p style="font-family: var(--font-secondary); color: var(--text-dark); line-height: 1.7;">
+                She is the Devi who holds the Yonipitha, the secret of all creation. Her Sadhana is not for escape—it is for those who wish to live fully awakened.
+            </p>
         </div>
     </div>
-</section>
 
-<!-- Sadhana Guidelines Section -->
-<section class="guidelines-section">
-    <div class="container">
+    <!-- Sadhana Guidelines Section -->
+    <div class="content-card">
         <div class="section-header">
             <div class="header-decoration">
                 <span class="decoration-line"></span>
@@ -303,69 +1010,66 @@
             <p class="section-subtitle">Sacred practices for divine feminine connection</p>
         </div>
         
-        <div class="guidelines-content">
-            <div class="guidelines-grid">
-                <div class="guideline-card">
-                    <div class="guideline-icon">🚫</div>
-                    <h4>No Guru or Deeksha Needed</h4>
-                    <p>This Sadhana can be started without a Guru or formal initiation.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">👥</div>
-                    <h4>Eligibility</h4>
-                    <p>Anyone aged 16 years or above, of any gender, may undertake this Sadhana.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">🧭</div>
-                    <h4>Direction for Sadhana</h4>
-                    <p>If possible, face North, East, or Northeast while doing the Sadhana.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">🌸</div>
-                    <h4>Women and Menstruation</h4>
-                    <p>There are no restrictions during menstruation; Sadhana may be continued.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">🥗</div>
-                    <h4>Food Discipline</h4>
-                    <p>Sattvic vegetarian food is recommended for higher receptivity, but it's not mandatory.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">🧘</div>
-                    <h4>Celibacy</h4>
-                    <p>Brahmacharya (celibacy) is advised for deeper focus, but it is not compulsory.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">👗</div>
-                    <h4>Clothing Recommendation</h4>
-                    <p>Wearing red attire is auspicious, though not required.</p>
-                </div>
-                
-                <div class="guideline-card">
-                    <div class="guideline-icon">💎</div>
-                    <h4>Mental and Emotional Purity</h4>
-                    <p>Strive to maintain purity in thoughts, speech, and actions throughout the mandala or 10 days. This enhances the power and receptivity of the Sadhana.</p>
-                </div>
+        <div class="guidelines-grid">
+            <div class="guideline-card">
+                <div class="guideline-icon">🚫</div>
+                <h4>No Guru or Deeksha Needed</h4>
+                <p>This Sadhana can be started without a Guru or formal initiation.</p>
             </div>
             
-            <div class="special-note">
-                <p class="sacred-text">
-                    This sadhana can be practiced as a Vishesha Sadhana on any day, especially on any Jayanthi connected to Maa Swaroopa.
-                </p>
+            <div class="guideline-card">
+                <div class="guideline-icon">👥</div>
+                <h4>Eligibility</h4>
+                <p>Anyone aged 16 years or above, of any gender, may undertake this Sadhana.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">🧭</div>
+                <h4>Direction for Sadhana</h4>
+                <p>If possible, face North, East, or Northeast while doing the Sadhana.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">🌸</div>
+                <h4>Women and Menstruation</h4>
+                <p>There are no restrictions during menstruation; Sadhana may be continued.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">🥗</div>
+                <h4>Food Discipline</h4>
+                <p>Sattvic vegetarian food is recommended for higher receptivity, but it's not mandatory.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">🧘</div>
+                <h4>Celibacy</h4>
+                <p>Brahmacharya (celibacy) is advised for deeper focus, but it is not compulsory.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">👗</div>
+                <h4>Clothing Recommendation</h4>
+                <p>Wearing red attire is auspicious, though not required.</p>
+            </div>
+            
+            <div class="guideline-card">
+                <div class="guideline-icon">💎</div>
+                <h4>Mental and Emotional Purity</h4>
+                <p>Strive to maintain purity in thoughts, speech, and actions throughout the mandala or 10 days.</p>
+            </div>
+        </div>
+        
+        <div class="notes-card" style="margin-top: 1.5rem;">
+            <div class="note-item">
+                <span class="note-icon">✨</span>
+                <span>This sadhana can be practiced as a Vishesha Sadhana on any day, especially on any Jayanthi connected to Maa Swaroopa.</span>
             </div>
         </div>
     </div>
-</section>
 
-<!-- Sadhana Path Section -->
-<section id="sadhana" class="sadhana-section">
-    <div class="container">
+    <!-- Sadhana Path Section -->
+    <div id="sadhana" class="content-card">
         <div class="section-header">
             <div class="header-decoration">
                 <span class="decoration-line"></span>
@@ -373,102 +1077,144 @@
                 <span class="decoration-line"></span>
             </div>
             <h2 class="section-title">🔻 What's Next — Beginning the Sadhana Mandala 🔻</h2>
-            <p class="section-subtitle">This Sadhana Paddhati may be started on any Shukla Paksha Ekadashi or Ashtami — auspicious days aligned with Devi's unfolding presence.</p>
+            <p class="section-subtitle">This Sadhana Paddhati may be started on any Shukla Paksha Ekadashi or Ashtami</p>
         </div>
         
-        <div class="sadhana-content">
-            <div class="sadhana-intro">
-                <div class="intro-card">
-                    <div class="intro-icon">🌙</div>
-                    <h3>Sacred Timing</h3>
-                    <p>This Sadhana Paddhati may be started on any Shukla Paksha Ekadashi or Ashtami — auspicious days aligned with Devi's unfolding presence. The timing is not just about the calendar, but about the readiness of your heart to receive Her grace.</p>
-                </div>
-            </div>
-            
-            <div class="mandala-options">
-                <div class="mandala-card">
-                    <div class="mandala-number">33</div>
-                    <div class="mandala-content">
-                        <h4>33-Day Mandala</h4>
-                        <p>You may choose to begin with a 33-day Mandala, a sacred cycle of discipline and devotion.</p>
-                        <div class="mandala-features">
-                            <span class="feature">Foundation</span>
-                            <span class="feature">Discipline</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mandala-card featured">
-                    <div class="mandala-number">99</div>
-                    <div class="mandala-content">
-                        <h4>99-Day Mandala (3 Cycles)</h4>
-                        <p>For deeper connection, you may continue for 3 Mandalas (99 days) — a profound journey into Her embrace.</p>
-                        <div class="mandala-features">
-                            <span class="feature">Deep Practice</span>
-                            <span class="feature">Transformation</span>
-                        </div>
-                    </div>
-                    <div class="featured-badge">Recommended</div>
-                </div>
-            </div>
-            
-            <div class="practice-notes">
-                <div class="notes-card">
-                    <h4>Practice Guidelines</h4>
-                    <div class="note-items">
-                        <div class="note-item">
-                            <span class="note-icon">🔸</span>
-                            <span>All practices and steps remain the same throughout</span>
-                        </div>
-                        <div class="note-item">
-                            <span class="note-icon">🔸</span>
-                            <span>There are no changes in the process — only your depth of presence evolves</span>
-                        </div>
+        <p class="sacred-text" style="text-align: center;">
+            This Sadhana Paddhati may be started on any Shukla Paksha Ekadashi or Ashtami — auspicious days aligned with Devi's unfolding presence. The timing is not just about the calendar, but about the readiness of your heart to receive Her grace.
+        </p>
+        
+        <div class="mandala-options">
+            <div class="mandala-card">
+                <div class="mandala-number">33</div>
+                <div class="mandala-content">
+                    <h4>33-Day Mandala</h4>
+                    <p>You may choose to begin with a 33-day Mandala, a sacred cycle of discipline and devotion.</p>
+                    <div class="mandala-features">
+                        <span class="feature">Foundation</span>
+                        <span class="feature">Discipline</span>
                     </div>
                 </div>
             </div>
             
-            <div class="purnahuti-section">
-                <div class="purnahuti-card">
-                    <div class="card-header">
-                        <div class="purnahuti-icon">🔹</div>
-                        <h3>Purnahuti – Sacred Culmination</h3>
-                    </div>
-                    <div class="card-content">
-                        <p class="sacred-text">
-                            On the 33rd or 99th day, you may perform a Purnahuti — a soulful culmination of your journey.
-                        </p>
-                        
-                        <p class="sacred-text">
-                            Visit any Devi temple, and offer something that comes from your heart — be it fruits, grains, groceries, or a Red Saree with Blouse — a symbol of completeness and Shakti.
-                        </p>
-                        
-                        <div class="purnahuti-highlight">
-                            <p class="highlight-text">
-                                This final offering becomes a bridge — between your longing and Her grace, between your inner fire and Her eternal presence.
-                            </p>
-                        </div>
+            <div class="mandala-card featured">
+                <div class="featured-badge">Recommended</div>
+                <div class="mandala-number">99</div>
+                <div class="mandala-content">
+                    <h4>99-Day Mandala (3 Cycles)</h4>
+                    <p>For deeper connection, you may continue for 3 Mandalas (99 days) — a profound journey into Her embrace.</p>
+                    <div class="mandala-features">
+                        <span class="feature">Deep Practice</span>
+                        <span class="feature">Transformation</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="final-blessing">
-                <div class="blessing-card">
-                    <div class="blessing-content">
-                        <h4>Divine Blessing</h4>
-                        <div class="blessing-text">
-                            <p>Let your Sadhana be the seed,</p>
-                            <p>May it sprout into light and love…</p>
-                            <p>May every step bring you closer to Her embrace,</p>
-                            <p>May every breath be a prayer to Her presence,</p>
-                            <p class="blessing-final"><strong>With Her Grace.</strong></p>
-                        </div>
-                    </div>
-                    <div class="blessing-decoration">🕉️</div>
-                </div>
+        </div>
+        
+        <div class="notes-card">
+            <h4>Practice Guidelines</h4>
+            <div class="note-item">
+                <span class="note-icon">🔸</span>
+                <span>All practices and steps remain the same throughout</span>
+            </div>
+            <div class="note-item">
+                <span class="note-icon">🔸</span>
+                <span>There are no changes in the process — only your depth of presence evolves</span>
             </div>
         </div>
     </div>
-</section>
+
+    <!-- Purnahuti Section -->
+    <div class="content-card purnahuti-card">
+        <div class="section-header">
+            <div class="header-decoration">
+                <span class="decoration-line"></span>
+                <span class="decoration-symbol">🔹</span>
+                <span class="decoration-line"></span>
+            </div>
+            <h2 class="section-title">Purnahuti – Sacred Culmination</h2>
+            <p class="section-subtitle">The soulful completion of your journey</p>
+        </div>
+        
+        <p class="sacred-text">
+            On the 33rd or 99th day, you may perform a Purnahuti — a soulful culmination of your journey.
+        </p>
+        
+        <p class="sacred-text">
+            Visit any Devi temple, and offer something that comes from your heart — be it fruits, grains, groceries, or a Red Saree with Blouse — a symbol of completeness and Shakti.
+        </p>
+        
+        <div class="purnahuti-highlight">
+            <p class="highlight-text">
+                This final offering becomes a bridge — between your longing and Her grace, between your inner fire and Her eternal presence.
+            </p>
+        </div>
+    </div>
+
+    <!-- Final Blessing -->
+    <div class="content-card blessing-card">
+        <div class="blessing-decoration">🕉️</div>
+        <div class="blessing-content">
+            <h4>Divine Blessing</h4>
+            <div class="blessing-text">
+                <p>Let your Sadhana be the seed,</p>
+                <p>May it sprout into light and love…</p>
+                <p>May every step bring you closer to Her embrace,</p>
+                <p>May every breath be a prayer to Her presence,</p>
+                <p class="blessing-final"><strong>With Her Grace.</strong></p>
+            </div>
+        </div>
+        <div class="blessing-decoration">🌸</div>
+    </div>
+
+</div>
 {% endblock %}
 
+{% block extra_scripts %}
+<script>
+// Smooth scroll animations for cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.content-card, .sacred-quote, .guideline-card, .mandala-card, .navratri-item, .stat-item');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add staggered delay for grid items
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 50);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
