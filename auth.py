@@ -370,6 +370,66 @@ def edit_profile():
     # This would be implemented for users to edit their own profile
     pass
 
+@auth.route('/admin/user/<int:user_id>/update-profile-picture', methods=['POST'])
+@login_required
+def update_profile_picture(user_id):
+    """Admin endpoint to update a user's profile picture"""
+    if not current_user.is_admin():
+        flash('Access denied. Admin privileges required.', 'error')
+        return redirect(url_for('home'))
+    
+    user = User.query.get_or_404(user_id)
+    
+    if 'profile_picture' not in request.files:
+        flash('No file selected.', 'error')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+    
+    file = request.files['profile_picture']
+    
+    if file.filename == '':
+        flash('No file selected.', 'error')
+        return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+    
+    if file:
+        # Validate file extension
+        allowed_extensions = {'jpg', 'jpeg', 'png', 'gif'}
+        filename = secure_filename(file.filename)
+        ext = filename.rsplit('.', 1)[-1].lower() if '.' in filename else ''
+        
+        if ext not in allowed_extensions:
+            flash('Invalid file type. Only JPG, PNG, and GIF are allowed.', 'error')
+            return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+        
+        # Create uploads directory if it doesn't exist
+        upload_dir = os.path.join(os.getcwd(), 'static', 'uploads', 'profiles')
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        # Generate secure filename with timestamp
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        name, _ = os.path.splitext(filename)
+        new_filename = f"{name}_{user.id}_{timestamp}.{ext}"
+        
+        # Save file
+        file_path = os.path.join(upload_dir, new_filename)
+        file.save(file_path)
+        
+        # Delete old profile picture if exists
+        if user.profile_picture:
+            old_path = os.path.join(os.getcwd(), 'static', user.profile_picture)
+            if os.path.exists(old_path):
+                try:
+                    os.remove(old_path)
+                except Exception as e:
+                    print(f"Warning: Could not delete old profile picture: {e}")
+        
+        # Update user's profile picture path
+        user.profile_picture = f"uploads/profiles/{new_filename}"
+        db.session.commit()
+        
+        flash(f'Profile picture updated successfully for {user.username}!', 'success')
+    
+    return redirect(url_for('auth.admin_user_detail', user_id=user_id))
+
 def generate_user_report():
     users = User.query.all()
 

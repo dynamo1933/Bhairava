@@ -1154,7 +1154,11 @@
                         <div class="user-card-new {% if user.is_admin() %}admin{% elif not user.is_active %}suspended{% elif not user.is_approved %}pending{% else %}approved{% endif %}" data-user-id="{{ user.id }}">
                             <div class="user-card-header">
                                 <div class="user-avatar-new">
-                                    <img src="https://i.pravatar.cc/112?u={{ user.id }}" alt="{{ user.full_name }}" loading="lazy">
+                                    {% if user.profile_picture %}
+                                        <img src="{{ url_for('static', filename=user.profile_picture) }}" alt="{{ user.full_name }}" loading="lazy">
+                                    {% else %}
+                                        <img src="https://i.pravatar.cc/112?u={{ user.id }}" alt="{{ user.full_name }}" loading="lazy">
+                                    {% endif %}
                                 </div>
                                 <div class="user-info-new">
                                     <div class="user-name-row">
@@ -1258,7 +1262,11 @@
                             <div class="request-item-new" data-request-id="{{ request.id }}">
                                 <div class="request-user-row">
                                     <div class="request-avatar">
-                                        <img src="https://i.pravatar.cc/80?u={{ request.user_id }}" alt="User">
+                                        {% if request.user.profile_picture %}
+                                            <img src="{{ url_for('static', filename=request.user.profile_picture) }}" alt="{{ request.user.full_name }}">
+                                        {% else %}
+                                            <img src="https://i.pravatar.cc/80?u={{ request.user_id }}" alt="User">
+                                        {% endif %}
                                     </div>
                                     <div class="request-user-info">
                                         <div class="request-user-name">{{ request.user.full_name }}</div>

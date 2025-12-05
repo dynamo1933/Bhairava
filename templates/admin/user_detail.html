@@ -1143,7 +1143,11 @@
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-avatar">
-                        <img src="https://i.pravatar.cc/240?u={{ user.id }}" alt="{{ user.full_name }}">
+                        {% if user.profile_picture %}
+                            <img src="{{ url_for('static', filename=user.profile_picture) }}" alt="{{ user.full_name }}">
+                        {% else %}
+                            <img src="https://i.pravatar.cc/240?u={{ user.id }}" alt="{{ user.full_name }}">
+                        {% endif %}
                     </div>
                     <h2 class="profile-name">{{ user.full_name }}</h2>
                     <p class="profile-username">@{{ user.username }}</p>
@@ -1165,6 +1169,24 @@
                 </div>
 
                 <div class="profile-body">
+                    <!-- Profile Picture Upload -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fas fa-camera"></i>
+                            <span>Profile Picture</span>
+                        </div>
+                        <form method="POST" action="{{ url_for('auth.update_profile_picture', user_id=user.id) }}" enctype="multipart/form-data" style="margin-top: var(--spacing-md);">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <div style="display: flex; align-items: center; gap: var(--spacing-md); flex-wrap: wrap;">
+                                <input type="file" name="profile_picture" accept="image/*" id="profilePictureInput" style="flex: 1; min-width: 200px; padding: 10px; border: 2px dashed var(--border-color); border-radius: 10px; cursor: pointer;">
+                                <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">
+                                    <i class="fas fa-upload"></i> Upload
+                                </button>
+                            </div>
+                            <small style="color: var(--text-muted); display: block; margin-top: 8px;">Supported formats: JPG, PNG, GIF (max 5MB)</small>
+                        </form>
+                    </div>
+
                     <!-- Basic Info -->
                     <div class="info-section">
                         <div class="info-section-title">
