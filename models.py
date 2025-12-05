@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
     is_approved = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_active = db.Column(db.DateTime, nullable=True)  # Last activity timestamp
     approved_at = db.Column(db.DateTime, nullable=True)
     approved_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
@@ -33,15 +34,20 @@ class User(UserMixin, db.Model):
     mandala_3_access = db.Column(db.Boolean, default=False)  # Admin must approve
 
     # Rudraksha access permissions
-    rudraksha_5_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    rudraksha_8_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
     rudraksha_11_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
     rudraksha_14_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+
+    # Devi Mandala access permissions (for Devi Padathi - Kamakhya Sadhana)
+    devi_mandala_1_access = db.Column(db.Boolean, default=True)  # All approved users get access
+    devi_mandala_2_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    devi_mandala_3_access = db.Column(db.Boolean, default=False)  # Admin must approve
 
     # Stage completion dates
     mandala_1_completed_at = db.Column(db.DateTime, nullable=True)
     mandala_2_completed_at = db.Column(db.DateTime, nullable=True)
     mandala_3_completed_at = db.Column(db.DateTime, nullable=True)
-    rudraksha_5_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_8_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
     rudraksha_11_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
     rudraksha_14_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
 
@@ -49,7 +55,7 @@ class User(UserMixin, db.Model):
     mandala_1_started_at = db.Column(db.DateTime, nullable=True)
     mandala_2_started_at = db.Column(db.DateTime, nullable=True)
     mandala_3_started_at = db.Column(db.DateTime, nullable=True)
-    rudraksha_5_mukhi_started_at = db.Column(db.DateTime, nullable=True)
+    rudraksha_8_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     rudraksha_11_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     rudraksha_14_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     
@@ -73,8 +79,8 @@ class User(UserMixin, db.Model):
             return self.mandala_2_access
         elif stage_number == 3:
             return self.mandala_3_access
-        elif stage_number == 4:  # Rudraksha 5 Mukhi
-            return self.rudraksha_5_mukhi_access
+        elif stage_number == 4:  # Rudraksha 8 Mukhi
+            return self.rudraksha_8_mukhi_access
         elif stage_number == 5:  # Rudraksha 11 Mukhi
             return self.rudraksha_11_mukhi_access
         elif stage_number == 6:  # Rudraksha 14 Mukhi
@@ -102,7 +108,7 @@ class User(UserMixin, db.Model):
             1: self.mandala_1_completed_at,
             2: self.mandala_2_completed_at,
             3: self.mandala_3_completed_at,
-            4: self.rudraksha_5_mukhi_completed_at,
+            4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
             6: self.rudraksha_14_mukhi_completed_at
         }
@@ -114,7 +120,7 @@ class User(UserMixin, db.Model):
             1: self.mandala_1_started_at,
             2: self.mandala_2_started_at,
             3: self.mandala_3_started_at,
-            4: self.rudraksha_5_mukhi_started_at,
+            4: self.rudraksha_8_mukhi_started_at,
             5: self.rudraksha_11_mukhi_started_at,
             6: self.rudraksha_14_mukhi_started_at
         }
@@ -122,7 +128,7 @@ class User(UserMixin, db.Model):
             1: self.mandala_1_completed_at,
             2: self.mandala_2_completed_at,
             3: self.mandala_3_completed_at,
-            4: self.rudraksha_5_mukhi_completed_at,
+            4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
             6: self.rudraksha_14_mukhi_completed_at
         }
@@ -145,7 +151,7 @@ class User(UserMixin, db.Model):
             1: 'mandala_1_completed_at',
             2: 'mandala_2_completed_at',
             3: 'mandala_3_completed_at',
-            4: 'rudraksha_5_mukhi_completed_at',
+            4: 'rudraksha_8_mukhi_completed_at',
             5: 'rudraksha_11_mukhi_completed_at',
             6: 'rudraksha_14_mukhi_completed_at'
         }
@@ -162,7 +168,7 @@ class User(UserMixin, db.Model):
             1: 'mandala_1_started_at',
             2: 'mandala_2_started_at',
             3: 'mandala_3_started_at',
-            4: 'rudraksha_5_mukhi_started_at',
+            4: 'rudraksha_8_mukhi_started_at',
             5: 'rudraksha_11_mukhi_started_at',
             6: 'rudraksha_14_mukhi_started_at'
         }
@@ -177,7 +183,7 @@ class User(UserMixin, db.Model):
             1: 'Mandala 1',
             2: 'Mandala 2',
             3: 'Mandala 3',
-            4: 'Rudraksha 5 Mukhi',
+            4: 'Rudraksha 8 Mukhi',
             5: 'Rudraksha 11 Mukhi',
             6: 'Rudraksha 14 Mukhi'
         }
@@ -187,7 +193,7 @@ class User(UserMixin, db.Model):
             1: self.mandala_1_completed_at,
             2: self.mandala_2_completed_at,
             3: self.mandala_3_completed_at,
-            4: self.rudraksha_5_mukhi_completed_at,
+            4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
             6: self.rudraksha_14_mukhi_completed_at
         }
@@ -196,7 +202,7 @@ class User(UserMixin, db.Model):
             1: self.mandala_1_started_at,
             2: self.mandala_2_started_at,
             3: self.mandala_3_started_at,
-            4: self.rudraksha_5_mukhi_started_at,
+            4: self.rudraksha_8_mukhi_started_at,
             5: self.rudraksha_11_mukhi_started_at,
             6: self.rudraksha_14_mukhi_started_at
         }
@@ -312,9 +318,13 @@ class StageAccessRequest(db.Model):
             1: 'Mandala 1',
             2: 'Mandala 2',
             3: 'Mandala 3',
-            4: 'Rudraksha 5 Mukhi',
+            4: 'Rudraksha 8 Mukhi',
             5: 'Rudraksha 11 Mukhi',
-            6: 'Rudraksha 14 Mukhi'
+            6: 'Rudraksha 14 Mukhi',
+            # Devi Mandala stages (Devi Padathi - Kamakhya Sadhana)
+            101: 'Devi Mandala 1 (33 days)',
+            102: 'Devi Mandala 2 (66 days)',
+            103: 'Devi Mandala 3 (99 days)'
         }
         return stage_names.get(self.stage_number, f'Stage {self.stage_number}')
     

@@ -228,19 +228,27 @@ def update_stage_access(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    # Get stage access updates from form (stages 1-6)
+    # Get stage access updates from form (Bhairava stages 1-6)
     mandala_2_access = request.form.get('mandala_2_access') == 'on'
     mandala_3_access = request.form.get('mandala_3_access') == 'on'
-    rudraksha_5_mukhi_access = request.form.get('rudraksha_5_mukhi_access') == 'on'
+    rudraksha_8_mukhi_access = request.form.get('rudraksha_8_mukhi_access') == 'on'
     rudraksha_11_mukhi_access = request.form.get('rudraksha_11_mukhi_access') == 'on'
     rudraksha_14_mukhi_access = request.form.get('rudraksha_14_mukhi_access') == 'on'
+    
+    # Get Devi Mandala access updates (Kamakhya Sadhana)
+    devi_mandala_2_access = request.form.get('devi_mandala_2_access') == 'on'
+    devi_mandala_3_access = request.form.get('devi_mandala_3_access') == 'on'
 
-    # Update stage access
+    # Update Bhairava stage access
     user.mandala_2_access = mandala_2_access
     user.mandala_3_access = mandala_3_access
-    user.rudraksha_5_mukhi_access = rudraksha_5_mukhi_access
+    user.rudraksha_8_mukhi_access = rudraksha_8_mukhi_access
     user.rudraksha_11_mukhi_access = rudraksha_11_mukhi_access
     user.rudraksha_14_mukhi_access = rudraksha_14_mukhi_access
+    
+    # Update Devi Mandala access
+    user.devi_mandala_2_access = devi_mandala_2_access
+    user.devi_mandala_3_access = devi_mandala_3_access
 
     # Check if user should start the next available stage
     next_stage = user.get_next_required_stage()
@@ -285,7 +293,7 @@ def complete_user_stage(user_id):
         access_fields = {
             2: 'mandala_2_access',
             3: 'mandala_3_access',
-            4: 'rudraksha_5_mukhi_access',
+            4: 'rudraksha_8_mukhi_access',
             5: 'rudraksha_11_mukhi_access',
             6: 'rudraksha_14_mukhi_access'
         }
@@ -318,7 +326,7 @@ def reset_user_stage(user_id):
         1: 'mandala_1_completed_at',
         2: 'mandala_2_completed_at',
         3: 'mandala_3_completed_at',
-        4: 'rudraksha_5_mukhi_completed_at',
+        4: 'rudraksha_8_mukhi_completed_at',
         5: 'rudraksha_11_mukhi_completed_at',
         6: 'rudraksha_14_mukhi_completed_at'
     }
@@ -327,7 +335,7 @@ def reset_user_stage(user_id):
         1: 'mandala_1_started_at',
         2: 'mandala_2_started_at',
         3: 'mandala_3_started_at',
-        4: 'rudraksha_5_mukhi_started_at',
+        4: 'rudraksha_8_mukhi_started_at',
         5: 'rudraksha_11_mukhi_started_at',
         6: 'rudraksha_14_mukhi_started_at'
     }
@@ -348,7 +356,7 @@ def reset_user_stage(user_id):
         elif i == 3:
             user.mandala_3_access = False
         elif i == 4:
-            user.rudraksha_5_mukhi_access = False
+            user.rudraksha_8_mukhi_access = False
         elif i == 5:
             user.rudraksha_11_mukhi_access = False
         elif i == 6:
@@ -711,11 +719,18 @@ def approve_stage_request(request_id):
             elif access_request.stage_number == 3:
                 user.mandala_3_access = True
             elif access_request.stage_number == 4:
-                user.rudraksha_5_mukhi_access = True
+                user.rudraksha_8_mukhi_access = True
             elif access_request.stage_number == 5:
                 user.rudraksha_11_mukhi_access = True
             elif access_request.stage_number == 6:
                 user.rudraksha_14_mukhi_access = True
+            # Devi Mandala stages (Devi Padathi - Kamakhya Sadhana)
+            elif access_request.stage_number == 101:
+                user.devi_mandala_1_access = True
+            elif access_request.stage_number == 102:
+                user.devi_mandala_2_access = True
+            elif access_request.stage_number == 103:
+                user.devi_mandala_3_access = True
             
             # Start the stage if it's the next one
             next_stage = user.get_next_required_stage()
@@ -744,6 +759,46 @@ def approve_stage_request(request_id):
                 'message': f'Access request for {access_request.get_stage_name()} has been rejected'
             })
             
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500
+
+@auth.route('/admin/user/<int:user_id>/change-password', methods=['POST'])
+@login_required
+def admin_change_password(user_id):
+    """Admin endpoint to change a user's password"""
+    if not current_user.is_admin():
+        return jsonify({'success': False, 'message': 'Access denied. Admin privileges required.'}), 403
+    
+    try:
+        user = User.query.get_or_404(user_id)
+        
+        # Prevent changing admin passwords (security measure)
+        if user.is_admin() and user.id != current_user.id:
+            return jsonify({'success': False, 'message': 'Cannot change password of another admin'}), 403
+        
+        new_password = request.form.get('new_password', '').strip()
+        confirm_password = request.form.get('confirm_password', '').strip()
+        
+        # Validation
+        if not new_password:
+            return jsonify({'success': False, 'message': 'Password is required'}), 400
+        
+        if len(new_password) < 6:
+            return jsonify({'success': False, 'message': 'Password must be at least 6 characters long'}), 400
+        
+        if new_password != confirm_password:
+            return jsonify({'success': False, 'message': 'Passwords do not match'}), 400
+        
+        # Update password
+        user.set_password(new_password)
+        db.session.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': f'Password successfully changed for {user.username}'
+        })
+        
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': 'An error occurred. Please try again.'}), 500

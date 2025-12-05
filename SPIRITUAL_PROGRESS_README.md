@@ -10,7 +10,7 @@ The Daiva Anughara website now includes a comprehensive **Spiritual Progress Tra
 1. **Mandala 1** 🕉️ - Foundation (Auto-granted to all users)
 2. **Mandala 2** 🌟 - Advancement (Admin approval required)
 3. **Mandala 3** ✨ - Mastery (Admin approval required)
-4. **Rudraksha 5 Mukhi** 📿 - Purification (Admin approval required)
+4. **Rudraksha 8 Mukhi** 📿 - Purification (Admin approval required)
 5. **Rudraksha 11 Mukhi** 🔮 - Protection (Admin approval required)
 6. **Rudraksha 14 Mukhi** 💎 - Ultimate Mastery (Admin approval required)
 
@@ -33,7 +33,7 @@ New fields added to the `User` model:
 
 #### Access Control Fields
 ```python
-rudraksha_5_mukhi_access = db.Column(db.Boolean, default=False)
+rudraksha_8_mukhi_access = db.Column(db.Boolean, default=False)
 rudraksha_11_mukhi_access = db.Column(db.Boolean, default=False)
 rudraksha_14_mukhi_access = db.Column(db.Boolean, default=False)
 ```
@@ -43,7 +43,7 @@ rudraksha_14_mukhi_access = db.Column(db.Boolean, default=False)
 mandala_1_completed_at = db.Column(db.DateTime, nullable=True)
 mandala_2_completed_at = db.Column(db.DateTime, nullable=True)
 mandala_3_completed_at = db.Column(db.DateTime, nullable=True)
-rudraksha_5_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+rudraksha_8_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
 rudraksha_11_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
 rudraksha_14_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
 ```
@@ -53,7 +53,7 @@ rudraksha_14_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
 mandala_1_started_at = db.Column(db.DateTime, nullable=True)
 mandala_2_started_at = db.Column(db.DateTime, nullable=True)
 mandala_3_started_at = db.Column(db.DateTime, nullable=True)
-rudraksha_5_mukhi_started_at = db.Column(db.DateTime, nullable=True)
+rudraksha_8_mukhi_started_at = db.Column(db.DateTime, nullable=True)
 rudraksha_11_mukhi_started_at = db.Column(db.DateTime, nullable=True)
 rudraksha_14_mukhi_started_at = db.Column(db.DateTime, nullable=True)
 ```

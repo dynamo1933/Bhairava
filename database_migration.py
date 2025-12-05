@@ -9,9 +9,10 @@ Usage:
 3. The script will add the new columns to the User table
 
 New Fields Added:
-- Rudraksha access permissions (5 Mukhi, 11 Mukhi, 14 Mukhi)
+- Rudraksha access permissions (8 Mukhi, 11 Mukhi, 14 Mukhi)
 - Stage completion dates for all 6 stages
 - Stage start dates for duration tracking
+- Devi Mandala access permissions (1, 2, 3) for Devi Padathi/Kamakhya Sadhana
 """
 
 import sys
@@ -45,11 +46,11 @@ def add_stage_tracking_columns():
         print("📿 Adding Rudraksha access permission fields...")
         try:
             with db.engine.connect() as conn:
-                conn.execute(text("ALTER TABLE user ADD COLUMN rudraksha_5_mukhi_access BOOLEAN DEFAULT 0"))
+                conn.execute(text("ALTER TABLE user ADD COLUMN rudraksha_8_mukhi_access BOOLEAN DEFAULT 0"))
                 conn.commit()
-            print("   ✓ rudraksha_5_mukhi_access added")
+            print("   ✓ rudraksha_8_mukhi_access added")
         except Exception as e:
-            print(f"   ⚠️ rudraksha_5_mukhi_access: {e}")
+            print(f"   ⚠️ rudraksha_8_mukhi_access: {e}")
 
         try:
             with db.engine.connect() as conn:
@@ -67,13 +68,39 @@ def add_stage_tracking_columns():
         except Exception as e:
             print(f"   ⚠️ rudraksha_14_mukhi_access: {e}")
 
+        # Add Devi Mandala access permissions (for Devi Padathi - Kamakhya Sadhana)
+        print("🌸 Adding Devi Mandala access permission fields (Devi Padathi)...")
+        try:
+            with db.engine.connect() as conn:
+                conn.execute(text("ALTER TABLE \"user\" ADD COLUMN devi_mandala_1_access BOOLEAN DEFAULT TRUE"))
+                conn.commit()
+            print("   ✓ devi_mandala_1_access added")
+        except Exception as e:
+            print(f"   ⚠️ devi_mandala_1_access: {e}")
+
+        try:
+            with db.engine.connect() as conn:
+                conn.execute(text("ALTER TABLE \"user\" ADD COLUMN devi_mandala_2_access BOOLEAN DEFAULT FALSE"))
+                conn.commit()
+            print("   ✓ devi_mandala_2_access added")
+        except Exception as e:
+            print(f"   ⚠️ devi_mandala_2_access: {e}")
+
+        try:
+            with db.engine.connect() as conn:
+                conn.execute(text("ALTER TABLE \"user\" ADD COLUMN devi_mandala_3_access BOOLEAN DEFAULT FALSE"))
+                conn.commit()
+            print("   ✓ devi_mandala_3_access added")
+        except Exception as e:
+            print(f"   ⚠️ devi_mandala_3_access: {e}")
+
         # Add stage completion dates
         print("📅 Adding stage completion date fields...")
         completion_fields = [
             'mandala_1_completed_at',
             'mandala_2_completed_at',
             'mandala_3_completed_at',
-            'rudraksha_5_mukhi_completed_at',
+            'rudraksha_8_mukhi_completed_at',
             'rudraksha_11_mukhi_completed_at',
             'rudraksha_14_mukhi_completed_at'
         ]
@@ -93,7 +120,7 @@ def add_stage_tracking_columns():
             'mandala_1_started_at',
             'mandala_2_started_at',
             'mandala_3_started_at',
-            'rudraksha_5_mukhi_started_at',
+            'rudraksha_8_mukhi_started_at',
             'rudraksha_11_mukhi_started_at',
             'rudraksha_14_mukhi_started_at'
         ]

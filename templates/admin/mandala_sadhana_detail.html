@@ -1,394 +1,1244 @@
 {% extends "base.html" %}
 
+{% block extra_styles %}
+<style>
+/* ===== MANDALA SADHANA DETAIL PAGE - MATCHING APPLICATION THEME ===== */
+.mandala-detail-dashboard {
+    min-height: 100vh;
+    padding: var(--spacing-lg) 0;
+}
+
+.mandala-detail-dashboard .container {
+    max-width: 1400px;
+    padding: 0 var(--spacing-md);
+}
+
+/* Hero Header */
+.detail-hero {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 50%, #7c1526 100%);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.3);
+}
+
+.detail-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="sacredPattern" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23sacredPattern)"/></svg>');
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.detail-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.hero-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.hero-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-text h1 {
+    font-family: var(--font-mystical);
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0 0 0.25rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-family: var(--font-secondary);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.hero-badge.id-badge {
+    background: var(--accent-gold);
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.hero-right {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateX(-4px);
+    color: #fff;
+}
+
+/* Main Grid Layout */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--spacing-xl);
+}
+
+@media (max-width: 1100px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card Base */
+.detail-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.card-header-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.card-header-text h3 {
+    color: #fff;
+    font-family: var(--font-primary);
+    font-size: 1.15rem;
+    margin: 0;
+    text-shadow: none;
+}
+
+.card-header-text p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.card-body {
+    padding: var(--spacing-lg);
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 600px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--accent-cream);
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.info-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+.info-value.email {
+    color: var(--primary-red);
+}
+
+/* Commitment Cards */
+.commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 600px) {
+    .commitment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.commitment-card {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-radius: 16px;
+    padding: var(--spacing-lg);
+    border: 2px solid rgba(196, 30, 58, 0.15);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.commitment-card.committed {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.commitment-card.advanced {
+    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.commitment-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.commitment-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.commitment-card.committed .commitment-icon {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.commitment-card.pending .commitment-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+.commitment-card.advanced .commitment-icon {
+    background: linear-gradient(135deg, var(--spiritual-purple), #6366f1);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.commitment-card.preparing .commitment-icon {
+    background: linear-gradient(135deg, #64748b, #475569);
+    color: #fff;
+}
+
+.commitment-title {
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.commitment-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-sm);
+}
+
+.commitment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.commitment-badge.committed {
+    background: #22c55e;
+    color: #fff;
+}
+
+.commitment-badge.pending {
+    background: #f59e0b;
+    color: #fff;
+}
+
+.commitment-badge.advanced {
+    background: var(--spiritual-purple);
+    color: #fff;
+}
+
+.commitment-badge.basic {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.commitment-badge.preparing {
+    background: #64748b;
+    color: #fff;
+}
+
+/* Sadhana Details */
+.sadhana-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .sadhana-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sadhana-item {
+    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+    border-radius: 14px;
+    padding: var(--spacing-lg);
+    text-align: center;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.sadhana-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-orange), #f59e0b);
+    margin: 0 auto var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.sadhana-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.sadhana-value {
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.sadhana-type-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    color: #fff;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.date-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.date-main {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.date-day {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.comm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.comm-badge.requested {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+}
+
+.comm-badge.none {
+    background: #e5e7eb;
+    color: #64748b;
+}
+
+/* Personal Commitment Quote */
+.commitment-quote-box {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.commitment-quote-box::before {
+    content: '"';
+    font-family: var(--font-mystical);
+    font-size: 6rem;
+    color: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    line-height: 1;
+}
+
+.commitment-quote-box::after {
+    content: '"';
+    font-family: var(--font-mystical);
+    font-size: 6rem;
+    color: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    bottom: -40px;
+    right: 20px;
+    line-height: 1;
+}
+
+.quote-content {
+    position: relative;
+    z-index: 1;
+}
+
+.quote-label {
+    color: var(--accent-gold);
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quote-text {
+    color: #fff;
+    font-family: var(--font-sacred);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    font-style: italic;
+}
+
+/* Sidebar Cards */
+.sidebar-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    overflow: hidden;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    margin-bottom: var(--spacing-lg);
+}
+
+.sidebar-header {
+    background: linear-gradient(135deg, var(--spiritual-purple), #6366f1);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.sidebar-header.actions {
+    background: linear-gradient(135deg, var(--accent-orange), #f59e0b);
+}
+
+.sidebar-header h3 {
+    color: #fff;
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-shadow: none;
+}
+
+.sidebar-body {
+    padding: var(--spacing-lg);
+}
+
+/* Summary List */
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-red);
+    flex-shrink: 0;
+}
+
+.summary-content {
+    flex: 1;
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.summary-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.summary-status.committed {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.summary-status.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.summary-status.advanced {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.summary-status.basic {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.summary-status.preparing {
+    background: #f3f4f6;
+    color: #64748b;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: 14px;
+    text-decoration: none;
+    background: var(--accent-cream);
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    border-color: var(--primary-red);
+    background: #fff;
+    transform: translateX(5px);
+}
+
+.action-btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.action-btn.email .action-btn-icon {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.action-btn.copy .action-btn-icon {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.action-btn.print .action-btn-icon {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.action-btn-content {
+    flex: 1;
+}
+
+.action-btn-title {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+.action-btn-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Timeline Card */
+.timeline-header {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.timeline-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.timeline-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-red);
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.timeline-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.timeline-date {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.timeline-time {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.no-data {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Active Status Indicator */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.status-indicator.active {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detail-hero {
+        padding: 1.5rem;
+    }
+    
+    .detail-hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .hero-left {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .hero-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .hero-text h1 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .commitment-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sadhana-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .back-btn, 
+    .sidebar-card:has(.action-buttons),
+    .detail-hero-content .hero-right {
+        display: none !important;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+</style>
+{% endblock %}
+
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <!-- Modern Header -->
-            <div class="detail-header-modern">
-                <div class="detail-header-content-modern">
-                    <div class="detail-title-section-modern">
-                        <div class="detail-title-icon-modern">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="detail-title-text-modern">
-                            <h1 class="detail-title-modern">Registration Details</h1>
-                            <p class="detail-subtitle-modern">Complete sacred journey participant information</p>
+<section class="mandala-detail-dashboard">
+    <div class="container">
+        <!-- Hero Header -->
+        <div class="detail-hero">
+            <div class="detail-hero-content">
+                <div class="hero-left">
+                    <div class="hero-avatar">🕉️</div>
+                    <div class="hero-text">
+                        <h1>{{ registration.full_name }}</h1>
+                        <p class="hero-subtitle">Sacred Journey Participant</p>
+                        <div class="hero-badges">
+                            <span class="hero-badge id-badge">
+                                <i class="fas fa-hashtag"></i> {{ registration.id }}
+                            </span>
+                            <span class="hero-badge">
+                                <i class="fas fa-om"></i> {{ registration.sadhana_type }}
+                            </span>
+                            <span class="hero-badge">
+                                <i class="fas fa-check-circle"></i> Active
+                            </span>
                         </div>
                     </div>
-                    <div class="detail-actions-modern">
-                        <a href="{{ url_for('admin_mandala_sadhana') }}" class="btn-back-modern">
-                            <i class="fas fa-arrow-left"></i>
-                            <span>Back to List</span>
-                        </a>
+                </div>
+                <div class="hero-right">
+                    <a href="{{ url_for('admin_mandala_sadhana') }}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to List</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="detail-grid">
+            <!-- Left Column -->
+            <div class="detail-content">
+                <!-- Contact Information Card -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <div class="card-header-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h3>Contact Information</h3>
+                            <p>Participant details and contact info</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Full Name</span>
+                                    <span class="info-value">{{ registration.full_name }}</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Email Address</span>
+                                    <span class="info-value email">{{ registration.email }}</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-fingerprint"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Registration ID</span>
+                                    <span class="info-value">#{{ registration.id }}</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-toggle-on"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Status</span>
+                                    <span class="status-indicator active">
+                                        <i class="fas fa-check-circle"></i> Active
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mandala Commitments Card -->
+                <div class="detail-card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--spiritual-purple), #6366f1);">
+                        <div class="card-header-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h3>Mandala Commitments</h3>
+                            <p>Sacred journey dedication levels</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="commitment-grid">
+                            <!-- 48-Day Commitment -->
+                            <div class="commitment-card {% if registration.mandala_48_commitment %}committed{% else %}pending{% endif %}">
+                                <div class="commitment-icon">
+                                    {% if registration.mandala_48_commitment %}
+                                        <i class="fas fa-check"></i>
+                                    {% else %}
+                                        <i class="fas fa-hourglass-half"></i>
+                                    {% endif %}
+                                </div>
+                                <h4 class="commitment-title">48-Day Foundation</h4>
+                                <p class="commitment-desc">Ready to commit to a 48-day journey</p>
+                                {% if registration.mandala_48_commitment %}
+                                    <span class="commitment-badge committed"><i class="fas fa-check"></i> Committed</span>
+                                {% else %}
+                                    <span class="commitment-badge pending"><i class="fas fa-clock"></i> Considering</span>
+                                {% endif %}
+                            </div>
+
+                            <!-- 144-Day Commitment -->
+                            <div class="commitment-card {% if registration.mandala_144_commitment == 'Yes' %}advanced{% elif registration.mandala_144_commitment == 'No' %}committed{% else %}preparing{% endif %}">
+                                <div class="commitment-icon">
+                                    {% if registration.mandala_144_commitment == 'Yes' %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif registration.mandala_144_commitment == 'No' %}
+                                        <i class="fas fa-seedling"></i>
+                                    {% else %}
+                                        <i class="fas fa-clock"></i>
+                                    {% endif %}
+                                </div>
+                                <h4 class="commitment-title">144-Day Advanced</h4>
+                                <p class="commitment-desc">Full triad of 3 Mandalas transformation</p>
+                                {% if registration.mandala_144_commitment == 'Yes' %}
+                                    <span class="commitment-badge advanced"><i class="fas fa-star"></i> Advanced</span>
+                                {% elif registration.mandala_144_commitment == 'No' %}
+                                    <span class="commitment-badge basic"><i class="fas fa-seedling"></i> Foundation Only</span>
+                                {% else %}
+                                    <span class="commitment-badge preparing"><i class="fas fa-clock"></i> Preparing</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sadhana Details Card -->
+                <div class="detail-card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--accent-orange), #f59e0b);">
+                        <div class="card-header-icon">
+                            <i class="fas fa-om"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h3>Sadhana Details</h3>
+                            <p>Practice specifications and preferences</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="sadhana-grid">
+                            <div class="sadhana-item">
+                                <div class="sadhana-icon">
+                                    <i class="fas fa-om"></i>
+                                </div>
+                                <div class="sadhana-label">Practice Type</div>
+                                <div class="sadhana-value">
+                                    <span class="sadhana-type-badge">{{ registration.sadhana_type }}</span>
+                                </div>
+                            </div>
+
+                            <div class="sadhana-item">
+                                <div class="sadhana-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="sadhana-label">Journey Start</div>
+                                <div class="sadhana-value">
+                                    {% if registration.sadhana_start_date %}
+                                        <div class="date-display">
+                                            <span class="date-main">{{ registration.sadhana_start_date.strftime('%B %d, %Y') }}</span>
+                                            <span class="date-day">{{ registration.sadhana_start_date.strftime('%A') }}</span>
+                                        </div>
+                                    {% else %}
+                                        <span class="no-data">Not specified</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="sadhana-item">
+                                <div class="sadhana-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="sadhana-label">Communication</div>
+                                <div class="sadhana-value">
+                                    {% if registration.send_copy %}
+                                        <span class="comm-badge requested"><i class="fas fa-envelope"></i> Copy Requested</span>
+                                    {% else %}
+                                        <span class="comm-badge none"><i class="fas fa-envelope-open"></i> No Copy</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Commitment Card -->
+                <div class="detail-card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--primary-red), #991b2e);">
+                        <div class="card-header-icon">
+                            <i class="fas fa-praying-hands"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h3>Personal Commitment</h3>
+                            <p>Inner dedication and spiritual vow</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="commitment-quote-box">
+                            <div class="quote-content">
+                                <div class="quote-label">
+                                    <i class="fas fa-quote-left"></i> Sacred Vow
+                                </div>
+                                <p class="quote-text">{{ registration.commitment_text }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <!-- Modern Registration Details Card -->
-                    <div class="detail-card-modern">
-                        <div class="detail-card-header-modern">
-                            <div class="detail-card-icon-modern">
-                                <i class="fas fa-user"></i> 
-                            </div>
-                            <div class="detail-card-title-modern">
-                                <h3 class="detail-card-name-modern">{{ registration.full_name }}</h3>
-                                <p class="detail-card-subtitle-modern">Sacred Journey Participant</p>
-                            </div>
-                            <div class="detail-card-id-modern">
-                                <span class="registration-number-modern">#{{ registration.id }}</span>
-                            </div>
-                        </div>
-                        <div class="detail-card-content-modern">
-                            <div class="detail-info-grid-modern">
-                                <div class="detail-info-section-modern">
-                                    <div class="detail-info-header-modern">
-                                        <div class="detail-info-icon-modern">
-                                            <i class="fas fa-envelope"></i>
-                                        </div>
-                                        <h4 class="detail-info-title-modern">Contact Information</h4>
-                                    </div>
-                                    <div class="detail-info-items-modern">
-                                        <div class="detail-info-item-modern">
-                                            <div class="detail-info-label-modern">Email Address</div>
-                                            <div class="detail-info-value-modern">{{ registration.email }}</div>
-                                        </div>
-                                        <div class="detail-info-item-modern">
-                                            <div class="detail-info-label-modern">Registration ID</div>
-                                            <div class="detail-info-value-modern">#{{ registration.id }}</div>
-                                        </div>
-                                        <div class="detail-info-item-modern">
-                                            <div class="detail-info-label-modern">Status</div>
-                                            <div class="detail-info-value-modern">
-                                                <span class="status-indicator-modern active"><i class="fas fa-check-circle"></i> Active</span>
-                                            </div>
-                                        </div>
-                                    </div>
+            <!-- Right Column - Sidebar -->
+            <div class="detail-sidebar">
+                <!-- Quick Actions -->
+                <div class="sidebar-card">
+                    <div class="sidebar-header actions">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    </div>
+                    <div class="sidebar-body">
+                        <div class="action-buttons">
+                            <a href="mailto:{{ registration.email }}" class="action-btn email">
+                                <div class="action-btn-icon">
+                                    <i class="fas fa-envelope"></i>
                                 </div>
-                                <div class="detail-info-section-modern">
-                                    <div class="detail-info-header-modern">
-                                        <div class="detail-info-icon-modern">
-                                            <i class="fas fa-clock"></i>
-                                        </div>
-                                        <h4 class="detail-info-title-modern">Timeline</h4>
-                                    </div>
-                                    <div class="detail-info-items-modern">
-                                        <div class="detail-info-item-modern">
-                                            <div class="detail-info-label-modern">Registered</div>
-                                            <div class="detail-info-value-modern">
-                                        {% if registration.created_at %}
-                                                    <div class="timeline-date-modern">{{ registration.created_at.strftime('%B %d, %Y') }}</div>
-                                                    <div class="timeline-time-modern">{{ registration.created_at.strftime('%I:%M %p') }}</div>
-                                        {% else %}
-                                                    <span class="no-data-modern">Not available</span>
-                                        {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="detail-info-item-modern">
-                                            <div class="detail-info-label-modern">Last Updated</div>
-                                            <div class="detail-info-value-modern">
-                                        {% if registration.updated_at %}
-                                                    <div class="timeline-date-modern">{{ registration.updated_at.strftime('%B %d, %Y') }}</div>
-                                                    <div class="timeline-time-modern">{{ registration.updated_at.strftime('%I:%M %p') }}</div>
-                                        {% else %}
-                                                    <span class="no-data-modern">Not available</span>
-                                        {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="action-btn-content">
+                                    <div class="action-btn-title">Send Email</div>
+                                    <div class="action-btn-desc">Contact participant</div>
                                 </div>
-                            </div>
+                            </a>
+
+                            <button class="action-btn copy" onclick="copyToClipboard('{{ registration.email }}')">
+                                <div class="action-btn-icon">
+                                    <i class="fas fa-copy"></i>
+                                </div>
+                                <div class="action-btn-content">
+                                    <div class="action-btn-title">Copy Email</div>
+                                    <div class="action-btn-desc">Copy to clipboard</div>
+                                </div>
+                            </button>
+
+                            <button class="action-btn print" onclick="printRegistration()">
+                                <div class="action-btn-icon">
+                                    <i class="fas fa-print"></i>
+                                </div>
+                                <div class="action-btn-content">
+                                    <div class="action-btn-title">Print Details</div>
+                                    <div class="action-btn-desc">Generate report</div>
+                                </div>
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Modern Mandala Commitments Card -->
-                    <div class="detail-card-modern">
-                        <div class="detail-card-header-modern">
-                            <div class="detail-card-icon-modern">
-                                <i class="fas fa-heart"></i>
+                <!-- Summary Card -->
+                <div class="sidebar-card">
+                    <div class="sidebar-header">
+                        <h3><i class="fas fa-info-circle"></i> At a Glance</h3>
+                    </div>
+                    <div class="sidebar-body">
+                        <div class="summary-list">
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Participant</div>
+                                    <div class="summary-value">{{ registration.full_name }}</div>
+                                </div>
                             </div>
-                            <div class="detail-card-title-modern">
-                                <h3 class="detail-card-name-modern">Mandala Commitments</h3>
-                                <p class="detail-card-subtitle-modern">Sacred journey dedication levels</p>
-                            </div>
-                        </div>
-                        <div class="detail-card-content-modern">
-                            <div class="commitments-grid-modern">
-                                <div class="commitment-item-modern">
-                                    <div class="commitment-visual-modern">
+
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">48-Day</div>
+                                    <div class="summary-value">
                                         {% if registration.mandala_48_commitment %}
-                                            <div class="commitment-icon-modern committed">
-                                                <i class="fas fa-check-circle"></i>
-                                            </div>
+                                            <span class="summary-status committed"><i class="fas fa-check"></i> Committed</span>
                                         {% else %}
-                                            <div class="commitment-icon-modern pending">
-                                                <i class="fas fa-circle-notch"></i>
-                                            </div>
+                                            <span class="summary-status pending"><i class="fas fa-times"></i> Not Ready</span>
                                         {% endif %}
                                     </div>
-                                    <div class="commitment-info-modern">
-                                        <h4 class="commitment-title-modern">48-Day Foundation</h4>
-                                        <p class="commitment-description-modern">Ready to commit to a 48-day journey</p>
-                                        <div class="commitment-status-modern">
-                                            {% if registration.mandala_48_commitment %}
-                                                <span class="commitment-badge-modern committed"><i class="fas fa-check"></i> Committed</span>
-                                            {% else %}
-                                                <span class="commitment-badge-modern pending"><i class="fas fa-clock"></i> Considering</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="commitment-item-modern">
-                                    <div class="commitment-visual-modern">
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">144-Day</div>
+                                    <div class="summary-value">
                                         {% if registration.mandala_144_commitment == 'Yes' %}
-                                            <div class="commitment-icon-modern advanced">
-                                                <i class="fas fa-star"></i>
-                                            </div>
+                                            <span class="summary-status advanced"><i class="fas fa-star"></i> Advanced</span>
                                         {% elif registration.mandala_144_commitment == 'No' %}
-                                            <div class="commitment-icon-modern basic">
-                                                <i class="fas fa-seedling"></i>
-                                            </div>
+                                            <span class="summary-status basic"><i class="fas fa-seedling"></i> Foundation</span>
                                         {% else %}
-                                            <div class="commitment-icon-modern preparing">
-                                                <i class="fas fa-clock"></i>
-                                            </div>
+                                            <span class="summary-status preparing"><i class="fas fa-clock"></i> Preparing</span>
                                         {% endif %}
                                     </div>
-                                    <div class="commitment-info-modern">
-                                        <h4 class="commitment-title-modern">144-Day Advanced</h4>
-                                        <p class="commitment-description-modern">Full triad of 3 Mandalas transformation</p>
-                                        <div class="commitment-status-modern">
-                                            {% if registration.mandala_144_commitment == 'Yes' %}
-                                                <span class="commitment-badge-modern advanced"><i class="fas fa-star"></i> Advanced</span>
-                                            {% elif registration.mandala_144_commitment == 'No' %}
-                                                <span class="commitment-badge-modern basic"><i class="fas fa-seedling"></i> Foundation Only</span>
-                                            {% else %}
-                                                <span class="commitment-badge-modern preparing"><i class="fas fa-clock"></i> Preparing</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Modern Sadhana Details Card -->
-                    <div class="detail-card-modern">
-                        <div class="detail-card-header-modern">
-                            <div class="detail-card-icon-modern">
-                                <i class="fas fa-om"></i> 
-                            </div>
-                            <div class="detail-card-title-modern">
-                                <h3 class="detail-card-name-modern">Sadhana Details</h3>
-                                <p class="detail-card-subtitle-modern">Practice specifications and preferences</p>
-                            </div>
-                        </div>
-                        <div class="detail-card-content-modern">
-                            <div class="sadhana-details-grid-modern">
-                                <div class="sadhana-detail-item-modern">
-                                    <div class="sadhana-detail-header-modern">
-                                        <div class="sadhana-detail-icon-modern">
-                                            <i class="fas fa-om"></i>
-                                        </div>
-                                        <h4 class="sadhana-detail-title-modern">Practice Type</h4>
-                                    </div>
-                                    <div class="sadhana-detail-content-modern">
-                                        <span class="sadhana-type-badge-detail-modern">{{ registration.sadhana_type }}</span>
-                                    </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-om"></i>
                                 </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Practice</div>
+                                    <div class="summary-value">{{ registration.sadhana_type }}</div>
+                                </div>
+                            </div>
 
-                                <div class="sadhana-detail-item-modern">
-                                    <div class="sadhana-detail-header-modern">
-                                        <div class="sadhana-detail-icon-modern">
-                                            <i class="fas fa-calendar-alt"></i>
-                                        </div>
-                                        <h4 class="sadhana-detail-title-modern">Journey Start</h4>
-                                    </div>
-                                    <div class="sadhana-detail-content-modern">
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Started</div>
+                                    <div class="summary-value">
                                         {% if registration.sadhana_start_date %}
-                                            <div class="start-date-detail-modern">{{ registration.sadhana_start_date.strftime('%B %d, %Y') }}</div>
-                                            <div class="start-day-detail-modern">{{ registration.sadhana_start_date.strftime('%A') }}</div>
+                                            {{ registration.sadhana_start_date.strftime('%b %d, %Y') }}
                                         {% else %}
-                                            <span class="no-sadhana-date-modern">Not specified</span>
+                                            <span class="no-data">Not specified</span>
                                         {% endif %}
                                     </div>
-                                </div>
-
-                                <div class="sadhana-detail-item-modern">
-                                    <div class="sadhana-detail-header-modern">
-                                        <div class="sadhana-detail-icon-modern">
-                                        <i class="fas fa-envelope"></i> 
-                                        </div>
-                                        <h4 class="sadhana-detail-title-modern">Communication</h4>
-                                    </div>
-                                    <div class="sadhana-detail-content-modern">
-                                        {% if registration.send_copy %}
-                                            <span class="communication-badge-modern requested"><i class="fas fa-envelope"></i> Copy Requested</span>
-                                        {% else %}
-                                            <span class="communication-badge-modern none"><i class="fas fa-envelope-open"></i> No Copy</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modern Personal Commitment Card -->
-                    <div class="detail-card-modern">
-                        <div class="detail-card-header-modern">
-                            <div class="detail-card-icon-modern">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="detail-card-title-modern">
-                                <h3 class="detail-card-name-modern">Personal Commitment</h3>
-                                <p class="detail-card-subtitle-modern">Inner dedication and spiritual vow</p>
-                            </div>
-                        </div>
-                        <div class="detail-card-content-modern">
-                            <div class="commitment-text-container-modern">
-                                <div class="commitment-text-quote-modern">
-                                    <div class="quote-mark-modern">"</div>
-                                    <blockquote class="commitment-quote-modern">{{ registration.commitment_text }}</blockquote>
-                                    <div class="quote-mark-modern end">"</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <!-- Modern Quick Actions Card -->
-                    <div class="sidebar-card-modern">
-                        <div class="sidebar-card-header-modern">
-                            <div class="sidebar-card-icon-modern">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="sidebar-card-title-modern">
-                                <h3 class="sidebar-card-name-modern">Quick Actions</h3>
-                                <p class="sidebar-card-subtitle-modern">Manage this registration</p>
-                            </div>
-                        </div>
-                        <div class="sidebar-card-content-modern">
-                            <div class="action-buttons-modern">
-                                <a href="mailto:{{ registration.email }}" class="action-button-modern primary">
-                                    <div class="action-button-icon-modern">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
-                                    <div class="action-button-content-modern">
-                                        <div class="action-button-title-modern">Send Email</div>
-                                        <div class="action-button-description-modern">Contact participant</div>
-                                    </div>
-                                </a>
-
-                                <button class="action-button-modern secondary" onclick="copyToClipboard('{{ registration.email }}')">
-                                    <div class="action-button-icon-modern">
-                                        <i class="fas fa-copy"></i>
-                                    </div>
-                                    <div class="action-button-content-modern">
-                                        <div class="action-button-title-modern">Copy Email</div>
-                                        <div class="action-button-description-modern">Copy to clipboard</div>
-                                    </div>
-                                </button>
-
-                                <button class="action-button-modern tertiary" onclick="printRegistration()">
-                                    <div class="action-button-icon-modern">
-                                        <i class="fas fa-print"></i>
-                                    </div>
-                                    <div class="action-button-content-modern">
-                                        <div class="action-button-title-modern">Print Details</div>
-                                        <div class="action-button-description-modern">Generate report</div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
+                <!-- Timeline Card -->
+                <div class="sidebar-card">
+                    <div class="sidebar-header timeline-header">
+                        <h3><i class="fas fa-clock"></i> Timeline</h3>
                     </div>
-
-                    <!-- Modern Registration Summary Card -->
-                    <div class="sidebar-card-modern">
-                        <div class="sidebar-card-header-modern">
-                            <div class="sidebar-card-icon-modern">
-                                <i class="fas fa-info-circle"></i> 
-                            </div>
-                            <div class="sidebar-card-title-modern">
-                                <h3 class="sidebar-card-name-modern">Summary</h3>
-                                <p class="sidebar-card-subtitle-modern">At a glance overview</p>
-                            </div>
-                        </div>
-                        <div class="sidebar-card-content-modern">
-                            <div class="summary-list-modern">
-                                <div class="summary-item-modern">
-                                    <div class="summary-icon-modern">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="summary-content-modern">
-                                        <div class="summary-label-modern">Participant</div>
-                                        <div class="summary-value-modern">{{ registration.full_name }}</div>
-                                    </div>
+                    <div class="sidebar-body">
+                        <div class="timeline-list">
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-user-plus"></i>
                                 </div>
-
-                                <div class="summary-item-modern">
-                                    <div class="summary-icon-modern">
-                                        <i class="fas fa-calendar-check"></i>
-                                    </div>
-                                    <div class="summary-content-modern">
-                                        <div class="summary-label-modern">48-Day</div>
-                                        <div class="summary-value-modern">
-                                            {% if registration.mandala_48_commitment %}
-                                                <span class="summary-status-modern committed"><i class="fas fa-check"></i> Committed</span>
-                                            {% else %}
-                                                <span class="summary-status-modern pending"><i class="fas fa-times"></i> Not Ready</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="summary-item-modern">
-                                    <div class="summary-icon-modern">
-                                        <i class="fas fa-mountain"></i>
-                                    </div>
-                                    <div class="summary-content-modern">
-                                        <div class="summary-label-modern">144-Day</div>
-                                        <div class="summary-value-modern">
-                                            {% if registration.mandala_144_commitment == 'Yes' %}
-                                                <span class="summary-status-modern advanced"><i class="fas fa-star"></i> Advanced</span>
-                                            {% elif registration.mandala_144_commitment == 'No' %}
-                                                <span class="summary-status-modern basic"><i class="fas fa-seedling"></i> Foundation</span>
-                                            {% else %}
-                                                <span class="summary-status-modern preparing"><i class="fas fa-clock"></i> Preparing</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="summary-item-modern">
-                                    <div class="summary-icon-modern">
-                                        <i class="fas fa-om"></i>
-                                    </div>
-                                    <div class="summary-content-modern">
-                                        <div class="summary-label-modern">Practice</div>
-                                        <div class="summary-value-modern">{{ registration.sadhana_type }}</div>
-                                    </div>
-                                </div>
-
-                                <div class="summary-item-modern">
-                                    <div class="summary-icon-modern">
-                                        <i class="fas fa-clock"></i>
-                                    </div>
-                                    <div class="summary-content-modern">
-                                        <div class="summary-label-modern">Started</div>
-                                        <div class="summary-value-modern">
-                                    {% if registration.sadhana_start_date %}
-                                                {{ registration.sadhana_start_date.strftime('%b %d, %Y') }}
+                                <div class="timeline-content">
+                                    <div class="timeline-label">Registered</div>
+                                    {% if registration.created_at %}
+                                        <div class="timeline-date">{{ registration.created_at.strftime('%B %d, %Y') }}</div>
+                                        <div class="timeline-time">{{ registration.created_at.strftime('%I:%M %p') }}</div>
                                     {% else %}
-                                                <span class="no-data-modern">Not specified</span>
+                                        <span class="no-data">Not available</span>
                                     {% endif %}
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-label">Last Updated</div>
+                                    {% if registration.updated_at %}
+                                        <div class="timeline-date">{{ registration.updated_at.strftime('%B %d, %Y') }}</div>
+                                        <div class="timeline-time">{{ registration.updated_at.strftime('%I:%M %p') }}</div>
+                                    {% else %}
+                                        <span class="no-data">Not available</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -397,67 +1247,88 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer" style="position: fixed; top: 100px; right: 20px; z-index: 1001;"></div>
+
+{% endblock %}
+
+{% block extra_scripts %}
 <script>
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(function() {
-        // Show success message
-        const btn = event.target.closest('button');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        btn.classList.remove('btn-outline-info');
-        btn.classList.add('btn-success');
-        
-        setTimeout(function() {
-            btn.innerHTML = originalText;
-            btn.classList.remove('btn-success');
-            btn.classList.add('btn-outline-info');
-        }, 2000);
+        showToast('Email copied to clipboard!', 'success');
+    }).catch(function() {
+        showToast('Failed to copy email', 'error');
     });
 }
 
 function printRegistration() {
     window.print();
 }
-</script>
 
-<style>
-.card {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    border: 1px solid rgba(0, 0, 0, 0.125);
-}
-
-.blockquote {
-    border-left: 4px solid #8b4513;
-    padding-left: 1rem;
-    font-style: italic;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.375rem;
-}
-
-.badge {
-    font-size: 0.875em;
-}
-
-@media print {
-    .btn, .card-header {
-        display: none !important;
+function showToast(message, type) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        background: white;
+        border-radius: 14px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+        animation: toastSlide 0.4s ease;
+        max-width: 400px;
+        border-left: 4px solid ${type === 'success' ? '#22c55e' : '#ef4444'};
+    `;
+    
+    toast.innerHTML = `
+        <span style="font-size: 1.3rem; color: ${type === 'success' ? '#22c55e' : '#ef4444'};">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        </span>
+        <span style="flex: 1; font-weight: 500;">${message}</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #9ca3af; padding: 0; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">×</button>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Add animation keyframes if not exists
+    if (!document.getElementById('toastStyles')) {
+        const style = document.createElement('style');
+        style.id = 'toastStyles';
+        style.textContent = `
+            @keyframes toastSlide {
+                from { opacity: 0; transform: translateX(100px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+        `;
+        document.head.appendChild(style);
     }
     
-    .card {
-        border: 1px solid #000 !important;
-        box-shadow: none !important;
-    }
+    setTimeout(() => {
+        toast.style.animation = 'toastSlide 0.3s ease-out reverse forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
-</style>
+
+// Initialize AOS for animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth entrance animations
+    const cards = document.querySelectorAll('.detail-card, .sidebar-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        card.style.transitionDelay = `${index * 0.1}s`;
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100);
+    });
+});
+</script>
 {% endblock %}
-
-
-
-
-
-
-
-

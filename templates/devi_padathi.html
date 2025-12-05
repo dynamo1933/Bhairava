@@ -788,12 +788,19 @@
                         {% for mandala_num in [1, 2, 3] %}
                             {% set mandala_days = {1: 33, 2: 66, 3: 99} %}
                             
-                            {# For Devi Mandalas - First mandala is accessible if user is approved, others require completion of previous #}
-                            {# This is a simplified access model - can be extended later with dedicated devi_mandala fields #}
-                            {% set is_accessible = (mandala_num == 1 and current_user.is_approved) %}
+                            {# For Devi Mandalas - Check dedicated devi_mandala_X_access fields #}
+                            {% if mandala_num == 1 %}
+                                {% set is_accessible = current_user.is_approved and current_user.devi_mandala_1_access %}
+                            {% elif mandala_num == 2 %}
+                                {% set is_accessible = current_user.devi_mandala_2_access %}
+                            {% elif mandala_num == 3 %}
+                                {% set is_accessible = current_user.devi_mandala_3_access %}
+                            {% else %}
+                                {% set is_accessible = false %}
+                            {% endif %}
                             {% set is_completed = false %}
                             {% set is_current = is_accessible and not is_completed %}
-                            {% set prev_completed = (mandala_num == 1) %}
+                            {% set prev_completed = (mandala_num == 1) or (mandala_num == 2 and current_user.devi_mandala_1_access) or (mandala_num == 3 and current_user.devi_mandala_2_access) %}
                             {% set is_next_stage = not is_accessible and prev_completed %}
                             
                             {% if mandala_num > 1 %}

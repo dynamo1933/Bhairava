@@ -240,6 +240,23 @@ def load_user(user_id):
         # Return None to indicate user could not be loaded
         return None
 
+@app.before_request
+def update_last_active():
+    """Update user's last_active timestamp on each request"""
+    if current_user.is_authenticated:
+        try:
+            # Only update if last_active is None or more than 1 minute ago
+            # to avoid excessive database writes
+            now = datetime.utcnow()
+            if current_user.last_active is None or \
+               (now - current_user.last_active).total_seconds() > 60:
+                current_user.last_active = now
+                db.session.commit()
+        except Exception as e:
+            # Don't let this break the request
+            print(f"⚠️  Error updating last_active: {e}")
+            db.session.rollback()
+
 # Sample Ashtami dates data
 ASHTAMI_DATES = [
     {

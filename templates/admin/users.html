@@ -1218,12 +1218,23 @@
                                     <div class="detail-item">
                                         <i class="fas fa-clock"></i>
                                         <span class="detail-label">Last Active</span>
-                                        <span class="detail-value">{{ user.last_login.strftime('%b %d') if user.last_login else 'Never' }}</span>
+                                        <span class="detail-value last-active-time" data-timestamp="{{ user.last_active.isoformat() if user.last_active else '' }}">
+                                            {% if user.last_active %}
+                                                {{ user.last_active.strftime('%b %d, %I:%M %p') }}
+                                            {% else %}
+                                                Never
+                                            {% endif %}
+                                        </span>
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-layer-group"></i>
                                         <span class="detail-label">Stage Access</span>
-                                        <span class="detail-value">{{ user.stage_access or 'Stage 1' }}</span>
+                                        <span class="detail-value">
+                                            {% if user.mandala_3_access %}Stage 3
+                                            {% elif user.mandala_2_access %}Stage 2
+                                            {% elif user.mandala_1_access %}Stage 1
+                                            {% else %}None{% endif %}
+                                        </span>
                                     </div>
                                 </div>
                                 {% if user.purpose %}
@@ -1363,7 +1374,55 @@ document.addEventListener('DOMContentLoaded', function() {
     setupUserActions();
     setupRequestActions();
     setupPurposeModals();
+    
+    // Format last active times as relative time
+    formatLastActiveTimes();
 });
+
+function formatLastActiveTimes() {
+    const elements = document.querySelectorAll('.last-active-time');
+    elements.forEach(el => {
+        const timestamp = el.dataset.timestamp;
+        if (timestamp) {
+            const date = new Date(timestamp + 'Z'); // Add Z to treat as UTC
+            const now = new Date();
+            const diffMs = now - date;
+            const diffSecs = Math.floor(diffMs / 1000);
+            const diffMins = Math.floor(diffSecs / 60);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            let relativeTime;
+            if (diffSecs < 60) {
+                relativeTime = 'Just now';
+            } else if (diffMins < 60) {
+                relativeTime = `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+            } else if (diffHours < 24) {
+                relativeTime = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            } else if (diffDays < 7) {
+                relativeTime = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            } else {
+                // Show date for older entries
+                relativeTime = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+            
+            // Add indicator for recently active users
+            if (diffMins < 5) {
+                el.innerHTML = `<span style="color: #22c55e;">● ${relativeTime}</span>`;
+            } else if (diffMins < 30) {
+                el.innerHTML = `<span style="color: #f59e0b;">● ${relativeTime}</span>`;
+            } else {
+                el.textContent = relativeTime;
+            }
+            
+            // Add tooltip with exact time
+            el.title = date.toLocaleString();
+        }
+    });
+    
+    // Update every minute
+    setTimeout(formatLastActiveTimes, 60000);
+}
 
 function fetchStats() {
     fetch('{{ url_for("auth.user_kpi_data") }}')

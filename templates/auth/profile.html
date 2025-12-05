@@ -1,99 +1,652 @@
 {% extends "base.html" %}
 
+{% block extra_styles %}
+<style>
+/* ===== PROFILE PAGE - SACRED DESIGN ===== */
+
+/* Page Header - Sacred Gradient */
+.profile-page-header {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 50%, var(--accent-orange) 100%);
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/><circle cx="50" cy="50" r="20" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/></svg>');
+    background-size: 150px 150px;
+    opacity: 0.6;
+}
+
+.profile-page-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.profile-header-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.profile-avatar-large {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.4);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.3),
+        0 0 0 3px rgba(255,255,255,0.15),
+        inset 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.profile-avatar-large:hover {
+    transform: scale(1.05);
+    border-color: rgba(255,255,255,0.6);
+    box-shadow: 
+        0 15px 50px rgba(0,0,0,0.4),
+        0 0 0 4px rgba(255,255,255,0.2);
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: var(--font-mystical);
+    font-size: 3.5rem;
+    font-weight: 600;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.profile-header-title {
+    font-family: var(--font-mystical);
+    font-size: 2rem;
+    color: #fff;
+    margin: 0;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.25);
+    letter-spacing: 2px;
+}
+
+.profile-header-subtitle {
+    font-family: var(--font-sacred);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.profile-status-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.status-pill {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.status-pill.admin {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(109, 40, 217, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+
+.status-pill.approved {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+.status-pill.pending {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.9) 0%, rgba(217, 119, 6, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.status-pill.suspended {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(220, 38, 38, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Main Content Area */
+.profile-main {
+    background: linear-gradient(180deg, #fef2f2 0%, #fce7e7 50%, #fef2f2 100%);
+    min-height: 60vh;
+    padding: 2.5rem 1rem 3rem;
+    position: relative;
+}
+
+.profile-main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(196, 30, 58, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Section Cards */
+.profile-section {
+    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 40px rgba(196, 30, 58, 0.08),
+        0 2px 8px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+    border: 1px solid rgba(196, 30, 58, 0.08);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 15px 50px rgba(196, 30, 58, 0.12),
+        0 4px 12px rgba(0,0,0,0.06);
+}
+
+.section-header {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.06) 0%, rgba(245, 158, 11, 0.04) 100%);
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+}
+
+.section-icon.spiritual {
+    background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.section-icon.account {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.section-title {
+    font-family: var(--font-mystical);
+    font-size: 1.1rem;
+    color: var(--primary-red);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 500;
+}
+
+.section-content {
+    padding: 1.5rem;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(254, 242, 242, 0.5) 0%, rgba(255,255,255,0.3) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(196, 30, 58, 0.06);
+    transition: all 0.2s ease;
+}
+
+.info-item:hover {
+    background: linear-gradient(135deg, rgba(254, 242, 242, 0.8) 0%, rgba(255,255,255,0.5) 100%);
+    border-color: rgba(196, 30, 58, 0.12);
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.info-value.highlight {
+    color: var(--primary-red);
+    font-weight: 600;
+}
+
+.info-value.muted {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Action Buttons */
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.profile-btn {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-family: var(--font-mystical);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.profile-btn.primary {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #b91c1c 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.35);
+}
+
+.profile-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(196, 30, 58, 0.45);
+}
+
+.profile-btn.secondary {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+    color: var(--primary-red);
+    border: 2px solid rgba(196, 30, 58, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.profile-btn.secondary:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-red);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.2);
+}
+
+/* Sacred Reminder */
+.sacred-reminder {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(245, 158, 11, 0.06) 100%);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border: 1px solid rgba(124, 58, 237, 0.1);
+    margin-top: 1rem;
+}
+
+.reminder-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.reminder-content {
+    flex: 1;
+}
+
+.reminder-text {
+    font-family: var(--font-sacred);
+    color: var(--text-dark);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0;
+}
+
+.reminder-attribution {
+    font-size: 0.85rem;
+    color: var(--spiritual-purple);
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+/* Member Since Badge */
+.member-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(255,255,255,0.5) 100%);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.member-badge i {
+    color: var(--accent-gold);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-page-header {
+        padding: 2rem 1rem;
+    }
+    
+    .profile-header-title {
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+    }
+    
+    .profile-avatar-large {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .profile-btn {
+        justify-content: center;
+    }
+    
+    .profile-status-badges {
+        gap: 0.5rem;
+    }
+    
+    .status-pill {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.8rem;
+    }
+    
+    .section-header {
+        padding: 1rem 1.25rem;
+    }
+    
+    .section-content {
+        padding: 1.25rem;
+    }
+    
+    .sacred-reminder {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="auth-section">
-    <div class="container">
-        <div class="auth-card">
-            <div class="card-header">
-                <div class="auth-icon">👤</div>
-                <h2>User Profile</h2>
-                <p class="auth-subtitle">Your spiritual journey information</p>
-            </div>
+<!-- Profile Page Header -->
+<section class="profile-page-header">
+    <div class="profile-header-content">
+        <!-- Profile Avatar -->
+        <div class="profile-avatar-large">
+            {% if current_user.profile_picture %}
+                <img src="{{ url_for('static', filename=current_user.profile_picture) }}" 
+                     alt="{{ current_user.full_name }}">
+            {% else %}
+                <div class="profile-avatar-placeholder">
+                    {{ current_user.full_name[0]|upper }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- User Name & Title -->
+        <h1 class="profile-header-title">{{ current_user.full_name }}</h1>
+        <p class="profile-header-subtitle">@{{ current_user.username }}</p>
+        
+        <!-- Status Badges -->
+        <div class="profile-status-badges">
+            {% if current_user.is_admin() %}
+                <span class="status-pill admin">
+                    <i class="fas fa-crown"></i> Administrator
+                </span>
+            {% elif current_user.is_approved %}
+                <span class="status-pill approved">
+                    <i class="fas fa-check-circle"></i> Approved Sadhaka
+                </span>
+            {% elif not current_user.is_active %}
+                <span class="status-pill suspended">
+                    <i class="fas fa-pause-circle"></i> Account Suspended
+                </span>
+            {% else %}
+                <span class="status-pill pending">
+                    <i class="fas fa-clock"></i> Pending Approval
+                </span>
+            {% endif %}
             
-            <div class="card-content">
-                <!-- Profile Picture -->
-                <div class="profile-picture-section" style="text-align: center; margin-bottom: var(--spacing-lg);">
-                    {% if current_user.profile_picture %}
-                        <img src="{{ url_for('static', filename=current_user.profile_picture) }}" 
-                             alt="{{ current_user.full_name }}" 
-                             style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-red); box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);">
-                    {% else %}
-                        <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-red), var(--accent-orange)); display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);">
-                            {{ current_user.full_name[0]|upper }}
-                        </div>
-                    {% endif %}
-                </div>
-                
-                <div class="profile-info">
-                    <div class="info-section">
-                        <h4>Basic Information</h4>
-                        <div class="info-row">
-                            <span class="info-label">Username:</span>
-                            <span class="info-value">{{ current_user.username }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Full Name:</span>
-                            <span class="info-value">{{ current_user.full_name }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Email:</span>
-                            <span class="info-value">{{ current_user.email }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Phone:</span>
-                            <span class="info-value">{{ current_user.phone or 'Not provided' }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>Spiritual Practice</h4>
-                        <div class="info-row">
-                            <span class="info-label">Spiritual Name:</span>
-                            <span class="info-value">{{ current_user.spiritual_name or 'Not provided' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Guru Name:</span>
-                            <span class="info-value">{{ current_user.guru_name or 'Not provided' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Practice Level:</span>
-                            <span class="info-value">{{ current_user.practice_level or 'Not specified' }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h4>Account Status</h4>
-                        <div class="info-row">
-                            <span class="info-label">Role:</span>
-                            <span class="role-badge role-{{ current_user.role }}">
-                                {{ current_user.role|title }}
-                            </span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Status:</span>
-                            {% if current_user.is_admin() %}
-                                <span class="status-badge status-admin">Admin</span>
-                            {% elif current_user.is_approved %}
-                                <span class="status-badge status-approved">Approved</span>
-                            {% elif not current_user.is_active %}
-                                <span class="status-badge status-suspended">Suspended</span>
-                            {% else %}
-                                <span class="status-badge status-pending">Pending</span>
-                            {% endif %}
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Member Since:</span>
-                            <span class="info-value">{{ current_user.created_at.strftime('%Y-%m-%d') }}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="profile-actions">
-                    <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Home</a>
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
-                </div>
-            </div>
+            <span class="member-badge">
+                <i class="fas fa-calendar-alt"></i>
+                Member since {{ current_user.created_at.strftime('%B %Y') }}
+            </span>
         </div>
     </div>
 </section>
+
+<!-- Main Content -->
+<div class="profile-main">
+    <div class="profile-container">
+        
+        <!-- Basic Information Section -->
+        <div class="profile-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="section-title">Basic Information</h3>
+            </div>
+            <div class="section-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Username</span>
+                        <span class="info-value">{{ current_user.username }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Full Name</span>
+                        <span class="info-value highlight">{{ current_user.full_name }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email Address</span>
+                        <span class="info-value">{{ current_user.email }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone Number</span>
+                        <span class="info-value {% if not current_user.phone %}muted{% endif %}">
+                            {{ current_user.phone or 'Not provided' }}
+                        </span>
+                    </div>
+                    {% if current_user.address %}
+                    <div class="info-item full-width">
+                        <span class="info-label">Address</span>
+                        <span class="info-value">{{ current_user.address }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spiritual Practice Section -->
+        <div class="profile-section">
+            <div class="section-header">
+                <div class="section-icon spiritual">
+                    <i class="fas fa-om"></i>
+                </div>
+                <h3 class="section-title">Spiritual Practice</h3>
+            </div>
+            <div class="section-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Spiritual Name</span>
+                        <span class="info-value {% if not current_user.spiritual_name %}muted{% endif %}">
+                            {{ current_user.spiritual_name or 'Not initiated' }}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Guru Name</span>
+                        <span class="info-value {% if not current_user.guru_name %}muted{% endif %}">
+                            {{ current_user.guru_name or 'Not provided' }}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Practice Level</span>
+                        <span class="info-value {% if not current_user.practice_level %}muted{% endif %}">
+                            {{ current_user.practice_level or 'Not specified' }}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Account Role</span>
+                        <span class="info-value highlight">{{ current_user.role|title }}</span>
+                    </div>
+                </div>
+                
+                {% if current_user.purpose %}
+                <div class="info-grid" style="margin-top: 1rem;">
+                    <div class="info-item full-width">
+                        <span class="info-label">Purpose for Sadhana</span>
+                        <span class="info-value">{{ current_user.purpose }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Account Details Section -->
+        <div class="profile-section">
+            <div class="section-header">
+                <div class="section-icon account">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="section-title">Account Details</h3>
+            </div>
+            <div class="section-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Account Status</span>
+                        <span class="info-value highlight">
+                            {% if current_user.is_admin() %}
+                                Administrator
+                            {% elif current_user.is_approved %}
+                                Active & Approved
+                            {% elif not current_user.is_active %}
+                                Suspended
+                            {% else %}
+                                Pending Approval
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Member Since</span>
+                        <span class="info-value">{{ current_user.created_at.strftime('%d %B, %Y') }}</span>
+                    </div>
+                    {% if current_user.approved_at %}
+                    <div class="info-item">
+                        <span class="info-label">Approved On</span>
+                        <span class="info-value">{{ current_user.approved_at.strftime('%d %B, %Y') }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sacred Reminder -->
+        <div class="sacred-reminder">
+            <div class="reminder-icon">🕉️</div>
+            <div class="reminder-content">
+                <p class="reminder-text">
+                    "The path of sadhana is a sacred journey. Every step taken with devotion brings you closer to the divine. May your practice be filled with grace and blessings."
+                </p>
+                <div class="reminder-attribution">— Daiva Anughara</div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="profile-actions">
+            <a href="{{ url_for('home') }}" class="profile-btn secondary">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="profile-btn primary">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        
+    </div>
+</div>
 {% endblock %}
