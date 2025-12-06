@@ -3,196 +3,436 @@
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-3 mb-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="mb-0">
-                        <i class="fas fa-plus-circle"></i> Add Offline Donation
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <form method="POST" novalidate>
+        <div class="col-lg-11">
+            <!-- Compact Header -->
+            <div class="compact-form-header">
+                <h2 class="compact-header-title">
+                    <i class="fas fa-donate me-2"></i>Add New Donation
+                </h2>
+            </div>
+
+            <!-- Main Form Card -->
+            <div class="compact-form-card">
+                <div class="compact-form-body">
+                    <form method="POST" novalidate id="donation-form">
                         {{ form.hidden_tag() }}
                         
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.donor_name.label(class="form-label") }}
-                                    {{ form.donor_name(class="form-control" + (" is-invalid" if form.donor_name.errors else "")) }}
+                        <!-- Row 1: Donor Name, Email, Phone, Date -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <div class="form-group-compact" style="position: relative;">
+                                    <label for="donor_name" class="form-label-compact">
+                                        Donor Name <span class="required">*</span>
+                                    </label>
+                                    {{ form.donor_name(class="form-control-compact" + (" is-invalid" if form.donor_name.errors else ""), id="donor_name", autocomplete="off", placeholder="Search user...") }}
+                                    <div id="donor-autocomplete" class="autocomplete-dropdown" style="display: none;"></div>
                                     {% if form.donor_name.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.donor_name.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.donor_name.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.donor_email.label(class="form-label") }}
-                                    {{ form.donor_email(class="form-control" + (" is-invalid" if form.donor_email.errors else "")) }}
+                            
+                            <div class="col-md-3">
+                                <div class="form-group-compact">
+                                    <label for="donor_email" class="form-label-compact">Email</label>
+                                    {{ form.donor_email(class="form-control-compact" + (" is-invalid" if form.donor_email.errors else ""), id="donor_email", placeholder="email@example.com") }}
                                     {% if form.donor_email.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.donor_email.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.donor_email.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.donor_phone.label(class="form-label") }}
-                                    {{ form.donor_phone(class="form-control" + (" is-invalid" if form.donor_phone.errors else "")) }}
+                            
+                            <div class="col-md-3">
+                                <div class="form-group-compact">
+                                    <label for="donor_phone" class="form-label-compact">Phone</label>
+                                    {{ form.donor_phone(class="form-control-compact" + (" is-invalid" if form.donor_phone.errors else ""), id="donor_phone", placeholder="+91 1234567890") }}
                                     {% if form.donor_phone.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.donor_phone.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.donor_phone.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.donation_date.label(class="form-label") }}
-                                    {{ form.donation_date(class="form-control" + (" is-invalid" if form.donation_date.errors else ""), type="date") }}
+                            
+                            <div class="col-md-3">
+                                <div class="form-group-compact">
+                                    <label for="donation_date" class="form-label-compact">
+                                        Date <span class="required">*</span>
+                                    </label>
+                                    {{ form.donation_date(class="form-control-compact" + (" is-invalid" if form.donation_date.errors else ""), type="date", id="donation_date") }}
                                     {% if form.donation_date.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.donation_date.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.donation_date.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    {{ form.amount.label(class="form-label") }}
-                                    <div class="input-group">
-                                        {{ form.amount(class="form-control" + (" is-invalid" if form.amount.errors else "")) }}
-                                        <span class="input-group-text" id="currency-symbol">₹</span>
+                        <!-- Row 2: Amount, Currency, Payment Method, Purpose -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <div class="form-group-compact">
+                                    <label for="amount" class="form-label-compact">
+                                        Amount <span class="required">*</span>
+                                    </label>
+                                    <div class="input-group-compact">
+                                        {{ form.amount(class="form-control-compact" + (" is-invalid" if form.amount.errors else ""), id="amount", placeholder="0.00") }}
+                                        <span class="input-group-text-compact" id="currency-symbol">₹</span>
                                     </div>
                                     {% if form.amount.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.amount.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.amount.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    {{ form.currency.label(class="form-label") }}
-                                    {{ form.currency(class="form-select" + (" is-invalid" if form.currency.errors else "")) }}
+                            
+                            <div class="col-md-2">
+                                <div class="form-group-compact">
+                                    <label for="currency" class="form-label-compact">Currency</label>
+                                    {{ form.currency(class="form-select-compact" + (" is-invalid" if form.currency.errors else ""), id="currency") }}
                                     {% if form.currency.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.currency.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.currency.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    {{ form.payment_method.label(class="form-label") }}
-                                    {{ form.payment_method(class="form-select" + (" is-invalid" if form.payment_method.errors else "")) }}
+                            
+                            <div class="col-md-2">
+                                <div class="form-group-compact">
+                                    <label for="payment_method" class="form-label-compact">
+                                        Payment <span class="required">*</span>
+                                    </label>
+                                    {{ form.payment_method(class="form-select-compact" + (" is-invalid" if form.payment_method.errors else ""), id="payment_method") }}
                                     {% if form.payment_method.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.payment_method.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.payment_method.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.purpose_id.label(class="form-label") }}
-                                    {{ form.purpose_id(class="form-select" + (" is-invalid" if form.purpose_id.errors else "")) }}
+                            
+                            <div class="col-md-3">
+                                <div class="form-group-compact">
+                                    <label for="purpose_id" class="form-label-compact">
+                                        Purpose <span class="required">*</span>
+                                    </label>
+                                    {{ form.purpose_id(class="form-select-compact" + (" is-invalid" if form.purpose_id.errors else ""), id="purpose_id") }}
                                     {% if form.purpose_id.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.purpose_id.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.purpose_id.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    {{ form.reference_number.label(class="form-label") }}
-                                    {{ form.reference_number(class="form-control" + (" is-invalid" if form.reference_number.errors else "")) }}
+                            
+                            <div class="col-md-2">
+                                <div class="form-group-compact">
+                                    <label for="reference_number" class="form-label-compact">Reference</label>
+                                    {{ form.reference_number(class="form-control-compact" + (" is-invalid" if form.reference_number.errors else ""), id="reference_number", placeholder="Ref. number") }}
                                     {% if form.reference_number.errors %}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.reference_number.errors %}
-                                                {{ error }}
-                                            {% endfor %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.reference_number.errors %}{{ error }}{% endfor %}
                                         </div>
                                     {% endif %}
-                                    <div class="form-text">Transaction reference, UPI ID, or cheque number</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form.notes.label(class="form-label") }}
-                            {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else ""), rows="3") }}
-                            {% if form.notes.errors %}
-                                <div class="invalid-feedback">
-                                    {% for error in form.notes.errors %}
-                                        {{ error }}
-                                    {% endfor %}
+                        <!-- Row 3: Notes -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-12">
+                                <div class="form-group-compact">
+                                    <label for="notes" class="form-label-compact">Additional Notes</label>
+                                    {{ form.notes(class="form-control-compact" + (" is-invalid" if form.notes.errors else ""), id="notes", rows="2", placeholder="Optional notes about this donation...") }}
+                                    {% if form.notes.errors %}
+                                        <div class="invalid-feedback-compact">
+                                            {% for error in form.notes.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                            <div class="form-text">Additional notes about the donation</div>
+                            </div>
                         </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('admin_donations') }}" class="btn btn-secondary me-md-2">
-                                <i class="fas fa-arrow-left"></i> Cancel
+                        <!-- Form Actions -->
+                        <div class="form-actions-compact">
+                            <a href="{{ url_for('admin_donations') }}" class="btn-compact btn-compact-secondary">
+                                <i class="fas fa-times me-1"></i>Cancel
                             </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Add Donation
+                            <button type="submit" class="btn-compact btn-compact-primary">
+                                <i class="fas fa-save me-1"></i>Save Donation
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-
-            <!-- Help Card -->
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-info-circle text-info"></i> Donation Guidelines
-                    </h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><i class="fas fa-check text-success"></i> <strong>Donor Name:</strong> Full name of the person making the donation</li>
-                        <li><i class="fas fa-check text-success"></i> <strong>Contact Info:</strong> Email and phone are optional but helpful for follow-up</li>
-                        <li><i class="fas fa-check text-success"></i> <strong>Amount:</strong> Enter the exact amount received</li>
-                        <li><i class="fas fa-check text-success"></i> <strong>Purpose:</strong> Select the specific purpose for this donation</li>
-                        <li><i class="fas fa-check text-success"></i> <strong>Reference:</strong> Include transaction ID, UPI reference, or cheque number if available</li>
-                        <li><i class="fas fa-check text-success"></i> <strong>Verification:</strong> All donations will be marked as pending until verified</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Compact Form Styles - Matching Application Theme */
+:root {
+    --primary-red: #c41e3a;
+    --secondary-red: #dc2626;
+    --accent-cream: #fef7ed;
+    --border-color: #fecaca;
+    --text-dark: #1a1a1a;
+    --text-muted: #6c757d;
+    --shadow-color: rgba(196, 30, 58, 0.15);
+    --shadow-hover: rgba(196, 30, 58, 0.25);
+}
+
+/* Compact Header */
+.compact-form-header {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 3px solid var(--primary-red);
+}
+
+.compact-header-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-red);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.compact-header-title i {
+    font-size: 1.5rem;
+}
+
+/* Compact Form Card */
+.compact-form-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 25px var(--shadow-color);
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.compact-form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+}
+
+.compact-form-body {
+    padding: 1.5rem;
+}
+
+/* Form Groups */
+.form-group-compact {
+    margin-bottom: 0;
+}
+
+.form-label-compact {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+    font-size: 0.875rem;
+}
+
+.required {
+    color: var(--primary-red);
+    font-weight: 700;
+}
+
+.form-control-compact,
+.form-select-compact {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    transition: all 0.2s ease;
+    background: white;
+    color: var(--text-dark);
+}
+
+.form-control-compact:focus,
+.form-select-compact:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+    background: var(--accent-cream);
+}
+
+.form-control-compact::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+    font-size: 0.85rem;
+}
+
+.input-group-compact {
+    display: flex;
+    align-items: stretch;
+}
+
+.input-group-compact .form-control-compact {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.input-group-text-compact {
+    padding: 0.6rem 0.9rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+    border: 2px solid var(--primary-red);
+    border-left: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.invalid-feedback-compact {
+    display: block;
+    width: 100%;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* Form Actions */
+.form-actions-compact {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.btn-compact {
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.btn-compact-primary {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: white;
+    box-shadow: 0 3px 12px rgba(196, 30, 58, 0.3);
+}
+
+.btn-compact-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(196, 30, 58, 0.4);
+    color: white;
+}
+
+.btn-compact-secondary {
+    background: white;
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+.btn-compact-secondary:hover {
+    background: var(--accent-cream);
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    transform: translateY(-1px);
+}
+
+/* Autocomplete Dropdown */
+.autocomplete-dropdown {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 6px 20px var(--shadow-hover);
+    margin-top: 2px;
+    width: 100%;
+}
+
+.autocomplete-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background: linear-gradient(135deg, var(--accent-cream) 0%, #fee2e2 100%);
+    border-left: 3px solid var(--primary-red);
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+}
+
+.autocomplete-item-email {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .compact-form-body {
+        padding: 1.25rem;
+    }
+    
+    .form-actions-compact {
+        flex-direction: column;
+    }
+    
+    .btn-compact {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .compact-header-title {
+        font-size: 1.5rem;
+    }
+    
+    .compact-form-body {
+        padding: 1rem;
+    }
+}
+</style>
 
 <script>
 // Update currency symbol based on selected currency
@@ -210,7 +450,160 @@ document.getElementById('currency').addEventListener('change', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('donation_date').value = today;
+    
+    // Initialize autocomplete
+    initDonorAutocomplete();
 });
+
+let autocompleteTimeout;
+let selectedUserId = null;
+let autocompleteDropdown = null;
+
+function initDonorAutocomplete() {
+    const donorNameInput = document.getElementById('donor_name');
+    const donorEmailInput = document.getElementById('donor_email');
+    const donorPhoneInput = document.getElementById('donor_phone');
+    
+    // Create dropdown element
+    autocompleteDropdown = document.getElementById('donor-autocomplete');
+    
+    // Position dropdown relative to input
+    function positionDropdown() {
+        const inputRect = donorNameInput.getBoundingClientRect();
+        const parentRect = donorNameInput.closest('.form-group-compact').getBoundingClientRect();
+        autocompleteDropdown.style.width = inputRect.width + 'px';
+        autocompleteDropdown.style.position = 'absolute';
+        autocompleteDropdown.style.top = (inputRect.bottom - parentRect.top) + 'px';
+        autocompleteDropdown.style.left = '0px';
+    }
+    
+    // Search users as user types
+    donorNameInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        // Clear previous timeout
+        clearTimeout(autocompleteTimeout);
+        
+        // If query is too short, hide dropdown and clear selection
+        if (query.length < 2) {
+            hideAutocomplete();
+            clearUserDetails();
+            return;
+        }
+        
+        // Debounce search
+        autocompleteTimeout = setTimeout(() => {
+            searchUsers(query);
+        }, 300);
+    });
+    
+    // Handle keyboard navigation
+    let selectedIndex = -1;
+    donorNameInput.addEventListener('keydown', function(e) {
+        const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+            updateSelection(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIndex = Math.max(selectedIndex - 1, -1);
+            updateSelection(items);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && items[selectedIndex]) {
+                selectUser(items[selectedIndex]);
+            }
+        } else if (e.key === 'Escape') {
+            hideAutocomplete();
+        }
+    });
+    
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!donorNameInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
+            hideAutocomplete();
+        }
+    });
+    
+    function updateSelection(items) {
+        items.forEach((item, index) => {
+            item.classList.toggle('active', index === selectedIndex);
+        });
+    }
+    
+    function searchUsers(query) {
+        fetch(`/admin/api/search-users?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.users && data.users.length > 0) {
+                    showAutocomplete(data.users);
+                    selectedIndex = -1;
+                } else {
+                    hideAutocomplete();
+                }
+            })
+            .catch(error => {
+                console.error('Error searching users:', error);
+                hideAutocomplete();
+            });
+    }
+    
+    function showAutocomplete(users) {
+        positionDropdown();
+        autocompleteDropdown.innerHTML = '';
+        
+        users.forEach((user, index) => {
+            const item = document.createElement('div');
+            item.className = 'autocomplete-item';
+            item.dataset.userId = user.id;
+            item.innerHTML = `
+                <div class="autocomplete-item-name">${escapeHtml(user.full_name)}</div>
+                <div class="autocomplete-item-email">${escapeHtml(user.email || '')}</div>
+            `;
+            
+            item.addEventListener('click', () => selectUser(item));
+            autocompleteDropdown.appendChild(item);
+        });
+        
+        autocompleteDropdown.style.display = 'block';
+    }
+    
+    function hideAutocomplete() {
+        autocompleteDropdown.style.display = 'none';
+    }
+    
+    function selectUser(itemElement) {
+        const userId = itemElement.dataset.userId;
+        
+        // Fetch full user details
+        fetch(`/admin/api/user-details/${userId}`)
+            .then(response => response.json())
+            .then(user => {
+                // Fill in the form fields
+                donorNameInput.value = user.full_name;
+                donorEmailInput.value = user.email || '';
+                donorPhoneInput.value = user.phone || '';
+                
+                selectedUserId = user.id;
+                hideAutocomplete();
+            })
+            .catch(error => {
+                console.error('Error fetching user details:', error);
+            });
+    }
+    
+    function clearUserDetails() {
+        selectedUserId = null;
+        // Don't clear the fields - let user continue typing if they want
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+}
 </script>
 {% endblock %}
-

@@ -257,7 +257,7 @@
         }
     </style>
 
-    {% if all_worksheet_data %}
+    {% if all_worksheet_data and all_worksheet_data|length > 0 %}
     <div class="enterprise-tabs">
         <div class="enterprise-tabs-header">
             <h3 class="mb-0">
@@ -369,6 +369,16 @@
             </div>
             {% endfor %}
         </div>
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="enterprise-empty-state" style="text-align: center; padding: 4rem 2rem; color: #5a5a5a;">
+        <div class="enterprise-empty-state-icon" style="font-size: 4rem; color: #fecaca; margin-bottom: 1rem;">
+            <i class="fas fa-donate"></i>
+        </div>
+        <h3 style="color: #1a1a1a; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">No Donations Found</h3>
+        <p style="color: #6c757d; font-size: 1.1rem;">There are no verified donations in the database yet.</p>
+        <p style="color: #6c757d; font-size: 0.9rem; margin-top: 0.5rem;">Donations will appear here once they are added and verified by an administrator.</p>
     </div>
     {% endif %}
 </div>

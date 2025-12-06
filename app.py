@@ -380,66 +380,75 @@ def padati():
 
 @app.route('/bhiksha')
 def bhiksha():
-    """Public donations page - shows only verified donations from local database"""
+    """Public donations page - shows all donations (verified and unverified) from local database"""
     try:
-        # Always fetch from local database for public users
         data_source = "Local Database"
         
-        # Get recent verified donations (last 30 days)
-        thirty_days_ago = datetime.now().date() - timedelta(days=30)
-        recent_donations = OfflineDonation.query.filter(
-            OfflineDonation.is_verified == True,
-            OfflineDonation.donation_date >= thirty_days_ago
-        ).order_by(OfflineDonation.donation_date.desc()).limit(50).all()
+        # Get ALL donations from local database (both verified and unverified)
+        all_donations = OfflineDonation.query.order_by(
+            OfflineDonation.donation_date.desc()
+        ).all()
+        
+        # Debug: Check total donations
+        total_donations_count = len(all_donations)
+        verified_donations_count = len([d for d in all_donations if d.is_verified])
+        unverified_donations_count = len([d for d in all_donations if not d.is_verified])
+        
+        print(f"🔍 Database Status:")
+        print(f"   Total donations: {total_donations_count}")
+        print(f"   Verified donations: {verified_donations_count}")
+        print(f"   Unverified donations: {unverified_donations_count}")
+        print(f"   Showing: {len(all_donations)} total donations")
         
         # Get all purposes for grouping
         purposes = DonationPurpose.query.filter_by(is_active=True).all()
         
-        # Group donations by purpose
+        # Group donations by purpose/worksheet
         all_worksheet_data = {}
         total_donations = 0
         total_amount = 0
         
-        for purpose in purposes:
-            purpose_donations = [d for d in recent_donations if d.purpose_id == purpose.id]
+        # Group by worksheet if available, otherwise by purpose
+        worksheets_dict = {}
+        for donation in all_donations:
+            # Use worksheet name if available, otherwise use purpose name
+            if donation.purpose:
+                worksheet_name = donation.worksheet if donation.worksheet else donation.purpose.name
+            else:
+                worksheet_name = donation.worksheet if donation.worksheet else 'Uncategorized'
             
-            if purpose_donations:  # Only show purposes that have donations
-                purpose_amount = sum(d.amount for d in purpose_donations)
-                all_worksheet_data[purpose.name] = {
-                    'donations': purpose_donations,
-                    'summary': {
-                        'total_donations': len(purpose_donations),
-                        'total_amount': purpose_amount,
-                        'verified_donations': len(purpose_donations),
-                        'pending_donations': 0,
-                        'average_donation': purpose_amount / len(purpose_donations) if purpose_donations else 0
-                    },
-                    'all_donations': purpose_donations
-                }
-                
-                total_donations += len(purpose_donations)
-                total_amount += purpose_amount
+            if worksheet_name not in worksheets_dict:
+                worksheets_dict[worksheet_name] = []
+            worksheets_dict[worksheet_name].append(donation)
         
-        # If no purpose-specific donations, show all donations in one tab
-        if not all_worksheet_data:
-            all_worksheet_data = {
-                'All Donations': {
-                    'donations': recent_donations,
-                    'summary': {
-                        'total_donations': len(recent_donations),
-                        'total_amount': sum(d.amount for d in recent_donations),
-                        'verified_donations': len(recent_donations),
-                        'pending_donations': 0,
-                        'average_donation': sum(d.amount for d in recent_donations) / len(recent_donations) if recent_donations else 0
-                    },
-                    'all_donations': recent_donations
-                }
+        print(f"📊 Grouped into {len(worksheets_dict)} categories: {list(worksheets_dict.keys())}")
+        
+        # Create worksheet data structure
+        for worksheet_name, donations in worksheets_dict.items():
+            worksheet_amount = sum(float(d.amount) for d in donations)
+            verified_count = len([d for d in donations if d.is_verified])
+            
+            all_worksheet_data[worksheet_name] = {
+                'donations': donations,
+                'summary': {
+                    'total_donations': len(donations),
+                    'total_amount': worksheet_amount,
+                    'verified_donations': verified_count,
+                    'pending_donations': len(donations) - verified_count,
+                    'average_donation': worksheet_amount / len(donations) if donations else 0
+                },
+                'all_donations': donations
             }
-            total_donations = len(recent_donations)
-            total_amount = sum(d.amount for d in recent_donations)
+            
+            total_donations += len(donations)
+            total_amount += worksheet_amount
+        
+        print(f"✅ Prepared {len(all_worksheet_data)} worksheets with {total_donations} total donations")
         
     except Exception as e:
-        print(f"Error fetching donations from database: {e}")
+        print(f"❌ Error fetching donations from database: {e}")
+        import traceback
+        traceback.print_exc()
         # Fallback to empty data
         data_source = "Local Database"
         all_worksheet_data = {}
@@ -639,29 +648,16 @@ def verify_donation(donation_id):
     
     return redirect(url_for('admin_donations'))
 
-@app.route('/admin/donation-purposes')
+@app.route('/admin/donation-purposes', methods=['GET', 'POST'])
 @login_required
 def donation_purposes():
     """Manage donation purposes"""
     if not current_user.is_admin():
         flash('Access denied. Admin privileges required.', 'error')
         return redirect(url_for('home'))
-    
-    purposes = DonationPurpose.query.order_by(DonationPurpose.created_at.desc()).all()
-    return render_template('admin/donation_purposes.html',
-                         page_title='Donation Purposes - Daiva Anughara',
-                         purposes=purposes)
 
-@app.route('/admin/donation-purposes/add', methods=['GET', 'POST'])
-@login_required
-def add_donation_purpose():
-    """Add new donation purpose"""
-    if not current_user.is_admin():
-        flash('Access denied. Admin privileges required.', 'error')
-        return redirect(url_for('home'))
-    
     form = DonationPurposeForm()
-    
+
     if form.validate_on_submit():
         try:
             purpose = DonationPurpose(
@@ -669,20 +665,23 @@ def add_donation_purpose():
                 description=form.description.data,
                 created_by=current_user.id
             )
-            
+
             db.session.add(purpose)
             db.session.commit()
-            
+
             flash('Donation purpose added successfully!', 'success')
             return redirect(url_for('donation_purposes'))
-            
+
         except Exception as e:
             db.session.rollback()
             flash(f'Error adding donation purpose: {str(e)}', 'error')
-    
-    return render_template('admin/add_donation_purpose.html',
-                         page_title='Add Donation Purpose - Daiva Anughara',
+
+    purposes = DonationPurpose.query.order_by(DonationPurpose.created_at.desc()).all()
+    return render_template('admin/donation_purposes.html',
+                         page_title='Donation Purposes - Daiva Anughara',
+                         purposes=purposes,
                          form=form)
+
 
 @app.route('/admin/donation-purposes/toggle/<int:purpose_id>')
 @login_required
@@ -829,6 +828,60 @@ def admin_api_donations_from_sheets():
             'donations': [],
             'count': 0
         })
+
+@app.route('/admin/api/search-users')
+@login_required
+def api_search_users():
+    """API endpoint to search users by name for autocomplete"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    query = request.args.get('q', '').strip()
+    if not query or len(query) < 2:
+        return jsonify({'users': []})
+    
+    try:
+        # Search users by full_name, username, or email
+        users = User.query.filter(
+            db.or_(
+                User.full_name.ilike(f'%{query}%'),
+                User.username.ilike(f'%{query}%'),
+                User.email.ilike(f'%{query}%')
+            )
+        ).limit(20).all()
+        
+        results = []
+        for user in users:
+            results.append({
+                'id': user.id,
+                'full_name': user.full_name,
+                'username': user.username,
+                'email': user.email,
+                'phone': user.phone or ''
+            })
+        
+        return jsonify({'users': results})
+    except Exception as e:
+        return jsonify({'error': str(e), 'users': []}), 500
+
+@app.route('/admin/api/user-details/<int:user_id>')
+@login_required
+def api_user_details(user_id):
+    """API endpoint to get user details by ID"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+    
+    try:
+        user = User.query.get_or_404(user_id)
+        return jsonify({
+            'id': user.id,
+            'full_name': user.full_name,
+            'email': user.email,
+            'phone': user.phone or '',
+            'username': user.username
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # Stage Routes - Individual stage pages
 @app.route('/stage/<int:stage_num>')
