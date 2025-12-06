@@ -345,47 +345,286 @@
     gap: var(--spacing-lg);
 }
 
-/* Spiritual Progress Card */
+/* Spiritual Progress Card - Redesigned */
 .progress-card {
     background: var(--card-bg);
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: 0 8px 30px var(--shadow-color);
     overflow: hidden;
     border: 1px solid rgba(196, 30, 58, 0.1);
 }
 
 .card-header-bar {
-    background: linear-gradient(135deg, var(--spiritual-purple), #6366f1);
-    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary-red), #991b1b, var(--accent-orange));
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
+    background-size: 80px 80px;
 }
 
 .card-header-bar h3 {
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    font-family: var(--font-mystical);
+    letter-spacing: 1px;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: 0.5rem;
     text-shadow: none;
+    position: relative;
+    z-index: 1;
 }
 
 .current-stage-badge {
     background: rgba(255, 255, 255, 0.2);
     color: white;
-    padding: 6px 14px;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 1;
 }
 
 .progress-content {
-    padding: var(--spacing-lg);
+    padding: 1rem;
 }
 
-/* Timeline Progress */
+/* Journey Flow - Horizontal Cards */
+.journey-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.journey-section {
+    margin-bottom: 0.75rem;
+}
+
+.journey-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+}
+
+.journey-section-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: white;
+}
+
+.journey-section-icon.mandala {
+    background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+}
+
+.journey-section-icon.rudraksha {
+    background: linear-gradient(135deg, var(--accent-gold), #d97706);
+}
+
+.journey-section-label {
+    font-family: var(--font-mystical);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Stage Cards Row */
+.journey-stages {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.journey-stage-card {
+    flex: 1;
+    min-width: 90px;
+    max-width: 120px;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    border-radius: 10px;
+    padding: 0.6rem;
+    border: 2px solid #e5e7eb;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.journey-stage-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #e5e7eb;
+    border-radius: 10px 10px 0 0;
+}
+
+.journey-stage-card.completed {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-color: #22c55e;
+}
+
+.journey-stage-card.completed::before {
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.journey-stage-card.current {
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.2);
+}
+
+.journey-stage-card.current::before {
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
+}
+
+.journey-stage-card.locked {
+    opacity: 0.7;
+}
+
+.journey-stage-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.journey-stage-card.completed .journey-stage-icon {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
+}
+
+.journey-stage-card.current .journey-stage-icon {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+    box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3);
+    animation: stagePulse 2s infinite;
+}
+
+.journey-stage-card.locked .journey-stage-icon {
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
+}
+
+@keyframes stagePulse {
+    0%, 100% { box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3); }
+    50% { box-shadow: 0 3px 18px rgba(196, 30, 58, 0.5); }
+}
+
+.journey-stage-check {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    color: #22c55e;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.journey-stage-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.journey-stage-status {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-weight: 500;
+}
+
+.journey-stage-card.completed .journey-stage-status {
+    background: rgba(34, 197, 94, 0.15);
+    color: #16a34a;
+}
+
+.journey-stage-card.current .journey-stage-status {
+    background: rgba(196, 30, 58, 0.15);
+    color: var(--primary-red);
+}
+
+.journey-stage-card.locked .journey-stage-status {
+    background: rgba(107, 114, 128, 0.15);
+    color: #6b7280;
+}
+
+.journey-stage-date {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+
+/* Arrow connectors between cards */
+.journey-arrow {
+    display: flex;
+    align-items: center;
+    color: #d1d5db;
+    font-size: 0.7rem;
+    padding: 0 0.15rem;
+}
+
+.journey-arrow.completed {
+    color: #22c55e;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .journey-stages {
+        flex-wrap: wrap;
+    }
+    
+    .journey-stage-card {
+        min-width: 70px;
+        max-width: none;
+        flex: 1 1 calc(33.333% - 0.5rem);
+    }
+    
+    .journey-arrow {
+        display: none;
+    }
+}
+
+/* Legacy Timeline styles (kept for compatibility) */
 .timeline-progress {
     display: flex;
     flex-direction: column;
@@ -1731,56 +1970,105 @@
 
             <!-- Right Column: Progress & Access -->
             <div class="detail-content">
-                <!-- Spiritual Progress -->
+                <!-- Spiritual Progress - Redesigned -->
                 <div class="progress-card">
                     <div class="card-header-bar">
                         <h3><i class="fas fa-route"></i> Spiritual Journey</h3>
                         <span class="current-stage-badge">
-                            {{ user.get_stage_info(user.get_current_stage()).stage_name }}
+                            <i class="fas fa-map-marker-alt"></i> {{ user.get_stage_info(user.get_current_stage()).stage_name }}
                         </span>
                     </div>
                     <div class="progress-content">
-                        <div class="timeline-progress">
-                            {% for stage_num in range(1, 7) %}
-                                {% set stage_info = user.get_stage_info(stage_num) %}
-                                {% set is_current = stage_num == user.get_current_stage() %}
-                                {% set is_completed = stage_info.is_completed %}
-
-                                <div class="timeline-step">
-                                    <div class="timeline-node">
-                                        <div class="node-icon {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
-                                            {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% elif stage_num == 3 %}✨{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
-                                            {% if is_completed %}
-                                                <span class="node-check"><i class="fas fa-check"></i></span>
-                                            {% endif %}
-                                        </div>
-                                        {% if stage_num < 6 %}
-                                            <div class="node-connector {% if is_completed %}completed{% endif %}"></div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="timeline-info">
-                                        <div class="stage-name">{{ stage_info.stage_name }}</div>
-                                        <div class="stage-meta">
-                                            {% if is_completed %}
-                                                <span class="stage-tag completed"><i class="fas fa-check"></i> Completed</span>
-                                                {% if stage_info.completion_date %}
-                                                    <span class="stage-tag date"><i class="fas fa-calendar-check"></i> {{ stage_info.completion_date.strftime('%b %d, %Y') }}</span>
-                                                {% endif %}
-                                            {% elif is_current %}
-                                                <span class="stage-tag current"><i class="fas fa-circle"></i> In Progress</span>
-                                                {% if stage_info.start_date %}
-                                                    <span class="stage-tag date"><i class="fas fa-calendar"></i> Started {{ stage_info.start_date.strftime('%b %d, %Y') }}</span>
-                                                {% endif %}
-                                            {% else %}
-                                                <span class="stage-tag locked"><i class="fas fa-lock"></i> Locked</span>
-                                            {% endif %}
-                                            {% if stage_info.duration_days > 0 %}
-                                                <span class="stage-tag date"><i class="fas fa-hourglass-half"></i> {{ stage_info.duration_days }} days</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
+                        <div class="journey-flow">
+                            <!-- Bhairava Mandala Section -->
+                            <div class="journey-section">
+                                <div class="journey-section-header">
+                                    <div class="journey-section-icon mandala"><i class="fas fa-om"></i></div>
+                                    <span class="journey-section-label">Bhairava Mandala</span>
                                 </div>
-                            {% endfor %}
+                                <div class="journey-stages">
+                                    {% for stage_num in range(1, 4) %}
+                                        {% set stage_info = user.get_stage_info(stage_num) %}
+                                        {% set is_current = stage_num == user.get_current_stage() %}
+                                        {% set is_completed = stage_info.is_completed %}
+                                        
+                                        {% if stage_num > 1 %}
+                                            <div class="journey-arrow {% if user.get_stage_info(stage_num - 1).is_completed %}completed{% endif %}">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </div>
+                                        {% endif %}
+                                        
+                                        <div class="journey-stage-card {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
+                                            <div class="journey-stage-icon">
+                                                {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% else %}✨{% endif %}
+                                                {% if is_completed %}
+                                                    <span class="journey-stage-check"><i class="fas fa-check"></i></span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="journey-stage-name">{{ stage_info.stage_name }}</div>
+                                            <div class="journey-stage-status">
+                                                {% if is_completed %}
+                                                    <i class="fas fa-check-circle"></i> Done
+                                                {% elif is_current %}
+                                                    <i class="fas fa-circle"></i> Active
+                                                {% else %}
+                                                    <i class="fas fa-lock"></i> Locked
+                                                {% endif %}
+                                            </div>
+                                            {% if is_completed and stage_info.completion_date %}
+                                                <div class="journey-stage-date">{{ stage_info.completion_date.strftime('%b %d') }}</div>
+                                            {% elif is_current and stage_info.start_date %}
+                                                <div class="journey-stage-date">Started {{ stage_info.start_date.strftime('%b %d') }}</div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Rudraksha Diksha Section -->
+                            <div class="journey-section">
+                                <div class="journey-section-header">
+                                    <div class="journey-section-icon rudraksha"><i class="fas fa-gem"></i></div>
+                                    <span class="journey-section-label">Rudraksha Diksha</span>
+                                </div>
+                                <div class="journey-stages">
+                                    {% for stage_num in range(4, 7) %}
+                                        {% set stage_info = user.get_stage_info(stage_num) %}
+                                        {% set is_current = stage_num == user.get_current_stage() %}
+                                        {% set is_completed = stage_info.is_completed %}
+                                        
+                                        {% if stage_num > 4 %}
+                                            <div class="journey-arrow {% if user.get_stage_info(stage_num - 1).is_completed %}completed{% endif %}">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </div>
+                                        {% endif %}
+                                        
+                                        <div class="journey-stage-card {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
+                                            <div class="journey-stage-icon">
+                                                {% if stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
+                                                {% if is_completed %}
+                                                    <span class="journey-stage-check"><i class="fas fa-check"></i></span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="journey-stage-name">{{ stage_info.stage_name.replace('Rudraksha ', '') }}</div>
+                                            <div class="journey-stage-status">
+                                                {% if is_completed %}
+                                                    <i class="fas fa-check-circle"></i> Done
+                                                {% elif is_current %}
+                                                    <i class="fas fa-circle"></i> Active
+                                                {% else %}
+                                                    <i class="fas fa-lock"></i> Locked
+                                                {% endif %}
+                                            </div>
+                                            {% if is_completed and stage_info.completion_date %}
+                                                <div class="journey-stage-date">{{ stage_info.completion_date.strftime('%b %d') }}</div>
+                                            {% elif is_current and stage_info.start_date %}
+                                                <div class="journey-stage-date">Started {{ stage_info.start_date.strftime('%b %d') }}</div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
