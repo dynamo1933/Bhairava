@@ -64,7 +64,34 @@
 /* Content Section */
 .sadhana-content-modern {
     background: white;
-    padding: 2rem 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+/* Force flexbox layout - highest specificity */
+section.sadhana-content-modern > .sadhana-layout-wrapper,
+.sadhana-content-modern > .sadhana-layout-wrapper,
+.sadhana-layout-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+section.sadhana-content-modern > .sadhana-layout-wrapper > .sadhana-form-column,
+.sadhana-content-modern > .sadhana-layout-wrapper > .sadhana-form-column,
+.sadhana-form-column {
+    flex: 0 0 60% !important;
+    width: 60% !important;
+    max-width: 60% !important;
+}
+
+section.sadhana-content-modern > .sadhana-layout-wrapper > .sadhana-info-column,
+.sadhana-content-modern > .sadhana-layout-wrapper > .sadhana-info-column,
+.sadhana-info-column {
+    flex: 0 0 40% !important;
+    width: 40% !important;
+    max-width: 40% !important;
 }
 
 .sadhana-content-modern .stats-section {
@@ -208,9 +235,138 @@ section.sadhana-hero-modern {
 
 /* Welcome Section - Simple Card */
 .sadhana-content-modern .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* ===== REDESIGNED TWO COLUMN LAYOUT - FLEXBOX ===== */
+/* Force side-by-side on all screen sizes above mobile */
+@media (min-width: 993px) {
+    .sadhana-layout-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0.5rem !important;
+        gap: 1rem !important;
+        align-items: flex-start !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Left Column - Form (60%) */
+    .sadhana-form-column {
+        display: block !important;
+        flex: 0 0 60% !important;
+        width: 60% !important;
+        max-width: 60% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+    }
+
+    /* Right Column - Info (40%) */
+    .sadhana-info-column {
+        display: block !important;
+        flex: 0 0 40% !important;
+        width: 40% !important;
+        max-width: 40% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        position: sticky !important;
+        top: 0 !important;
+        align-self: flex-start !important;
+        min-width: 0 !important;
+    }
+}
+
+/* Default for larger screens - side by side */
+.sadhana-layout-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 0.5rem !important;
+    gap: 1rem !important;
+    align-items: flex-start !important;
+    box-sizing: border-box !important;
+}
+
+.sadhana-form-column {
+    display: block !important;
+    flex: 0 0 60% !important;
+    width: 60% !important;
+    max-width: 60% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+}
+
+.sadhana-info-column {
+    display: block !important;
+    flex: 0 0 40% !important;
+    width: 40% !important;
+    max-width: 40% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    position: sticky !important;
+    top: 0 !important;
+    align-self: flex-start !important;
+    min-width: 0 !important;
+}
+
+/* Ensure form has no extra spacing */
+.sadhana-form-column form {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+/* Card alignment and styling */
+.sadhana-form-column .form-card-modern,
+.sadhana-info-column .info-card-modern {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure correct order on desktop */
+.sadhana-form-column {
+    order: 1 !important;
+}
+
+.sadhana-info-column {
+    order: 2 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sadhana-layout-wrapper {
+        flex-direction: column !important;
+        gap: 1.5rem;
+    }
+    
+    .sadhana-form-column {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        order: 2 !important; /* Form second on mobile */
+    }
+    
+    .sadhana-info-column {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
+        order: 1 !important; /* Info first on mobile */
+    }
 }
 
 .welcome-section-modern {
@@ -224,7 +380,8 @@ section.sadhana-hero-modern {
 }
 
 .form-section-modern {
-    padding: 0 1rem;
+    padding: 0;
+    margin: 0;
 }
 
 .welcome-card-modern {
@@ -493,6 +650,11 @@ section.sadhana-hero-modern {
     box-shadow: 0 10px 40px rgba(196, 30, 58, 0.1);
     border: 1px solid var(--border-color);
     overflow: hidden;
+    padding: 0;
+}
+
+.form-card-modern {
+    position: relative;
 }
 
 .form-card-modern::before {
@@ -503,10 +665,11 @@ section.sadhana-hero-modern {
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--primary-red), var(--secondary-red));
+    z-index: 1;
 }
 
 .card-header-modern {
-    padding: 2rem;
+    padding: 1rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -514,7 +677,9 @@ section.sadhana-hero-modern {
     font-family: var(--font-primary);
     font-size: 1.5rem;
     color: var(--primary-red);
-    margin-bottom: 0.5rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
 }
 
 .card-title-modern p {
@@ -523,7 +688,7 @@ section.sadhana-hero-modern {
 }
 
 .form-content-modern {
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .form-grid-modern {
