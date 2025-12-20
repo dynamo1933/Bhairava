@@ -37,6 +37,15 @@ class User(UserMixin, db.Model):
     rudraksha_8_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
     rudraksha_11_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
     rudraksha_14_mukhi_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    
+    # Pratham Charana Diksha (Stage 7) - Introduction to Rudraksha Diksha
+    pratham_charana_diksha_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    
+    # Dutiya Charana (Stage 8) - Second Phase
+    dutiya_charana_access = db.Column(db.Boolean, default=False)  # Admin must approve
+    
+    # Tritiya Charana (Stage 9) - Third Phase
+    tritiya_charana_access = db.Column(db.Boolean, default=False)  # Admin must approve
 
     # Devi Mandala access permissions (for Devi Padathi - Kamakhya Sadhana)
     devi_mandala_1_access = db.Column(db.Boolean, default=True)  # All approved users get access
@@ -50,6 +59,9 @@ class User(UserMixin, db.Model):
     rudraksha_8_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
     rudraksha_11_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
     rudraksha_14_mukhi_completed_at = db.Column(db.DateTime, nullable=True)
+    pratham_charana_diksha_completed_at = db.Column(db.DateTime, nullable=True)
+    dutiya_charana_completed_at = db.Column(db.DateTime, nullable=True)
+    tritiya_charana_completed_at = db.Column(db.DateTime, nullable=True)
 
     # Stage start dates (for duration calculation)
     mandala_1_started_at = db.Column(db.DateTime, nullable=True)
@@ -58,6 +70,9 @@ class User(UserMixin, db.Model):
     rudraksha_8_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     rudraksha_11_mukhi_started_at = db.Column(db.DateTime, nullable=True)
     rudraksha_14_mukhi_started_at = db.Column(db.DateTime, nullable=True)
+    pratham_charana_diksha_started_at = db.Column(db.DateTime, nullable=True)
+    dutiya_charana_started_at = db.Column(db.DateTime, nullable=True)
+    tritiya_charana_started_at = db.Column(db.DateTime, nullable=True)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -85,6 +100,12 @@ class User(UserMixin, db.Model):
             return self.rudraksha_11_mukhi_access
         elif stage_number == 6:  # Rudraksha 14 Mukhi
             return self.rudraksha_14_mukhi_access
+        elif stage_number == 7:  # Pratham Charana Diksha
+            return self.pratham_charana_diksha_access
+        elif stage_number == 8:  # Dutiya Charana
+            return self.dutiya_charana_access
+        elif stage_number == 9:  # Tritiya Charana
+            return self.tritiya_charana_access
         return False
 
     def get_current_stage(self):
@@ -110,7 +131,10 @@ class User(UserMixin, db.Model):
             3: self.mandala_3_completed_at,
             4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
-            6: self.rudraksha_14_mukhi_completed_at
+            6: self.rudraksha_14_mukhi_completed_at,
+            7: self.pratham_charana_diksha_completed_at,
+            8: self.dutiya_charana_completed_at,
+            9: self.tritiya_charana_completed_at
         }
         return completion_dates.get(stage_number) is not None
 
@@ -122,7 +146,10 @@ class User(UserMixin, db.Model):
             3: self.mandala_3_started_at,
             4: self.rudraksha_8_mukhi_started_at,
             5: self.rudraksha_11_mukhi_started_at,
-            6: self.rudraksha_14_mukhi_started_at
+            6: self.rudraksha_14_mukhi_started_at,
+            7: self.pratham_charana_diksha_started_at,
+            8: self.dutiya_charana_started_at,
+            9: self.tritiya_charana_started_at
         }
         completion_dates = {
             1: self.mandala_1_completed_at,
@@ -130,7 +157,10 @@ class User(UserMixin, db.Model):
             3: self.mandala_3_completed_at,
             4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
-            6: self.rudraksha_14_mukhi_completed_at
+            6: self.rudraksha_14_mukhi_completed_at,
+            7: self.pratham_charana_diksha_completed_at,
+            8: self.dutiya_charana_completed_at,
+            9: self.tritiya_charana_completed_at
         }
 
         start_date = start_dates.get(stage_number)
@@ -153,7 +183,10 @@ class User(UserMixin, db.Model):
             3: 'mandala_3_completed_at',
             4: 'rudraksha_8_mukhi_completed_at',
             5: 'rudraksha_11_mukhi_completed_at',
-            6: 'rudraksha_14_mukhi_completed_at'
+            6: 'rudraksha_14_mukhi_completed_at',
+            7: 'pratham_charana_diksha_completed_at',
+            8: 'dutiya_charana_completed_at',
+            9: 'tritiya_charana_completed_at'
         }
 
         field_name = completion_dates.get(stage_number)
@@ -170,7 +203,10 @@ class User(UserMixin, db.Model):
             3: 'mandala_3_started_at',
             4: 'rudraksha_8_mukhi_started_at',
             5: 'rudraksha_11_mukhi_started_at',
-            6: 'rudraksha_14_mukhi_started_at'
+            6: 'rudraksha_14_mukhi_started_at',
+            7: 'pratham_charana_diksha_started_at',
+            8: 'dutiya_charana_started_at',
+            9: 'tritiya_charana_started_at'
         }
 
         field_name = start_dates.get(stage_number)
@@ -185,7 +221,10 @@ class User(UserMixin, db.Model):
             3: 'Mandala 3',
             4: 'Rudraksha 8 Mukhi',
             5: 'Rudraksha 11 Mukhi',
-            6: 'Rudraksha 14 Mukhi'
+            6: 'Rudraksha 14 Mukhi',
+            7: 'Pratham Charana Diksha',
+            8: 'Dutiya Charana',
+            9: 'Tritiya Charana'
         }
 
         # Get completion and start dates based on stage number
@@ -195,7 +234,10 @@ class User(UserMixin, db.Model):
             3: self.mandala_3_completed_at,
             4: self.rudraksha_8_mukhi_completed_at,
             5: self.rudraksha_11_mukhi_completed_at,
-            6: self.rudraksha_14_mukhi_completed_at
+            6: self.rudraksha_14_mukhi_completed_at,
+            7: self.pratham_charana_diksha_completed_at,
+            8: self.dutiya_charana_completed_at,
+            9: self.tritiya_charana_completed_at
         }
 
         start_dates = {
@@ -204,7 +246,10 @@ class User(UserMixin, db.Model):
             3: self.mandala_3_started_at,
             4: self.rudraksha_8_mukhi_started_at,
             5: self.rudraksha_11_mukhi_started_at,
-            6: self.rudraksha_14_mukhi_started_at
+            6: self.rudraksha_14_mukhi_started_at,
+            7: self.pratham_charana_diksha_started_at,
+            8: self.dutiya_charana_started_at,
+            9: self.tritiya_charana_started_at
         }
 
         return {

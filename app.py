@@ -889,7 +889,7 @@ def api_user_details(user_id):
 def stage_page(stage_num):
     """Individual stage page - requires login and access"""
     # Validate stage number
-    if stage_num < 1 or stage_num > 6:
+    if stage_num < 1 or stage_num > 9:
         flash('Invalid stage number.', 'error')
         return redirect(url_for('padati'))
     
@@ -947,10 +947,42 @@ def stage_page(stage_num):
             'icon': '💎',
             'type': 'rudraksha',
             'image': 'images/rudraksha/rudarakha_14_muki.jpeg'
+        },
+        7: {
+            'name': 'Pratham Charana Diksha',
+            'phase': 'Pratham Charana',
+            'description': 'Sacred initiation into Pratham Charana - the first step of Rudraksha Diksha journey.',
+            'icon': '🙏',
+            'type': 'diksha',
+            'image': 'images/rudraksha/5 mukhi.png'
+        },
+        8: {
+            'name': 'Dutiya Charana',
+            'phase': 'Dutiya Charana',
+            'description': 'The second phase of your spiritual journey - deepening the sadhana practice.',
+            'icon': '🌙',
+            'type': 'charana',
+            'image': 'images/bhairava_black.jpg'
+        },
+        9: {
+            'name': 'Tritiya Charana',
+            'phase': 'Tritiya Charana',
+            'description': 'The third phase of spiritual evolution - advanced sadhana practices.',
+            'icon': '⭐',
+            'type': 'charana',
+            'image': 'images/bhairava_eight_hands.jpeg'
         }
     }
     
     current_stage_data = stage_data.get(stage_num, {})
+    
+    # Use dedicated template for stage 7 (Bhairava Anugraha)
+    if stage_num == 7:
+        return render_template('stage_7.html',
+                             page_title='Bhairava Anugraha - Daiva Anughara',
+                             stage_num=stage_num,
+                             stage_info=stage_info,
+                             stage_data=current_stage_data)
     
     return render_template('stage.html',
                          page_title=f"{current_stage_data.get('name', 'Stage')} - Daiva Anughara",

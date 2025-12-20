@@ -234,7 +234,10 @@ def update_stage_access(user_id):
     rudraksha_8_mukhi_access = request.form.get('rudraksha_8_mukhi_access') == 'on'
     rudraksha_11_mukhi_access = request.form.get('rudraksha_11_mukhi_access') == 'on'
     rudraksha_14_mukhi_access = request.form.get('rudraksha_14_mukhi_access') == 'on'
-    
+    pratham_charana_diksha_access = request.form.get('pratham_charana_diksha_access') == 'on'
+    dutiya_charana_access = request.form.get('dutiya_charana_access') == 'on'
+    tritiya_charana_access = request.form.get('tritiya_charana_access') == 'on'
+
     # Get Devi Mandala access updates (Kamakhya Sadhana)
     devi_mandala_2_access = request.form.get('devi_mandala_2_access') == 'on'
     devi_mandala_3_access = request.form.get('devi_mandala_3_access') == 'on'
@@ -245,7 +248,10 @@ def update_stage_access(user_id):
     user.rudraksha_8_mukhi_access = rudraksha_8_mukhi_access
     user.rudraksha_11_mukhi_access = rudraksha_11_mukhi_access
     user.rudraksha_14_mukhi_access = rudraksha_14_mukhi_access
-    
+    user.pratham_charana_diksha_access = pratham_charana_diksha_access
+    user.dutiya_charana_access = dutiya_charana_access
+    user.tritiya_charana_access = tritiya_charana_access
+
     # Update Devi Mandala access
     user.devi_mandala_2_access = devi_mandala_2_access
     user.devi_mandala_3_access = devi_mandala_3_access

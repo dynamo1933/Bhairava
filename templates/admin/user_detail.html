@@ -2032,25 +2032,25 @@
                                     <span class="journey-section-label">Rudraksha Diksha</span>
                                 </div>
                                 <div class="journey-stages">
-                                    {% for stage_num in range(4, 7) %}
+                                    {% for stage_num in [7, 4, 5, 8, 6, 9] %}
                                         {% set stage_info = user.get_stage_info(stage_num) %}
                                         {% set is_current = stage_num == user.get_current_stage() %}
                                         {% set is_completed = stage_info.is_completed %}
                                         
-                                        {% if stage_num > 4 %}
-                                            <div class="journey-arrow {% if user.get_stage_info(stage_num - 1).is_completed %}completed{% endif %}">
+                                        {% if loop.index > 1 %}
+                                            <div class="journey-arrow {% if user.get_stage_info(loop.previtem).is_completed %}completed{% endif %}">
                                                 <i class="fas fa-chevron-right"></i>
                                             </div>
                                         {% endif %}
                                         
                                         <div class="journey-stage-card {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
                                             <div class="journey-stage-icon">
-                                                {% if stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% else %}💎{% endif %}
+                                                {% if stage_num == 7 %}🙏{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% elif stage_num == 8 %}🌙{% elif stage_num == 6 %}💎{% elif stage_num == 9 %}⭐{% endif %}
                                                 {% if is_completed %}
                                                     <span class="journey-stage-check"><i class="fas fa-check"></i></span>
                                                 {% endif %}
                                             </div>
-                                            <div class="journey-stage-name">{{ stage_info.stage_name.replace('Rudraksha ', '') }}</div>
+                                            <div class="journey-stage-name">{{ stage_info.stage_name.replace('Rudraksha ', '').replace(' Diksha', '') }}</div>
                                             <div class="journey-stage-status">
                                                 {% if is_completed %}
                                                     <i class="fas fa-check-circle"></i> Done
@@ -2162,6 +2162,25 @@
                             </div>
                             
                             <div class="access-grid">
+                                <!-- Pratham Charana Diksha -->
+                                <div class="access-card-item {% if user.pratham_charana_diksha_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'pratham_charana_diksha_access')">
+                                    <input type="checkbox" name="pratham_charana_diksha_access" {% if user.pratham_charana_diksha_access %}checked{% endif %}>
+                                    <div class="access-card-icon">
+                                        🙏
+                                        <span class="access-status-badge">
+                                            <i class="fas fa-{% if user.pratham_charana_diksha_access %}check{% else %}lock{% endif %}"></i>
+                                        </span>
+                                    </div>
+                                    <div class="access-card-name">Pratham Charana</div>
+                                    <div class="access-card-status">
+                                        {% if user.pratham_charana_diksha_access %}
+                                            <i class="fas fa-unlock"></i> Granted
+                                        {% else %}
+                                            <i class="fas fa-lock"></i> Locked
+                                        {% endif %}
+                                    </div>
+                                </div>
+
                                 <!-- Rudraksha 8 Mukhi -->
                                 <div class="access-card-item {% if user.rudraksha_8_mukhi_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'rudraksha_8_mukhi_access')">
                                     <input type="checkbox" name="rudraksha_8_mukhi_access" {% if user.rudraksha_8_mukhi_access %}checked{% endif %}>
@@ -2212,6 +2231,52 @@
                                     <div class="access-card-name">Rudraksha 14 Mukhi</div>
                                     <div class="access-card-status">
                                         {% if user.rudraksha_14_mukhi_access %}
+                                            <i class="fas fa-unlock"></i> Granted
+                                        {% else %}
+                                            <i class="fas fa-lock"></i> Locked
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dutiya & Tritiya Charana Section -->
+                            <div class="access-section-title" style="margin-top: 2rem;">
+                                <div class="access-section-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fas fa-mountain"></i></div>
+                                <span class="access-section-label">Dutiya & Tritiya Charana</span>
+                            </div>
+                            
+                            <div class="access-grid">
+                                <!-- Dutiya Charana -->
+                                <div class="access-card-item {% if user.dutiya_charana_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'dutiya_charana_access')">
+                                    <input type="checkbox" name="dutiya_charana_access" {% if user.dutiya_charana_access %}checked{% endif %}>
+                                    <div class="access-card-icon" style="{% if user.dutiya_charana_access %}background: linear-gradient(135deg, #6366f1, #4f46e5) !important;{% endif %}">
+                                        🌙
+                                        <span class="access-status-badge">
+                                            <i class="fas fa-{% if user.dutiya_charana_access %}check{% else %}lock{% endif %}"></i>
+                                        </span>
+                                    </div>
+                                    <div class="access-card-name">Dutiya Charana</div>
+                                    <div class="access-card-status">
+                                        {% if user.dutiya_charana_access %}
+                                            <i class="fas fa-unlock"></i> Granted
+                                        {% else %}
+                                            <i class="fas fa-lock"></i> Locked
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Tritiya Charana -->
+                                <div class="access-card-item {% if user.tritiya_charana_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'tritiya_charana_access')">
+                                    <input type="checkbox" name="tritiya_charana_access" {% if user.tritiya_charana_access %}checked{% endif %}>
+                                    <div class="access-card-icon" style="{% if user.tritiya_charana_access %}background: linear-gradient(135deg, #6366f1, #4f46e5) !important;{% endif %}">
+                                        ⭐
+                                        <span class="access-status-badge">
+                                            <i class="fas fa-{% if user.tritiya_charana_access %}check{% else %}lock{% endif %}"></i>
+                                        </span>
+                                    </div>
+                                    <div class="access-card-name">Tritiya Charana</div>
+                                    <div class="access-card-status">
+                                        {% if user.tritiya_charana_access %}
                                             <i class="fas fa-unlock"></i> Granted
                                         {% else %}
                                             <i class="fas fa-lock"></i> Locked
@@ -2291,7 +2356,7 @@
                                 <i class="fas fa-tasks"></i> Stage Completion Actions
                             </div>
                             <div class="stage-actions-grid">
-                                {% for stage_num in range(1, 7) %}
+                                {% for stage_num in range(1, 10) %}
                                     {% set stage_info = user.get_stage_info(stage_num) %}
                                     {% if stage_info.has_access and not stage_info.is_completed %}
                                         <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}" style="display: inline;">

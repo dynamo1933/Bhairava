@@ -1099,11 +1099,44 @@
                     <div class="phase-icon-badge">
                         <i class="fas fa-gem"></i>
                     </div>
-                    <span class="phase-header-title">Rudraksha Diksha — 8 & 11 Mukhi</span>
+                    <span class="phase-header-title">Pratham Charana — Rudraksha Diksha — 8 & 11 Mukhi</span>
                 </div>
                 
                 <div class="flow-row align-end">
                     <div class="flow-cards">
+                        <!-- Pratham Charana Diksha -->
+                        {% set stage_info_7 = current_user.get_stage_info(7) %}
+                        {% set is_current_7 = 7 == current_user.get_current_stage() %}
+                        {% set is_completed_7 = stage_info_7.is_completed %}
+                        {% set is_accessible_7 = stage_info_7.has_access %}
+                        {% set is_next_stage_7 = 7 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_7 or is_completed_7 %}clickable{% endif %}" 
+                             {% if is_accessible_7 or is_completed_7 %}onclick="window.location.href='/stage/7'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_7 %}completed{% elif is_current_7 %}current{% elif is_accessible_7 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_7 %}<i class="fas fa-check"></i>
+                                {% elif is_current_7 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_7 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
+                            </div>
+                            <div class="card-body diksha {% if not is_accessible_7 and not is_completed_7 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/rudraksha/5 mukhi.png') }}" alt="Pratham Charana" class="rudraksha-img">
+                                <div class="card-title">Pratham Charana</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_7 %}Completed{% elif is_current_7 %}Current{% elif is_accessible_7 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if not is_accessible_7 and not is_completed_7 and is_next_stage_7 %}
+                                <button class="btn-request" data-stage="7" onclick="event.stopPropagation(); requestStageAccess(7)">Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow {% if is_accessible_7 or is_completed_7 %}active{% endif %}">
+                            <svg viewBox="0 0 35 22" fill="none">
+                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
                         <!-- 11 Mukhi -->
                         {% set stage_info_5 = current_user.get_stage_info(5) %}
                         {% set is_current_5 = 5 == current_user.get_current_stage() %}
@@ -1189,17 +1222,33 @@
                 <div class="flow-row">
                     <div class="flow-cards">
                         <!-- Dutiya Charana -->
-                        <div class="stage-card">
-                            <div class="card-status-icon locked">
-                                <i class="fas fa-hourglass-half"></i>
+                        {% set stage_info_8 = current_user.get_stage_info(8) %}
+                        {% set is_current_8 = 8 == current_user.get_current_stage() %}
+                        {% set is_completed_8 = stage_info_8.is_completed %}
+                        {% set is_accessible_8 = stage_info_8.has_access %}
+                        {% set is_next_stage_8 = 8 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_8 or is_completed_8 %}clickable{% endif %}" 
+                             {% if is_accessible_8 or is_completed_8 %}onclick="window.location.href='/stage/8'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_8 %}completed{% elif is_current_8 %}current{% elif is_accessible_8 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_8 %}<i class="fas fa-check"></i>
+                                {% elif is_current_8 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_8 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
                             </div>
-                            <div class="card-body coming-soon">
+                            <div class="card-body charana {% if not is_accessible_8 and not is_completed_8 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/bhairava_black.jpg') }}" alt="Dutiya Charana" class="mandala-img">
                                 <div class="card-title">Dutiya Charana</div>
-                                <div class="card-status-text">Coming Soon</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_8 %}Completed{% elif is_current_8 %}Current{% elif is_accessible_8 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if not is_accessible_8 and not is_completed_8 and is_next_stage_8 %}
+                                <button class="btn-request" data-stage="8" onclick="event.stopPropagation(); requestStageAccess(8)">Request</button>
+                                {% endif %}
                             </div>
                         </div>
                         
-                        <div class="flow-arrow">
+                        <div class="flow-arrow {% if is_accessible_8 or is_completed_8 %}active{% endif %}">
                             <svg viewBox="0 0 35 22" fill="none">
                                 <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -1232,20 +1281,36 @@
                             </div>
                         </div>
                         
-                        <div class="flow-arrow">
+                        <div class="flow-arrow {% if is_accessible_6 or is_completed_6 %}active{% endif %}">
                             <svg viewBox="0 0 35 22" fill="none">
                                 <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                         
                         <!-- Tritiya Charana -->
-                        <div class="stage-card">
-                            <div class="card-status-icon locked">
-                                <i class="fas fa-hourglass-half"></i>
+                        {% set stage_info_9 = current_user.get_stage_info(9) %}
+                        {% set is_current_9 = 9 == current_user.get_current_stage() %}
+                        {% set is_completed_9 = stage_info_9.is_completed %}
+                        {% set is_accessible_9 = stage_info_9.has_access %}
+                        {% set is_next_stage_9 = 9 == current_user.get_next_required_stage() %}
+                        
+                        <div class="stage-card {% if is_accessible_9 or is_completed_9 %}clickable{% endif %}" 
+                             {% if is_accessible_9 or is_completed_9 %}onclick="window.location.href='/stage/9'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_9 %}completed{% elif is_current_9 %}current{% elif is_accessible_9 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_9 %}<i class="fas fa-check"></i>
+                                {% elif is_current_9 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_9 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
                             </div>
-                            <div class="card-body coming-soon">
+                            <div class="card-body charana {% if not is_accessible_9 and not is_completed_9 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/bhairava_eight_hands.jpeg') }}" alt="Tritiya Charana" class="mandala-img">
                                 <div class="card-title">Tritiya Charana</div>
-                                <div class="card-status-text">Coming Soon</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_9 %}Completed{% elif is_current_9 %}Current{% elif is_accessible_9 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if not is_accessible_9 and not is_completed_9 and is_next_stage_9 %}
+                                <button class="btn-request" data-stage="9" onclick="event.stopPropagation(); requestStageAccess(9)">Request</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
