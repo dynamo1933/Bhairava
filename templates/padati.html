@@ -390,6 +390,75 @@
         inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
+/* Diksha card styles (Pratham Charana) */
+.card-body.diksha {
+    background: linear-gradient(145deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+    box-shadow: 
+        0 10px 30px rgba(251, 191, 36, 0.25),
+        0 4px 12px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.card-body.diksha .card-title {
+    color: #92400e;
+}
+
+.card-body.diksha .card-status-text {
+    color: #b45309;
+}
+
+.card-body.diksha.locked {
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.card-body.diksha.locked .card-title {
+    color: #64748b;
+}
+
+.card-body.diksha.locked .card-status-text {
+    color: #94a3b8;
+}
+
+/* Charana card styles (Dutiya/Tritiya Charana) */
+.card-body.charana {
+    background: linear-gradient(145deg, #c4b5fd 0%, #a78bfa 50%, #8b5cf6 100%);
+    box-shadow: 
+        0 10px 30px rgba(139, 92, 246, 0.25),
+        0 4px 12px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.card-body.charana .card-title {
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.card-body.charana .card-status-text {
+    color: rgba(255,255,255,0.9);
+}
+
+.card-body.charana .mandala-img {
+    border-color: rgba(255,255,255,0.6);
+}
+
+.card-body.charana.locked {
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.card-body.charana.locked .card-title {
+    color: #64748b;
+}
+
+.card-body.charana.locked .card-status-text {
+    color: #94a3b8;
+}
+
 /* Rudraksha image */
 .rudraksha-img {
     width: 50px;
@@ -1109,7 +1178,8 @@
                         {% set is_current_7 = 7 == current_user.get_current_stage() %}
                         {% set is_completed_7 = stage_info_7.is_completed %}
                         {% set is_accessible_7 = stage_info_7.has_access %}
-                        {% set is_next_stage_7 = 7 == current_user.get_next_required_stage() %}
+                        {# Show request on Pratham Charana if not accessible and Mandala 3 is accessible #}
+                        {% set show_request_7 = not is_accessible_7 and not is_completed_7 and current_user.has_mandala_access(3) %}
                         
                         <div class="stage-card {% if is_accessible_7 or is_completed_7 %}clickable{% endif %}" 
                              {% if is_accessible_7 or is_completed_7 %}onclick="window.location.href='/stage/7'"{% endif %}>
@@ -1125,7 +1195,7 @@
                                 <div class="card-status-text">
                                     {% if is_completed_7 %}Completed{% elif is_current_7 %}Current{% elif is_accessible_7 %}Ready{% else %}Locked{% endif %}
                                 </div>
-                                {% if not is_accessible_7 and not is_completed_7 and is_next_stage_7 %}
+                                {% if show_request_7 %}
                                 <button class="btn-request" data-stage="7" onclick="event.stopPropagation(); requestStageAccess(7)">Request</button>
                                 {% endif %}
                             </div>
@@ -1137,45 +1207,13 @@
                             </svg>
                         </div>
                         
-                        <!-- 11 Mukhi -->
-                        {% set stage_info_5 = current_user.get_stage_info(5) %}
-                        {% set is_current_5 = 5 == current_user.get_current_stage() %}
-                        {% set is_completed_5 = stage_info_5.is_completed %}
-                        {% set is_accessible_5 = stage_info_5.has_access %}
-                        {% set is_next_stage_5 = 5 == current_user.get_next_required_stage() %}
-                        
-                        <div class="stage-card {% if is_accessible_5 or is_completed_5 %}clickable{% endif %}" 
-                             {% if is_accessible_5 or is_completed_5 %}onclick="window.location.href='/stage/5'"{% endif %}>
-                            <div class="card-status-icon {% if is_completed_5 %}completed{% elif is_current_5 %}current{% elif is_accessible_5 %}accessible{% else %}locked{% endif %}">
-                                {% if is_completed_5 %}<i class="fas fa-check"></i>
-                                {% elif is_current_5 %}<i class="fas fa-star"></i>
-                                {% elif is_accessible_5 %}<i class="fas fa-unlock"></i>
-                                {% else %}<i class="fas fa-lock"></i>{% endif %}
-                            </div>
-                            <div class="card-body rudraksha {% if not is_accessible_5 and not is_completed_5 %}locked{% endif %}">
-                                <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}" alt="11 Mukhi" class="rudraksha-img">
-                                <div class="card-title">11 Mukhi</div>
-                                <div class="card-status-text">
-                                    {% if is_completed_5 %}Received{% elif is_current_5 %}Current{% elif is_accessible_5 %}Ready{% else %}Locked{% endif %}
-                                </div>
-                                {% if not is_accessible_5 and not is_completed_5 and is_next_stage_5 %}
-                                <button class="btn-request" data-stage="5" onclick="event.stopPropagation(); requestStageAccess(5)">Request</button>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="flow-arrow {% if is_accessible_5 or is_completed_5 %}active{% endif %}">
-                            <svg viewBox="0 0 35 22" fill="none">
-                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        
                         <!-- 8 Mukhi -->
                         {% set stage_info_4 = current_user.get_stage_info(4) %}
                         {% set is_current_4 = 4 == current_user.get_current_stage() %}
                         {% set is_completed_4 = stage_info_4.is_completed %}
                         {% set is_accessible_4 = stage_info_4.has_access %}
-                        {% set is_next_stage_4 = 4 == current_user.get_next_required_stage() %}
+                        {# Show request on 8 Mukhi if not accessible and Pratham Charana is accessible #}
+                        {% set show_request_4 = not is_accessible_4 and not is_completed_4 and (is_accessible_7 or is_completed_7) %}
                         
                         <div class="stage-card {% if is_accessible_4 or is_completed_4 %}clickable{% endif %}" 
                              {% if is_accessible_4 or is_completed_4 %}onclick="window.location.href='/stage/4'"{% endif %}>
@@ -1191,8 +1229,42 @@
                                 <div class="card-status-text">
                                     {% if is_completed_4 %}Received{% elif is_current_4 %}Current{% elif is_accessible_4 %}Ready{% else %}Locked{% endif %}
                                 </div>
-                                {% if not is_accessible_4 and not is_completed_4 and is_next_stage_4 %}
+                                {% if show_request_4 %}
                                 <button class="btn-request" data-stage="4" onclick="event.stopPropagation(); requestStageAccess(4)">Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow {% if is_accessible_4 or is_completed_4 %}active{% endif %}">
+                            <svg viewBox="0 0 35 22" fill="none">
+                                <path d="M0 11 H26 M21 5 L28 11 L21 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- 11 Mukhi -->
+                        {% set stage_info_5 = current_user.get_stage_info(5) %}
+                        {% set is_current_5 = 5 == current_user.get_current_stage() %}
+                        {% set is_completed_5 = stage_info_5.is_completed %}
+                        {% set is_accessible_5 = stage_info_5.has_access %}
+                        {# Show request on 11 Mukhi if not accessible and 8 Mukhi is accessible #}
+                        {% set show_request_5 = not is_accessible_5 and not is_completed_5 and (is_accessible_4 or is_completed_4) %}
+                        
+                        <div class="stage-card {% if is_accessible_5 or is_completed_5 %}clickable{% endif %}" 
+                             {% if is_accessible_5 or is_completed_5 %}onclick="window.location.href='/stage/5'"{% endif %}>
+                            <div class="card-status-icon {% if is_completed_5 %}completed{% elif is_current_5 %}current{% elif is_accessible_5 %}accessible{% else %}locked{% endif %}">
+                                {% if is_completed_5 %}<i class="fas fa-check"></i>
+                                {% elif is_current_5 %}<i class="fas fa-star"></i>
+                                {% elif is_accessible_5 %}<i class="fas fa-unlock"></i>
+                                {% else %}<i class="fas fa-lock"></i>{% endif %}
+                            </div>
+                            <div class="card-body rudraksha {% if not is_accessible_5 and not is_completed_5 %}locked{% endif %}">
+                                <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}" alt="11 Mukhi" class="rudraksha-img">
+                                <div class="card-title">11 Mukhi</div>
+                                <div class="card-status-text">
+                                    {% if is_completed_5 %}Received{% elif is_current_5 %}Current{% elif is_accessible_5 %}Ready{% else %}Locked{% endif %}
+                                </div>
+                                {% if show_request_5 %}
+                                <button class="btn-request" data-stage="5" onclick="event.stopPropagation(); requestStageAccess(5)">Request</button>
                                 {% endif %}
                             </div>
                         </div>
@@ -1226,7 +1298,8 @@
                         {% set is_current_8 = 8 == current_user.get_current_stage() %}
                         {% set is_completed_8 = stage_info_8.is_completed %}
                         {% set is_accessible_8 = stage_info_8.has_access %}
-                        {% set is_next_stage_8 = 8 == current_user.get_next_required_stage() %}
+                        {# Show request on Dutiya Charana if it's not accessible and previous section (11 Mukhi) is accessible #}
+                        {% set show_request_8 = not is_accessible_8 and not is_completed_8 and current_user.has_mandala_access(5) %}
                         
                         <div class="stage-card {% if is_accessible_8 or is_completed_8 %}clickable{% endif %}" 
                              {% if is_accessible_8 or is_completed_8 %}onclick="window.location.href='/stage/8'"{% endif %}>
@@ -1242,7 +1315,7 @@
                                 <div class="card-status-text">
                                     {% if is_completed_8 %}Completed{% elif is_current_8 %}Current{% elif is_accessible_8 %}Ready{% else %}Locked{% endif %}
                                 </div>
-                                {% if not is_accessible_8 and not is_completed_8 and is_next_stage_8 %}
+                                {% if show_request_8 %}
                                 <button class="btn-request" data-stage="8" onclick="event.stopPropagation(); requestStageAccess(8)">Request</button>
                                 {% endif %}
                             </div>
@@ -1259,7 +1332,8 @@
                         {% set is_current_6 = 6 == current_user.get_current_stage() %}
                         {% set is_completed_6 = stage_info_6.is_completed %}
                         {% set is_accessible_6 = stage_info_6.has_access %}
-                        {% set is_next_stage_6 = 6 == current_user.get_next_required_stage() %}
+                        {# Show request on 14 Mukhi if it's not accessible and Dutiya Charana is accessible #}
+                        {% set show_request_6 = not is_accessible_6 and not is_completed_6 and (is_accessible_8 or is_completed_8) %}
                         
                         <div class="stage-card {% if is_accessible_6 or is_completed_6 %}clickable{% endif %}" 
                              {% if is_accessible_6 or is_completed_6 %}onclick="window.location.href='/stage/6'"{% endif %}>
@@ -1275,7 +1349,7 @@
                                 <div class="card-status-text">
                                     {% if is_completed_6 %}Received{% elif is_current_6 %}Current{% elif is_accessible_6 %}Ready{% else %}Locked{% endif %}
                                 </div>
-                                {% if not is_accessible_6 and not is_completed_6 and is_next_stage_6 %}
+                                {% if show_request_6 %}
                                 <button class="btn-request" data-stage="6" onclick="event.stopPropagation(); requestStageAccess(6)">Request</button>
                                 {% endif %}
                             </div>
@@ -1292,7 +1366,8 @@
                         {% set is_current_9 = 9 == current_user.get_current_stage() %}
                         {% set is_completed_9 = stage_info_9.is_completed %}
                         {% set is_accessible_9 = stage_info_9.has_access %}
-                        {% set is_next_stage_9 = 9 == current_user.get_next_required_stage() %}
+                        {# Show request on Tritiya Charana if it's not accessible and 14 Mukhi is accessible #}
+                        {% set show_request_9 = not is_accessible_9 and not is_completed_9 and (is_accessible_6 or is_completed_6) %}
                         
                         <div class="stage-card {% if is_accessible_9 or is_completed_9 %}clickable{% endif %}" 
                              {% if is_accessible_9 or is_completed_9 %}onclick="window.location.href='/stage/9'"{% endif %}>
@@ -1308,7 +1383,7 @@
                                 <div class="card-status-text">
                                     {% if is_completed_9 %}Completed{% elif is_current_9 %}Current{% elif is_accessible_9 %}Ready{% else %}Locked{% endif %}
                                 </div>
-                                {% if not is_accessible_9 and not is_completed_9 and is_next_stage_9 %}
+                                {% if show_request_9 %}
                                 <button class="btn-request" data-stage="9" onclick="event.stopPropagation(); requestStageAccess(9)">Request</button>
                                 {% endif %}
                             </div>

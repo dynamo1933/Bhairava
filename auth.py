@@ -608,7 +608,7 @@ def request_stage_access():
     try:
         stage_number = request.form.get('stage_number', type=int)
         
-        if not stage_number or stage_number < 1 or stage_number > 6:
+        if not stage_number or stage_number < 1 or stage_number > 9:
             return jsonify({'success': False, 'message': 'Invalid stage number'}), 400
         
         # Check if user already has access to this stage
@@ -639,9 +639,12 @@ def request_stage_access():
             1: 'Mandala 1',
             2: 'Mandala 2',
             3: 'Mandala 3',
-            4: 'Rudraksha 5 Mukhi',
+            4: 'Rudraksha 8 Mukhi',
             5: 'Rudraksha 11 Mukhi',
-            6: 'Rudraksha 14 Mukhi'
+            6: 'Rudraksha 14 Mukhi',
+            7: 'Pratham Charana Diksha',
+            8: 'Dutiya Charana',
+            9: 'Tritiya Charana'
         }
         stage_name = stage_names.get(stage_number, f'Stage {stage_number}')
         
@@ -730,6 +733,12 @@ def approve_stage_request(request_id):
                 user.rudraksha_11_mukhi_access = True
             elif access_request.stage_number == 6:
                 user.rudraksha_14_mukhi_access = True
+            elif access_request.stage_number == 7:
+                user.pratham_charana_diksha_access = True
+            elif access_request.stage_number == 8:
+                user.dutiya_charana_access = True
+            elif access_request.stage_number == 9:
+                user.tritiya_charana_access = True
             # Devi Mandala stages (Devi Padathi - Kamakhya Sadhana)
             elif access_request.stage_number == 101:
                 user.devi_mandala_1_access = True

@@ -1235,6 +1235,125 @@
     color: white;
 }
 
+/* Yantra Card Styles */
+.yantra-card {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.yantra-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.yantra-card .section-title {
+    color: #ffd700;
+}
+
+.yantra-card .section-title::after {
+    background: linear-gradient(90deg, #ffd700, #f59e0b);
+}
+
+.yantra-message {
+    font-family: var(--font-secondary);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.5rem;
+}
+
+.yantra-message strong {
+    color: #ffd700;
+}
+
+.yantra-note {
+    font-family: var(--font-sacred);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.yantra-embed {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.yantra-embed iframe {
+    display: block;
+    width: 100%;
+    height: 500px;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .yantra-embed iframe {
+        height: 400px;
+    }
+}
+
+.yantra-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-yantra {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-yantra-view {
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.btn-yantra-view:hover {
+    background: rgba(255, 215, 0, 0.25);
+    border-color: #ffd700;
+    transform: translateY(-2px);
+}
+
+.btn-yantra-download {
+    background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%);
+    color: #1e1b4b;
+    border: none;
+}
+
+.btn-yantra-download:hover {
+    background: linear-gradient(135deg, #fef08a 0%, #fbbf24 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
 /* Animations */
 @keyframes fadeInUp {
     from {
@@ -1276,6 +1395,41 @@
     
     <!-- PRE-INITIATION TAB CONTENT -->
     <div id="pre-initiation" class="tab-content active">
+        
+        <!-- Sacred Yantra Card -->
+        <div class="content-card yantra-card">
+            <h2 class="section-title">🙏 Sacred Yantra for Initiation</h2>
+            
+            <p class="yantra-message">
+                Kindly take a <strong>printout and laminate</strong> — keep it with you on the day of initiation.<br>
+                This is not just another yantra — it is a <strong>living space</strong>, shared with deep grace.<br>
+                Receive it with surrender and reverence.
+            </p>
+            <p class="yantra-note">(Yantra can be used in daily Puja vedi)</p>
+            
+            <div class="yantra-embed">
+                <iframe 
+                    src="https://drive.google.com/file/d/11JYCDg6BzNtz5JqBgCWEsbW9Zl2TyPIj/preview"
+                    allow="autoplay"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="yantra-actions">
+                <a href="https://drive.google.com/file/d/11JYCDg6BzNtz5JqBgCWEsbW9Zl2TyPIj/view" 
+                   target="_blank" 
+                   class="btn-yantra btn-yantra-view">
+                    <i class="fas fa-external-link-alt"></i>
+                    View in New Tab
+                </a>
+                <a href="https://drive.google.com/uc?export=download&id=11JYCDg6BzNtz5JqBgCWEsbW9Zl2TyPIj" 
+                   target="_blank" 
+                   class="btn-yantra btn-yantra-download">
+                    <i class="fas fa-download"></i>
+                    Download Yantra
+                </a>
+            </div>
+        </div>
         
         <!-- Welcome Card -->
         <div class="content-card welcome-card">

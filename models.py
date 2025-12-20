@@ -366,6 +366,9 @@ class StageAccessRequest(db.Model):
             4: 'Rudraksha 8 Mukhi',
             5: 'Rudraksha 11 Mukhi',
             6: 'Rudraksha 14 Mukhi',
+            7: 'Pratham Charana Diksha',
+            8: 'Dutiya Charana',
+            9: 'Tritiya Charana',
             # Devi Mandala stages (Devi Padathi - Kamakhya Sadhana)
             101: 'Devi Mandala 1 (33 days)',
             102: 'Devi Mandala 2 (66 days)',
