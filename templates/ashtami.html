@@ -2,673 +2,713 @@
 
 {% block extra_styles %}
 <style>
-/* ===== BHAIRAVA ASHTAMI SADHANA PAGE - GURU BHAIRAVA THEME ===== */
+    /* ===== BHAIRAVA ASHTAMI SADHANA PAGE - GURU BHAIRAVA THEME ===== */
 
-/* Hero Section */
-.ashtami-hero {
-    background: linear-gradient(135deg, #8b1538 0%, #b91c1c 30%, #c2410c 70%, #ea580c 100%);
-    padding: 2rem 1.5rem;
-    position: relative;
-    overflow: hidden;
-    min-height: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.ashtami-hero::before {
-    content: '';
-    position: absolute;
-    left: -100px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 500px;
-    height: 500px;
-    background: 
-        radial-gradient(circle, transparent 30%, rgba(255,215,0,0.03) 31%, rgba(255,215,0,0.03) 32%, transparent 33%),
-        radial-gradient(circle, transparent 45%, rgba(255,215,0,0.03) 46%, rgba(255,215,0,0.03) 47%, transparent 48%),
-        radial-gradient(circle, transparent 60%, rgba(255,215,0,0.03) 61%, rgba(255,215,0,0.03) 62%, transparent 63%),
-        radial-gradient(circle, transparent 75%, rgba(255,215,0,0.03) 76%, rgba(255,215,0,0.03) 77%, transparent 78%);
-    opacity: 0.8;
-    pointer-events: none;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* Yantra Container */
-.yantra-container {
-    width: 180px;
-    height: 180px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.yantra-svg {
-    width: 100%;
-    height: 100%;
-}
-
-.hero-label {
-    font-family: var(--font-mystical);
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-}
-
-.hero-title {
-    font-family: var(--font-mystical);
-    font-size: 2.5rem;
-    color: #ffd700;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    letter-spacing: 3px;
-}
-
-.hero-subtitle-box {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 215, 0, 0.4);
-    border-radius: 8px;
-    padding: 0.5rem 2rem;
-    position: relative;
-}
-
-.hero-subtitle-box::before,
-.hero-subtitle-box::after {
-    content: '◆';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 215, 0, 0.6);
-    font-size: 0.8rem;
-}
-
-.hero-subtitle-box::before {
-    left: 0.5rem;
-}
-
-.hero-subtitle-box::after {
-    right: 0.5rem;
-}
-
-.hero-subtitle {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1.1rem;
-    font-family: var(--font-sacred);
-}
-
-@media (min-width: 768px) {
+    /* Hero Section */
     .ashtami-hero {
-        min-height: 380px;
-    }
-    
-    .yantra-container {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .hero-title {
-        font-size: 3rem;
-    }
-}
-
-/* Main Content Container */
-.ashtami-main {
-    padding: 2rem 1.25rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-    .ashtami-main {
-        padding: 2.5rem 2rem;
-    }
-}
-
-/* Section Card Base */
-.content-card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    padding: 2rem 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px var(--shadow-color);
-    border: 1px solid var(--border-color);
-}
-
-@media (min-width: 768px) {
-    .content-card {
-        padding: 2.5rem 3rem;
-        margin-bottom: 2rem;
-    }
-}
-
-/* Section Titles */
-.section-title {
-    font-family: var(--font-primary);
-    font-size: 1.6rem;
-    color: var(--primary-red);
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 0.75rem;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
-    border-radius: 2px;
-}
-
-/* Preparation Card */
-.preparation-card {
-    background: linear-gradient(135deg, #fff7ed 0%, #fef7ed 100%);
-    border-left: 4px solid var(--accent-gold);
-}
-
-.prep-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.prep-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: var(--border-radius);
-    margin-bottom: 0.75rem;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-}
-
-.prep-list li:last-child {
-    margin-bottom: 0;
-}
-
-.prep-number {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mystical);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.prep-text {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
-.prep-text strong {
-    color: var(--primary-red);
-}
-
-.prep-text em {
-    font-style: italic;
-    color: var(--text-muted);
-}
-
-/* Sankalpa Box */
-.sankalpa-box {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    border: 1px solid rgba(196, 30, 58, 0.2);
-    text-align: center;
-}
-
-.sankalpa-title {
-    font-family: var(--font-primary);
-    font-size: 1.1rem;
-    color: var(--primary-red);
-    margin-bottom: 0.75rem;
-}
-
-.sankalpa-text {
-    font-family: var(--font-sacred);
-    font-size: 1.05rem;
-    color: var(--text-dark);
-    font-style: italic;
-    line-height: 1.8;
-}
-
-/* Japa Process Card */
-.japa-card {
-    background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
-    border-left: 4px solid var(--accent-orange);
-}
-
-.japa-step {
-    margin-bottom: 1.5rem;
-}
-
-.japa-step:last-child {
-    margin-bottom: 0;
-}
-
-.japa-step-content {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-/* Mantra Box */
-.mantra-box {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-radius: var(--border-radius);
-    padding: 1.25rem;
-    margin: 1rem 0;
-    border: 1px solid rgba(196, 30, 58, 0.2);
-    text-align: center;
-}
-
-.mantra-title {
-    font-family: var(--font-primary);
-    font-size: 0.95rem;
-    color: var(--accent-orange);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.mantra-sanskrit {
-    font-family: var(--font-sacred);
-    font-size: 1.25rem;
-    color: var(--primary-red);
-    line-height: 1.7;
-    margin-bottom: 0.5rem;
-}
-
-.mantra-transliteration {
-    font-family: var(--font-sacred);
-    font-size: 1rem;
-    color: var(--text-muted);
-    font-style: italic;
-}
-
-.mantra-meaning {
-    font-family: var(--font-secondary);
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    margin-top: 0.75rem;
-    font-style: italic;
-}
-
-/* Count Cards */
-.count-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-}
-
-.count-card {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: var(--border-radius);
-    padding: 1.25rem;
-    border: 1px solid var(--border-color);
-}
-
-.count-card-title {
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    color: var(--primary-red);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.count-card-content {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    line-height: 1.7;
-}
-
-.count-card-content ul {
-    list-style: disc;
-    padding-left: 1.25rem;
-    margin: 0.5rem 0;
-}
-
-.count-card-content li {
-    margin-bottom: 0.35rem;
-}
-
-/* Timing Card */
-.timing-card {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-left: 4px solid var(--primary-red);
-}
-
-.timing-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.timing-item:last-child {
-    margin-bottom: 0;
-}
-
-.timing-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-}
-
-.timing-text {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
-.timing-text strong {
-    color: var(--primary-red);
-}
-
-.timing-text a {
-    color: var(--primary-red);
-    text-decoration: underline;
-}
-
-/* Prasadham Section */
-.prasadham-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.25rem;
-}
-
-.prasadham-item {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: var(--border-radius);
-    padding: 1.25rem;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.prasadham-item:hover {
-    box-shadow: 0 4px 15px var(--shadow-color);
-    transform: translateY(-2px);
-}
-
-.prasadham-title {
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    color: var(--primary-red);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.prasadham-title .number {
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    color: #fff;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.prasadham-why {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 0.5rem;
-}
-
-.prasadham-examples {
-    font-family: var(--font-secondary);
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-style: italic;
-}
-
-/* Bhog Offering Section */
-.bhog-card {
-    background: linear-gradient(135deg, #fff7ed 0%, #fef7ed 100%);
-    border-left: 4px solid var(--accent-gold);
-}
-
-.bhog-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: var(--border-radius);
-    margin-bottom: 0.75rem;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-}
-
-.bhog-item:last-child {
-    margin-bottom: 0;
-}
-
-.bhog-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-}
-
-.bhog-text {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    line-height: 1.7;
-}
-
-.bhog-text strong {
-    color: var(--primary-red);
-}
-
-.bhog-note {
-    background: rgba(196, 30, 58, 0.1);
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    margin-top: 1rem;
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    text-align: center;
-}
-
-.bhog-warning {
-    background: rgba(220, 38, 38, 0.1);
-    border-left: 3px solid #dc2626;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
-    font-family: var(--font-secondary);
-    color: #b91c1c;
-    font-size: 0.9rem;
-    font-style: italic;
-}
-
-/* Mala Recommendation */
-.mala-card {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border: 1px solid rgba(196, 30, 58, 0.2);
-    text-align: center;
-}
-
-.mala-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.mala-text {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
-.mala-text strong {
-    color: var(--primary-red);
-}
-
-/* Guidelines Section */
-.guidelines-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-}
-
-.guideline-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: rgba(196, 30, 58, 0.05);
-    border-radius: var(--border-radius);
-    margin-bottom: 0.75rem;
-    border-left: 3px solid var(--primary-red);
-}
-
-.guideline-item:last-child {
-    margin-bottom: 0;
-}
-
-.guideline-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-}
-
-.guideline-text {
-    font-family: var(--font-secondary);
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    line-height: 1.7;
-}
-
-.guideline-text strong {
-    color: var(--primary-red);
-}
-
-/* Closing Section */
-.closing-section {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #fef7ed 100%);
-    border-radius: var(--border-radius-lg);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    margin-top: 2rem;
-    border: 2px solid rgba(196, 30, 58, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.closing-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-.closing-trishul {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
-}
-
-.closing-text {
-    font-family: var(--font-sacred);
-    font-size: 1.2rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-    font-style: italic;
-    position: relative;
-    z-index: 1;
-}
-
-.closing-mantra {
-    font-family: var(--font-sacred);
-    font-size: 1.3rem;
-    color: var(--primary-red);
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 2rem;
-    }
-    
-    .section-title {
-        font-size: 1.4rem;
-    }
-    
-    .content-card {
-        padding: 1.5rem 1.25rem;
-    }
-    
-    .prasadham-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .count-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .ashtami-main {
+        background: linear-gradient(135deg, #8b1538 0%, #b91c1c 30%, #c2410c 70%, #ea580c 100%);
         padding: 1.5rem 1rem;
+        position: relative;
+        overflow: hidden;
+        min-height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    
-    .prep-list li {
+
+    .ashtami-hero::before {
+        content: '';
+        position: absolute;
+        left: -100px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 500px;
+        height: 500px;
+        background:
+            radial-gradient(circle, transparent 30%, rgba(255, 215, 0, 0.03) 31%, rgba(255, 215, 0, 0.03) 32%, transparent 33%),
+            radial-gradient(circle, transparent 45%, rgba(255, 215, 0, 0.03) 46%, rgba(255, 215, 0, 0.03) 47%, transparent 48%),
+            radial-gradient(circle, transparent 60%, rgba(255, 215, 0, 0.03) 61%, rgba(255, 215, 0, 0.03) 62%, transparent 63%),
+            radial-gradient(circle, transparent 75%, rgba(255, 215, 0, 0.03) 76%, rgba(255, 215, 0, 0.03) 77%, transparent 78%);
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* Yantra Container */
+    .yantra-container {
+        width: 180px;
+        height: 180px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .yantra-svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-label {
+        font-family: var(--font-mystical);
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+        font-family: var(--font-mystical);
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 3px;
+    }
+
+    .hero-subtitle-box {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.4);
+        border-radius: 8px;
+        padding: 0.5rem 2rem;
+        position: relative;
+    }
+
+    .hero-subtitle-box::before,
+    .hero-subtitle-box::after {
+        content: '◆';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 215, 0, 0.6);
+        font-size: 0.8rem;
+    }
+
+    .hero-subtitle-box::before {
+        left: 0.5rem;
+    }
+
+    .hero-subtitle-box::after {
+        right: 0.5rem;
+    }
+
+    .hero-subtitle {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1.1rem;
+        font-family: var(--font-sacred);
+    }
+
+    .ashtami-image-container {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .ashtami-image {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid rgba(255, 215, 0, 0.8);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), 0 0 80px rgba(255, 100, 0, 0.3);
+    }
+
+    .hero-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media (min-width: 768px) {
+        .ashtami-hero {
+            min-height: auto;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            flex-direction: row;
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .ashtami-image-container {
+            margin-bottom: 0;
+        }
+
+        .ashtami-image {
+            width: 220px;
+            height: 220px;
+        }
+
+        .hero-text {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+        }
+    }
+
+    /* Main Content Container */
+    .ashtami-main {
+        padding: 2rem 1.25rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+        .ashtami-main {
+            padding: 2.5rem 2rem;
+        }
+    }
+
+    /* Section Card Base */
+    .content-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 2rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px var(--shadow-color);
+        border: 1px solid var(--border-color);
+    }
+
+    @media (min-width: 768px) {
+        .content-card {
+            padding: 2.5rem 3rem;
+            margin-bottom: 2rem;
+        }
+    }
+
+    /* Section Titles */
+    .section-title {
+        font-family: var(--font-primary);
+        font-size: 1.6rem;
+        color: var(--primary-red);
+        text-align: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
+        border-radius: 2px;
+    }
+
+    /* Preparation Card */
+    .preparation-card {
+        background: linear-gradient(135deg, #fff7ed 0%, #fef7ed 100%);
+        border-left: 4px solid var(--accent-gold);
+    }
+
+    .prep-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .prep-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: var(--border-radius);
+        margin-bottom: 0.75rem;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .prep-list li:last-child {
+        margin-bottom: 0;
+    }
+
+    .prep-number {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mystical);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .prep-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .prep-text strong {
+        color: var(--primary-red);
+    }
+
+    .prep-text em {
+        font-style: italic;
+        color: var(--text-muted);
+    }
+
+    /* Sankalpa Box */
+    .sankalpa-box {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        border: 1px solid rgba(196, 30, 58, 0.2);
+        text-align: center;
+    }
+
+    .sankalpa-title {
+        font-family: var(--font-primary);
+        font-size: 1.1rem;
+        color: var(--primary-red);
+        margin-bottom: 0.75rem;
+    }
+
+    .sankalpa-text {
+        font-family: var(--font-sacred);
+        font-size: 1.05rem;
+        color: var(--text-dark);
+        font-style: italic;
+        line-height: 1.8;
+    }
+
+    /* Japa Process Card */
+    .japa-card {
+        background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+        border-left: 4px solid var(--accent-orange);
+    }
+
+    .japa-step {
+        margin-bottom: 1.5rem;
+    }
+
+    .japa-step:last-child {
+        margin-bottom: 0;
+    }
+
+    .japa-step-content {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    /* Mantra Box */
+    .mantra-box {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-radius: var(--border-radius);
+        padding: 1.25rem;
+        margin: 1rem 0;
+        border: 1px solid rgba(196, 30, 58, 0.2);
+        text-align: center;
+    }
+
+    .mantra-title {
+        font-family: var(--font-primary);
+        font-size: 0.95rem;
+        color: var(--accent-orange);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .mantra-sanskrit {
+        font-family: var(--font-sacred);
+        font-size: 1.25rem;
+        color: var(--primary-red);
+        line-height: 1.7;
+        margin-bottom: 0.5rem;
+    }
+
+    .mantra-transliteration {
+        font-family: var(--font-sacred);
+        font-size: 1rem;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    .mantra-meaning {
+        font-family: var(--font-secondary);
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        margin-top: 0.75rem;
+        font-style: italic;
+    }
+
+    /* Count Cards */
+    .count-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .count-card {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: var(--border-radius);
+        padding: 1.25rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .count-card-title {
+        font-family: var(--font-primary);
+        font-size: 1rem;
+        color: var(--primary-red);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
         gap: 0.5rem;
     }
-    
-    .prep-number {
-        align-self: flex-start;
+
+    .count-card-content {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
-}
+
+    .count-card-content ul {
+        list-style: disc;
+        padding-left: 1.25rem;
+        margin: 0.5rem 0;
+    }
+
+    .count-card-content li {
+        margin-bottom: 0.35rem;
+    }
+
+    /* Timing Card */
+    .timing-card {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-left: 4px solid var(--primary-red);
+    }
+
+    .timing-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .timing-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .timing-icon {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .timing-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .timing-text strong {
+        color: var(--primary-red);
+    }
+
+    .timing-text a {
+        color: var(--primary-red);
+        text-decoration: underline;
+    }
+
+    /* Prasadham Section */
+    .prasadham-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .prasadham-item {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: var(--border-radius);
+        padding: 1.25rem;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .prasadham-item:hover {
+        box-shadow: 0 4px 15px var(--shadow-color);
+        transform: translateY(-2px);
+    }
+
+    .prasadham-title {
+        font-family: var(--font-primary);
+        font-size: 1rem;
+        color: var(--primary-red);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .prasadham-title .number {
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        color: #fff;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .prasadham-why {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 0.5rem;
+    }
+
+    .prasadham-examples {
+        font-family: var(--font-secondary);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+
+    /* Bhog Offering Section */
+    .bhog-card {
+        background: linear-gradient(135deg, #fff7ed 0%, #fef7ed 100%);
+        border-left: 4px solid var(--accent-gold);
+    }
+
+    .bhog-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: var(--border-radius);
+        margin-bottom: 0.75rem;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .bhog-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .bhog-icon {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .bhog-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .bhog-text strong {
+        color: var(--primary-red);
+    }
+
+    .bhog-note {
+        background: rgba(196, 30, 58, 0.1);
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        margin-top: 1rem;
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+    .bhog-warning {
+        background: rgba(220, 38, 38, 0.1);
+        border-left: 3px solid #dc2626;
+        border-radius: var(--border-radius);
+        padding: 0.75rem 1rem;
+        margin-top: 1rem;
+        font-family: var(--font-secondary);
+        color: #b91c1c;
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+
+    /* Mala Recommendation */
+    .mala-card {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border: 1px solid rgba(196, 30, 58, 0.2);
+        text-align: center;
+    }
+
+    .mala-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .mala-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .mala-text strong {
+        color: var(--primary-red);
+    }
+
+    /* Guidelines Section */
+    .guidelines-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+    }
+
+    .guideline-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(196, 30, 58, 0.05);
+        border-radius: var(--border-radius);
+        margin-bottom: 0.75rem;
+        border-left: 3px solid var(--primary-red);
+    }
+
+    .guideline-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .guideline-icon {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .guideline-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .guideline-text strong {
+        color: var(--primary-red);
+    }
+
+    /* Closing Section */
+    .closing-section {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #fef7ed 100%);
+        border-radius: var(--border-radius-lg);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
+        border: 2px solid rgba(196, 30, 58, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .closing-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .closing-trishul {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .closing-text {
+        font-family: var(--font-sacred);
+        font-size: 1.2rem;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+    }
+
+    .closing-mantra {
+        font-family: var(--font-sacred);
+        font-size: 1.3rem;
+        color: var(--primary-red);
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+        }
+
+        .content-card {
+            padding: 1.5rem 1.25rem;
+        }
+
+        .prasadham-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .count-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .ashtami-main {
+            padding: 1.5rem 1rem;
+        }
+
+        .prep-list li {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .prep-number {
+            align-self: flex-start;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -676,56 +716,25 @@
 <!-- Hero Section -->
 <section class="ashtami-hero">
     <div class="hero-content">
-        <span class="hero-label">Guru Vani</span>
-        <h1 class="hero-title">Bhairava Ashtami Sadhana</h1>
-        <div class="hero-subtitle-box">
-            <span class="hero-subtitle">Sadhana Paddati</span>
+        <div class="ashtami-image-container">
+            <img src="{{ url_for('static', filename='images/kal_bhairav_kashi.jpg') }}" alt="Kal Bhairav Kashi"
+                class="ashtami-image">
         </div>
-        
-        <!-- Yantra SVG -->
-        <div class="yantra-container">
-            <svg class="yantra-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <!-- Outer Square with Maze Pattern -->
-                <rect x="20" y="20" width="160" height="160" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                <rect x="28" y="28" width="144" height="144" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Corner Maze Patterns -->
-                <!-- Top Left -->
-                <path d="M20 60 H45 V35 H70" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                <path d="M28 52 H37 V43 H62" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Top Right -->
-                <path d="M180 60 H155 V35 H130" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                <path d="M172 52 H163 V43 H138" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Bottom Left -->
-                <path d="M20 140 H45 V165 H70" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                <path d="M28 148 H37 V157 H62" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Bottom Right -->
-                <path d="M180 140 H155 V165 H130" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                <path d="M172 148 H163 V157 H138" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Circle -->
-                <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
-                
-                <!-- Triangle pointing up -->
-                <polygon points="100,50 150,140 50,140" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
-                
-                <!-- Bam Beeja Mantra -->
-                <text x="100" y="115" text-anchor="middle" font-family="var(--font-sacred)" font-size="32" fill="rgba(255,255,255,0.95)">बं</text>
-            </svg>
+        <div class="hero-text">
+
+            <h1 class="hero-title">Bhairava Ashtami Sadhana</h1>
+
         </div>
     </div>
 </section>
 
 <!-- Main Content -->
 <div class="ashtami-main">
-    
+
     <!-- Preparation Section -->
     <div class="content-card preparation-card">
         <h2 class="section-title">Preparation</h2>
-        
+
         <ol class="prep-list">
             <li>
                 <span class="prep-number">1</span>
@@ -737,11 +746,15 @@
             </li>
             <li>
                 <span class="prep-number">3</span>
-                <span class="prep-text">Light a <strong>diya</strong> (ghee, mustard oil, or sesame oil) and <strong>incense (agarbatti/dhoop)</strong>.</span>
+                <span class="prep-text">Light a <strong>diya</strong> (ghee, mustard oil, or sesame oil) and
+                    <strong>incense (agarbatti/dhoop)</strong>.</span>
             </li>
             <li>
                 <span class="prep-number">4</span>
-                <span class="prep-text">Take <strong>Sankalpa</strong> for your connection with Bhairava and his Anughara on you to do his Sadhana — <em>"Never ask for material things, as connecting with Him will bring all fortune into your life. Your only prayer should be, 'I seek only You in my life.'"</em></span>
+                <span class="prep-text">Take <strong>Sankalpa</strong> for your connection with Bhairava and his
+                    Anughara on you to do his Sadhana — <em>"Never ask for material things, as connecting with Him will
+                        bring all fortune into your life. Your only prayer should be, 'I seek only You in my
+                        life.'"</em></span>
             </li>
         </ol>
     </div>
@@ -749,21 +762,23 @@
     <!-- Japa Process Section -->
     <div class="content-card japa-card">
         <h2 class="section-title">Japa Process</h2>
-        
+
         <div class="japa-step">
             <div class="japa-step-content">
                 <p>• Meditate on <strong>Guru Swaroopa, Bhairava</strong> and begin chanting.</p>
                 <p>• After completing Japa, mentally offer it to the deity using this mantra:</p>
             </div>
-            
+
             <div class="mantra-box">
                 <div class="mantra-sanskrit">"ॐ भैरवाय सर्वार्पणं नमः"</div>
                 <div class="mantra-transliteration">"Om Bhairavāya Sarvārpanam Namah"</div>
-                <div class="mantra-meaning"><strong>Meaning:</strong> <em>O Bhairava, I surrender all my efforts and time to You.</em></div>
+                <div class="mantra-meaning"><strong>Meaning:</strong> <em>O Bhairava, I surrender all my efforts and
+                        time to You.</em></div>
             </div>
-            
+
             <div class="japa-step-content" style="margin-top: 1rem;">
-                <p>• Chant this before or after any sadhana, work, or daily activities to dedicate your actions to Him.</p>
+                <p>• Chant this before or after any sadhana, work, or daily activities to dedicate your actions to Him.
+                </p>
             </div>
         </div>
     </div>
@@ -771,7 +786,7 @@
     <!-- Offering (Prasadham) Section -->
     <div class="content-card">
         <h2 class="section-title">Offering (Prasadham) – Optional</h2>
-        
+
         <div class="japa-step-content">
             <p>• If offering bhog, place a disposable plate with sweets or preferred items in front during Japa.</p>
             <p>• Check below for details on Prasadham (Dos and Don'ts).</p>
@@ -781,13 +796,13 @@
     <!-- Japa & Ashtakam Count Section -->
     <div class="content-card">
         <h2 class="section-title">Japa & Ashtakam Count</h2>
-        
+
         <div class="mantra-box" style="margin-bottom: 1.5rem;">
             <div class="mantra-title">Main Mantra</div>
             <div class="mantra-sanskrit">ॐ भैरवाय नमः</div>
             <div class="mantra-transliteration">(Om Bhairavaya Namah)</div>
         </div>
-        
+
         <div class="count-grid">
             <div class="count-card">
                 <h3 class="count-card-title">📿 Japa Count</h3>
@@ -798,7 +813,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="count-card">
                 <h3 class="count-card-title">🕉️ Kaal Bhairava Ashtakam</h3>
                 <div class="count-card-content">
@@ -814,80 +829,93 @@
     <!-- Timings Section -->
     <div class="content-card timing-card">
         <h2 class="section-title">Timings</h2>
-        
+
         <div class="timing-item">
             <span class="timing-icon">📅</span>
-            <span class="timing-text">Perform on <strong>Krishna Ashtami Tithi</strong> (Check Panchanga or dates will be shared in group).</span>
+            <span class="timing-text">Perform on <strong>Krishna Ashtami Tithi</strong> (Check Panchanga or dates will
+                be shared in group).</span>
         </div>
-        
+
         <div class="timing-item">
             <span class="timing-icon">⏰</span>
-            <span class="timing-text">Check exact timings for your location on <a href="https://www.drikpanchang.com" target="_blank" rel="noopener noreferrer"><strong>drikpanchang.com</strong></a>.</span>
+            <span class="timing-text">Check exact timings for your location on <a href="https://www.drikpanchang.com"
+                    target="_blank" rel="noopener noreferrer"><strong>drikpanchang.com</strong></a>.</span>
         </div>
     </div>
 
     <!-- Sankalpa Section -->
     <div class="content-card">
         <h2 class="section-title">Sankalpa</h2>
-        
+
         <div class="japa-step-content" style="text-align: center; margin-bottom: 1rem;">
             <p>You may state it in your own words or use this:</p>
         </div>
-        
+
         <div class="mantra-box">
             <div class="mantra-title">Mantra for Bhairava's Grace</div>
             <div class="mantra-sanskrit">"ॐ हं षं नं गं भैरवाय नमः"</div>
             <div class="mantra-transliteration">"Om Ham Sham Nam Gam Bhairavaya Namah"</div>
-            <div class="mantra-meaning"><strong>Meaning:</strong> <em>I bow to Bhairava, the divine protector, and seek His grace for strength, wisdom, and auspiciousness in my life.</em></div>
+            <div class="mantra-meaning"><strong>Meaning:</strong> <em>I bow to Bhairava, the divine protector, and seek
+                    His grace for strength, wisdom, and auspiciousness in my life.</em></div>
         </div>
-        
-        <div class="bhog-warning" style="background: rgba(245, 158, 11, 0.15); border-left-color: var(--accent-orange); color: var(--text-dark);">
-            <strong>Note:</strong> You can chant this mantra after taking Sankalpa to invoke His divine blessings. <strong>(Don't use this mantra for Japa as it's only used for Sankalpa)</strong>
+
+        <div class="bhog-warning"
+            style="background: rgba(245, 158, 11, 0.15); border-left-color: var(--accent-orange); color: var(--text-dark);">
+            <strong>Note:</strong> You can chant this mantra after taking Sankalpa to invoke His divine blessings.
+            <strong>(Don't use this mantra for Japa as it's only used for Sankalpa)</strong>
         </div>
     </div>
 
     <!-- Suggested Prasadham Options Section -->
     <div class="content-card">
         <h2 class="section-title">Suggested Prasadham Options and Why</h2>
-        
+
         <div class="prasadham-grid">
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">1</span> Jaggery & Jaggery Sweets</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> Jaggery represents purity and energy. It is said to please Bhairava and bring success.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> Jaggery represents purity and energy. It is said to
+                    please Bhairava and bring success.</p>
                 <p class="prasadham-examples">Examples: Gud (Jaggery), Gud Laddoo, Gud-based Kheer.</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">2</span> Urad Dal Dishes</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> Urad dal (black gram) is linked to Shani (Saturn), which affects karma. Since Bhairava controls planetary influences, Urad dal helps balance negative effects.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> Urad dal (black gram) is linked to Shani (Saturn),
+                    which affects karma. Since Bhairava controls planetary influences, Urad dal helps balance negative
+                    effects.</p>
                 <p class="prasadham-examples">Examples: Urad Dal Vada, Dal Khichdi, Urad Dal Halwa</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">3</span> Imarti/Jalebi</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> Their spiral shape represents time (Kaal), which Bhairava rules. They also symbolize joy and good fortune.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> Their spiral shape represents time (Kaal), which
+                    Bhairava rules. They also symbolize joy and good fortune.</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">4</span> Gulab Jamun or Laddoo</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> Sweets represent devotion and the blessings of Bhairava.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> Sweets represent devotion and the blessings of
+                    Bhairava.</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">5</span> Tangy & Spicy Foods</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> These foods help calm Bhairava's fierce energy and invite His protection.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> These foods help calm Bhairava's fierce energy and
+                    invite His protection.</p>
                 <p class="prasadham-examples">Examples: Lemon Rice, Tamarind Rice, With Pickles is good</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">6</span> Black Sesame (Til) & Mustard</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> These ingredients are used in rituals for protection from negative energies.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> These ingredients are used in rituals for
+                    protection from negative energies.</p>
                 <p class="prasadham-examples">Examples: Black sesame laddoos, til-gud chikki.</p>
             </div>
-            
+
             <div class="prasadham-item">
                 <h3 class="prasadham-title"><span class="number">7</span> Coconut & Dry Fruits</h3>
-                <p class="prasadham-why"><strong>Why Offer?</strong> They symbolize prosperity and completeness, seeking Bhairava's blessings for abundance.</p>
+                <p class="prasadham-why"><strong>Why Offer?</strong> They symbolize prosperity and completeness, seeking
+                    Bhairava's blessings for abundance.</p>
             </div>
         </div>
     </div>
@@ -895,26 +923,30 @@
     <!-- How to Offer Bhog Section -->
     <div class="content-card bhog-card">
         <h2 class="section-title">How to Offer Bhog to Bhairava</h2>
-        
+
         <div class="bhog-item">
             <span class="bhog-icon">📍</span>
-            <span class="bhog-text"><strong>Where to Place It?</strong> After prayer or mantra chanting, keep the food outside at a crossroads (Chauraha) or under a tree.</span>
+            <span class="bhog-text"><strong>Where to Place It?</strong> After prayer or mantra chanting, keep the food
+                outside at a crossroads (Chauraha) or under a tree.</span>
         </div>
-        
+
         <div class="bhog-item">
             <span class="bhog-icon">🚫</span>
-            <span class="bhog-text"><strong>Do Not Eat It:</strong> This offering is meant for unseen energies, spirits, or dogs, not for personal consumption.</span>
+            <span class="bhog-text"><strong>Do Not Eat It:</strong> This offering is meant for unseen energies, spirits,
+                or dogs, not for personal consumption.</span>
         </div>
-        
+
         <div class="bhog-item">
             <span class="bhog-icon">🐕</span>
-            <span class="bhog-text"><strong>Feeding Dogs:</strong> Bhairava is closely linked to dogs. Feeding them is considered a direct offering to Him.</span>
+            <span class="bhog-text"><strong>Feeding Dogs:</strong> Bhairava is closely linked to dogs. Feeding them is
+                considered a direct offering to Him.</span>
         </div>
-        
+
         <div class="bhog-note">
-            By offering these foods with Love, Surrender, faith and devotion, you can seek Bhairava's protection, wisdom, and blessings in life.
+            By offering these foods with Love, Surrender, faith and devotion, you can seek Bhairava's protection,
+            wisdom, and blessings in life.
         </div>
-        
+
         <div class="bhog-warning">
             <strong>⚠️ Important:</strong> Avoid items with grapes, raisins, or chocolate, as they are harmful to dogs.
         </div>
@@ -932,17 +964,22 @@
     <!-- Note Sadhana Guidelines Section -->
     <div class="content-card guidelines-card">
         <h2 class="section-title">Note Sadhana Guidelines</h2>
-        
+
         <div class="guideline-item">
             <span class="guideline-icon">🔱</span>
-            <span class="guideline-text">Can also be undertaken as a <strong>Mandala Sadhana (48 Days)</strong> for deeper spiritual transformation.</span>
+            <span class="guideline-text">Can also be undertaken as a <strong>Mandala Sadhana (48 Days)</strong> for
+                deeper spiritual transformation.</span>
         </div>
-        
+
         <div class="guideline-item">
             <span class="guideline-icon">📅</span>
-            <span class="guideline-text">To be performed strictly on <strong>Ashtami Tithi (Krishna Paksha)</strong>, or Start on <strong>Any Sunday</strong> (Overcoming karmic blocks), or <strong>Tuesday</strong> (For Strength & Power) or <strong>New Moon (Amavasya)</strong> (Removing negative influences), <strong>Chaturdashi (14th Tithi)</strong> Intense sadhana – This has to be done with Guru Guidance</span>
+            <span class="guideline-text">To be performed strictly on <strong>Ashtami Tithi (Krishna Paksha)</strong>, or
+                Start on <strong>Any Sunday</strong> (Overcoming karmic blocks), or <strong>Tuesday</strong> (For
+                Strength & Power) or <strong>New Moon (Amavasya)</strong> (Removing negative influences),
+                <strong>Chaturdashi (14th Tithi)</strong> Intense sadhana – This has to be done with Guru
+                Guidance</span>
         </div>
-        
+
         <div class="guideline-item">
             <span class="guideline-icon">📿</span>
             <span class="guideline-text"><strong>Mala Japa:</strong> 45, 54 or 108 malas for best results.</span>
@@ -961,32 +998,32 @@
 
 {% block extra_scripts %}
 <script>
-// Smooth scroll animations for cards
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.content-card, .closing-section');
-    
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    // Smooth scroll animations for cards
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.content-card, .closing-section');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
-            }
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
         });
-    }, observerOptions);
-
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
     });
-});
 </script>
 {% endblock %}

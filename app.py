@@ -215,13 +215,13 @@ def initialize_database():
                 
                 db.session.add(admin)
                 db.session.commit()
-                print("✅ Admin user created successfully!")
+                print("[OK] Admin user created successfully!")
                 print("   Username: admin")
                 print("   Password: admin123")
-                print("   ⚠️  Please change the password after first login!")
+                print("   WARNING: Please change the password after first login!")
     except Exception as e:
         import traceback
-        print(f"⚠️  Warning: Database initialization error: {e}")
+        print(f"WARNING: Database initialization error: {e}")
         print(f"   Traceback: {traceback.format_exc()}")
         # Don't crash if database initialization fails - might be a connection issue
         # But log the full error for debugging
@@ -236,7 +236,7 @@ def load_user(user_id):
         return User.query.get(int(user_id))
     except Exception as e:
         # Log connection errors but don't crash the app
-        print(f"⚠️  Database connection error in load_user: {e}")
+        print(f"WARNING: Database connection error in load_user: {e}")
         # Return None to indicate user could not be loaded
         return None
 
