@@ -1,352 +1,688 @@
-
 {% extends "base.html" %}
+
+{% block extra_styles %}
+<style>
+    /* ===== PADATI-INSPIRED THEME FOR BHIKSHA ===== */
+
+    /* Page Header */
+    .padati-header {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 50%, var(--accent-orange) 100%);
+        padding: 2rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .padati-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
+        background-size: 150px 150px;
+        opacity: 0.5;
+        animation: spin 60s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .header-layout {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .header-image {
+        flex-shrink: 0;
+    }
+
+    .header-image img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.3),
+            0 0 0 2px rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .header-image img:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
+
+    .header-content {
+        text-align: left;
+    }
+
+    .header-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        display: inline-block;
+    }
+
+    .header-title {
+        font-family: var(--font-mystical);
+        font-size: 2.2rem;
+        color: #fff;
+        margin-bottom: 0.3rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    .header-subtitle {
+        font-family: var(--font-sacred);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.05rem;
+        font-style: italic;
+    }
+
+    /* Main Content Area */
+    .padati-main {
+        background: linear-gradient(180deg, #fef2f2 0%, #fce7e7 50%, #fef2f2 100%);
+        min-height: 100vh;
+        padding: 2rem 1rem 4rem;
+        position: relative;
+    }
+
+    .padati-main::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 20% 30%, rgba(196, 30, 58, 0.03) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+        pointer-events: none;
+    }
+
+    .padati-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Sacred Reminder Card (Replaced Enterprise Card) */
+    .sacred-reminder {
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2.5rem;
+        border: 1px solid rgba(196, 30, 58, 0.15);
+        box-shadow:
+            0 8px 30px rgba(196, 30, 58, 0.08),
+            0 2px 8px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .reminder-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+        padding-bottom: 1rem;
+    }
+
+    .reminder-title {
+        font-family: var(--font-mystical);
+        font-size: 1.5rem;
+        color: var(--primary-red);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .reminder-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .reminder-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    .reminder-item {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .reminder-icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--highlight-color) 0%, #ffe4e6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-red);
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        box-shadow: 0 2px 5px rgba(196, 30, 58, 0.1);
+    }
+
+    .reminder-content h6 {
+        color: var(--primary-red);
+        font-family: var(--font-primary);
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .reminder-content p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+        font-family: var(--font-secondary);
+    }
+
+    /* Payment QR Button & Modal Styles */
+    .qr-offer-btn {
+        background: linear-gradient(135deg, #c41e3a 0%, #991b1b 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-family: var(--font-mystical);
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);
+        animation: pulse-red 2s infinite;
+    }
+
+    .qr-offer-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(196, 30, 58, 0.4);
+        color: white;
+    }
+
+    @keyframes pulse-red {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(196, 30, 58, 0.4);
+        }
+
+        70% {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 10px rgba(196, 30, 58, 0);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(196, 30, 58, 0);
+        }
+    }
+
+    .sacred-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .sacred-modal-content {
+        background: white;
+        padding: 0;
+        border-radius: 24px;
+        max-width: 450px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        animation: modalScaleUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    @keyframes modalScaleUp {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 32px;
+        height: 32px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #444;
+        transition: all 0.2s;
+        z-index: 10;
+    }
+
+    .modal-close:hover {
+        background: var(--primary-red);
+        color: white;
+    }
+
+    .modal-hero {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 100%);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        color: white;
+    }
+
+    .modal-hero h3 {
+        font-family: var(--font-mystical);
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-qr-container {
+        padding: 2rem;
+        text-align: center;
+        background: #fff;
+    }
+
+    .qr-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        padding: 1rem;
+        background: #f8fafc;
+        border: 2px solid #f1f5f9;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-info {
+        padding: 1.5rem;
+        background: #fdf2f2;
+        border-top: 1px solid rgba(196, 30, 58, 0.1);
+        text-align: center;
+    }
+
+    .modal-info p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0;
+        line-height: 1.4;
+    }
+
+    .qr-button-container {
+        display: flex;
+        justify-content: center;
+        margin: -1rem 0 3rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Sacred Tabs */
+    .sacred-tabs {
+        margin-top: 2rem;
+    }
+
+    .sacred-tabs-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 0.5rem;
+        border-radius: 50px;
+        backdrop-filter: blur(5px);
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .sacred-tab-item {
+        background: transparent;
+        border: none;
+        padding: 0.6rem 1.25rem;
+        border-radius: 25px;
+        font-family: var(--font-secondary);
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .sacred-tab-item:hover {
+        color: var(--primary-red);
+        background: rgba(196, 30, 58, 0.05);
+    }
+
+    .sacred-tab-item.active {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #dc2626 100%);
+        color: white;
+        box-shadow: 0 4px 10px rgba(196, 30, 58, 0.3);
+    }
+
+    .sacred-tab-item .badge {
+        background: rgba(255, 255, 255, 0.2);
+        color: currentColor;
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 10px;
+    }
+
+    .sacred-tab-item.active .badge {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+    }
+
+    /* Sacred Table Card */
+    .sacred-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(196, 30, 58, 0.08);
+        overflow: hidden;
+    }
+
+    .sacred-card-header {
+        padding: 1.5rem 2rem;
+        background: linear-gradient(to right, #ffffff, #fff1f2);
+        border-bottom: 1px solid rgba(196, 30, 58, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .sacred-card-header h5 {
+        margin: 0;
+        color: var(--text-dark);
+        font-family: var(--font-primary);
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    /* Glassmorphic Table */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .sacred-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--text-dark);
+    }
+
+    .sacred-table th {
+        background: #fdf2f8;
+        /* Very light pink/red */
+        padding: 1rem 1.5rem;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+        color: var(--primary-red);
+        border-bottom: 2px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .sacred-table td {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        vertical-align: middle;
+        transition: background 0.2s;
+    }
+
+    .sacred-table tbody tr:hover td {
+        background: rgba(196, 30, 58, 0.02);
+    }
+
+    .sacred-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Badges */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+
+    .status-verified {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        box-shadow: 0 2px 5px rgba(16, 185, 129, 0.2);
+    }
+
+    .status-pending {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        box-shadow: 0 2px 5px rgba(245, 158, 11, 0.2);
+    }
+
+    .method-badge {
+        background: #f3f4f6;
+        color: #4b5563;
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid #e5e7eb;
+    }
+
+    /* Empty State */
+    .sacred-empty {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--text-muted);
+    }
+
+    .sacred-empty i {
+        font-size: 3.5rem;
+        color: #fecaca;
+        margin-bottom: 1rem;
+    }
+
+    .sacred-empty h3 {
+        font-family: var(--font-primary);
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <style>
-        /* Sacred Spiritual Table Theme - Matching Current UI */
-        .enterprise-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ffffff;
-            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
-            border: 3px solid #c41e3a !important;
-            position: relative;
-            margin: 20px 0;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        
-        .enterprise-table thead {
-            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 50%, #ea580c 100%);
-            position: relative;
-        }
-        
-        .enterprise-table thead::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #f59e0b, #ea580c, #c41e3a, #dc2626);
-            background-size: 300% 100%;
-            animation: sacredGlow 3s ease infinite;
-        }
-        
-        @keyframes sacredGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .enterprise-table thead th {
-            color: #fef7ed;
-            padding: 1.2rem 1.5rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            border: 2px solid rgba(254, 247, 237, 0.3) !important;
-            text-align: left;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .enterprise-table thead th:not(:last-child) {
-            border-right: 2px solid rgba(254, 247, 237, 0.4) !important;
-        }
-        
-        .enterprise-table tbody tr {
-            border-bottom: 2px solid #fecaca !important;
-            background: linear-gradient(135deg, #ffffff 0%, #fef7ed 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .enterprise-table tbody tr:hover {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.15);
-        }
-        
-        .enterprise-table tbody tr:nth-child(even) {
-            background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
-        }
-        
-        .enterprise-table tbody tr:nth-child(even):hover {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-        }
-        
-        .enterprise-table tbody td {
-            padding: 1.2rem 1.5rem !important;
-            border: 1px solid #fecaca !important;
-            vertical-align: middle !important;
-            color: #1a1a1a !important;
-            font-weight: 500 !important;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        
-        .enterprise-table tbody td:not(:last-child) {
-            border-right: 2px solid #fecaca !important;
-        }
-        
-        .table-responsive {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
-            border: 3px solid #c41e3a !important;
-            background: #ffffff;
-            margin: 2rem 0;
-        }
-        
-        /* Sacred Badge Styling */
-        .enterprise-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        
-        .enterprise-badge-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-        }
-        
-        .enterprise-badge-warning {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
-        }
-        
-        .enterprise-badge-info {
-            background: linear-gradient(135deg, #c41e3a, #dc2626);
-            color: #fef7ed;
-            box-shadow: 0 2px 4px rgba(196, 30, 58, 0.3);
-        }
-        
-        /* Tab Styling to Match Theme */
-        .enterprise-tabs {
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
-            border: 1px solid #fecaca;
-            overflow: hidden;
-        }
-        
-        .enterprise-tabs-header {
-            padding: 2rem 2rem 1rem;
-            border-bottom: 1px solid #fecaca;
-            background: linear-gradient(135deg, #c41e3a 0%, #dc2626 100%);
-            color: #fef7ed;
-        }
-        
-        .enterprise-tabs-header h3 {
-            color: #fef7ed;
-            font-weight: 700;
-            font-size: 1.5rem;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .enterprise-tabs-nav {
-            display: flex;
-            background: #fef7ed;
-            border-bottom: 1px solid #fecaca;
-            overflow-x: auto;
-        }
-        
-        .enterprise-tab-item {
-            background: none;
-            border: none;
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            white-space: nowrap;
-            color: #5a5a5a;
-            font-weight: 500;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        
-        .enterprise-tab-item:hover {
-            background: #fef2f2;
-            color: #c41e3a;
-        }
-        
-        .enterprise-tab-item.active {
-            background: #ffffff;
-            color: #c41e3a;
-            border-bottom-color: #c41e3a;
-            font-weight: 600;
-        }
-        
-        .enterprise-tab-item .badge {
-            background: #c41e3a;
-            color: #fef7ed;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-        
-        .enterprise-tab-content {
-            background: white;
-        }
-        
-        .enterprise-tab-pane {
-            display: none !important;
-            padding: 2rem;
-        }
+<!-- Page Header -->
+<div class="padati-header">
+    <div class="header-layout">
+        <div class="header-image">
+            <img src="{{ url_for('static', filename='images/donation_page.jpg') }}" alt="Bhiksha Offering">
+        </div>
+        <div class="header-content">
+            <div class="header-icon">🕉️</div>
+            <h1 class="header-title">Bhiksha</h1>
+            <p class="header-subtitle">The sacred offering that sustains wisdom</p>
+        </div>
+    </div>
+</div>
 
-        .enterprise-tab-pane.active {
-            display: block !important;
-        }
-        
-        .enterprise-card {
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.15);
-            border: 1px solid #fecaca;
-            overflow: hidden;
-        }
-        
-        .enterprise-card-header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid #fecaca;
-            background: linear-gradient(135deg, #fef7ed 0%, #ffffff 100%);
-        }
-        
-        .enterprise-card-header h5 {
-            color: #1a1a1a;
-            font-weight: 600;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .enterprise-card-body {
-            padding: 2rem;
-        }
-        
-        .enterprise-empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #5a5a5a;
-        }
-        
-        .enterprise-empty-state-icon {
-            font-size: 4rem;
-            color: #fecaca;
-            margin-bottom: 1rem;
-        }
-        
-        .enterprise-empty-state h3 {
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-            font-family: 'Playfair Display', serif;
-        }
-    </style>
+<!-- Main Content -->
+<div class="padati-main">
+    <div class="padati-container">
 
-    {% if all_worksheet_data and all_worksheet_data|length > 0 %}
-    <div class="enterprise-tabs">
-        <div class="enterprise-tabs-header">
-            <h3 class="mb-0">
-                <i class="fas fa-database me-2"></i>Bhiksha Records
-            </h3>
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-muted small">Last updated: Today</span>
-                <i class="fas fa-sync-alt text-muted"></i>
+        <!-- Devotional Content Section (Re-styled) -->
+        <div class="sacred-reminder">
+            <div class="reminder-header">
+                <h5 class="reminder-title">
+                    <i class="fas fa-hand-holding-heart me-2"></i>The Sacred Offering of Bhiksha
+                </h5>
+            </div>
+            <div class="reminder-grid">
+                <div class="reminder-item">
+                    <div class="reminder-icon-box">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="reminder-content">
+                        <h6>Sustaining the Digital Sanctum</h6>
+                        <p>Your offering supports the technical infrastructure and digital vessel that preserves and
+                            spreads this sacred wisdom to seekers worldwide.</p>
+                    </div>
+                </div>
+                <div class="reminder-item">
+                    <div class="reminder-icon-box">
+                        <i class="fas fa-dove"></i>
+                    </div>
+                    <div class="reminder-content">
+                        <h6>Extending Compassion</h6>
+                        <p>Opportunities to support noble causes such as Gau Seva (Goshala) and serving the visually
+                            impaired (Blind School) allow your grace to touch many lives.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="enterprise-tabs-nav">
-            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
-            <button class="enterprise-tab-item {% if loop.first %}active{% endif %}" 
-                    data-tab="{{ worksheet_name|replace(' ', '')|lower }}">
-                <i class="fas fa-folder"></i>
-                <span>{{ worksheet_name }}</span>
-                <span class="badge">{{ worksheet_data.summary.total_donations }}</span>
+
+        <!-- Centered Offering Button -->
+        <div class="qr-button-container">
+            <button class="qr-offer-btn" id="openQRModal">
+                <i class="fas fa-qrcode"></i> Offer Bhiksha via QR Code
             </button>
-            {% endfor %}
         </div>
-        
-        <div class="enterprise-tab-content">
-            {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
-            <div class="enterprise-tab-pane {% if loop.first %}active{% endif %}" 
-                 id="{{ worksheet_name|replace(' ', '')|lower }}">
-                
-                <div class="enterprise-card">
-                    <div class="enterprise-card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-table me-2"></i>{{ worksheet_name }} Bhiksha
-                            <small class="text-muted ms-2">({{ worksheet_data.donations|length }} records)</small>
-                        </h5>
-                    </div>
-                    <div class="enterprise-card-body">
+
+        {% if all_worksheet_data and all_worksheet_data|length > 0 %}
+        <!-- Tabs & Table Section -->
+        <div class="sacred-tabs">
+            <!-- Navigation -->
+            <div class="sacred-tabs-nav">
+                {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+                <button class="sacred-tab-item {% if loop.first %}active{% endif %}"
+                    data-tab="{{ worksheet_name|replace(' ', '')|lower }}">
+                    <i class="fas fa-folder-open"></i>
+                    <span>{{ worksheet_name }}</span>
+                    <span class="badge">{{ worksheet_data.summary.total_donations }}</span>
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Tab Content -->
+            <div class="sacred-tab-content">
+                {% for worksheet_name, worksheet_data in all_worksheet_data.items() %}
+                <div class="enterprise-tab-pane {% if loop.first %}active{% endif %}"
+                    id="{{ worksheet_name|replace(' ', '')|lower }}" style="display: none; height: 100%;">
+
+                    <div class="sacred-card">
+                        <div class="sacred-card-header">
+                            <h5>
+                                <i class="fas fa-table me-2" style="color: var(--primary-red);"></i>
+                                {{ worksheet_name }} Records
+                            </h5>
+                            <span class="text-muted small">
+                                <i class="fas fa-sync-alt me-1"></i> Updated Today
+                            </span>
+                        </div>
+
                         {% if worksheet_data.donations %}
                         <div class="table-responsive">
-                            <table class="enterprise-table">
+                            <table class="sacred-table">
                                 <thead>
                                     <tr>
-                                        <th><i class="fas fa-calendar me-2"></i>Date</th>
-                                        <th><i class="fas fa-user me-2"></i>Bhikshuk Information</th>
-                                        <th><i class="fas fa-rupee-sign me-2"></i>Amount</th>
-                                        <th><i class="fas fa-credit-card me-2"></i>Payment Method</th>
-                                        <th><i class="fas fa-check-circle me-2"></i>Status</th>
+                                        <th>Date</th>
+                                        <th>Bhikshuk</th>
+                                        <th>Amount</th>
+                                        <th>Method</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for donation in worksheet_data.donations %}
                                     <tr>
                                         <td>
-                                            <div class="d-flex flex-column">
+                                            <div class="fw-semibold">
                                                 {% if donation.donation_date %}
-                                                    {% if donation.donation_date is string %}
-                                                        <span class="fw-semibold">{{ donation.donation_date }}</span>
-                                                    {% else %}
-                                                        <span class="fw-semibold">{{ donation.donation_date.strftime('%B %d, %Y') }}</span>
-                                                    {% endif %}
+                                                {{ donation.donation_date if donation.donation_date is string else
+                                                donation.donation_date.strftime('%B %d, %Y') }}
                                                 {% else %}
-                                                    <span class="text-muted">N/A</span>
+                                                <span class="text-muted">–</span>
                                                 {% endif %}
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column">
-                                                <span class="fw-semibold text-dark">{{ donation.donor_name }}</span>
+                                                <span class="fw-bold text-dark">{{ donation.donor_name }}</span>
                                                 {% if donation.donor_email %}
                                                 <small class="text-muted">{{ donation.donor_email }}</small>
                                                 {% endif %}
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="d-flex flex-column">
-                                                <span class="fw-bold text-success fs-5">{{ donation.currency }} {{ "%.2f"|format(donation.amount) }}</span>
-                                            </div>
+                                            <span class="fw-bold text-success fs-5">
+                                                {{ donation.currency }} {{ "%.2f"|format(donation.amount) }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <span class="enterprise-badge enterprise-badge-info">
-                                                <i class="fas fa-credit-card me-1"></i>{{ donation.payment_method }}
+                                            <span class="method-badge">
+                                                {{ donation.payment_method }}
                                             </span>
                                         </td>
                                         <td>
                                             {% if donation.is_verified or donation.status == 'Verified' %}
-                                            <span class="enterprise-badge enterprise-badge-success">
-                                                <i class="fas fa-check-circle me-1"></i>Verified
+                                            <span class="status-badge status-verified">
+                                                <i class="fas fa-check-circle"></i> Verified
                                             </span>
                                             {% else %}
-                                            <span class="enterprise-badge enterprise-badge-warning">
-                                                <i class="fas fa-clock me-1"></i>Pending
+                                            <span class="status-badge status-pending">
+                                                <i class="fas fa-clock"></i> Pending
                                             </span>
                                             {% endif %}
                                         </td>
@@ -356,82 +692,125 @@
                             </table>
                         </div>
                         {% else %}
-                        <div class="enterprise-empty-state">
-                            <div class="enterprise-empty-state-icon">
-                                <i class="fas fa-donate"></i>
-                            </div>
+                        <div class="sacred-empty">
+                            <i class="fas fa-donate"></i>
                             <h3>No Bhiksha Found</h3>
                             <p>No bhiksha has been recorded for this category yet.</p>
                         </div>
                         {% endif %}
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Universal Empty State -->
+        <div class="sacred-card mt-5">
+            <div class="sacred-empty">
+                <i class="fas fa-donate"></i>
+                <h3>No Donations Found</h3>
+                <p>There are no verified donations in the database yet.</p>
+                <p class="small text-muted mt-2">Donations will appear here once they are added and verified by an
+                    administrator.</p>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Payment QR Modal -->
+<div id="paymentQRModal" class="sacred-modal">
+    <div class="sacred-modal-content">
+        <div class="modal-close" id="closeQRModal">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="modal-hero">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚩</div>
+            <h3>Bhiksha Offering</h3>
+            <p style="margin: 0; opacity: 0.9; font-style: italic;">Your contribution sustains the sacred path</p>
+        </div>
+        <div class="modal-qr-container">
+            <img src="{{ url_for('static', filename='images/payment_qr.png') }}" alt="Payment QR Code" class="qr-image">
+            <div style="margin-top: 1.5rem;">
+                <p style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Scan with any UPI App</p>
+                <div style="display: flex; gap: 0.5rem; justify-content: center; opacity: 0.7;">
+                    <i class="fab fa-google-pay fa-2x"></i>
+                    <i class="fab fa-phonepe fa-2x"></i>
+                    <i class="fab fa-paytm fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        <div class="modal-info">
+            <p>Jai Bhairava!!!</p>
         </div>
     </div>
-    {% else %}
-    <!-- Empty State -->
-    <div class="enterprise-empty-state" style="text-align: center; padding: 4rem 2rem; color: #5a5a5a;">
-        <div class="enterprise-empty-state-icon" style="font-size: 4rem; color: #fecaca; margin-bottom: 1rem;">
-            <i class="fas fa-donate"></i>
-        </div>
-        <h3 style="color: #1a1a1a; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">No Donations Found</h3>
-        <p style="color: #6c757d; font-size: 1.1rem;">There are no verified donations in the database yet.</p>
-        <p style="color: #6c757d; font-size: 0.9rem; margin-top: 0.5rem;">Donations will appear here once they are added and verified by an administrator.</p>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-function showTab(tabElement) {
-    // Get the tab ID from data attribute
-    const tabId = tabElement.getAttribute('data-tab');
-    
-    // Remove active class from all tabs and panes
-    document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    document.querySelectorAll('.enterprise-tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.sacred-tab-item');
+        const panes = document.querySelectorAll('.enterprise-tab-pane'); // Keeping class name for logic compatibility if needed or ease
 
-    // Add active class to clicked tab
-    tabElement.classList.add('active');
-    
-    // Show corresponding pane
-    const pane = document.getElementById(tabId);
-    if (pane) {
-        pane.classList.add('active');
-    }
-}
+        function switchTab(clickedTab) {
+            const targetId = clickedTab.getAttribute('data-tab');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Add click event listeners to all tab buttons
-    document.querySelectorAll('.enterprise-tab-item').forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            showTab(this);
+            // Deactivate all
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => {
+                p.style.display = 'none';
+                p.classList.remove('active');
+            });
+
+            // Activate clicked
+            clickedTab.classList.add('active');
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) {
+                targetPane.style.display = 'block';
+                // Small timeout to allow display:block to render before opacity transition if we added one
+                setTimeout(() => targetPane.classList.add('active'), 10);
+            }
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab(tab);
+            });
+        });
+
+        if (tabs.length > 0) {
+            switchTab(tabs[0]);
+        }
+
+        // QR Modal Logic
+        const qrModal = document.getElementById('paymentQRModal');
+        const openBtn = document.getElementById('openQRModal');
+        const closeBtn = document.getElementById('closeQRModal');
+
+        if (openBtn && qrModal) {
+            openBtn.addEventListener('click', () => {
+                qrModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scroll
+            });
+        }
+
+        if (closeBtn && qrModal) {
+            closeBtn.addEventListener('click', () => {
+                qrModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scroll
+            });
+        }
+
+        // Close on clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === qrModal) {
+                qrModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
         });
     });
-    
-    console.log('Tab functionality initialized');
-    console.log('Available tabs:', document.querySelectorAll('.enterprise-tab-item').length);
-    console.log('Available panes:', document.querySelectorAll('.enterprise-tab-pane').length);
-    
-    // Debug: Log tab data
-    document.querySelectorAll('.enterprise-tab-item').forEach((tab, index) => {
-        const tabId = tab.getAttribute('data-tab');
-        const pane = document.getElementById(tabId);
-        console.log(`Tab ${index + 1}:`, {
-            tabId: tabId,
-            tabText: tab.textContent.trim(),
-            paneExists: !!pane,
-            paneVisible: pane ? pane.classList.contains('active') : false
-        });
-    });
-});
 </script>
 {% endblock %}
