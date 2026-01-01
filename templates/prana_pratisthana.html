@@ -1,0 +1,534 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+<style>
+    /* ===== PRANA PRATISTHANA - TABBED INTERFACE SYSTEM ===== */
+
+    /* Breadcrumb Strip Refinement */
+    .breadcrumbs {
+        background: #fdf2f2 !important;
+        padding: 0.5rem 0 !important;
+        border-bottom: 1px solid rgba(196, 30, 58, 0.05) !important;
+        font-size: 0.85rem !important;
+        font-family: var(--font-secondary) !important;
+    }
+
+    .breadcrumb-list {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .breadcrumb-list a,
+    .breadcrumb-list li {
+        color: #a51832 !important;
+    }
+
+    /* Hero Overrides */
+    .prana-hero {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #7c1526 100%);
+        padding: 3rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-flex-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 5;
+    }
+
+    .hero-text-content {
+        text-align: left;
+    }
+
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="rgba(255,215,0,0.03)"/></svg>');
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .hero-image {
+        width: 160px;
+        /* Sized for side-by-side */
+        height: 160px;
+        border-radius: 50%;
+        border: 3px solid var(--accent-gold);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+        position: relative;
+        z-index: 2;
+        transition: transform 0.5s ease;
+    }
+
+    .hero-image:hover {
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    /* Tabs Navigation */
+    .tab-nav-container {
+        max-width: 800px;
+        margin: -1.5rem auto 3rem;
+        /* Adjusted from -2.5rem */
+        position: relative;
+        z-index: 10;
+    }
+
+    .tab-nav {
+        display: flex;
+        justify-content: space-around;
+        background: #fff;
+        padding: 0.75rem;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .tab-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        border: none;
+        background: transparent;
+        font-family: var(--font-primary);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .tab-btn.active {
+        background: var(--primary-red);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);
+    }
+
+    .tab-btn i {
+        font-size: 1.1rem;
+    }
+
+    /* Tab Content */
+    .tab-content-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+        min-height: 400px;
+    }
+
+    .tab-pane {
+        display: none;
+        animation: fadeInSlide 0.6s ease forwards;
+    }
+
+    .tab-pane.active {
+        display: block;
+    }
+
+    @keyframes fadeInSlide {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Section Styling */
+    .ritual-day-header {
+        background: linear-gradient(90deg, var(--primary-red) 0%, #7c1526 100%);
+        color: #fff;
+        padding: 1.25rem 2rem;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0;
+    }
+
+    .day-tag {
+        background: var(--accent-gold);
+        color: var(--primary-red);
+        font-weight: 900;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .ritual-card {
+        background: #fff;
+        border-radius: 0 0 12px 12px;
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border-color);
+        border-top: none;
+    }
+
+    .step-box {
+        margin-bottom: 2.5rem;
+        padding-left: 2rem;
+        border-left: 2px solid #eee;
+        position: relative;
+    }
+
+    .step-box::before {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background: var(--accent-gold);
+        border-radius: 50%;
+    }
+
+    .step-title {
+        font-family: var(--font-primary);
+        color: var(--primary-red);
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .mantra-display {
+        background: #fffcf5;
+        border: 1px solid #f9e8cc;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    .mantra-text {
+        font-family: var(--font-sacred);
+        font-size: 1.15rem;
+        color: #854d0e;
+        line-height: 1.8;
+    }
+
+    .viz-box {
+        background: #fdf2f2;
+        padding: 1.25rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary-red);
+        font-style: italic;
+        font-size: 0.95rem;
+        margin-top: 1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero-flex-container {
+            flex-direction: column-reverse;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .hero-text-content {
+            text-align: center;
+        }
+
+        .tab-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .ritual-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="prana-hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-flex-container">
+        <div class="hero-image-wrapper">
+            <img src="{{ url_for('static', filename='images/bhairava_linga_mystical.png') }}" alt="Bhairava Linga"
+                class="hero-image">
+        </div>
+        <div class="hero-text-content">
+            <h1 class="hero-title"
+                style="color: #fff; font-size: 3.5rem; margin-bottom: 0.5rem; font-family: var(--font-mystical); letter-spacing: 4px;">
+                PRĀṆA PRATIṢṬHĀNA</h1>
+            <p class="hero-subtitle"
+                style="color: var(--accent-gold); font-size: 1.4rem; font-family: var(--font-sacred); margin-bottom: 0;">
+                ॥ दैव अनुग्रह - भैरव प्रतिष्ठा ॥</p>
+        </div>
+    </div>
+</section>
+
+<!-- Tabs Navigation -->
+<div class="tab-nav-container">
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'intro')">
+            <i class="fas fa-om"></i> Intro
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'day1-2')">
+            <i class="fas fa-fire"></i> Day 1-2
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'day3-5')">
+            <i class="fas fa-sun"></i> Day 3-5
+        </button>
+    </div>
+</div>
+
+<!-- Tab Content -->
+<div class="tab-content-wrapper">
+
+    <!-- TAB 1: INTRO -->
+    <div id="intro" class="tab-pane active">
+        <div class="content-card intro-card" style="text-align: center; padding: 3rem 2rem;">
+            <h2
+                style="font-family: var(--font-mystical); color: var(--accent-gold); font-size: 2rem; margin-bottom: 1.5rem;">
+                The Living Consciousness</h2>
+            <p
+                style="font-size: 1.2rem; line-height: 2; max-width: 800px; margin: 0 auto; text-align: justify; opacity: 0.95;">
+                Prāṇa Pratiṣṭhāna is the sacred alchemical process of breathing life into a form.
+                Through this ancient ritual, a Śiva Liṅga is transformed from a physical stone into a
+                <strong>Cit-Śakti</strong> (Conscious Field) — a living portal to the heart of Bhairava.
+                It is the bridge between the unmanifested Brahman and the living presence in your home.
+            </p>
+        </div>
+
+        <div class="section-header" style="margin-top: 4rem;">
+            <h2 class="section-title">The Consecration Mahāmantra</h2>
+        </div>
+        <div class="mantra-box" style="margin-bottom: 4rem;">
+            <div class="mantra-sanskrit" style="font-size: 1.3rem;">
+                asya śrī-kālabhairava-liṅga-prāṇa-pratiṣṭhāna-mahāmantrasya<br>
+                śrī-kālabhairava ṛṣiḥ | anuṣṭup chandaḥ | śrī-kālabhairavaḥ devatā |<br>
+                hrīṁ bījaṁ | klīṁ śaktiḥ | saṁ kīlakaṁ | liṅga-prāṇa-pratiṣṭhāne viniyogaḥ ‖
+            </div>
+        </div>
+
+        <div class="ritual-card" style="border-top: 5px solid var(--primary-red); border-radius: 12px;">
+            <h3 style="color: var(--primary-red); font-family: var(--font-primary); margin-bottom: 1rem;">🔱 Punaḥ Prāṇa
+                Sthāpana (Renewal)</h3>
+            <p style="line-height: 1.8;">
+                For existing Liṅgas that feel stagnant, this renewal process resets the energetic core.
+                It is ideally performed during <strong>Pradoṣa, Amāvāsyā, or Kālāṣṭamī</strong>.
+                The process begins with a 24-hour water immersion (<em>Jalādhivāsa</em>) to clear prior impressions.
+            </p>
+        </div>
+    </div>
+
+    <!-- TAB 2: DAY 1-2 -->
+    <div id="day1-2" class="tab-pane">
+        <!-- DAY 0 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 0</span>
+            <h3>Preparation & Sacred Resolve</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">Materials Needed</h4>
+                <ul style="columns: 2; list-style: disc; padding-left: 1.5rem;">
+                    <li>Śiva Liṅga (Bhairava Swarūpam)</li>
+                    <li>Copper Pañcapātra & Udharani</li>
+                    <li>Rudrākṣa Mālā</li>
+                    <li>Bilva leaves, Sandal, Honey</li>
+                    <li>Pañcāmrita, Ganga-jala</li>
+                    <li>Dhūpa, Dīpa, Camphor</li>
+                </ul>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">Sankalpa (Sacred Resolve)</h4>
+                <p>Hold water in your right palm and recite:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text">"Mama upātta samasta duritaksaya dvārā Śrī Parameśvara prītyartham Pañca
+                        ahorātra paryantam Śrī Śiva Liṅga Prāṇa Pratiṣṭhānam karisye."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAY 1 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 1</span>
+            <h3>Bhūta Śuddhi & Āvāhana</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">Purification of Elements</h4>
+                <p>Visualize your body and the Liṅga filled with light. Chant the five elemental bījas:</p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(5, 1fr); text-align: center; gap: 0.5rem; margin: 1rem 0;">
+                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
+                        <b>Ham</b><br><small>Space</small>
+                    </div>
+                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
+                        <b>Yam</b><br><small>Air</small>
+                    </div>
+                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
+                        <b>Ram</b><br><small>Fire</small>
+                    </div>
+                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
+                        <b>Vam</b><br><small>Water</small>
+                    </div>
+                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
+                        <b>Lam</b><br><small>Earth</small>
+                    </div>
+                </div>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">Āvāhana (The Call)</h4>
+                <div class="mantra-display">
+                    <p class="mantra-text">Om Aim Hrim Śrim Śivāya Namah | Āvāhaya āvāhaya Mahādeva Mahālinge Nivasāya
+                        Namah ‖</p>
+                </div>
+                <div class="viz-box">Visualize a radiant pillar of light emerging from the Liṅga, endless above and
+                    below.</div>
+            </div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 2</span>
+            <h3>Mantra Nyāsa & Bīja Śakti</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">Pañcabrahma Nyāsa</h4>
+                <p>Touch the Liṅga in five directions while chanting:</p>
+                <ul style="font-size: 0.95rem;">
+                    <li><b>West:</b> Om Sadyojātāya Namah</li>
+                    <li><b>North:</b> Om Vāmadevāya Namah</li>
+                    <li><b>South:</b> Om Aghorāya Namah</li>
+                    <li><b>East:</b> Om Tatpuruṣāya Namah</li>
+                    <li><b>Upward:</b> Om Īśānāya Namah</li>
+                </ul>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">Bīja Śakti Sthāpana</h4>
+                <p>Mentally inscribe the sacred bījas into the Linga:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text" style="letter-spacing: 5px;">HAM | SAM | ŚAM | VAM | YAM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: DAY 3-5 -->
+    <div id="day3-5" class="tab-pane">
+        <!-- DAY 3 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 3</span>
+            <h3>Prāṇa Pratiṣṭhā & Jīva Āvāhana</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">Nādī Prāṇāyāma</h4>
+                <p>Awaken your inner prāṇa through 11 rounds of rhythmic breathing (Inhale with 'So', Exhale with
+                    'Ham').</p>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">The Breath of Life</h4>
+                <p>Place your right hand over the Liṅga (Mudrā of Blessing) and chant slowly:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text-large"
+                        style="color: var(--primary-red); font-size: 1.4rem; font-family: var(--font-sacred);">
+                        Om Hrīm Śrīm Klīm Aim Om Śivāya Prānah Pratisthāpayāmi Svāhā ‖
+                    </p>
+                </div>
+                <div class="viz-box">Visualize liquid gold light flowing from your heart, through your palm, and
+                    anchoring into the core of the Liṅga.</div>
+            </div>
+        </div>
+
+        <!-- DAY 4 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 4</span>
+            <h3>Abhiṣeka & Sodaśopacāra Pūjā</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">The Five Nectars (Pañcāmrita)</h4>
+                <p>Pour each while chanting its respective mantra:</p>
+                <ul style="font-size: 0.95rem; line-height: 2;">
+                    <li>🥛 <b>Milk:</b> Om Soma Sūryāgnilocana Śivāya Namah</li>
+                    <li>🥣 <b>Curd:</b> Om Gaurīvallabha Śivāya Namah</li>
+                    <li>🍯 <b>Honey:</b> Om Rudrāya Namah</li>
+                    <li>🧈 <b>Ghee:</b> Om Trilocanāya Namah</li>
+                    <li>🍬 <b>Sugar:</b> Om Nīlakanthāya Namah</li>
+                </ul>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">Alankāra & Japa</h4>
+                <p>Adorn with sandal, flowers, and bilva. Perform 108 japa of <em>Om Namah Śivāya</em>.</p>
+            </div>
+        </div>
+
+        <!-- DAY 5 -->
+        <div class="ritual-day-header">
+            <span class="day-tag">DAY 5</span>
+            <h3>Completion & Energy Sealing</h3>
+        </div>
+        <div class="ritual-card">
+            <div class="step-box">
+                <h4 class="step-title">Stambhana Mudrā (Seal of Stillness)</h4>
+                <p>Place both palms together before the Liṅga and say:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text">Om Anantāya Namah | Om Ānandāya Namah | Om Śivāya Namah ‖</p>
+                </div>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">Final Prārthanā</h4>
+                <div class="mantra-display">
+                    <p class="mantra-text" style="font-style: italic;">“Yatra Lingam Tatra Śivah, Yatra Śivah Tatra
+                        Śubham.”</p>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">Where there is the Liṅga,
+                    there is Śiva. Where there is Śiva, there is Auspiciousness.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Tab Script -->
+<script>
+    function openTab(evt, tabName) {
+        var i, tabContent, tabButtons;
+
+        // Hide all tab panes
+        tabContent = document.getElementsByClassName("tab-pane");
+        for (i = 0; i < tabContent.length; i++) {
+            tabContent[i].classList.remove("active");
+        }
+
+        // Remove active class from all buttons
+        tabButtons = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabButtons.length; i++) {
+            tabButtons[i].classList.remove("active");
+        }
+
+        // Show current tab and add active class to button
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+
+        // Scroll to top of tab container for better mobile UX
+        window.scrollTo({
+            top: document.querySelector('.tab-nav-container').offsetTop - 100,
+            behavior: 'smooth'
+        });
+    }
+</script>
+{% endblock %}

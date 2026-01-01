@@ -364,6 +364,10 @@ def devi_stage_page(stage_num):
 def guru_bhairava():
     return render_template('guru_bhairava.html', page_title='Guru Bhairava - Daiva Anughara')
 
+@app.route('/prana-pratisthana')
+def prana_pratisthana():
+    return render_template('prana_pratisthana.html', page_title='Prāṇa Pratiṣṭhāna - Daiva Anughara')
+
 @app.route('/about')
 def about():
     return render_template('about.html', page_title='About - Daiva Anughara')
