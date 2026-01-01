@@ -2,1809 +2,1857 @@
 
 {% block extra_styles %}
 <style>
-/* ===== USER DETAIL PAGE REDESIGN ===== */
-.user-detail-dashboard {
-    min-height: 100vh;
-    padding: var(--spacing-lg) 0;
-}
-
-.user-detail-dashboard .container {
-    max-width: 1400px;
-}
-
-/* Back Button & Header */
-.detail-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-}
-
-.back-btn {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: 12px 20px;
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    color: var(--text-dark);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.back-btn:hover {
-    border-color: var(--primary-red);
-    color: var(--primary-red);
-    transform: translateX(-4px);
-}
-
-.detail-title {
-    flex: 1;
-}
-
-.detail-title h1 {
-    font-size: 1.8rem;
-    margin: 0;
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.detail-title p {
-    margin: 4px 0 0;
-    color: var(--text-muted);
-}
-
-/* Main Grid Layout */
-.detail-grid {
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: var(--spacing-xl);
-}
-
-/* Profile Card */
-.profile-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px var(--shadow-color);
-    overflow: hidden;
-    border: 1px solid rgba(196, 30, 58, 0.1);
-    position: sticky;
-    top: 100px;
-}
-
-.profile-header {
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    padding: var(--spacing-xl);
-    text-align: center;
-    position: relative;
-}
-
-.profile-header::after {
-    content: '';
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 60px;
-    background: var(--card-bg);
-    border-radius: 50%;
-}
-
-.profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 5px solid white;
-    overflow: hidden;
-    margin: 0 auto var(--spacing-md);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1;
-}
-
-.profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-name {
-    color: white;
-    font-size: 1.5rem;
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.profile-username {
-    color: rgba(255, 255, 255, 0.85);
-    margin: 4px 0 0;
-    font-size: 1rem;
-}
-
-.profile-spiritual {
-    color: rgba(255, 255, 255, 0.9);
-    font-style: italic;
-    margin: 4px 0 0;
-    font-size: 0.95rem;
-}
-
-.profile-badges {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
-    position: relative;
-    z-index: 1;
-}
-
-.profile-badge {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.profile-badge.admin {
-    background: rgba(255, 255, 255, 0.95);
-    color: #1d4ed8;
-}
-
-.profile-badge.approved {
-    background: rgba(255, 255, 255, 0.95);
-    color: #16a34a;
-}
-
-.profile-badge.pending {
-    background: rgba(255, 255, 255, 0.95);
-    color: #d97706;
-}
-
-.profile-badge.suspended {
-    background: rgba(255, 255, 255, 0.95);
-    color: #dc2626;
-}
-
-.profile-badge.role {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
-}
-
-.profile-body {
-    padding: var(--spacing-xl);
-    padding-top: calc(var(--spacing-xl) + 20px);
-}
-
-.info-section {
-    margin-bottom: var(--spacing-lg);
-}
-
-.info-section:last-child {
-    margin-bottom: 0;
-}
-
-.info-section-title {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 2px solid var(--border-color);
-}
-
-.info-section-title i {
-    color: var(--primary-red);
-}
-
-.info-row {
-    display: flex;
-    align-items: flex-start;
-    padding: var(--spacing-sm) 0;
-}
-
-.info-row:not(:last-child) {
-    border-bottom: 1px solid var(--border-color);
-}
-
-.info-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--accent-cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: var(--spacing-sm);
-    color: var(--primary-red);
-    font-size: 0.85rem;
-    flex-shrink: 0;
-}
-
-.info-content {
-    flex: 1;
-}
-
-.info-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.info-value {
-    font-weight: 600;
-    color: var(--text-dark);
-    word-break: break-word;
-}
-
-.purpose-box {
-    background: var(--accent-cream);
-    border-radius: 12px;
-    padding: var(--spacing-md);
-    margin-top: var(--spacing-sm);
-}
-
-.purpose-box p {
-    margin: 0;
-    line-height: 1.7;
-    color: var(--text-dark);
-    font-size: 0.95rem;
-}
-
-/* Action Buttons */
-.action-section {
-    padding: var(--spacing-lg);
-    border-top: 1px solid var(--border-color);
-    background: var(--accent-cream);
-}
-
-.action-section-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: var(--spacing-md);
-}
-
-.action-buttons-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-}
-
-.action-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.action-button.approve {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-}
-
-.action-button.approve:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
-}
-
-.action-button.reject {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-}
-
-.action-button.reject:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
-}
-
-.action-button.suspend {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-}
-
-.action-button.suspend:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-}
-
-.action-button.reactivate {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    color: white;
-}
-
-.action-button.reactivate:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-}
-
-/* Right Column */
-.detail-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-}
-
-/* Spiritual Progress Card - Redesigned */
-.progress-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px var(--shadow-color);
-    overflow: hidden;
-    border: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.card-header-bar {
-    background: linear-gradient(135deg, var(--primary-red), #991b1b, var(--accent-orange));
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-}
-
-.card-header-bar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
-    background-size: 80px 80px;
-}
-
-.card-header-bar h3 {
-    color: white;
-    font-size: 1rem;
-    font-family: var(--font-mystical);
-    letter-spacing: 1px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-shadow: none;
-    position: relative;
-    z-index: 1;
-}
-
-.current-stage-badge {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-    position: relative;
-    z-index: 1;
-}
-
-.progress-content {
-    padding: 1rem;
-}
-
-/* Journey Flow - Horizontal Cards */
-.journey-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.journey-section {
-    margin-bottom: 0.75rem;
-}
-
-.journey-section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.journey-section-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    color: white;
-}
-
-.journey-section-icon.mandala {
-    background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-}
-
-.journey-section-icon.rudraksha {
-    background: linear-gradient(135deg, var(--accent-gold), #d97706);
-}
-
-.journey-section-label {
-    font-family: var(--font-mystical);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* Stage Cards Row */
-.journey-stages {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.journey-stage-card {
-    flex: 1;
-    min-width: 90px;
-    max-width: 120px;
-    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-    border-radius: 10px;
-    padding: 0.6rem;
-    border: 2px solid #e5e7eb;
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.journey-stage-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: #e5e7eb;
-    border-radius: 10px 10px 0 0;
-}
-
-.journey-stage-card.completed {
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    border-color: #22c55e;
-}
-
-.journey-stage-card.completed::before {
-    background: linear-gradient(90deg, #22c55e, #16a34a);
-}
-
-.journey-stage-card.current {
-    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-    border-color: var(--primary-red);
-    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.2);
-}
-
-.journey-stage-card.current::before {
-    background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
-}
-
-.journey-stage-card.locked {
-    opacity: 0.7;
-}
-
-.journey-stage-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin: 0 auto 0.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    position: relative;
-}
-
-.journey-stage-card.completed .journey-stage-icon {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
-}
-
-.journey-stage-card.current .journey-stage-icon {
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3);
-    animation: stagePulse 2s infinite;
-}
-
-.journey-stage-card.locked .journey-stage-icon {
-    background: linear-gradient(135deg, #d1d5db, #9ca3af);
-}
-
-@keyframes stagePulse {
-    0%, 100% { box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3); }
-    50% { box-shadow: 0 3px 18px rgba(196, 30, 58, 0.5); }
-}
-
-.journey-stage-check {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 14px;
-    height: 14px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.5rem;
-    color: #22c55e;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-}
-
-.journey-stage-name {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-}
-
-.journey-stage-status {
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    font-weight: 500;
-}
-
-.journey-stage-card.completed .journey-stage-status {
-    background: rgba(34, 197, 94, 0.15);
-    color: #16a34a;
-}
-
-.journey-stage-card.current .journey-stage-status {
-    background: rgba(196, 30, 58, 0.15);
-    color: var(--primary-red);
-}
-
-.journey-stage-card.locked .journey-stage-status {
-    background: rgba(107, 114, 128, 0.15);
-    color: #6b7280;
-}
-
-.journey-stage-date {
-    font-size: 0.55rem;
-    color: var(--text-muted);
-    margin-top: 0.2rem;
-}
-
-/* Arrow connectors between cards */
-.journey-arrow {
-    display: flex;
-    align-items: center;
-    color: #d1d5db;
-    font-size: 0.7rem;
-    padding: 0 0.15rem;
-}
-
-.journey-arrow.completed {
-    color: #22c55e;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .journey-stages {
-        flex-wrap: wrap;
+    /* ===== USER DETAIL PAGE REDESIGN ===== */
+    .user-detail-dashboard {
+        min-height: 100vh;
+        padding: var(--spacing-lg) 0;
     }
-    
-    .journey-stage-card {
-        min-width: 70px;
-        max-width: none;
-        flex: 1 1 calc(33.333% - 0.5rem);
+
+    .user-detail-dashboard .container {
+        max-width: 1400px;
     }
-    
-    .journey-arrow {
-        display: none;
-    }
-}
 
-/* Legacy Timeline styles (kept for compatibility) */
-.timeline-progress {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-}
-
-.timeline-step {
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-}
-
-.timeline-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60px;
-    flex-shrink: 0;
-}
-
-.node-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-}
-
-.node-icon.completed {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-}
-
-.node-icon.current {
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
-    animation: pulse 2s infinite;
-}
-
-.node-icon.locked {
-    background: #e5e7eb;
-    color: #9ca3af;
-}
-
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4); }
-    50% { box-shadow: 0 4px 25px rgba(196, 30, 58, 0.6); }
-}
-
-.node-check {
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    color: #22c55e;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.node-connector {
-    width: 3px;
-    height: 30px;
-    background: #e5e7eb;
-    margin: 4px 0;
-}
-
-.node-connector.completed {
-    background: linear-gradient(180deg, #22c55e, #16a34a);
-}
-
-.timeline-info {
-    flex: 1;
-    padding: var(--spacing-sm) 0;
-    padding-left: var(--spacing-md);
-    min-height: 78px;
-}
-
-.stage-name {
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--text-dark);
-    margin-bottom: 4px;
-}
-
-.stage-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-}
-
-.stage-tag {
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.stage-tag.completed {
-    background: #dcfce7;
-    color: #16a34a;
-}
-
-.stage-tag.current {
-    background: #fef3c7;
-    color: #d97706;
-}
-
-.stage-tag.locked {
-    background: #f3f4f6;
-    color: #6b7280;
-}
-
-.stage-tag.date {
-    background: var(--accent-cream);
-    color: var(--text-muted);
-}
-
-/* Stage Access Management Card - Redesigned */
-.access-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px var(--shadow-color);
-    overflow: hidden;
-    border: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.access-header {
-    background: linear-gradient(135deg, var(--accent-orange), #f59e0b);
-    padding: var(--spacing-lg) var(--spacing-xl);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.access-header h3 {
-    color: white;
-    font-size: 1.2rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    text-shadow: none;
-    font-family: var(--font-mystical);
-    letter-spacing: 1px;
-}
-
-.access-header-subtitle {
-    color: rgba(255,255,255,0.85);
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-.access-content {
-    padding: var(--spacing-xl);
-}
-
-/* Section Dividers */
-.access-section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.access-section-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-}
-
-.access-section-icon.mandala {
-    background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-    color: white;
-}
-
-.access-section-icon.rudraksha {
-    background: linear-gradient(135deg, var(--accent-gold), #d97706);
-    color: white;
-}
-
-.access-section-label {
-    font-family: var(--font-mystical);
-    font-size: 0.8rem;
-    color: var(--text-dark);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.access-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-}
-
-.access-grid.single-row {
-    grid-template-columns: 1fr;
-}
-
-/* Redesigned Access Cards - Clickable (Compact) */
-.access-card-item {
-    position: relative;
-    background: linear-gradient(135deg, #fef7ed 0%, #fff 100%);
-    border-radius: 12px;
-    padding: 0.85rem;
-    border: 2px solid #e5e7eb;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.5rem;
-    min-height: 100px;
-    overflow: hidden;
-}
-
-.access-card-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: #e5e7eb;
-    transition: all 0.3s ease;
-}
-
-.access-card-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-}
-
-.access-card-item.granted {
-    border-color: #22c55e;
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-}
-
-.access-card-item.granted::before {
-    background: linear-gradient(90deg, #22c55e, #16a34a);
-}
-
-.access-card-item.locked {
-    border-color: #d1d5db;
-    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-}
-
-.access-card-item.locked:hover {
-    border-color: #22c55e;
-}
-
-.access-card-item.auto-granted {
-    border-color: rgba(34, 197, 94, 0.5);
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-    cursor: default;
-}
-
-.access-card-item.auto-granted::before {
-    background: linear-gradient(90deg, #22c55e, #16a34a);
-}
-
-/* Card Icon */
-.access-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.access-card-item.granted .access-card-icon,
-.access-card-item.auto-granted .access-card-icon {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
-}
-
-.access-card-item.locked .access-card-icon {
-    background: linear-gradient(135deg, #d1d5db, #9ca3af);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.access-card-item:hover .access-card-icon {
-    transform: scale(1.1);
-}
-
-/* Status Badge */
-.access-status-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.55rem;
-    color: white;
-    border: 2px solid white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.access-card-item.granted .access-status-badge,
-.access-card-item.auto-granted .access-status-badge {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.access-card-item.locked .access-status-badge {
-    background: linear-gradient(135deg, #9ca3af, #6b7280);
-}
-
-/* Card Content */
-.access-card-name {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--text-dark);
-    line-height: 1.2;
-}
-
-.access-card-status {
-    font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-}
-
-.access-card-item.granted .access-card-status,
-.access-card-item.auto-granted .access-card-status {
-    background: rgba(34, 197, 94, 0.15);
-    color: #16a34a;
-}
-
-.access-card-item.locked .access-card-status {
-    background: rgba(107, 114, 128, 0.15);
-    color: #6b7280;
-}
-
-/* Hidden checkbox */
-.access-card-item input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Click ripple effect */
-.access-card-item.click-effect {
-    animation: cardClick 0.3s ease;
-}
-
-@keyframes cardClick {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.97); }
-    100% { transform: scale(1); }
-}
-
-/* Submit Button */
-.access-submit {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid rgba(196, 30, 58, 0.1);
-    display: flex;
-    justify-content: center;
-}
-
-.access-submit button {
-    background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-    color: white;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
-    font-family: var(--font-mystical);
-    letter-spacing: 1px;
-}
-
-.access-submit button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
-}
-
-.access-submit button:active {
-    transform: translateY(-1px);
-}
-
-/* Quick Actions Legend */
-.access-legend {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-    padding: 0.6rem 1rem;
-    background: rgba(254, 247, 237, 0.5);
-    border-radius: 8px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-.legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.legend-dot.granted {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.legend-dot.locked {
-    background: linear-gradient(135deg, #d1d5db, #9ca3af);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-    .access-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 576px) {
-    .access-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .access-legend {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-}
-
-/* Legacy styles for compatibility */
-.access-item {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-md);
-    background: var(--accent-cream);
-    border-radius: 14px;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.access-item.granted {
-    border-color: rgba(34, 197, 94, 0.3);
-    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-}
-
-.access-item.locked {
-    border-color: rgba(229, 231, 235, 0.5);
-}
-
-.access-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    margin-right: var(--spacing-md);
-    flex-shrink: 0;
-}
-
-.access-item.granted .access-icon {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.access-item.locked .access-icon {
-    background: #e5e7eb;
-}
-
-.access-info {
-    flex: 1;
-}
-
-.access-name {
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 2px;
-}
-
-.access-status-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.access-toggle {
-    flex-shrink: 0;
-}
-
-/* Modern Toggle Switch */
-.toggle-switch {
-    position: relative;
-    width: 56px;
-    height: 30px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #e5e7eb;
-    transition: 0.4s;
-    border-radius: 30px;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 24px;
-    width: 24px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.toggle-switch input:checked + .toggle-slider {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(26px);
-}
-
-.access-submit {
-    margin-top: var(--spacing-lg);
-}
-
-.access-submit button {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    transition: all 0.3s ease;
-}
-
-.access-submit button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
-}
-
-/* Stage Actions Card */
-.stage-actions-card {
-    background: var(--accent-cream);
-    border-radius: 14px;
-    padding: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
-}
-
-.stage-actions-title {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: var(--spacing-md);
-}
-
-.stage-actions-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-}
-
-.stage-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.stage-action-btn.complete {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-}
-
-.stage-action-btn.complete:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
-}
-
-.stage-action-btn.reset {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-}
-
-.stage-action-btn.reset:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-}
-
-/* Pending Requests Card */
-.requests-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px var(--shadow-color);
-    overflow: hidden;
-    border: 1px solid rgba(196, 30, 58, 0.1);
-}
-
-.requests-header {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    padding: var(--spacing-md) var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.requests-header h3 {
-    color: white;
-    font-size: 1.1rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    text-shadow: none;
-}
-
-.request-count {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.requests-content {
-    padding: var(--spacing-lg);
-}
-
-.request-item {
-    background: var(--accent-cream);
-    border-radius: 12px;
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    border: 2px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.request-item:last-child {
-    margin-bottom: 0;
-}
-
-.request-item:hover {
-    border-color: var(--primary-red);
-}
-
-.request-stage-name {
-    font-weight: 600;
-    color: var(--primary-red);
-    font-size: 1rem;
-    margin-bottom: 4px;
-}
-
-.request-date {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: var(--spacing-md);
-}
-
-.request-buttons {
-    display: flex;
-    gap: var(--spacing-sm);
-}
-
-.request-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-}
-
-.request-btn.approve {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-}
-
-.request-btn.approve:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
-}
-
-.request-btn.reject {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-}
-
-.request-btn.reject:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-}
-
-.no-requests {
-    text-align: center;
-    padding: var(--spacing-lg);
-}
-
-.no-requests-icon {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-sm);
-}
-
-.no-requests p {
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* Modals */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(4px);
-}
-
-.modal-overlay.active {
-    display: flex;
-}
-
-.modal-box {
-    background: white;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 450px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-    animation: modalSlide 0.3s ease;
-}
-
-/* Password Modal Specific */
-.password-modal-header {
-    background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
-    padding: var(--spacing-lg);
-    text-align: center;
-    border-radius: 20px 20px 0 0;
-}
-
-.password-modal-header h3 {
-    color: white;
-    margin: 0;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-shadow: none;
-}
-
-.password-modal-body {
-    padding: var(--spacing-xl);
-}
-
-.password-input-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.password-input-group label {
-    display: block;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-}
-
-.password-input-wrapper {
-    position: relative;
-}
-
-.password-input-wrapper input {
-    width: 100%;
-    padding: 14px 50px 14px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.password-input-wrapper input:focus {
-    outline: none;
-    border-color: var(--spiritual-purple);
-    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
-}
-
-.password-toggle-btn {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 5px;
-    font-size: 1.1rem;
-    transition: color 0.2s;
-}
-
-.password-toggle-btn:hover {
-    color: var(--spiritual-purple);
-}
-
-.password-requirements {
-    background: var(--accent-cream);
-    padding: var(--spacing-md);
-    border-radius: 10px;
-    margin-bottom: var(--spacing-lg);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.password-requirements i {
-    color: var(--accent-gold);
-    margin-right: 0.5rem;
-}
-
-.password-modal-footer {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: 0 var(--spacing-xl) var(--spacing-xl);
-}
-
-.password-modal-footer button {
-    flex: 1;
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.btn-cancel-password {
-    background: var(--accent-cream);
-    color: var(--text-dark);
-    border: 2px solid var(--border-color) !important;
-}
-
-.btn-cancel-password:hover {
-    background: #f1f1f1;
-}
-
-.btn-save-password {
-    background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
-    color: white;
-}
-
-.btn-save-password:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-}
-
-.btn-save-password:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Change Password Button Style */
-.action-button.password {
-    background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
-    color: white;
-}
-
-.action-button.password:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-}
-
-@keyframes modalSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-30px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-}
-
-.modal-header h3 i {
-    color: var(--accent-orange);
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: color 0.2s ease;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-close:hover {
-    color: var(--primary-red);
-    background: var(--accent-cream);
-}
-
-.modal-body {
-    padding: var(--spacing-lg);
-}
-
-.modal-body p {
-    margin: 0;
-    color: var(--text-dark);
-    line-height: 1.6;
-}
-
-.modal-footer {
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-sm);
-    background: var(--accent-cream);
-    border-radius: 0 0 20px 20px;
-}
-
-.modal-btn {
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-}
-
-.modal-btn.secondary {
-    background: white;
-    color: var(--text-dark);
-    border: 2px solid var(--border-color);
-}
-
-.modal-btn.secondary:hover {
-    border-color: var(--text-muted);
-}
-
-.modal-btn.danger {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-}
-
-.modal-btn.danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-}
-
-/* Toast Container */
-.toast-container {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    z-index: 1001;
-}
-
-.toast {
-    background: white;
-    border-radius: 14px;
-    padding: var(--spacing-md) var(--spacing-lg);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-sm);
-    animation: toastSlide 0.4s ease;
-    max-width: 400px;
-}
-
-@keyframes toastSlide {
-    from {
-        opacity: 0;
-        transform: translateX(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.toast.success {
-    border-left: 4px solid #22c55e;
-}
-
-.toast.error {
-    border-left: 4px solid #ef4444;
-}
-
-.toast-icon {
-    font-size: 1.3rem;
-}
-
-.toast.success .toast-icon {
-    color: #22c55e;
-}
-
-.toast.error .toast-icon {
-    color: #ef4444;
-}
-
-.toast-content {
-    flex: 1;
-    font-weight: 500;
-}
-
-.toast-close {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.toast-close:hover {
-    background: var(--accent-cream);
-}
-
-/* Responsive */
-@media (max-width: 1100px) {
-    .detail-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .profile-card {
-        position: static;
-    }
-}
-
-@media (max-width: 768px) {
+    /* Back Button & Header */
     .detail-header {
-        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .back-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: 12px 20px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-dark);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+        border-color: var(--primary-red);
+        color: var(--primary-red);
+        transform: translateX(-4px);
+    }
+
+    .detail-title {
+        flex: 1;
+    }
+
+    .detail-title h1 {
+        font-size: 1.8rem;
+        margin: 0;
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .detail-title p {
+        margin: 4px 0 0;
+        color: var(--text-muted);
+    }
+
+    /* Main Grid Layout */
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    /* Profile Card */
+    .profile-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px var(--shadow-color);
+        overflow: hidden;
+        border: 1px solid rgba(196, 30, 58, 0.1);
+        position: sticky;
+        top: 100px;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        padding: var(--spacing-xl);
+        text-align: center;
+        position: relative;
+    }
+
+    .profile-header::after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: var(--card-bg);
+        border-radius: 50%;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 5px solid white;
+        overflow: hidden;
+        margin: 0 auto var(--spacing-md);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 1;
+    }
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-name {
+        color: white;
+        font-size: 1.5rem;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-username {
+        color: rgba(255, 255, 255, 0.85);
+        margin: 4px 0 0;
+        font-size: 1rem;
+    }
+
+    .profile-spiritual {
+        color: rgba(255, 255, 255, 0.9);
+        font-style: italic;
+        margin: 4px 0 0;
+        font-size: 0.95rem;
+    }
+
+    .profile-badges {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        margin-top: var(--spacing-md);
+        position: relative;
+        z-index: 1;
+    }
+
+    .profile-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .profile-badge.admin {
+        background: rgba(255, 255, 255, 0.95);
+        color: #1d4ed8;
+    }
+
+    .profile-badge.approved {
+        background: rgba(255, 255, 255, 0.95);
+        color: #16a34a;
+    }
+
+    .profile-badge.pending {
+        background: rgba(255, 255, 255, 0.95);
+        color: #d97706;
+    }
+
+    .profile-badge.suspended {
+        background: rgba(255, 255, 255, 0.95);
+        color: #dc2626;
+    }
+
+    .profile-badge.role {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+    }
+
+    .profile-body {
+        padding: var(--spacing-xl);
+        padding-top: calc(var(--spacing-xl) + 20px);
+    }
+
+    .info-section {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .info-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .info-section-title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .info-section-title i {
+        color: var(--primary-red);
+    }
+
+    .info-row {
+        display: flex;
         align-items: flex-start;
+        padding: var(--spacing-sm) 0;
     }
-    
-    .timeline-step {
+
+    .info-row:not(:last-child) {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .info-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: var(--accent-cream);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-sm);
+        color: var(--primary-red);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: var(--text-dark);
+        word-break: break-word;
+    }
+
+    .purpose-box {
+        background: var(--accent-cream);
+        border-radius: 12px;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-sm);
+    }
+
+    .purpose-box p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    /* Action Buttons */
+    .action-section {
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--border-color);
+        background: var(--accent-cream);
+    }
+
+    .action-section-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .action-buttons-grid {
+        display: flex;
         flex-direction: column;
-    }
-    
-    .timeline-node {
-        flex-direction: row;
-        width: auto;
         gap: var(--spacing-sm);
     }
-    
-    .node-connector {
-        width: 30px;
-        height: 3px;
+
+    .action-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
-    
-    .timeline-info {
-        padding-left: 0;
-        padding-top: var(--spacing-sm);
+
+    .action-button.approve {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
     }
-    
-    .access-item {
+
+    .action-button.approve:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    }
+
+    .action-button.reject {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    .action-button.reject:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .action-button.suspend {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+    }
+
+    .action-button.suspend:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .action-button.reactivate {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+    }
+
+    .action-button.reactivate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Right Column */
+    .detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+
+    /* Spiritual Progress Card - Redesigned */
+    .progress-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px var(--shadow-color);
+        overflow: hidden;
+        border: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .card-header-bar {
+        background: linear-gradient(135deg, var(--primary-red), #991b1b, var(--accent-orange));
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-header-bar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
+        background-size: 80px 80px;
+    }
+
+    .card-header-bar h3 {
+        color: white;
+        font-size: 1rem;
+        font-family: var(--font-mystical);
+        letter-spacing: 1px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-shadow: none;
+        position: relative;
+        z-index: 1;
+    }
+
+    .current-stage-badge {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 1;
+    }
+
+    .progress-content {
+        padding: 1rem;
+    }
+
+    /* Journey Flow - Horizontal Cards */
+    .journey-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .journey-section {
+        margin-bottom: 0.75rem;
+    }
+
+    .journey-section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .journey-section-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: white;
+    }
+
+    .journey-section-icon.mandala {
+        background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+    }
+
+    .journey-section-icon.rudraksha {
+        background: linear-gradient(135deg, var(--accent-gold), #d97706);
+    }
+
+    .journey-section-label {
+        font-family: var(--font-mystical);
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* Stage Cards Row */
+    .journey-stages {
+        display: flex;
+        gap: 0.5rem;
         flex-wrap: wrap;
     }
-    
+
+    .journey-stage-card {
+        flex: 1;
+        min-width: 90px;
+        max-width: 120px;
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        border-radius: 10px;
+        padding: 0.6rem;
+        border: 2px solid #e5e7eb;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .journey-stage-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #e5e7eb;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .journey-stage-card.completed {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-color: #22c55e;
+    }
+
+    .journey-stage-card.completed::before {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+    }
+
+    .journey-stage-card.current {
+        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+        border-color: var(--primary-red);
+        box-shadow: 0 4px 12px rgba(196, 30, 58, 0.2);
+    }
+
+    .journey-stage-card.current::before {
+        background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
+    }
+
+    .journey-stage-card.locked {
+        opacity: 0.7;
+    }
+
+    .journey-stage-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin: 0 auto 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        position: relative;
+    }
+
+    .journey-stage-card.completed .journey-stage-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
+    }
+
+    .journey-stage-card.current .journey-stage-icon {
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3);
+        animation: stagePulse 2s infinite;
+    }
+
+    .journey-stage-card.locked .journey-stage-icon {
+        background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    }
+
+    @keyframes stagePulse {
+
+        0%,
+        100% {
+            box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3);
+        }
+
+        50% {
+            box-shadow: 0 3px 18px rgba(196, 30, 58, 0.5);
+        }
+    }
+
+    .journey-stage-check {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 14px;
+        height: 14px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.5rem;
+        color: #22c55e;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .journey-stage-name {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+
+    .journey-stage-status {
+        font-size: 0.6rem;
+        padding: 2px 6px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        font-weight: 500;
+    }
+
+    .journey-stage-card.completed .journey-stage-status {
+        background: rgba(34, 197, 94, 0.15);
+        color: #16a34a;
+    }
+
+    .journey-stage-card.current .journey-stage-status {
+        background: rgba(196, 30, 58, 0.15);
+        color: var(--primary-red);
+    }
+
+    .journey-stage-card.locked .journey-stage-status {
+        background: rgba(107, 114, 128, 0.15);
+        color: #6b7280;
+    }
+
+    .journey-stage-date {
+        font-size: 0.55rem;
+        color: var(--text-muted);
+        margin-top: 0.2rem;
+    }
+
+    /* Arrow connectors between cards */
+    .journey-arrow {
+        display: flex;
+        align-items: center;
+        color: #d1d5db;
+        font-size: 0.7rem;
+        padding: 0 0.15rem;
+    }
+
+    .journey-arrow.completed {
+        color: #22c55e;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .journey-stages {
+            flex-wrap: wrap;
+        }
+
+        .journey-stage-card {
+            min-width: 70px;
+            max-width: none;
+            flex: 1 1 calc(33.333% - 0.5rem);
+        }
+
+        .journey-arrow {
+            display: none;
+        }
+    }
+
+    /* Legacy Timeline styles (kept for compatibility) */
+    .timeline-progress {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        position: relative;
+    }
+
+    .timeline-step {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .timeline-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60px;
+        flex-shrink: 0;
+    }
+
+    .node-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+    }
+
+    .node-icon.completed {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    }
+
+    .node-icon.current {
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+        animation: pulse 2s infinite;
+    }
+
+    .node-icon.locked {
+        background: #e5e7eb;
+        color: #9ca3af;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+        }
+
+        50% {
+            box-shadow: 0 4px 25px rgba(196, 30, 58, 0.6);
+        }
+    }
+
+    .node-check {
+        position: absolute;
+        bottom: -4px;
+        right: -4px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        color: #22c55e;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .node-connector {
+        width: 3px;
+        height: 30px;
+        background: #e5e7eb;
+        margin: 4px 0;
+    }
+
+    .node-connector.completed {
+        background: linear-gradient(180deg, #22c55e, #16a34a);
+    }
+
+    .timeline-info {
+        flex: 1;
+        padding: var(--spacing-sm) 0;
+        padding-left: var(--spacing-md);
+        min-height: 78px;
+    }
+
+    .stage-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+    }
+
+    .stage-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .stage-tag {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .stage-tag.completed {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .stage-tag.current {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .stage-tag.locked {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .stage-tag.date {
+        background: var(--accent-cream);
+        color: var(--text-muted);
+    }
+
+    /* Stage Access Management Card - Redesigned */
+    .access-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px var(--shadow-color);
+        overflow: hidden;
+        border: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .access-header {
+        background: linear-gradient(135deg, var(--accent-orange), #f59e0b);
+        padding: var(--spacing-lg) var(--spacing-xl);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .access-header h3 {
+        color: white;
+        font-size: 1.2rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-shadow: none;
+        font-family: var(--font-mystical);
+        letter-spacing: 1px;
+    }
+
+    .access-header-subtitle {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        margin-top: 4px;
+    }
+
+    .access-content {
+        padding: var(--spacing-xl);
+    }
+
+    /* Section Dividers */
+    .access-section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .access-section-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+    }
+
+    .access-section-icon.mandala {
+        background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+        color: white;
+    }
+
+    .access-section-icon.rudraksha {
+        background: linear-gradient(135deg, var(--accent-gold), #d97706);
+        color: white;
+    }
+
+    .access-section-label {
+        font-family: var(--font-mystical);
+        font-size: 0.8rem;
+        color: var(--text-dark);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .access-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .access-grid.single-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Redesigned Access Cards - Clickable (Compact) */
+    .access-card-item {
+        position: relative;
+        background: linear-gradient(135deg, #fef7ed 0%, #fff 100%);
+        border-radius: 12px;
+        padding: 0.85rem;
+        border: 2px solid #e5e7eb;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+        min-height: 100px;
+        overflow: hidden;
+    }
+
+    .access-card-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #e5e7eb;
+        transition: all 0.3s ease;
+    }
+
+    .access-card-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .access-card-item.granted {
+        border-color: #22c55e;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+
+    .access-card-item.granted::before {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+    }
+
+    .access-card-item.locked {
+        border-color: #d1d5db;
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    }
+
+    .access-card-item.locked:hover {
+        border-color: #22c55e;
+    }
+
+    .access-card-item.auto-granted {
+        border-color: rgba(34, 197, 94, 0.5);
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        cursor: default;
+    }
+
+    .access-card-item.auto-granted::before {
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+    }
+
+    /* Card Icon */
+    .access-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .access-card-item.granted .access-card-icon,
+    .access-card-item.auto-granted .access-card-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
+    }
+
+    .access-card-item.locked .access-card-icon {
+        background: linear-gradient(135deg, #d1d5db, #9ca3af);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .access-card-item:hover .access-card-icon {
+        transform: scale(1.1);
+    }
+
+    /* Status Badge */
+    .access-status-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.55rem;
+        color: white;
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .access-card-item.granted .access-status-badge,
+    .access-card-item.auto-granted .access-status-badge {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .access-card-item.locked .access-status-badge {
+        background: linear-gradient(135deg, #9ca3af, #6b7280);
+    }
+
+    /* Card Content */
+    .access-card-name {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--text-dark);
+        line-height: 1.2;
+    }
+
+    .access-card-status {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .access-card-item.granted .access-card-status,
+    .access-card-item.auto-granted .access-card-status {
+        background: rgba(34, 197, 94, 0.15);
+        color: #16a34a;
+    }
+
+    .access-card-item.locked .access-card-status {
+        background: rgba(107, 114, 128, 0.15);
+        color: #6b7280;
+    }
+
+    /* Hidden checkbox */
+    .access-card-item input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Click ripple effect */
+    .access-card-item.click-effect {
+        animation: cardClick 0.3s ease;
+    }
+
+    @keyframes cardClick {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(0.97);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* Style for granted access cards */
+    .access-card-item.granted .access-card-icon,
+    .access-card-item.auto-granted .access-card-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+        box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
+    }
+
+    .access-card-item.granted.mandala-theme .access-card-icon,
+    .access-card-item.auto-granted.mandala-theme .access-card-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    }
+
+    .access-card-item.granted.rudraksha-theme .access-card-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    }
+
+    .access-card-item.granted.charana-theme .access-card-icon {
+        background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+    }
+
+    .access-card-item.granted.devi-theme .access-card-icon {
+        background: linear-gradient(135deg, #ec4899, #db2777) !important;
+    }
+
+    /* Submit Button */
+    .access-submit {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid rgba(196, 30, 58, 0.1);
+        display: flex;
+        justify-content: center;
+    }
+
+    .access-submit button {
+        background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+        color: white;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(196, 30, 58, 0.3);
+        font-family: var(--font-mystical);
+        letter-spacing: 1px;
+    }
+
+    .access-submit button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+    }
+
+    .access-submit button:active {
+        transform: translateY(-1px);
+    }
+
+    /* Quick Actions Legend */
+    .access-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        padding: 0.6rem 1rem;
+        background: rgba(254, 247, 237, 0.5);
+        border-radius: 8px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .legend-dot.granted {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .legend-dot.locked {
+        background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .access-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .access-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .access-legend {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+    }
+
+    /* Legacy styles for compatibility */
+    .access-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        background: var(--accent-cream);
+        border-radius: 14px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .access-item.granted {
+        border-color: rgba(34, 197, 94, 0.3);
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+
+    .access-item.locked {
+        border-color: rgba(229, 231, 235, 0.5);
+    }
+
+    .access-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-right: var(--spacing-md);
+        flex-shrink: 0;
+    }
+
+    .access-item.granted .access-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .access-item.locked .access-icon {
+        background: #e5e7eb;
+    }
+
+    .access-info {
+        flex: 1;
+    }
+
+    .access-name {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 2px;
+    }
+
+    .access-status-text {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
     .access-toggle {
+        flex-shrink: 0;
+    }
+
+    /* Modern Toggle Switch */
+    .toggle-switch {
+        position: relative;
+        width: 56px;
+        height: 30px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e5e7eb;
+        transition: 0.4s;
+        border-radius: 30px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .toggle-switch input:checked+.toggle-slider {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .toggle-switch input:checked+.toggle-slider:before {
+        transform: translateX(26px);
+    }
+
+    .access-submit {
+        margin-top: var(--spacing-lg);
+    }
+
+    .access-submit button {
         width: 100%;
-        margin-top: var(--spacing-sm);
+        padding: 14px;
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        transition: all 0.3s ease;
+    }
+
+    .access-submit button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
+    }
+
+    /* Stage Actions Card */
+    .stage-actions-card {
+        background: var(--accent-cream);
+        border-radius: 14px;
+        padding: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+    }
+
+    .stage-actions-title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stage-actions-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .stage-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .stage-action-btn.complete {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+    }
+
+    .stage-action-btn.complete:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    }
+
+    .stage-action-btn.reset {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+    }
+
+    .stage-action-btn.reset:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Pending Requests Card */
+    .requests-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px var(--shadow-color);
+        overflow: hidden;
+        border: 1px solid rgba(196, 30, 58, 0.1);
+    }
+
+    .requests-header {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        padding: var(--spacing-md) var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .requests-header h3 {
+        color: white;
+        font-size: 1.1rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-shadow: none;
+    }
+
+    .request-count {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .requests-content {
+        padding: var(--spacing-lg);
+    }
+
+    .request-item {
+        background: var(--accent-cream);
+        border-radius: 12px;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+        border: 2px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .request-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .request-item:hover {
+        border-color: var(--primary-red);
+    }
+
+    .request-stage-name {
+        font-weight: 600;
+        color: var(--primary-red);
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    .request-date {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .request-buttons {
+        display: flex;
+        gap: var(--spacing-sm);
+    }
+
+    .request-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .request-btn.approve {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+    }
+
+    .request-btn.approve:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    }
+
+    .request-btn.reject {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    .request-btn.reject:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .no-requests {
+        text-align: center;
+        padding: var(--spacing-lg);
+    }
+
+    .no-requests-icon {
+        font-size: 2.5rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .no-requests p {
+        color: var(--text-muted);
+        margin: 0;
+    }
+
+    /* Modals */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .modal-box {
+        background: white;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 450px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        animation: modalSlide 0.3s ease;
+    }
+
+    /* Password Modal Specific */
+    .password-modal-header {
+        background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
+        padding: var(--spacing-lg);
+        text-align: center;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .password-modal-header h3 {
+        color: white;
+        margin: 0;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-shadow: none;
+    }
+
+    .password-modal-body {
+        padding: var(--spacing-xl);
+    }
+
+    .password-input-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .password-input-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .password-input-wrapper {
+        position: relative;
+    }
+
+    .password-input-wrapper input {
+        width: 100%;
+        padding: 14px 50px 14px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .password-input-wrapper input:focus {
+        outline: none;
+        border-color: var(--spiritual-purple);
+        box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+    }
+
+    .password-toggle-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 5px;
+        font-size: 1.1rem;
+        transition: color 0.2s;
+    }
+
+    .password-toggle-btn:hover {
+        color: var(--spiritual-purple);
+    }
+
+    .password-requirements {
+        background: var(--accent-cream);
+        padding: var(--spacing-md);
+        border-radius: 10px;
+        margin-bottom: var(--spacing-lg);
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .password-requirements i {
+        color: var(--accent-gold);
+        margin-right: 0.5rem;
+    }
+
+    .password-modal-footer {
+        display: flex;
+        gap: var(--spacing-md);
+        padding: 0 var(--spacing-xl) var(--spacing-xl);
+    }
+
+    .password-modal-footer button {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-cancel-password {
+        background: var(--accent-cream);
+        color: var(--text-dark);
+        border: 2px solid var(--border-color) !important;
+    }
+
+    .btn-cancel-password:hover {
+        background: #f1f1f1;
+    }
+
+    .btn-save-password {
+        background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
+        color: white;
+    }
+
+    .btn-save-password:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-save-password:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* Change Password Button Style */
+    .action-button.password {
+        background: linear-gradient(135deg, var(--spiritual-purple) 0%, #6d28d9 100%);
+        color: white;
+    }
+
+    .action-button.password:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    }
+
+    @keyframes modalSlide {
+        from {
+            opacity: 0;
+            transform: translateY(-30px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .modal-header h3 i {
+        color: var(--accent-orange);
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: color 0.2s ease;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-close:hover {
+        color: var(--primary-red);
+        background: var(--accent-cream);
+    }
+
+    .modal-body {
+        padding: var(--spacing-lg);
+    }
+
+    .modal-body p {
+        margin: 0;
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+
+    .modal-footer {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-top: 1px solid var(--border-color);
         display: flex;
         justify-content: flex-end;
+        gap: var(--spacing-sm);
+        background: var(--accent-cream);
+        border-radius: 0 0 20px 20px;
     }
-}
+
+    .modal-btn {
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+    }
+
+    .modal-btn.secondary {
+        background: white;
+        color: var(--text-dark);
+        border: 2px solid var(--border-color);
+    }
+
+    .modal-btn.secondary:hover {
+        border-color: var(--text-muted);
+    }
+
+    .modal-btn.danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    .modal-btn.danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Toast Container */
+    .toast-container {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 1001;
+    }
+
+    .toast {
+        background: white;
+        border-radius: 14px;
+        padding: var(--spacing-md) var(--spacing-lg);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+        animation: toastSlide 0.4s ease;
+        max-width: 400px;
+    }
+
+    @keyframes toastSlide {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .toast.success {
+        border-left: 4px solid #22c55e;
+    }
+
+    .toast.error {
+        border-left: 4px solid #ef4444;
+    }
+
+    .toast-icon {
+        font-size: 1.3rem;
+    }
+
+    .toast.success .toast-icon {
+        color: #22c55e;
+    }
+
+    .toast.error .toast-icon {
+        color: #ef4444;
+    }
+
+    .toast-content {
+        flex: 1;
+        font-weight: 500;
+    }
+
+    .toast-close {
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        cursor: pointer;
+        color: var(--text-muted);
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .toast-close:hover {
+        background: var(--accent-cream);
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-card {
+            position: static;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .detail-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .timeline-step {
+            flex-direction: column;
+        }
+
+        .timeline-node {
+            flex-direction: row;
+            width: auto;
+            gap: var(--spacing-sm);
+        }
+
+        .node-connector {
+            width: 30px;
+            height: 3px;
+        }
+
+        .timeline-info {
+            padding-left: 0;
+            padding-top: var(--spacing-sm);
+        }
+
+        .access-item {
+            flex-wrap: wrap;
+        }
+
+        .access-toggle {
+            width: 100%;
+            margin-top: var(--spacing-sm);
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -1830,25 +1878,25 @@
                 <div class="profile-header">
                     <div class="profile-avatar">
                         {% if user.profile_picture %}
-                            <img src="{{ url_for('static', filename=user.profile_picture) }}" alt="{{ user.full_name }}">
+                        <img src="{{ url_for('static', filename=user.profile_picture) }}" alt="{{ user.full_name }}">
                         {% else %}
-                            <img src="https://i.pravatar.cc/240?u={{ user.id }}" alt="{{ user.full_name }}">
+                        <img src="https://i.pravatar.cc/240?u={{ user.id }}" alt="{{ user.full_name }}">
                         {% endif %}
                     </div>
                     <h2 class="profile-name">{{ user.full_name }}</h2>
                     <p class="profile-username">@{{ user.username }}</p>
                     {% if user.spiritual_name %}
-                        <p class="profile-spiritual">"{{ user.spiritual_name }}"</p>
+                    <p class="profile-spiritual">"{{ user.spiritual_name }}"</p>
                     {% endif %}
                     <div class="profile-badges">
                         {% if user.is_admin() %}
-                            <span class="profile-badge admin">Admin</span>
+                        <span class="profile-badge admin">Admin</span>
                         {% elif user.is_approved %}
-                            <span class="profile-badge approved">Approved</span>
+                        <span class="profile-badge approved">Approved</span>
                         {% elif not user.is_active %}
-                            <span class="profile-badge suspended">Suspended</span>
+                        <span class="profile-badge suspended">Suspended</span>
                         {% else %}
-                            <span class="profile-badge pending">Pending</span>
+                        <span class="profile-badge pending">Pending</span>
                         {% endif %}
                         <span class="profile-badge role">{{ user.role|title }}</span>
                     </div>
@@ -1861,15 +1909,18 @@
                             <i class="fas fa-camera"></i>
                             <span>Profile Picture</span>
                         </div>
-                        <form method="POST" action="{{ url_for('auth.update_profile_picture', user_id=user.id) }}" enctype="multipart/form-data" style="margin-top: var(--spacing-md);">
+                        <form method="POST" action="{{ url_for('auth.update_profile_picture', user_id=user.id) }}"
+                            enctype="multipart/form-data" style="margin-top: var(--spacing-md);">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div style="display: flex; align-items: center; gap: var(--spacing-md); flex-wrap: wrap;">
-                                <input type="file" name="profile_picture" accept="image/*" id="profilePictureInput" style="flex: 1; min-width: 200px; padding: 10px; border: 2px dashed var(--border-color); border-radius: 10px; cursor: pointer;">
+                                <input type="file" name="profile_picture" accept="image/*" id="profilePictureInput"
+                                    style="flex: 1; min-width: 200px; padding: 10px; border: 2px dashed var(--border-color); border-radius: 10px; cursor: pointer;">
                                 <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">
                                     <i class="fas fa-upload"></i> Upload
                                 </button>
                             </div>
-                            <small style="color: var(--text-muted); display: block; margin-top: 8px;">Supported formats: JPG, PNG, GIF (max 5MB)</small>
+                            <small style="color: var(--text-muted); display: block; margin-top: 8px;">Supported formats:
+                                JPG, PNG, GIF (max 5MB)</small>
                         </form>
                     </div>
 
@@ -1943,22 +1994,22 @@
                     <div class="action-section-title">Quick Actions</div>
                     <div class="action-buttons-grid">
                         {% if not user.is_admin() %}
-                            {% if user.is_approved and user.is_active %}
-                                <button class="action-button suspend suspend-user" data-user-id="{{ user.id }}">
-                                    <i class="fas fa-pause-circle"></i> Suspend User
-                                </button>
-                            {% elif not user.is_approved and user.is_active %}
-                                <button class="action-button approve approve-user" data-user-id="{{ user.id }}">
-                                    <i class="fas fa-check-circle"></i> Approve User
-                                </button>
-                                <button class="action-button reject reject-user" data-user-id="{{ user.id }}">
-                                    <i class="fas fa-times-circle"></i> Reject User
-                                </button>
-                            {% elif not user.is_active %}
-                                <button class="action-button reactivate reactivate-user" data-user-id="{{ user.id }}">
-                                    <i class="fas fa-play-circle"></i> Reactivate User
-                                </button>
-                            {% endif %}
+                        {% if user.is_approved and user.is_active %}
+                        <button class="action-button suspend suspend-user" data-user-id="{{ user.id }}">
+                            <i class="fas fa-pause-circle"></i> Suspend User
+                        </button>
+                        {% elif not user.is_approved and user.is_active %}
+                        <button class="action-button approve approve-user" data-user-id="{{ user.id }}">
+                            <i class="fas fa-check-circle"></i> Approve User
+                        </button>
+                        <button class="action-button reject reject-user" data-user-id="{{ user.id }}">
+                            <i class="fas fa-times-circle"></i> Reject User
+                        </button>
+                        {% elif not user.is_active %}
+                        <button class="action-button reactivate reactivate-user" data-user-id="{{ user.id }}">
+                            <i class="fas fa-play-circle"></i> Reactivate User
+                        </button>
+                        {% endif %}
                         {% endif %}
                         <!-- Change Password - Available for all users -->
                         <button class="action-button password" id="changePasswordBtn" data-user-id="{{ user.id }}">
@@ -1971,107 +2022,7 @@
             <!-- Right Column: Progress & Access -->
             <div class="detail-content">
                 <!-- Spiritual Progress - Redesigned -->
-                <div class="progress-card">
-                    <div class="card-header-bar">
-                        <h3><i class="fas fa-route"></i> Spiritual Journey</h3>
-                        <span class="current-stage-badge">
-                            <i class="fas fa-map-marker-alt"></i> {{ user.get_stage_info(user.get_current_stage()).stage_name }}
-                        </span>
-                    </div>
-                    <div class="progress-content">
-                        <div class="journey-flow">
-                            <!-- Bhairava Mandala Section -->
-                            <div class="journey-section">
-                                <div class="journey-section-header">
-                                    <div class="journey-section-icon mandala"><i class="fas fa-om"></i></div>
-                                    <span class="journey-section-label">Bhairava Mandala</span>
-                                </div>
-                                <div class="journey-stages">
-                                    {% for stage_num in range(1, 4) %}
-                                        {% set stage_info = user.get_stage_info(stage_num) %}
-                                        {% set is_current = stage_num == user.get_current_stage() %}
-                                        {% set is_completed = stage_info.is_completed %}
-                                        
-                                        {% if stage_num > 1 %}
-                                            <div class="journey-arrow {% if user.get_stage_info(stage_num - 1).is_completed %}completed{% endif %}">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                        {% endif %}
-                                        
-                                        <div class="journey-stage-card {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
-                                            <div class="journey-stage-icon">
-                                                {% if stage_num == 1 %}🕉️{% elif stage_num == 2 %}🌟{% else %}✨{% endif %}
-                                                {% if is_completed %}
-                                                    <span class="journey-stage-check"><i class="fas fa-check"></i></span>
-                                                {% endif %}
-                                            </div>
-                                            <div class="journey-stage-name">{{ stage_info.stage_name }}</div>
-                                            <div class="journey-stage-status">
-                                                {% if is_completed %}
-                                                    <i class="fas fa-check-circle"></i> Done
-                                                {% elif is_current %}
-                                                    <i class="fas fa-circle"></i> Active
-                                                {% else %}
-                                                    <i class="fas fa-lock"></i> Locked
-                                                {% endif %}
-                                            </div>
-                                            {% if is_completed and stage_info.completion_date %}
-                                                <div class="journey-stage-date">{{ stage_info.completion_date.strftime('%b %d') }}</div>
-                                            {% elif is_current and stage_info.start_date %}
-                                                <div class="journey-stage-date">Started {{ stage_info.start_date.strftime('%b %d') }}</div>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
 
-                            <!-- Rudraksha Diksha Section -->
-                            <div class="journey-section">
-                                <div class="journey-section-header">
-                                    <div class="journey-section-icon rudraksha"><i class="fas fa-gem"></i></div>
-                                    <span class="journey-section-label">Rudraksha Diksha</span>
-                                </div>
-                                <div class="journey-stages">
-                                    {% for stage_num in [7, 4, 5, 8, 6, 9] %}
-                                        {% set stage_info = user.get_stage_info(stage_num) %}
-                                        {% set is_current = stage_num == user.get_current_stage() %}
-                                        {% set is_completed = stage_info.is_completed %}
-                                        
-                                        {% if loop.index > 1 %}
-                                            <div class="journey-arrow {% if user.get_stage_info(loop.previtem).is_completed %}completed{% endif %}">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                        {% endif %}
-                                        
-                                        <div class="journey-stage-card {% if is_completed %}completed{% elif is_current %}current{% else %}locked{% endif %}">
-                                            <div class="journey-stage-icon">
-                                                {% if stage_num == 7 %}🙏{% elif stage_num == 4 %}📿{% elif stage_num == 5 %}🔮{% elif stage_num == 8 %}🌙{% elif stage_num == 6 %}💎{% elif stage_num == 9 %}⭐{% endif %}
-                                                {% if is_completed %}
-                                                    <span class="journey-stage-check"><i class="fas fa-check"></i></span>
-                                                {% endif %}
-                                            </div>
-                                            <div class="journey-stage-name">{{ stage_info.stage_name.replace('Rudraksha ', '').replace(' Diksha', '') }}</div>
-                                            <div class="journey-stage-status">
-                                                {% if is_completed %}
-                                                    <i class="fas fa-check-circle"></i> Done
-                                                {% elif is_current %}
-                                                    <i class="fas fa-circle"></i> Active
-                                                {% else %}
-                                                    <i class="fas fa-lock"></i> Locked
-                                                {% endif %}
-                                            </div>
-                                            {% if is_completed and stage_info.completion_date %}
-                                                <div class="journey-stage-date">{{ stage_info.completion_date.strftime('%b %d') }}</div>
-                                            {% elif is_current and stage_info.start_date %}
-                                                <div class="journey-stage-date">Started {{ stage_info.start_date.strftime('%b %d') }}</div>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Stage Access Management - Redesigned -->
                 <div class="access-card">
@@ -2093,16 +2044,17 @@
                                 <span>Locked (Click to Grant)</span>
                             </div>
                         </div>
-                        
-                        <form method="POST" action="{{ url_for('auth.update_stage_access', user_id=user.id) }}" id="accessForm">
+
+                        <form method="POST" action="{{ url_for('auth.update_stage_access', user_id=user.id) }}"
+                            id="accessForm">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            
+
                             <!-- Bhairava Mandala Section -->
                             <div class="access-section-title">
                                 <div class="access-section-icon mandala"><i class="fas fa-om"></i></div>
                                 <span class="access-section-label">Bhairava Mandala Stages</span>
                             </div>
-                            
+
                             <div class="access-grid">
                                 <!-- Mandala 1 - Always granted -->
                                 <div class="access-card-item auto-granted" title="Auto-granted to all approved users">
@@ -2117,123 +2069,141 @@
                                 </div>
 
                                 <!-- Mandala 2 -->
-                                <div class="access-card-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'mandala_2_access')">
-                                    <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.mandala_2_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'mandala_2_access')">
+                                    <input type="checkbox" name="mandala_2_access" {% if user.mandala_2_access
+                                        %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         🌟
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.mandala_2_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.mandala_2_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Mandala 2</div>
                                     <div class="access-card-status">
                                         {% if user.mandala_2_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Mandala 3 -->
-                                <div class="access-card-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'mandala_3_access')">
-                                    <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.mandala_3_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'mandala_3_access')">
+                                    <input type="checkbox" name="mandala_3_access" {% if user.mandala_3_access
+                                        %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         ✨
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.mandala_3_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.mandala_3_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Mandala 3</div>
                                     <div class="access-card-status">
                                         {% if user.mandala_3_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Rudraksha Diksha Section -->
                             <div class="access-section-title" style="margin-top: 2rem;">
                                 <div class="access-section-icon rudraksha"><i class="fas fa-gem"></i></div>
                                 <span class="access-section-label">Rudraksha Diksha Stages</span>
                             </div>
-                            
+
                             <div class="access-grid">
                                 <!-- Pratham Charana Diksha -->
-                                <div class="access-card-item {% if user.pratham_charana_diksha_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'pratham_charana_diksha_access')">
-                                    <input type="checkbox" name="pratham_charana_diksha_access" {% if user.pratham_charana_diksha_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.pratham_charana_diksha_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'pratham_charana_diksha_access')">
+                                    <input type="checkbox" name="pratham_charana_diksha_access" {% if
+                                        user.pratham_charana_diksha_access %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         🙏
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.pratham_charana_diksha_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.pratham_charana_diksha_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Pratham Charana</div>
                                     <div class="access-card-status">
                                         {% if user.pratham_charana_diksha_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Rudraksha 8 Mukhi -->
-                                <div class="access-card-item {% if user.rudraksha_8_mukhi_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'rudraksha_8_mukhi_access')">
-                                    <input type="checkbox" name="rudraksha_8_mukhi_access" {% if user.rudraksha_8_mukhi_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.rudraksha_8_mukhi_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'rudraksha_8_mukhi_access')">
+                                    <input type="checkbox" name="rudraksha_8_mukhi_access" {% if
+                                        user.rudraksha_8_mukhi_access %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         📿
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.rudraksha_8_mukhi_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.rudraksha_8_mukhi_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Rudraksha 8 Mukhi</div>
                                     <div class="access-card-status">
                                         {% if user.rudraksha_8_mukhi_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Rudraksha 11 Mukhi -->
-                                <div class="access-card-item {% if user.rudraksha_11_mukhi_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'rudraksha_11_mukhi_access')">
-                                    <input type="checkbox" name="rudraksha_11_mukhi_access" {% if user.rudraksha_11_mukhi_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.rudraksha_11_mukhi_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'rudraksha_11_mukhi_access')">
+                                    <input type="checkbox" name="rudraksha_11_mukhi_access" {% if
+                                        user.rudraksha_11_mukhi_access %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         🔮
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.rudraksha_11_mukhi_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.rudraksha_11_mukhi_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Rudraksha 11 Mukhi</div>
                                     <div class="access-card-status">
                                         {% if user.rudraksha_11_mukhi_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Rudraksha 14 Mukhi -->
-                                <div class="access-card-item {% if user.rudraksha_14_mukhi_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'rudraksha_14_mukhi_access')">
-                                    <input type="checkbox" name="rudraksha_14_mukhi_access" {% if user.rudraksha_14_mukhi_access %}checked{% endif %}>
+                                <div class="access-card-item {% if user.rudraksha_14_mukhi_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'rudraksha_14_mukhi_access')">
+                                    <input type="checkbox" name="rudraksha_14_mukhi_access" {% if
+                                        user.rudraksha_14_mukhi_access %}checked{% endif %}>
                                     <div class="access-card-icon">
                                         💎
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.rudraksha_14_mukhi_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.rudraksha_14_mukhi_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Rudraksha 14 Mukhi</div>
                                     <div class="access-card-status">
                                         {% if user.rudraksha_14_mukhi_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
@@ -2241,45 +2211,53 @@
 
                             <!-- Dutiya & Tritiya Charana Section -->
                             <div class="access-section-title" style="margin-top: 2rem;">
-                                <div class="access-section-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fas fa-mountain"></i></div>
+                                <div class="access-section-icon"
+                                    style="background: linear-gradient(135deg, #6366f1, #4f46e5);"><i
+                                        class="fas fa-mountain"></i></div>
                                 <span class="access-section-label">Dutiya & Tritiya Charana</span>
                             </div>
-                            
+
                             <div class="access-grid">
                                 <!-- Dutiya Charana -->
-                                <div class="access-card-item {% if user.dutiya_charana_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'dutiya_charana_access')">
-                                    <input type="checkbox" name="dutiya_charana_access" {% if user.dutiya_charana_access %}checked{% endif %}>
-                                    <div class="access-card-icon" style="{% if user.dutiya_charana_access %}background: linear-gradient(135deg, #6366f1, #4f46e5) !important;{% endif %}">
+                                <div class="access-card-item charana-theme {% if user.dutiya_charana_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'dutiya_charana_access')">
+                                    <input type="checkbox" name="dutiya_charana_access" {% if user.dutiya_charana_access
+                                        %}checked{% endif %}>
+                                    <div class="access-card-icon">
                                         🌙
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.dutiya_charana_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.dutiya_charana_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Dutiya Charana</div>
                                     <div class="access-card-status">
                                         {% if user.dutiya_charana_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Tritiya Charana -->
-                                <div class="access-card-item {% if user.tritiya_charana_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'tritiya_charana_access')">
-                                    <input type="checkbox" name="tritiya_charana_access" {% if user.tritiya_charana_access %}checked{% endif %}>
-                                    <div class="access-card-icon" style="{% if user.tritiya_charana_access %}background: linear-gradient(135deg, #6366f1, #4f46e5) !important;{% endif %}">
+                                <div class="access-card-item charana-theme {% if user.tritiya_charana_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'tritiya_charana_access')">
+                                    <input type="checkbox" name="tritiya_charana_access" {% if
+                                        user.tritiya_charana_access %}checked{% endif %}>
+                                    <div class="access-card-icon">
                                         ⭐
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.tritiya_charana_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.tritiya_charana_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Tritiya Charana</div>
                                     <div class="access-card-status">
                                         {% if user.tritiya_charana_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
@@ -2287,14 +2265,17 @@
 
                             <!-- Devi Mandala Section (Kamakhya Sadhana) -->
                             <div class="access-section-title" style="margin-top: 2rem;">
-                                <div class="access-section-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);"><i class="fas fa-lotus"></i></div>
+                                <div class="access-section-icon"
+                                    style="background: linear-gradient(135deg, #ec4899, #db2777);"><i
+                                        class="fas fa-lotus"></i></div>
                                 <span class="access-section-label">Devi Mandala (Kamakhya Sadhana)</span>
                             </div>
-                            
+
                             <div class="access-grid">
                                 <!-- Devi Mandala 1 - Auto granted -->
                                 <div class="access-card-item auto-granted" title="Auto-granted to all approved users">
-                                    <div class="access-card-icon" style="background: linear-gradient(135deg, #ec4899, #db2777) !important;">
+                                    <div class="access-card-icon"
+                                        >
                                         🌸
                                         <span class="access-status-badge"><i class="fas fa-check"></i></span>
                                     </div>
@@ -2305,39 +2286,45 @@
                                 </div>
 
                                 <!-- Devi Mandala 2 -->
-                                <div class="access-card-item {% if user.devi_mandala_2_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'devi_mandala_2_access')">
-                                    <input type="checkbox" name="devi_mandala_2_access" {% if user.devi_mandala_2_access %}checked{% endif %}>
-                                    <div class="access-card-icon" style="{% if user.devi_mandala_2_access %}background: linear-gradient(135deg, #ec4899, #db2777) !important;{% endif %}">
+                                <div class="access-card-item devi-theme {% if user.devi_mandala_2_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'devi_mandala_2_access')">
+                                    <input type="checkbox" name="devi_mandala_2_access" {% if user.devi_mandala_2_access
+                                        %}checked{% endif %}>
+                                    <div class="access-card-icon">
                                         🌺
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.devi_mandala_2_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.devi_mandala_2_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Devi Mandala 2</div>
                                     <div class="access-card-status">
                                         {% if user.devi_mandala_2_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
 
                                 <!-- Devi Mandala 3 -->
-                                <div class="access-card-item {% if user.devi_mandala_3_access %}granted{% else %}locked{% endif %}" onclick="toggleAccess(this, 'devi_mandala_3_access')">
-                                    <input type="checkbox" name="devi_mandala_3_access" {% if user.devi_mandala_3_access %}checked{% endif %}>
-                                    <div class="access-card-icon" style="{% if user.devi_mandala_3_access %}background: linear-gradient(135deg, #ec4899, #db2777) !important;{% endif %}">
+                                <div class="access-card-item devi-theme {% if user.devi_mandala_3_access %}granted{% else %}locked{% endif %}"
+                                    onclick="toggleAccess(this, 'devi_mandala_3_access')">
+                                    <input type="checkbox" name="devi_mandala_3_access" {% if user.devi_mandala_3_access
+                                        %}checked{% endif %}>
+                                    <div class="access-card-icon">
                                         🪷
                                         <span class="access-status-badge">
-                                            <i class="fas fa-{% if user.devi_mandala_3_access %}check{% else %}lock{% endif %}"></i>
+                                            <i
+                                                class="fas fa-{% if user.devi_mandala_3_access %}check{% else %}lock{% endif %}"></i>
                                         </span>
                                     </div>
                                     <div class="access-card-name">Devi Mandala 3</div>
                                     <div class="access-card-status">
                                         {% if user.devi_mandala_3_access %}
-                                            <i class="fas fa-unlock"></i> Granted
+                                        <i class="fas fa-unlock"></i> Granted
                                         {% else %}
-                                            <i class="fas fa-lock"></i> Locked
+                                        <i class="fas fa-lock"></i> Locked
                                         {% endif %}
                                     </div>
                                 </div>
@@ -2357,25 +2344,29 @@
                             </div>
                             <div class="stage-actions-grid">
                                 {% for stage_num in range(1, 10) %}
-                                    {% set stage_info = user.get_stage_info(stage_num) %}
-                                    {% if stage_info.has_access and not stage_info.is_completed %}
-                                        <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}" style="display: inline;">
-                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="stage_number" value="{{ stage_num }}">
-                                            <button type="submit" class="stage-action-btn complete" onclick="return confirm('Mark {{ stage_info.stage_name }} as completed?')">
-                                                <i class="fas fa-check"></i> Complete {{ stage_info.stage_name }}
-                                            </button>
-                                        </form>
-                                    {% endif %}
-                                    {% if stage_info.is_completed %}
-                                        <form method="POST" action="{{ url_for('auth.reset_user_stage', user_id=user.id) }}" style="display: inline;">
-                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="stage_number" value="{{ stage_num }}">
-                                            <button type="submit" class="stage-action-btn reset" onclick="return confirm('Reset {{ stage_info.stage_name }} and all subsequent stages?')">
-                                                <i class="fas fa-undo"></i> Reset {{ stage_info.stage_name }}
-                                            </button>
-                                        </form>
-                                    {% endif %}
+                                {% set stage_info = user.get_stage_info(stage_num) %}
+                                {% if stage_info.has_access and not stage_info.is_completed %}
+                                <form method="POST" action="{{ url_for('auth.complete_user_stage', user_id=user.id) }}"
+                                    style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                    <button type="submit" class="stage-action-btn complete"
+                                        onclick="return confirm('Mark {{ stage_info.stage_name }} as completed?')">
+                                        <i class="fas fa-check"></i> Complete {{ stage_info.stage_name }}
+                                    </button>
+                                </form>
+                                {% endif %}
+                                {% if stage_info.is_completed %}
+                                <form method="POST" action="{{ url_for('auth.reset_user_stage', user_id=user.id) }}"
+                                    style="display: inline;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="stage_number" value="{{ stage_num }}">
+                                    <button type="submit" class="stage-action-btn reset"
+                                        onclick="return confirm('Reset {{ stage_info.stage_name }} and all subsequent stages?')">
+                                        <i class="fas fa-undo"></i> Reset {{ stage_info.stage_name }}
+                                    </button>
+                                </form>
+                                {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -2394,13 +2385,16 @@
                         <div class="request-item" data-request-id="{{ request.id }}">
                             <div class="request-stage-name">{{ request.get_stage_name() }}</div>
                             <div class="request-date">
-                                <i class="fas fa-calendar-alt"></i> Requested {{ request.requested_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                <i class="fas fa-calendar-alt"></i> Requested {{ request.requested_at.strftime('%B %d,
+                                %Y at %I:%M %p') }}
                             </div>
                             <div class="request-buttons">
-                                <button class="request-btn approve btn-approve-request" data-request-id="{{ request.id }}">
+                                <button class="request-btn approve btn-approve-request"
+                                    data-request-id="{{ request.id }}">
                                     <i class="fas fa-check"></i> Approve
                                 </button>
-                                <button class="request-btn reject btn-reject-request" data-request-id="{{ request.id }}">
+                                <button class="request-btn reject btn-reject-request"
+                                    data-request-id="{{ request.id }}">
                                     <i class="fas fa-times"></i> Reject
                                 </button>
                             </div>
@@ -2441,27 +2435,31 @@
             <p style="margin-bottom: var(--spacing-lg); color: var(--text-muted);">
                 Set a new password for <strong>{{ user.username }}</strong>
             </p>
-            
+
             <div class="password-input-group">
                 <label for="newPassword">New Password</label>
                 <div class="password-input-wrapper">
-                    <input type="password" id="newPassword" placeholder="Enter new password" autocomplete="new-password">
-                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('newPassword', this)">
+                    <input type="password" id="newPassword" placeholder="Enter new password"
+                        autocomplete="new-password">
+                    <button type="button" class="password-toggle-btn"
+                        onclick="togglePasswordVisibility('newPassword', this)">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
             </div>
-            
+
             <div class="password-input-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <div class="password-input-wrapper">
-                    <input type="password" id="confirmPassword" placeholder="Confirm new password" autocomplete="new-password">
-                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirmPassword', this)">
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password"
+                        autocomplete="new-password">
+                    <button type="button" class="password-toggle-btn"
+                        onclick="togglePasswordVisibility('confirmPassword', this)">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
             </div>
-            
+
             <div class="password-requirements">
                 <i class="fas fa-info-circle"></i>
                 Password must be at least 6 characters long
@@ -2483,299 +2481,299 @@
 
 {% block extra_scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    setupUserActions();
-    setupRequestActions();
-    setupAccessFormValidation();
-    setupPasswordModal();
-});
-
-function setupUserActions() {
-    document.querySelectorAll('.approve-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.dataset.userId;
-            executeUserAction(userId, 'approve', 'Approved via user detail page');
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+        setupUserActions();
+        setupRequestActions();
+        setupAccessFormValidation();
+        setupPasswordModal();
     });
-    
-    document.querySelectorAll('.reject-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.dataset.userId;
-            openConfirmModal('Are you sure you want to reject this user? This action cannot be undone.', function() {
-                executeUserAction(userId, 'reject', 'Rejected via user detail page');
+
+    function setupUserActions() {
+        document.querySelectorAll('.approve-user').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const userId = this.dataset.userId;
+                executeUserAction(userId, 'approve', 'Approved via user detail page');
             });
         });
-    });
-    
-    document.querySelectorAll('.suspend-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.dataset.userId;
-            openConfirmModal('Are you sure you want to suspend this user? They will lose access to all content.', function() {
-                executeUserAction(userId, 'suspend', 'Suspended via user detail page');
+
+        document.querySelectorAll('.reject-user').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const userId = this.dataset.userId;
+                openConfirmModal('Are you sure you want to reject this user? This action cannot be undone.', function () {
+                    executeUserAction(userId, 'reject', 'Rejected via user detail page');
+                });
             });
         });
-    });
-    
-    document.querySelectorAll('.reactivate-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.dataset.userId;
-            executeUserAction(userId, 'approve', 'Reactivated via user detail page');
-        });
-    });
-}
 
-function setupRequestActions() {
-    document.querySelectorAll('.btn-approve-request').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const requestId = this.dataset.requestId;
-            handleStageRequest(requestId, 'approve');
-        });
-    });
-    
-    document.querySelectorAll('.btn-reject-request').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const requestId = this.dataset.requestId;
-            openConfirmModal('Are you sure you want to reject this access request?', function() {
-                handleStageRequest(requestId, 'reject');
+        document.querySelectorAll('.suspend-user').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const userId = this.dataset.userId;
+                openConfirmModal('Are you sure you want to suspend this user? They will lose access to all content.', function () {
+                    executeUserAction(userId, 'suspend', 'Suspended via user detail page');
+                });
             });
         });
-    });
-}
 
-function setupAccessFormValidation() {
-    // Legacy support for toggle switches
-    const form = document.getElementById('accessForm');
-    const toggles = form.querySelectorAll('.toggle-switch input');
-    
-    toggles.forEach(toggle => {
-        toggle.addEventListener('change', function() {
-            const item = this.closest('.access-item');
-            if (this.checked) {
-                item.classList.remove('locked');
-                item.classList.add('granted');
-            } else {
-                item.classList.remove('granted');
-                item.classList.add('locked');
-            }
+        document.querySelectorAll('.reactivate-user').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const userId = this.dataset.userId;
+                executeUserAction(userId, 'approve', 'Reactivated via user detail page');
+            });
         });
-    });
-}
-
-// New toggle access function for clickable cards
-function toggleAccess(card, inputName) {
-    const checkbox = card.querySelector('input[type="checkbox"]');
-    const statusBadge = card.querySelector('.access-status-badge i');
-    const statusText = card.querySelector('.access-card-status');
-    
-    // Toggle checkbox
-    checkbox.checked = !checkbox.checked;
-    
-    // Add click animation
-    card.classList.add('click-effect');
-    setTimeout(() => card.classList.remove('click-effect'), 300);
-    
-    // Update visual state
-    if (checkbox.checked) {
-        card.classList.remove('locked');
-        card.classList.add('granted');
-        statusBadge.classList.remove('fa-lock');
-        statusBadge.classList.add('fa-check');
-        statusText.innerHTML = '<i class="fas fa-unlock"></i> Granted';
-    } else {
-        card.classList.remove('granted');
-        card.classList.add('locked');
-        statusBadge.classList.remove('fa-check');
-        statusBadge.classList.add('fa-lock');
-        statusText.innerHTML = '<i class="fas fa-lock"></i> Locked';
     }
-}
 
-function executeUserAction(userId, action, notes) {
-    const csrfToken = '{{ csrf_token() }}';
-    
-    fetch('{{ url_for("auth.approve_user") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'user_id': userId,
-            'action': action,
-            'notes': notes,
-            'csrf_token': csrfToken
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showToast(data.message, 'success');
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showToast('Error: ' + data.message, 'error');
-        }
-    })
-    .catch(error => {
-        showToast('An error occurred. Please try again.', 'error');
-        console.error('Error:', error);
-    });
-}
+    function setupRequestActions() {
+        document.querySelectorAll('.btn-approve-request').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const requestId = this.dataset.requestId;
+                handleStageRequest(requestId, 'approve');
+            });
+        });
 
-function handleStageRequest(requestId, action) {
-    const csrfToken = '{{ csrf_token() }}';
-    const btn = document.querySelector(`.btn-approve-request[data-request-id="${requestId}"], .btn-reject-request[data-request-id="${requestId}"]`);
-    
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        document.querySelectorAll('.btn-reject-request').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const requestId = this.dataset.requestId;
+                openConfirmModal('Are you sure you want to reject this access request?', function () {
+                    handleStageRequest(requestId, 'reject');
+                });
+            });
+        });
     }
-    
-    fetch(`/auth/admin/approve_stage_request/${requestId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            'action': action,
-            'csrf_token': csrfToken
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showToast(data.message, 'success');
-            const requestItem = document.querySelector(`.request-item[data-request-id="${requestId}"]`);
-            if (requestItem) {
-                requestItem.style.animation = 'fadeOut 0.3s ease-out forwards';
-                setTimeout(() => {
-                    requestItem.remove();
-                    setTimeout(() => location.reload(), 500);
-                }, 300);
-            }
+
+    function setupAccessFormValidation() {
+        // Legacy support for toggle switches
+        const form = document.getElementById('accessForm');
+        const toggles = form.querySelectorAll('.toggle-switch input');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function () {
+                const item = this.closest('.access-item');
+                if (this.checked) {
+                    item.classList.remove('locked');
+                    item.classList.add('granted');
+                } else {
+                    item.classList.remove('granted');
+                    item.classList.add('locked');
+                }
+            });
+        });
+    }
+
+    // New toggle access function for clickable cards
+    function toggleAccess(card, inputName) {
+        const checkbox = card.querySelector('input[type="checkbox"]');
+        const statusBadge = card.querySelector('.access-status-badge i');
+        const statusText = card.querySelector('.access-card-status');
+
+        // Toggle checkbox
+        checkbox.checked = !checkbox.checked;
+
+        // Add click animation
+        card.classList.add('click-effect');
+        setTimeout(() => card.classList.remove('click-effect'), 300);
+
+        // Update visual state
+        if (checkbox.checked) {
+            card.classList.remove('locked');
+            card.classList.add('granted');
+            statusBadge.classList.remove('fa-lock');
+            statusBadge.classList.add('fa-check');
+            statusText.innerHTML = '<i class="fas fa-unlock"></i> Granted';
         } else {
-            showToast('Error: ' + data.message, 'error');
-            if (btn) {
-                btn.disabled = false;
-                btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
-            }
+            card.classList.remove('granted');
+            card.classList.add('locked');
+            statusBadge.classList.remove('fa-check');
+            statusBadge.classList.add('fa-lock');
+            statusText.innerHTML = '<i class="fas fa-lock"></i> Locked';
         }
-    })
-    .catch(error => {
-        showToast('An error occurred. Please try again.', 'error');
-        console.error('Error:', error);
+    }
+
+    function executeUserAction(userId, action, notes) {
+        const csrfToken = '{{ csrf_token() }}';
+
+        fetch('{{ url_for("auth.approve_user") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'user_id': userId,
+                'action': action,
+                'notes': notes,
+                'csrf_token': csrfToken
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast('Error: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+            });
+    }
+
+    function handleStageRequest(requestId, action) {
+        const csrfToken = '{{ csrf_token() }}';
+        const btn = document.querySelector(`.btn-approve-request[data-request-id="${requestId}"], .btn-reject-request[data-request-id="${requestId}"]`);
+
         if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         }
-    });
-}
 
-function openConfirmModal(message, onConfirm) {
-    document.getElementById('confirmMessage').textContent = message;
-    document.getElementById('confirmModal').classList.add('active');
-    
-    const confirmBtn = document.getElementById('confirmActionBtn');
-    confirmBtn.onclick = function() {
-        onConfirm();
-        closeConfirmModal();
-    };
-}
+        fetch(`/auth/admin/approve_stage_request/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'action': action,
+                'csrf_token': csrfToken
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    const requestItem = document.querySelector(`.request-item[data-request-id="${requestId}"]`);
+                    if (requestItem) {
+                        requestItem.style.animation = 'fadeOut 0.3s ease-out forwards';
+                        setTimeout(() => {
+                            requestItem.remove();
+                            setTimeout(() => location.reload(), 500);
+                        }, 300);
+                    }
+                } else {
+                    showToast('Error: ' + data.message, 'error');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+                    }
+                }
+            })
+            .catch(error => {
+                showToast('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = action === 'approve' ? '<i class="fas fa-check"></i> Approve' : '<i class="fas fa-times"></i> Reject';
+                }
+            });
+    }
 
-function closeConfirmModal() {
-    document.getElementById('confirmModal').classList.remove('active');
-}
+    function openConfirmModal(message, onConfirm) {
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmModal').classList.add('active');
 
-// Password Modal Functions
-function setupPasswordModal() {
-    const changePasswordBtn = document.getElementById('changePasswordBtn');
-    if (changePasswordBtn) {
-        changePasswordBtn.addEventListener('click', function() {
-            openPasswordModal();
+        const confirmBtn = document.getElementById('confirmActionBtn');
+        confirmBtn.onclick = function () {
+            onConfirm();
+            closeConfirmModal();
+        };
+    }
+
+    function closeConfirmModal() {
+        document.getElementById('confirmModal').classList.remove('active');
+    }
+
+    // Password Modal Functions
+    function setupPasswordModal() {
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        if (changePasswordBtn) {
+            changePasswordBtn.addEventListener('click', function () {
+                openPasswordModal();
+            });
+        }
+
+        // Close modal on outside click
+        document.getElementById('passwordModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePasswordModal();
+            }
+        });
+
+        // Enable/disable save button based on input
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+
+        [newPasswordInput, confirmPasswordInput].forEach(input => {
+            input.addEventListener('input', validatePasswordInputs);
+        });
+
+        // Enter key to submit
+        confirmPasswordInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                savePassword();
+            }
         });
     }
-    
-    // Close modal on outside click
-    document.getElementById('passwordModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closePasswordModal();
-        }
-    });
-    
-    // Enable/disable save button based on input
-    const newPasswordInput = document.getElementById('newPassword');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    
-    [newPasswordInput, confirmPasswordInput].forEach(input => {
-        input.addEventListener('input', validatePasswordInputs);
-    });
-    
-    // Enter key to submit
-    confirmPasswordInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            savePassword();
-        }
-    });
-}
 
-function openPasswordModal() {
-    document.getElementById('newPassword').value = '';
-    document.getElementById('confirmPassword').value = '';
-    document.getElementById('passwordModal').classList.add('active');
-    document.getElementById('newPassword').focus();
-}
-
-function closePasswordModal() {
-    document.getElementById('passwordModal').classList.remove('active');
-    document.getElementById('newPassword').value = '';
-    document.getElementById('confirmPassword').value = '';
-}
-
-function togglePasswordVisibility(inputId, btn) {
-    const input = document.getElementById(inputId);
-    const icon = btn.querySelector('i');
-    
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+    function openPasswordModal() {
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        document.getElementById('passwordModal').classList.add('active');
+        document.getElementById('newPassword').focus();
     }
-}
 
-function validatePasswordInputs() {
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const saveBtn = document.getElementById('savePasswordBtn');
-    
-    const isValid = newPassword.length >= 6 && newPassword === confirmPassword;
-    saveBtn.disabled = !isValid;
-}
+    function closePasswordModal() {
+        document.getElementById('passwordModal').classList.remove('active');
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+    }
 
-function savePassword() {
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const saveBtn = document.getElementById('savePasswordBtn');
-    const userId = {{ user.id }};
+    function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    function validatePasswordInputs() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const saveBtn = document.getElementById('savePasswordBtn');
+
+        const isValid = newPassword.length >= 6 && newPassword === confirmPassword;
+        saveBtn.disabled = !isValid;
+    }
+
+    function savePassword() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const saveBtn = document.getElementById('savePasswordBtn');
+        const userId = {{ user.id }};
     const csrfToken = '{{ csrf_token() }}';
-    
+
     // Validation
     if (newPassword.length < 6) {
         showToast('Password must be at least 6 characters long', 'error');
         return;
     }
-    
+
     if (newPassword !== confirmPassword) {
         showToast('Passwords do not match', 'error');
         return;
     }
-    
+
     // Disable button and show loading
     saveBtn.disabled = true;
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-    
+
     fetch(`/auth/admin/user/${userId}/change-password`, {
         method: 'POST',
         headers: {
@@ -2787,67 +2785,67 @@ function savePassword() {
             'csrf_token': csrfToken
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showToast(data.message, 'success');
-            closePasswordModal();
-        } else {
-            showToast(data.message || 'Failed to change password', 'error');
-        }
-    })
-    .catch(error => {
-        showToast('An error occurred. Please try again.', 'error');
-        console.error('Error:', error);
-    })
-    .finally(() => {
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = originalText;
-    });
-}
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast(data.message, 'success');
+                closePasswordModal();
+            } else {
+                showToast(data.message || 'Failed to change password', 'error');
+            }
+        })
+        .catch(error => {
+            showToast('An error occurred. Please try again.', 'error');
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = originalText;
+        });
+    }
 
-function showToast(message, type) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `
+    function showToast(message, type) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
         <span class="toast-icon">
             <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
         </span>
         <span class="toast-content">${message}</span>
         <button class="toast-close" onclick="this.parentElement.remove()">×</button>
     `;
-    container.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.style.animation = 'toastSlide 0.3s ease-out reverse forwards';
-        setTimeout(() => toast.remove(), 300);
-    }, 5000);
-}
+        container.appendChild(toast);
 
-// Modal close on outside click
-document.getElementById('confirmModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeConfirmModal();
+        setTimeout(() => {
+            toast.style.animation = 'toastSlide 0.3s ease-out reverse forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
     }
-});
 
-// Keyboard accessibility
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeConfirmModal();
-        closePasswordModal();
-    }
-});
+    // Modal close on outside click
+    document.getElementById('confirmModal').addEventListener('click', function (e) {
+        if (e.target === this) {
+            closeConfirmModal();
+        }
+    });
 
-// Animation keyframes
-const style = document.createElement('style');
-style.textContent = `
+    // Keyboard accessibility
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeConfirmModal();
+            closePasswordModal();
+        }
+    });
+
+    // Animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
     @keyframes fadeOut {
         from { opacity: 1; transform: translateX(0); }
         to { opacity: 0; transform: translateX(20px); }
     }
 `;
-document.head.appendChild(style);
+    document.head.appendChild(style);
 </script>
 {% endblock %}

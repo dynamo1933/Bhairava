@@ -1506,9 +1506,12 @@
 
     </div>
 </div>
+<!-- Chat Widget -->
+{% include 'components/chat_widget.html' %}
 {% endblock %}
 
 {% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 <script>
     function requestStageAccess(stageNum) {
         const btn = document.querySelector(`.btn-request[data-stage="${stageNum}"]`);

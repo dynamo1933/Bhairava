@@ -2,244 +2,244 @@
 
 {% block extra_styles %}
 <style>
-/* ===== STAGE PAGE COMPLETE STYLES ===== */
+    /* ===== STAGE PAGE COMPLETE STYLES ===== */
 
-/* Stage Header Bar */
-.stage-header-bar {
-    background: linear-gradient(135deg, #8b1538 0%, #b91c1c 30%, #c2410c 70%, #ea580c 100%);
-    padding: 12px 24px;
-    text-align: center;
-}
-
-.stage-header-content {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.stage-header-image {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 215, 0, 0.8);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    flex-shrink: 0;
-}
-
-.stage-header-info {
-    text-align: left;
-}
-
-.stage-header-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
-    margin-bottom: 4px;
-}
-
-.stage-header-title {
-    font-family: var(--font-mystical, 'Cinzel', serif);
-    font-size: 20px;
-    color: #ffd700;
-    margin: 0;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.stage-header-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 13px;
-    font-style: italic;
-    margin: 4px 0 0 0;
-}
-
-/* Stage Body */
-.stage-body {
-    padding: 24px 16px;
-    max-width: 1000px;
-    margin: 0 auto;
-    min-height: 50vh;
-}
-
-@media (min-width: 768px) {
-    .stage-body {
-        padding: 32px 24px;
-    }
-    
-    .stage-header-image {
-        width: 65px;
-        height: 65px;
-    }
-    
-    .stage-header-title {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 480px) {
+    /* Stage Header Bar */
     .stage-header-bar {
-        padding: 10px 16px;
+        background: linear-gradient(135deg, #8b1538 0%, #b91c1c 30%, #c2410c 70%, #ea580c 100%);
+        padding: 12px 24px;
+        text-align: center;
     }
-    
+
     .stage-header-content {
-        gap: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
     }
-    
+
     .stage-header-image {
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 215, 0, 0.8);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
     }
-    
-    .stage-header-title {
-        font-size: 16px;
+
+    .stage-header-info {
+        text-align: left;
     }
-    
-    .stage-header-subtitle {
-        font-size: 11px;
-    }
-    
+
     .stage-header-badge {
-        font-size: 10px;
-        padding: 3px 8px;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        margin-bottom: 4px;
     }
-}
 
-/* Content Card */
-.stage-card {
-    background: var(--card-bg, #fff);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color, #e5e7eb);
-    margin-bottom: 24px;
-    overflow: hidden;
-}
+    .stage-header-title {
+        font-family: var(--font-mystical, 'Cinzel', serif);
+        font-size: 20px;
+        color: #ffd700;
+        margin: 0;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
 
-.stage-card-body {
-    padding: 24px;
-}
+    .stage-header-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+        font-style: italic;
+        margin: 4px 0 0 0;
+    }
 
-/* Document Embed */
-.doc-header {
-    background: linear-gradient(135deg, var(--primary-red, #c41e3a) 0%, #991b1b 50%, var(--accent-orange, #ea580c) 100%);
-    padding: 20px 24px;
-    text-align: center;
-    color: white;
-}
+    /* Stage Body */
+    .stage-body {
+        padding: 24px 16px;
+        max-width: 1000px;
+        margin: 0 auto;
+        min-height: 50vh;
+    }
 
-.doc-icon {
-    font-size: 2.5rem;
-    margin-bottom: 8px;
-}
+    @media (min-width: 768px) {
+        .stage-body {
+            padding: 32px 24px;
+        }
 
-.doc-title {
-    font-family: var(--font-mystical, 'Cinzel', serif);
-    color: #fff;
-    margin: 0 0 8px 0;
-    font-size: 1.4rem;
-    letter-spacing: 1px;
-}
+        .stage-header-image {
+            width: 65px;
+            height: 65px;
+        }
 
-.doc-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0;
-    font-size: 0.95rem;
-    font-style: italic;
-}
+        .stage-header-title {
+            font-size: 24px;
+        }
+    }
 
-.doc-embed {
-    background: #f5f5f5;
-    min-height: 400px;
-}
+    @media (max-width: 480px) {
+        .stage-header-bar {
+            padding: 10px 16px;
+        }
 
-.doc-embed iframe {
-    display: block;
-    border: none;
-    width: 100%;
-    height: 700px;
-}
+        .stage-header-content {
+            gap: 12px;
+        }
 
-@media (max-width: 768px) {
+        .stage-header-image {
+            width: 45px;
+            height: 45px;
+        }
+
+        .stage-header-title {
+            font-size: 16px;
+        }
+
+        .stage-header-subtitle {
+            font-size: 11px;
+        }
+
+        .stage-header-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+        }
+    }
+
+    /* Content Card */
+    .stage-card {
+        background: var(--card-bg, #fff);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color, #e5e7eb);
+        margin-bottom: 24px;
+        overflow: hidden;
+    }
+
+    .stage-card-body {
+        padding: 24px;
+    }
+
+    /* Document Embed */
+    .doc-header {
+        background: linear-gradient(135deg, var(--primary-red, #c41e3a) 0%, #991b1b 50%, var(--accent-orange, #ea580c) 100%);
+        padding: 20px 24px;
+        text-align: center;
+        color: white;
+    }
+
+    .doc-icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+    }
+
+    .doc-title {
+        font-family: var(--font-mystical, 'Cinzel', serif);
+        color: #fff;
+        margin: 0 0 8px 0;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .doc-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        font-size: 0.95rem;
+        font-style: italic;
+    }
+
+    .doc-embed {
+        background: #f5f5f5;
+        min-height: 400px;
+    }
+
     .doc-embed iframe {
-        height: 500px;
+        display: block;
+        border: none;
+        width: 100%;
+        height: 700px;
     }
-}
 
-.doc-actions {
-    padding: 16px 24px;
-    background: #f8f9fa;
-    text-align: center;
-    border-top: 1px solid #e9ecef;
-}
+    @media (max-width: 768px) {
+        .doc-embed iframe {
+            height: 500px;
+        }
+    }
 
-.btn-external {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, var(--primary-red, #c41e3a) 0%, #991b1b 100%);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
+    .doc-actions {
+        padding: 16px 24px;
+        background: #f8f9fa;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+    }
 
-.btn-external:hover {
-    background: white;
-    color: var(--primary-red, #c41e3a);
-    box-shadow: inset 0 0 0 2px var(--primary-red, #c41e3a);
-}
+    .btn-external {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, var(--primary-red, #c41e3a) 0%, #991b1b 100%);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
 
-/* Placeholder */
-.placeholder-box {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--text-muted, #6b7280);
-}
+    .btn-external:hover {
+        background: white;
+        color: var(--primary-red, #c41e3a);
+        box-shadow: inset 0 0 0 2px var(--primary-red, #c41e3a);
+    }
 
-.placeholder-box .icon {
-    font-size: 3rem;
-    margin-bottom: 16px;
-}
+    /* Placeholder */
+    .placeholder-box {
+        text-align: center;
+        padding: 48px 24px;
+        color: var(--text-muted, #6b7280);
+    }
 
-.placeholder-box h3 {
-    font-family: var(--font-primary, 'Cinzel', serif);
-    font-size: 1.3rem;
-    color: var(--text-dark, #1f2937);
-    margin-bottom: 8px;
-}
+    .placeholder-box .icon {
+        font-size: 3rem;
+        margin-bottom: 16px;
+    }
 
-/* Back Button */
-.stage-actions {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
+    .placeholder-box h3 {
+        font-family: var(--font-primary, 'Cinzel', serif);
+        font-size: 1.3rem;
+        color: var(--text-dark, #1f2937);
+        margin-bottom: 8px;
+    }
 
-.btn-back {
-    background: white;
-    color: var(--primary-red, #c41e3a);
-    padding: 12px 24px;
-    border: 2px solid var(--primary-red, #c41e3a);
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
+    /* Back Button */
+    .stage-actions {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
 
-.btn-back:hover {
-    background: var(--primary-red, #c41e3a);
-    color: white;
-}
+    .btn-back {
+        background: white;
+        color: var(--primary-red, #c41e3a);
+        padding: 12px 24px;
+        border: 2px solid var(--primary-red, #c41e3a);
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-back:hover {
+        background: var(--primary-red, #c41e3a);
+        color: white;
+    }
 </style>
 {% endblock %}
 
@@ -248,21 +248,28 @@
 <div class="stage-header-bar">
     <div class="stage-header-content">
         {% if stage_data.type == 'rudraksha' and stage_data.image %}
-            <img src="{{ url_for('static', filename=stage_data.image) }}" alt="{{ stage_data.name }}" class="stage-header-image">
+        <img src="{{ url_for('static', filename=stage_data.image) }}" alt="{{ stage_data.name }}"
+            class="stage-header-image">
         {% elif stage_num == 1 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/mandala_1_header.jpg') }}" alt="Mandala 1" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/mandala_1_header.jpg') }}" alt="Mandala 1"
+            class="stage-header-image">
         {% elif stage_num == 2 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/mandala_2_header.jpg') }}" alt="Mandala 2" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/mandala_2_header.jpg') }}" alt="Mandala 2"
+            class="stage-header-image">
         {% elif stage_num == 3 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/mandala_3_header.jpg') }}" alt="Mandala 3" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/mandala_3_header.jpg') }}" alt="Mandala 3"
+            class="stage-header-image">
         {% elif stage_num == 4 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_8_header.jpg') }}" alt="8 Mukhi Rudraksha" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_8_header.jpg') }}"
+            alt="8 Mukhi Rudraksha" class="stage-header-image">
         {% elif stage_num == 5 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_11_header.jpg') }}" alt="11 Mukhi Rudraksha" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_11_header.jpg') }}"
+            alt="11 Mukhi Rudraksha" class="stage-header-image">
         {% elif stage_num == 6 %}
-            <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_14_header.jpg') }}" alt="14 Mukhi Rudraksha" class="stage-header-image">
+        <img src="{{ url_for('static', filename='images/stage_headers/rudraksha_14_header.jpg') }}"
+            alt="14 Mukhi Rudraksha" class="stage-header-image">
         {% endif %}
-        
+
         <div class="stage-header-info">
             <div class="stage-header-badge">{{ stage_data.phase }}</div>
             <h1 class="stage-header-title">{{ stage_data.name }}</h1>
@@ -281,7 +288,7 @@
 
 <!-- Stage Body -->
 <div class="stage-body">
-    
+
     {% if stage_num in [1, 2, 3] %}
     <!-- Document Card -->
     <div class="stage-card">
@@ -294,19 +301,16 @@
                 {% else %}Complete the first phase with the third mandala{% endif %}
             </p>
         </div>
-        
+
         <div class="doc-embed">
-            <iframe 
-                src="https://drive.google.com/file/d/1ef_LIP8Tn9HI_A_1f12IcNr2CuwiKG4r/preview" 
-                allow="autoplay"
+            <iframe src="https://drive.google.com/file/d/1ef_LIP8Tn9HI_A_1f12IcNr2CuwiKG4r/preview" allow="autoplay"
                 allowfullscreen>
             </iframe>
         </div>
-        
+
         <div class="doc-actions">
-            <a href="https://drive.google.com/file/d/1ef_LIP8Tn9HI_A_1f12IcNr2CuwiKG4r/view" 
-               target="_blank" 
-               class="btn-external">
+            <a href="https://drive.google.com/file/d/1ef_LIP8Tn9HI_A_1f12IcNr2CuwiKG4r/view" target="_blank"
+                class="btn-external">
                 <i class="fas fa-external-link-alt"></i>
                 Open in New Tab
             </a>
@@ -322,7 +326,7 @@
         </div>
     </div>
     {% endif %}
-    
+
     <!-- Actions -->
     <div class="stage-actions">
         <a href="/padati" class="btn-back">
@@ -330,6 +334,12 @@
             Back to Progress
         </a>
     </div>
-    
+
 </div>
+<!-- Chat Widget -->
+{% include 'components/chat_widget.html' %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 {% endblock %}

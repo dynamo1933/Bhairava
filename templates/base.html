@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="description" content="Daiva Anughara - Sacred spiritual practice website focused on Bhairava Sadhana and Sādhanā Paddhati">
-    <meta name="keywords" content="Bhairava Sadhana, spiritual practice, Sādhanā Paddhati, Daiva Anughara, spiritual website">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description"
+        content="Daiva Anughara - Sacred spiritual practice website focused on Bhairava Sadhana and Sādhanā Paddhati">
+    <meta name="keywords"
+        content="Bhairava Sadhana, spiritual practice, Sādhanā Paddhati, Daiva Anughara, spiritual website">
     <meta name="author" content="Daiva Anughara">
     <meta name="robots" content="index, follow">
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#c41e3a">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,41 +21,142 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="msapplication-TileColor" content="#c41e3a">
     <meta name="msapplication-tap-highlight" content="no">
-    
+
     <!-- Mobile Optimization -->
     <meta name="format-detection" content="telephone=no">
     <meta name="HandheldFriendly" content="true">
     <meta name="MobileOptimized" content="width">
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{{ page_title }}">
     <meta property="og:description" content="Sacred spiritual practice website focused on Bhairava Sadhana">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url }}">
-    
+
     <title>🕉️ {{ page_title }}</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600&family=Cinzel:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- PWA Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ range(1, 10000) | random }}">
+    <style>
+        /* CRITICAL INLINE FIXES - V2 */
+
+        /* 1. Remove the background pattern causing the fade/overlay */
+        body::before {
+            content: none !important;
+            display: none !important;
+            background: none !important;
+        }
+
+        /* 2. Ensure content stacking is correct */
+        body {
+            pointer-events: auto !important;
+            overflow-x: hidden;
+            background-color: var(--sacred-bg) !important;
+            /* Ensure bg color remains */
+        }
+
+        .top-bar {
+            position: relative;
+            z-index: 5000 !important;
+        }
+
+        .header {
+            position: relative;
+            z-index: 4999 !important;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 10 !important;
+        }
+
+        /* 3. Nuke all overlays */
+        .modal,
+        .search-modal,
+        .sacred-modal,
+        .nav-mobile,
+        .overlay,
+        .backdrop,
+        .modal-backdrop {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        /* 4. Restore active modals only */
+        .modal.is-active,
+        .search-modal.active,
+        .nav-mobile.is-active,
+        .sacred-modal[style*="display: flex"],
+        .sacred-modal[style*="display: block"] {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 9999 !important;
+        }
+
+        /* 5. Mobile Input Fix */
+        @media (max-width: 768px) {
+            .input-wrapper .form-control {
+                padding-left: 3.5rem !important;
+            }
+
+            /* FORCE VISIBILITY OF MOBILE MENU TOGGLE */
+            .mobile-menu-toggle {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                width: 30px !important;
+                height: 21px !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                z-index: 2005 !important;
+                background: transparent !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            .mobile-menu-toggle .hamburger-line {
+                display: block !important;
+                width: 100% !important;
+                height: 3px !important;
+                background-color: #c41e3a !important;
+                /* Force Red */
+                border-radius: 3px !important;
+                opacity: 1 !important;
+            }
+        }
+    </style>
     {% block extra_styles %}{% endblock %}
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -65,11 +171,12 @@
     }
     </script>
 </head>
+
 <body>
     <!-- Skip Links for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <a href="#navigation" class="skip-link">Skip to navigation</a>
-    
+
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-container">
@@ -82,7 +189,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Main Header -->
     <header class="header" id="navigation">
         <div class="header-container">
@@ -96,7 +203,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- Desktop Navigation -->
             <nav class="nav-desktop" aria-label="Main navigation">
                 <ul class="nav-list">
@@ -108,25 +215,25 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/mandala-sadhana" class="dropdown-link">
-                                <i class="fas fa-circle-notch"></i>
-                                <span>Mandala Sadhana</span>
-                            </a></li>
+                                    <i class="fas fa-circle-notch"></i>
+                                    <span>Mandala Sadhana</span>
+                                </a></li>
                             <li><a href="/padati" class="dropdown-link">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Padati for You</span>
-                            </a></li>
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>Padati for You</span>
+                                </a></li>
                             <li><a href="/ashtami" class="dropdown-link">
-                                <i class="fas fa-moon"></i>
-                                <span>Ashtami</span>
-                            </a></li>
+                                    <i class="fas fa-moon"></i>
+                                    <span>Ashtami</span>
+                                </a></li>
                             <li><a href="http://localhost:5000/documents" class="dropdown-link">
-                                <i class="fas fa-file-alt"></i>
-                                <span>General Document</span>
-                            </a></li>
+                                    <i class="fas fa-file-alt"></i>
+                                    <span>General Document</span>
+                                </a></li>
                             <li><a href="/guru-bhairava" class="dropdown-link">
-                                <i class="fas fa-fire-alt"></i>
-                                <span>Guru Bhairava</span>
-                            </a></li>
+                                    <i class="fas fa-fire-alt"></i>
+                                    <span>Guru Bhairava</span>
+                                </a></li>
                         </ul>
                     </li>
                     <li class="nav-dropdown">
@@ -137,86 +244,99 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/devi" class="dropdown-link">
-                                <i class="fas fa-lotus"></i>
-                                <span>Devi</span>
-                            </a></li>
+                                    <i class="fas fa-lotus"></i>
+                                    <span>Devi</span>
+                                </a></li>
                             <li><a href="/devi-padathi" class="dropdown-link">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Devi Padathi</span>
-                            </a></li>
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>Devi Padathi</span>
+                                </a></li>
                             <li><a href="/vishesh-sadhana" class="dropdown-link">
-                                <i class="fas fa-star"></i>
-                                <span>Vishesh Sãdhana</span>
-                            </a></li>
+                                    <i class="fas fa-star"></i>
+                                    <span>Vishesh Sãdhana</span>
+                                </a></li>
                         </ul>
                     </li>
                     <li><a href="http://localhost:5000/youtube" class="nav-link">
-                        <i class="fab fa-youtube"></i>
-                        <span>YouTube</span>
-                    </a></li>
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a></li>
                     <li><a href="/bhiksha" class="nav-link">
-                        <i class="fas fa-donate"></i>
-                        <span>Bhiksha</span>
-                    </a></li>
+                            <i class="fas fa-donate"></i>
+                            <span>Bhiksha</span>
+                        </a></li>
                     <li><a href="/about" class="nav-link">
-                        <i class="fas fa-info-circle"></i>
-                        <span>About</span>
-                    </a></li>
-                    
-                    <!-- Admin Navigation -->
+                            <i class="fas fa-info-circle"></i>
+                            <span>About</span>
+                        </a></li>
+
                     {% if current_user.is_authenticated and current_user.is_admin() %}
                     <li class="nav-dropdown admin-dropdown">
                         <a href="#" class="nav-link admin-link">
                             <i class="fas fa-cog"></i>
                             <span>Admin</span>
+                            {% if admin_unread_chat_count and admin_unread_chat_count > 0 %}
+                            <span class="badg"
+                                style="background:red; color:white; border-radius:50%; padding:2px 6px; font-size:10px; margin-left:5px;">{{
+                                admin_unread_chat_count }}</span>
+                            {% endif %}
                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                         </a>
                         <ul class="dropdown-menu admin-menu">
+                            <li><a href="{{ url_for('admin_chat') }}" class="dropdown-link">
+                                    <i class="fas fa-comments"></i>
+                                    <span>Messages</span>
+                                    {% if admin_unread_chat_count and admin_unread_chat_count > 0 %}
+                                    <span
+                                        style="background:red; color:white; border-radius:50%; padding:2px 6px; font-size:10px; margin-left:auto;">{{
+                                        admin_unread_chat_count }}</span>
+                                    {% endif %}
+                                </a></li>
                             <li><a href="{{ url_for('auth.admin_users') }}" class="dropdown-link">
-                                <i class="fas fa-users-cog"></i>
-                                <span>User Management</span>
-                            </a></li>
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>User Management</span>
+                                </a></li>
                             <li><a href="{{ url_for('admin_donations') }}" class="dropdown-link">
-                                <i class="fas fa-donate"></i>
-                                <span>Donation Management</span>
-                            </a></li>
+                                    <i class="fas fa-donate"></i>
+                                    <span>Donation Management</span>
+                                </a></li>
                             <li><a href="{{ url_for('donation_purposes') }}" class="dropdown-link">
-                                <i class="fas fa-list"></i>
-                                <span>Donation Purposes</span>
-                            </a></li>
+                                    <i class="fas fa-list"></i>
+                                    <span>Donation Purposes</span>
+                                </a></li>
                             <li><a href="{{ url_for('admin_mandala_sadhana') }}" class="dropdown-link">
-                                <i class="fas fa-circle-notch"></i>
-                                <span>Mandala Sadhana</span>
-                            </a></li>
+                                    <i class="fas fa-circle-notch"></i>
+                                    <span>Mandala Sadhana</span>
+                                </a></li>
                         </ul>
                     </li>
                     {% endif %}
                 </ul>
             </nav>
-            
+
             <!-- User Authentication Section -->
             <div class="user-auth-section">
                 {% if current_user.is_authenticated %}
-                    <div class="user-menu">
-                        <div class="user-info">
-                            <span class="user-name">{{ current_user.full_name }}</span>
-                            {% if current_user.spiritual_name %}
-                                <span class="spiritual-name">({{ current_user.spiritual_name }})</span>
-                            {% endif %}
-                        </div>
-                        <div class="user-dropdown">
-                            <a href="{{ url_for('auth.profile') }}" class="user-link">Profile</a>
-                            <a href="{{ url_for('auth.logout') }}" class="user-link">Logout</a>
-                        </div>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <span class="user-name">{{ current_user.full_name }}</span>
+                        {% if current_user.spiritual_name %}
+                        <span class="spiritual-name">({{ current_user.spiritual_name }})</span>
+                        {% endif %}
                     </div>
+                    <div class="user-dropdown">
+                        <a href="{{ url_for('auth.profile') }}" class="user-link">Profile</a>
+                        <a href="{{ url_for('auth.logout') }}" class="user-link">Logout</a>
+                    </div>
+                </div>
                 {% else %}
-                    <div class="auth-buttons">
-                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">Login</a>
-                        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Register</a>
-                    </div>
+                <div class="auth-buttons">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">Login</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Register</a>
+                </div>
                 {% endif %}
             </div>
-            
+
             <!-- Mobile Menu Toggle -->
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
                 <span class="hamburger-line"></span>
@@ -225,7 +345,7 @@
             </button>
         </div>
     </header>
-    
+
     <!-- Mobile Navigation -->
     <nav class="nav-mobile" aria-label="Mobile navigation" hidden>
         <button class="mobile-nav-close" onclick="closeMobileMenu()" aria-label="Close mobile menu">
@@ -236,99 +356,114 @@
             <li class="mobile-nav-section">
                 <span class="mobile-nav-section-title"><i class="fas fa-om"></i> Bhairava</span>
                 <ul class="mobile-nav-submenu">
-                    <li><a href="/mandala-sadhana" class="mobile-nav-link"><i class="fas fa-circle-notch"></i> Mandala Sadhana</a></li>
-                    <li><a href="/padati" class="mobile-nav-link"><i class="fas fa-user-circle"></i> Padati for You</a></li>
+                    <li><a href="/mandala-sadhana" class="mobile-nav-link"><i class="fas fa-circle-notch"></i> Mandala
+                            Sadhana</a></li>
+                    <li><a href="/padati" class="mobile-nav-link"><i class="fas fa-user-circle"></i> Padati for You</a>
+                    </li>
                     <li><a href="/ashtami" class="mobile-nav-link"><i class="fas fa-moon"></i> Ashtami</a></li>
-                    <li><a href="http://localhost:5000/documents" class="mobile-nav-link"><i class="fas fa-file-alt"></i> General Document</a></li>
-                    <li><a href="/guru-bhairava" class="mobile-nav-link"><i class="fas fa-fire-alt"></i> Guru Bhairava</a></li>
+                    <li><a href="http://localhost:5000/documents" class="mobile-nav-link"><i
+                                class="fas fa-file-alt"></i> General Document</a></li>
+                    <li><a href="/guru-bhairava" class="mobile-nav-link"><i class="fas fa-fire-alt"></i> Guru
+                            Bhairava</a></li>
                 </ul>
             </li>
-            
+
             <!-- Devi Section -->
             <li class="mobile-nav-section">
                 <span class="mobile-nav-section-title"><span class="mobile-nav-icon-unicode">🌸</span> Devi</span>
                 <ul class="mobile-nav-submenu">
                     <li><a href="/devi" class="mobile-nav-link"><i class="fas fa-lotus"></i> Devi</a></li>
-                    <li><a href="/devi-padathi" class="mobile-nav-link"><i class="fas fa-user-circle"></i> Devi Padathi</a></li>
-                    <li><a href="/vishesh-sadhana" class="mobile-nav-link"><i class="fas fa-star"></i> Vishesh Sãdhana</a></li>
+                    <li><a href="/devi-padathi" class="mobile-nav-link"><i class="fas fa-user-circle"></i> Devi
+                            Padathi</a></li>
+                    <li><a href="/vishesh-sadhana" class="mobile-nav-link"><i class="fas fa-star"></i> Vishesh
+                            Sãdhana</a></li>
                 </ul>
             </li>
 
-            <li><a href="http://localhost:5000/youtube" class="mobile-nav-link"><i class="fab fa-youtube"></i> YouTube</a></li>
+            <li><a href="http://localhost:5000/youtube" class="mobile-nav-link"><i class="fab fa-youtube"></i>
+                    YouTube</a></li>
 
             <li><a href="/bhiksha" class="mobile-nav-link"><i class="fas fa-donate"></i> Bhiksha</a></li>
             <li><a href="/about" class="mobile-nav-link"><i class="fas fa-info-circle"></i> About</a></li>
-            
+
             <!-- Admin Mobile Navigation -->
             {% if current_user.is_authenticated and current_user.is_admin() %}
             <li class="mobile-nav-section">
                 <span class="mobile-nav-section-title"><i class="fas fa-cog"></i> Admin</span>
                 <ul class="mobile-nav-submenu">
-                    <li><a href="{{ url_for('auth.admin_users') }}" class="mobile-nav-link"><i class="fas fa-users-cog"></i> User Management</a></li>
-                    <li><a href="{{ url_for('admin_donations') }}" class="mobile-nav-link"><i class="fas fa-donate"></i> Donation Management</a></li>
-                    <li><a href="{{ url_for('donation_purposes') }}" class="mobile-nav-link"><i class="fas fa-list"></i> Donation Purposes</a></li>
-                    <li><a href="{{ url_for('admin_mandala_sadhana') }}" class="mobile-nav-link"><i class="fas fa-circle-notch"></i> Mandala Sadhana</a></li>
+                    <li><a href="{{ url_for('auth.admin_users') }}" class="mobile-nav-link"><i
+                                class="fas fa-users-cog"></i> User Management</a></li>
+                    <li><a href="{{ url_for('admin_donations') }}" class="mobile-nav-link"><i class="fas fa-donate"></i>
+                            Donation Management</a></li>
+                    <li><a href="{{ url_for('donation_purposes') }}" class="mobile-nav-link"><i class="fas fa-list"></i>
+                            Donation Purposes</a></li>
+                    <li><a href="{{ url_for('admin_mandala_sadhana') }}" class="mobile-nav-link"><i
+                                class="fas fa-circle-notch"></i> Mandala Sadhana</a></li>
                 </ul>
             </li>
             {% endif %}
-            
+
             <!-- Mobile Auth Links -->
             {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('auth.profile') }}" class="mobile-nav-link"><i class="fas fa-user"></i> Profile</a></li>
-            <li><a href="{{ url_for('auth.logout') }}" class="mobile-nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="{{ url_for('auth.profile') }}" class="mobile-nav-link"><i class="fas fa-user"></i> Profile</a>
+            </li>
+            <li><a href="{{ url_for('auth.logout') }}" class="mobile-nav-link"><i class="fas fa-sign-out-alt"></i>
+                    Logout</a></li>
             {% else %}
-            <li><a href="{{ url_for('auth.login') }}" class="mobile-nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-            <li><a href="{{ url_for('auth.register') }}" class="mobile-nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
+            <li><a href="{{ url_for('auth.login') }}" class="mobile-nav-link"><i class="fas fa-sign-in-alt"></i>
+                    Login</a></li>
+            <li><a href="{{ url_for('auth.register') }}" class="mobile-nav-link"><i class="fas fa-user-plus"></i>
+                    Register</a></li>
             {% endif %}
         </ul>
     </nav>
-    
+
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages" id="flashMessages">
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}" data-category="{{ category }}">
-                        <div class="message-icon">
-                            {% if category == 'success' %}
-                                <i class="fas fa-check-circle"></i>
-                            {% elif category == 'error' %}
-                                <i class="fas fa-exclamation-circle"></i>
-                            {% elif category == 'warning' %}
-                                <i class="fas fa-exclamation-triangle"></i>
-                            {% elif category == 'info' %}
-                                <i class="fas fa-info-circle"></i>
-                            {% else %}
-                                <i class="fas fa-bell"></i>
-                            {% endif %}
-                        </div>
-                        <div class="message-content">
-                            <span class="message-text">{{ message }}</span>
-                        </div>
-                        <button class="message-close" onclick="closeFlashMessage(this)" aria-label="Close message">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                {% endfor %}
+    {% if messages %}
+    <div class="flash-messages" id="flashMessages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}" data-category="{{ category }}">
+            <div class="message-icon">
+                {% if category == 'success' %}
+                <i class="fas fa-check-circle"></i>
+                {% elif category == 'error' %}
+                <i class="fas fa-exclamation-circle"></i>
+                {% elif category == 'warning' %}
+                <i class="fas fa-exclamation-triangle"></i>
+                {% elif category == 'info' %}
+                <i class="fas fa-info-circle"></i>
+                {% else %}
+                <i class="fas fa-bell"></i>
+                {% endif %}
             </div>
-        {% endif %}
+            <div class="message-content">
+                <span class="message-text">{{ message }}</span>
+            </div>
+            <button class="message-close" onclick="closeFlashMessage(this)" aria-label="Close message">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endwith %}
-    
+
     <!-- Breadcrumbs -->
     <nav class="breadcrumbs" aria-label="Breadcrumb navigation">
         <ol class="breadcrumb-list">
             <li><a href="/">Daiva Anughara</a></li>
             {% if request.endpoint != 'home' and page_title %}
-                <li aria-current="page">{{ page_title.split(' - ')[0] if page_title else 'Page' }}</li>
+            <li aria-current="page">{{ page_title.split(' - ')[0] if page_title else 'Page' }}</li>
             {% endif %}
         </ol>
     </nav>
-    
+
     <!-- Main Content -->
     <main id="main-content" class="main-content">
         {% block content %}{% endblock %}
     </main>
-    
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
@@ -337,7 +472,7 @@
                     <h3>Daiva Anughara</h3>
                     <p>Sacred spiritual practice organization dedicated to Bhairava Sadhana and Sādhanā Paddhati.</p>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
@@ -351,7 +486,7 @@
                         <li><a href="/bhiksha">Bhiksha</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>External Links</h4>
                     <ul class="footer-links">
@@ -362,21 +497,22 @@
                         </li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Connect</h4>
-                    <p><a href="https://t.me/+tM8pVCZWG8cxYjc1" target="_blank" rel="noopener noreferrer" class="telegram-link">@https://t.me/+tM8pVCZWG8cxYjc1</a></p>
+                    <p><a href="https://t.me/+tM8pVCZWG8cxYjc1" target="_blank" rel="noopener noreferrer"
+                            class="telegram-link">@https://t.me/+tM8pVCZWG8cxYjc1</a></p>
                     <p class="footer-note">🕉️ Telegram for Guru Bhairava insights & sadhana updates</p>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2024 Daiva Anughara. All rights reserved.</p>
                 <p class="sacred-note">🕉️ Sacred spiritual content - handle with devotion 🕉️</p>
             </div>
         </div>
     </footer>
-    
+
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/simplyCountdown.min.js') }}"></script>
@@ -388,5 +524,28 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
     {% block extra_scripts %}{% endblock %}
+
+    <script>
+        // EMERGENCY SCRIPT TO REMOVE ROGUE OVERLAYS
+        document.addEventListener('DOMContentLoaded', function () {
+            // Remove any element that might be blocking the screen
+            const overlays = document.querySelectorAll('.backdrop, .overlay, .modal-backdrop');
+            overlays.forEach(el => el.remove());
+
+            // Ensure nav-mobile is hidden on desktop (double check)
+            if (window.innerWidth > 768) {
+                const navMobile = document.querySelector('.nav-mobile');
+                if (navMobile) {
+                    navMobile.style.display = 'none';
+                    navMobile.setAttribute('hidden', '');
+                }
+            }
+
+            // Reset body pointer events
+            document.body.style.pointerEvents = 'auto';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
 </body>
+
 </html>

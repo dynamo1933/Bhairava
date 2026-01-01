@@ -378,3 +378,32 @@ class StageAccessRequest(db.Model):
     
     def __repr__(self):
         return f'<StageAccessRequest {self.user.username} - Stage {self.stage_number} - {self.status}>'
+
+class ChatMessage(db.Model):
+    """Model for chat messages between users and admin"""
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # If recipient is null, it's a broadcast or general message, but for this app:
+    # User -> Admin: recipient_id can be null (implies admin) or specific admin ID
+    # Admin -> User: recipient_id is the user
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    message = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    is_read = db.Column(db.Boolean, default=False)
+    is_from_admin = db.Column(db.Boolean, default=False)
+    
+    # Relationships
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
+    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='received_messages')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'recipient_id': self.recipient_id,
+            'message': self.message,
+            'timestamp': self.timestamp.isoformat(),
+            'is_read': self.is_read,
+            'is_from_admin': self.is_from_admin,
+            'sender_name': self.sender.full_name if self.sender else 'Unknown'
+        }

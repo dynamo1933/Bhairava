@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from flask_login import login_user, logout_user, login_required, current_user
 from urllib.parse import urlparse
 from models import db, User, StageAccessRequest
-from forms import LoginForm, RegistrationForm, AdminApprovalForm, UserSearchForm
+from forms import LoginForm, RegistrationForm, AdminApprovalForm, UserSearchForm, EditProfileForm
 from datetime import datetime
 import os
 from io import BytesIO
@@ -373,10 +373,34 @@ def reset_user_stage(user_id):
     flash(f'Stage {stage_number} and subsequent stages reset for {user.username}', 'success')
     return redirect(url_for('auth.admin_user_detail', user_id=user_id))
 
-@auth.route('/profile')
+@auth.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    return render_template('auth/profile.html', title='Profile', page_title='Profile - Daiva Anughara')
+    form = EditProfileForm()
+    
+    if form.validate_on_submit():
+        current_user.address = form.address.data
+        current_user.purpose = form.purpose.data
+        current_user.phone = form.phone.data
+        
+        try:
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('auth.profile'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error updating profile. Please try again.', 'error')
+    
+    # Pre-fill form
+    if request.method == 'GET':
+        form.address.data = current_user.address
+        form.purpose.data = current_user.purpose
+        form.phone.data = current_user.phone
+
+    return render_template('auth/profile.html', 
+                         title='Profile', 
+                         page_title='Profile - Daiva Anughara',
+                         form=form)
 
 @auth.route('/profile/edit', methods=['GET', 'POST'])
 @login_required

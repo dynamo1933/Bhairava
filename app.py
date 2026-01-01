@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
 from flask_wtf.csrf import CSRFProtect, generate_csrf, CSRFError
-from models import db, User, DonationPurpose, OfflineDonation, MandalaSadhanaRegistration
+from models import db, User, DonationPurpose, OfflineDonation, MandalaSadhanaRegistration, ChatMessage
 from auth import auth
 from forms import DonationPurposeForm, OfflineDonationForm, DonationSearchForm, MandalaSadhanaRegistrationForm, MandalaSadhanaSearchForm
 from google_sheets import get_sheets_manager
@@ -1414,6 +1414,182 @@ def create_admin_user():
             print("Password: admin123")
             print("Please change the password after first login!")
 
+# Chat API Routes
+@app.route('/api/chat/send', methods=['POST'])
+@login_required
+def send_chat_message():
+    """Send a chat message"""
+    data = request.json
+    message_text = data.get('message')
+    recipient_id = data.get('recipient_id') # Optional, for admin replying
+    
+    if not message_text:
+        return jsonify({'error': 'Message required'}), 400
+        
+    try:
+        is_from_admin = current_user.is_admin()
+        
+        # If regular user sent it, it goes to admin (recipient_id=None or specific admin)
+        # If admin sent it, recipient_id must be provided
+        
+        if is_from_admin and not recipient_id:
+            return jsonify({'error': 'Recipient required for admin'}), 400
+            
+        new_message = ChatMessage(
+            sender_id=current_user.id,
+            recipient_id=recipient_id if is_from_admin else None, # None implies "to admin"
+            message=message_text,
+            is_from_admin=is_from_admin
+        )
+        
+        db.session.add(new_message)
+        db.session.commit()
+        
+        return jsonify({'success': True, 'message': new_message.to_dict()})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/chat/history', methods=['GET'])
+@login_required
+def get_chat_history():
+    """Get chat history for current user"""
+    try:
+        # If user is admin, they shouldn't use this endpoint for all chats, 
+        # but they might want to see their own chats if they were a user?
+        # For this simple implementation, let's assume this is for the Chat Widget
+        
+        # Determine effective user ID for the conversation
+        # If admin is spoofing/viewing, that's different. 
+        # For the widget:
+        user_id = current_user.id
+        
+        messages = ChatMessage.query.filter(
+            (ChatMessage.sender_id == user_id) | 
+            (ChatMessage.recipient_id == user_id) |
+            ((ChatMessage.recipient_id == None) & (ChatMessage.sender_id == user_id)) # Messages sent by user to admin
+        ).order_by(ChatMessage.timestamp.asc()).all()
+        
+        return jsonify([m.to_dict() for m in messages])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/chat/mark-read', methods=['POST'])
+@login_required
+def mark_messages_read():
+    """Mark messages as read"""
+    data = request.json
+    # If user calls this, marks Admin messages as read
+    # If Admin calls this, marks User messages as read (needs user_id)
+    
+    try:
+        if current_user.is_admin():
+            target_user_id = data.get('user_id')
+            if not target_user_id:
+                return jsonify({'error': 'User ID required'}), 400
+                
+            # Mark messages FROM this user as read
+            ChatMessage.query.filter_by(
+                sender_id=target_user_id, 
+                is_from_admin=False,
+                is_read=False
+            ).update({'is_read': True})
+            
+        else:
+            # Mark messages FROM admin TO this user as read
+            ChatMessage.query.filter(
+                ChatMessage.recipient_id == current_user.id,
+                ChatMessage.is_from_admin == True,
+                ChatMessage.is_read == False
+            ).update({'is_read': True})
+            
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+# Admin Chat Routes
+@app.route('/admin/chat')
+@login_required
+def admin_chat():
+    """Admin chat interface"""
+    if not current_user.is_admin():
+        flash('Access denied.', 'error')
+        return redirect(url_for('home'))
+        
+    return render_template('admin/chat.html', page_title='Admin Chat - Daiva Anughara')
+
+@app.route('/api/admin/chat/users')
+@login_required
+def get_chat_users():
+    """Get list of users who have chatted"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+        
+    try:
+        # Get users who have sent messages, ordered by most recent message
+        from sqlalchemy import func
+        
+        # Subquery to find latest message timestamp per user
+        # We look for messages composed by users (is_from_admin=False)
+        latest_msgs = db.session.query(
+            ChatMessage.sender_id,
+            func.max(ChatMessage.timestamp).label('last_active'),
+            func.count(ChatMessage.id).filter(ChatMessage.is_read == False).label('unread_count')
+        ).filter(
+            ChatMessage.is_from_admin == False
+        ).group_by(ChatMessage.sender_id).all()
+        
+        users_data = []
+        for sender_id, last_active, unread_count in latest_msgs:
+            user = User.query.get(sender_id)
+            if user:
+                users_data.append({
+                    'id': user.id,
+                    'full_name': user.full_name,
+                    'username': user.username,
+                    'profile_picture': user.profile_picture,
+                    'last_active': last_active.isoformat(),
+                    'unread_count': unread_count
+                })
+        
+        # Sort by last active desc
+        users_data.sort(key=lambda x: x['last_active'], reverse=True)
+        
+        return jsonify(users_data)
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/admin/chat/<int:user_id>')
+@login_required
+def get_admin_user_chat(user_id):
+    """Get chat history with a specific user for admin"""
+    if not current_user.is_admin():
+        return jsonify({'error': 'Access denied'}), 403
+        
+    try:
+        messages = ChatMessage.query.filter(
+            ((ChatMessage.sender_id == user_id) & (ChatMessage.is_from_admin == False)) | 
+            ((ChatMessage.recipient_id == user_id) & (ChatMessage.is_from_admin == True))
+        ).order_by(ChatMessage.timestamp.asc()).all()
+        
+        return jsonify([m.to_dict() for m in messages])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.context_processor
+def inject_admin_notifications():
+    """Inject unread message count for admin"""
+    if current_user.is_authenticated and current_user.is_admin():
+        unread_count = ChatMessage.query.filter_by(
+            is_from_admin=False,
+            is_read=False
+        ).count()
+        return dict(admin_unread_chat_count=unread_count)
+    return dict(admin_unread_chat_count=0)
+
 if __name__ == '__main__':
     # Create admin user on first run
     create_admin_user()
@@ -1448,3 +1624,4 @@ if __name__ == '__main__':
     finally:
         # Clean up mDNS service
         unregister_mdns_service(zeroconf, service_info)
+

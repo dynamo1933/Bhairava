@@ -2,25 +2,14 @@
 
 {% block extra_styles %}
 <style>
-    /* ===== DEVI PAGE - PREMIUM REDESIGN ===== */
-
-    :root {
-        --devi-gradient-primary: linear-gradient(135deg, #8B0000 0%, #aa1a1a 50%, #600000 100%);
-        --devi-card-bg: rgba(255, 255, 255, 0.95);
-        --devi-text-gold: #D4AF37;
-        --devi-shadow-soft: 0 10px 30px rgba(139, 0, 0, 0.15);
-        --devi-shadow-hover: 0 15px 40px rgba(139, 0, 0, 0.25);
-    }
+    /* ===== DEVI PAGE - CONSISTENT THEME WITH VISHESH SADHANA ===== */
 
     /* Hero Section */
     .devi-hero {
-        background: var(--devi-gradient-primary);
-        padding: 6rem 1.5rem 5rem;
+        background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 50%, #7c1526 100%);
+        padding: 3rem 1.5rem;
         position: relative;
         overflow: hidden;
-        color: white;
-        text-align: center;
-        border-bottom: 4px solid var(--accent-gold);
     }
 
     .devi-hero::before {
@@ -28,450 +17,534 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="sacredPattern" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23sacredPattern)"/></svg>');
+        opacity: 0.5;
         pointer-events: none;
     }
 
-    .devi-hero::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.3;
+    .hero-container {
+        position: relative;
+        z-index: 1;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
     }
 
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 900px;
-        margin: 0 auto;
-        animation: fadeInUp 1s ease-out;
+    .hero-image-wrapper {
+        flex-shrink: 0;
+    }
+
+    .hero-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-text-content {
+        text-align: center;
+        flex: 1;
     }
 
     .hero-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.8rem;
-        background: rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 215, 0, 0.3);
-        padding: 0.6rem 1.5rem;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.5rem 1rem;
         border-radius: 50px;
-        margin-bottom: 2rem;
-        backdrop-filter: blur(5px);
+        margin-bottom: 1rem;
     }
 
     .badge-icon {
         font-size: 1.2rem;
-        color: var(--accent-gold);
     }
 
     .badge-text {
+        color: #fff;
         font-family: var(--font-secondary);
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        color: var(--accent-gold);
-        font-weight: 600;
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 
     .hero-title {
         font-family: var(--font-mystical);
-        font-size: 4rem;
+        font-size: 2.5rem;
         color: #fff;
-        margin-bottom: 1.5rem;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        line-height: 1.1;
-    }
-
-    .hero-title span {
-        color: var(--accent-gold);
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 3px;
     }
 
     .hero-subtitle {
         font-family: var(--font-sacred);
-        font-size: 1.4rem;
+        font-size: 1.1rem;
         color: rgba(255, 255, 255, 0.9);
-        max-width: 700px;
-        margin: 0 auto 2.5rem;
-        line-height: 1.6;
+        margin-bottom: 0.75rem;
         font-style: italic;
     }
 
-    .hero-actions {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        flex-wrap: wrap;
+    .hero-sanskrit {
+        font-family: var(--font-mystical);
+        font-size: 1.3rem;
+        color: var(--accent-gold);
+        letter-spacing: 2px;
     }
 
-    .btn-hero {
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
-        font-family: var(--font-secondary);
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.8rem;
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hero-image {
+            width: 150px;
+            height: 150px;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
     }
 
-    .btn-hero.primary {
-        background: var(--accent-gold);
-        color: #3e0000;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-    }
-
-    .btn-hero.primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
-        background: #fff;
-    }
-
-    .btn-hero.secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(10px);
-    }
-
-    .btn-hero.secondary:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-3px);
-    }
-
-    /* Main Content Area */
+    /* Main Content */
     .devi-main {
+        padding: 2rem 1.25rem;
         max-width: 1200px;
-        margin: -3rem auto 4rem;
-        padding: 0 1.5rem;
-        position: relative;
-        z-index: 10;
+        margin: 0 auto;
     }
 
-    /* Cards Grid */
-    .cards-grid {
+    /* Content Cards */
+    .content-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px var(--shadow-color);
+        border: 1px solid var(--border-color);
+    }
+
+    /* Intro Box - Red Background */
+    .intro-box {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+        color: #fff;
+        padding: 2.5rem;
+        border-radius: var(--border-radius-lg);
+        text-align: center;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+    }
+
+    .intro-title {
+        font-family: var(--font-mystical);
+        font-size: 1.8rem;
+        color: var(--accent-gold);
+        margin-bottom: 1.5rem;
+    }
+
+    .intro-text {
+        font-family: var(--font-secondary);
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+
+    /* Philosophy Section - Refined for vertical balance */
+    .philosophy-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2.5rem;
+        grid-template-columns: 0.8fr 1.2fr;
+        /* Adjusted for portrait image */
+        gap: 3rem;
+        align-items: stretch;
+        margin-bottom: 4rem;
+        background: #fff;
+        padding: 2.5rem;
+        border-radius: var(--border-radius-lg);
+        box-shadow: 0 5px 20px var(--shadow-color);
+        border: 1px solid var(--border-color);
     }
 
-    .feature-card {
-        background: var(--devi-card-bg);
-        border-radius: 15px;
+    @media (max-width: 900px) {
+        .philosophy-grid {
+            grid-template-columns: 1fr;
+            padding: 1.5rem;
+        }
+    }
+
+    .philosophy-image-wrapper {
+        position: relative;
+        max-height: 500px;
+        /* Limit height for portrait images */
         overflow: hidden;
-        box-shadow: var(--devi-shadow-soft);
-        transition: all 0.4s ease;
-        border: 1px solid rgba(196, 30, 58, 0.1);
+        border-radius: var(--border-radius);
+        border: 3px solid var(--accent-gold);
+    }
+
+    .philosophy-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .philosophy-content {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        padding: 1rem 0;
     }
 
-    .feature-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--devi-shadow-hover);
+    .philosophy-header {
+        margin-bottom: 2rem;
+        position: relative;
     }
 
-    .card-image-header {
-        height: 120px;
-        background: linear-gradient(135deg, #fff7ed 0%, #fee2e2 100%);
+    .philosophy-header h2 {
+        font-family: var(--font-primary);
+        color: var(--primary-red);
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .philosophy-divider {
+        width: 80px;
+        height: 3px;
+        background: var(--accent-gold);
+        margin-bottom: 1.5rem;
+    }
+
+    .philosophy-text {
+        font-family: var(--font-secondary);
+        line-height: 1.8;
+        color: var(--text-dark);
+        font-size: 1.05rem;
+    }
+
+    .philosophy-text p {
+        margin-bottom: 1.5rem;
+    }
+
+    .philosophy-highlight-box {
+        background: rgba(196, 30, 58, 0.05);
+        border-left: 4px solid var(--primary-red);
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        color: var(--primary-red);
+    }
+
+    .highlight-red {
+        color: var(--primary-red);
+        font-weight: 600;
+    }
+
+    /* Guidelines Grid */
+    .guidelines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .guide-card {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--primary-red);
+        transition: all 0.3s ease;
+    }
+
+    .guide-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px var(--shadow-color);
+    }
+
+    .guide-title {
+        font-family: var(--font-primary);
+        color: var(--primary-red);
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
         display: flex;
         align-items: center;
-        justify-content: center;
-        position: relative;
-        border-bottom: 2px solid var(--accent-gold);
+        gap: 0.5rem;
     }
 
-    .card-icon {
-        font-size: 3.5rem;
-        color: var(--primary-red);
-        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    .guide-text {
+        font-family: var(--font-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--text-dark);
     }
 
-    .card-content {
-        padding: 2.5rem;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
+    /* Timings Card */
+    .timings-card {
+        background: linear-gradient(135deg, #fef7ed 0%, #fff7ed 100%);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .timing-item {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dashed rgba(245, 158, 11, 0.4);
+    }
+
+    .timing-item:last-child {
+        border-bottom: none;
+    }
+
+    .timing-name {
+        font-family: var(--font-primary);
+        color: var(--accent-orange);
+        font-weight: 600;
+    }
+
+    /* Pathways Area */
+    .pathway-section {
+        margin-top: 4rem;
         text-align: center;
     }
 
-    .card-title {
+    .pathway-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .pathway-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .pathway-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px var(--shadow-color);
+        transition: all 0.3s ease;
+    }
+
+    .pathway-card:hover {
+        transform: scale(1.02);
+        border-color: var(--primary-red);
+    }
+
+    .pathway-icon {
+        font-size: 3rem;
+        color: var(--primary-red);
+        margin-bottom: 1.5rem;
+    }
+
+    .pathway-title {
         font-family: var(--font-primary);
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         color: var(--primary-red);
         margin-bottom: 1rem;
     }
 
-    .card-title span {
-        display: block;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        font-family: var(--font-secondary);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 0.5rem;
-    }
-
-    .card-text {
-        font-family: var(--font-secondary);
-        color: var(--text-dark);
-        line-height: 1.7;
-        margin-bottom: 2rem;
-        flex-grow: 1;
-    }
-
-    .card-action {
-        margin-top: auto;
-    }
-
-    .btn-card {
+    .pathway-link {
         display: inline-block;
-        padding: 0.8rem 2rem;
+        padding: 0.75rem 2rem;
         background: var(--primary-red);
         color: #fff;
         border-radius: 50px;
         text-decoration: none;
         font-family: var(--font-secondary);
         font-weight: 600;
-        transition: all 0.3s ease;
-        width: 100%;
+        margin-top: 1rem;
     }
 
-    .btn-card:hover {
+    .pathway-link:hover {
         background: #a01025;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(196, 30, 58, 0.2);
     }
 
-    /* Sections */
-    .section-wrapper {
-        margin-top: 5rem;
+    /* Quote Box */
+    .sacred-quote {
+        background: linear-gradient(135deg, var(--primary-red) 0%, #991b2e 100%);
+        color: #fff;
+        padding: 3rem 2rem;
+        border-radius: var(--border-radius-lg);
         text-align: center;
-    }
-
-    .section-header-styled {
-        margin-bottom: 3.5rem;
+        margin: 4rem 0;
         position: relative;
+        overflow: hidden;
     }
 
-    .section-header-styled h2 {
-        font-family: var(--font-mystical);
-        font-size: 2.5rem;
-        color: var(--primary-red);
-        position: relative;
-        display: inline-block;
-        padding: 0 2rem;
-        background: var(--section-bg);
-        /* Match background to hide line */
-    }
-
-    .section-header-styled::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 10%;
-        right: 10%;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
-        z-index: -1;
-    }
-
-    /* Intro Text */
-    .intro-text-box {
-        max-width: 800px;
-        margin: 0 auto;
-        background: #fff;
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        border-left: 5px solid var(--accent-gold);
-    }
-
-    .intro-p {
+    .quote-text {
         font-family: var(--font-sacred);
-        font-size: 1.25rem;
-        line-height: 1.8;
-        color: #4a4a4a;
-        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+        font-style: italic;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
     }
 
-    .intro-p:last-child {
-        margin-bottom: 0;
-    }
-
-    .highlight-gold {
-        color: #bfa15f;
-        font-weight: 600;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.8rem;
-        }
-
-        .devi-main {
-            margin-top: -2rem;
-        }
-
-        .cards-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .section-header-styled::before {
-            display: none;
-        }
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .quote-icon {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.1);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-
 <!-- Hero Section -->
 <section class="devi-hero" data-aos="fade-in">
-    <div class="hero-content">
-        <div class="hero-badge">
-            <span class="badge-icon">🌸</span>
-            <span class="badge-text">The Divine Feminine</span>
+    <div class="hero-container">
+        <div class="hero-image-wrapper">
+            <img src="{{ url_for('static', filename='images/kamakhaya_maa_with_baba_header.jpg') }}" alt="Devi Maa"
+                class="hero-image">
         </div>
-
-        <h1 class="hero-title">Devi <span>Space</span></h1>
-
-        <p class="hero-subtitle">
-            "Guru Bhairava is the foundation (Adharaha), upon which all sadhanas rest, and upon this powerful ground,
-            Devi descends... to anchor, to bless, and to guide."
-        </p>
-
-
+        <div class="hero-text-content">
+            <div class="hero-badge">
+                <span class="badge-icon">🌸</span>
+                <span class="badge-text">The Divine Feminine</span>
+            </div>
+            <h1 class="hero-title">Devi Anughara</h1>
+            <p class="hero-subtitle">"She is the grace that nurtures, the energy that moves, and the mother who holds."
+            </p>
+        </div>
     </div>
 </section>
 
-<!-- Main Container -->
+<!-- Main Content Area -->
 <div class="devi-main">
 
-    <!-- About Section -->
-    <div id="about-devi" class="section-wrapper" data-aos="fade-up">
-        <div class="intro-text-box">
-            <p class="intro-p">
-                This space is an invitation to come a little closer, to listen a little deeper, and to remember Her call
-                that now echoes within.
-            </p>
-            <p class="intro-p">
-                The <span class="highlight-gold">Devi aspect</span> is not separate but the flowering of the seed
-                planted by Bhairava. It is the grace that nurtures, the energy that moves, and the mother who holds.
-            </p>
-        </div>
+    <!-- Intro Box -->
+    <div class="intro-box" data-aos="fade-up">
+        <h2 class="intro-title">The Call of the Mother</h2>
+        <p class="intro-text">
+            This space is an invitation to come a little closer, to listen a little deeper, and to remember Her call
+            that now echoes within. The Devi aspect is not separate but the flowering of the seed planted by Bhairava.
+        </p>
     </div>
 
-    <!-- Cards Section -->
-    <div id="padathi" class="section-wrapper">
-        <div class="section-header-styled">
-            <h2>Pathways of Grace</h2>
+    <!-- Philosophy Grid -->
+    <div class="philosophy-grid" data-aos="fade-up">
+        <div class="philosophy-image-wrapper">
+            <img src="{{ url_for('static', filename='images/kamakhaya_maa_yoni_pith.jpg') }}"
+                alt="Kamakhya Maa Yoni Pith" class="philosophy-image">
         </div>
-
-        <div class="cards-grid">
-            <!-- Devi Padathi Card -->
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-image-header">
-                    <i class="fas fa-user-circle card-icon"></i>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">
-                        <span>Personal Sadhana</span>
-                        Devi Padathi
-                    </h3>
-                    <p class="card-text">
-                        A structured progression of 3 Mandalas designed to deepen your connection. Experience Her grace
-                        through daily discipline and devotion.
-                    </p>
-                    <div class="card-action">
-                        <a href="/devi-padathi" class="btn-card">Enter Devi Padathi</a>
-                    </div>
-                </div>
+        <div class="philosophy-content">
+            <div class="philosophy-header">
+                <h2>Ultimate Womb of Power</h2>
+                <div class="philosophy-divider"></div>
             </div>
+            <div class="philosophy-text">
+                <p>Maa Kāmākhyā is <span class="highlight-red">Purna Shakti</span>, the complete embodiment of all forms
+                    of the Divine Feminine. She is the source, center, and culmination of every Devi Aradhana.</p>
+                <p>The Yoni Peetha is the residence of Tantra and the ultimate reality behind all Devi worship. Every
+                    mantra or offering made to any form of Shakti (Kali, Tara, Chhinnamasta, etc.) ultimately reaches
+                    Her.</p>
 
-            <!-- Vishesh Sadhana Card -->
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-image-header">
-                    <i class="fas fa-star card-icon"></i>
+                <div class="philosophy-highlight-box">
+                    "Sadhana is not done to reach Maa—it's to remember She was never apart."
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">
-                        <span>Special Offerings</span>
-                        Vishesh Sadhana
-                    </h3>
-                    <p class="card-text">
-                        Specific sadhanas for auspicious times like Navratri, bringing simplified yet potent guidelines
-                        for your personal altar and practice.
-                    </p>
-                    <div class="card-action">
-                        <a href="/vishesh-sadhana" class="btn-card">Explore Vishesh Sadhana</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Documents Card (New Addition for Completeness) -->
-            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-image-header">
-                    <i class="fas fa-file-alt card-icon"></i>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">
-                        <span>Sacred Texts</span>
-                        Documents
-                    </h3>
-                    <p class="card-text">
-                        Access scriptures, guides, and supporting materials to aid your understanding and practice of
-                        the Devi path.
-                    </p>
-                    <div class="card-action">
-                        <a href="/documents" class="btn-card">View Documents</a>
-                    </div>
-                </div>
+                <p>Through Her grace, the seeker transcends the boundaries of the self, merging with the cosmic pulse
+                    that sustains the entire creation. Her presence is the subtle current that leads us home.</p>
             </div>
         </div>
     </div>
 
-    <!-- Quote Section -->
-    <div class="section-wrapper" data-aos="fade-up">
-        <div
-            style="background: linear-gradient(135deg, var(--primary-red), #5a0000); color: white; padding: 4rem 2rem; border-radius: 12px; position: relative; overflow: hidden;">
-            <div style="position: relative; z-index: 2;">
-                <i class="fas fa-quote-left"
-                    style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 1.5rem;"></i>
-                <p
-                    style="font-family: var(--font-sacred); font-size: 1.5rem; font-style: italic; margin-bottom: 1.5rem; color: #fff;">
-                    "To know Her is to know the very pulse of existence. She is not far away; She is the breath you take
-                    and the love that seeks."
-                </p>
-                <div style="width: 50px; height: 3px; background: var(--accent-gold); margin: 0 auto;"></div>
+    <!-- Guidelines Section -->
+    <div class="content-card" data-aos="fade-up">
+        <h2 class="pathway-title" style="text-align: center; margin-bottom: 2rem;">Sadhana Guidelines</h2>
+        <div class="guidelines-grid">
+            <div class="guide-card">
+                <div class="guide-title">🥗 Diet</div>
+                <p class="guide-text">Strict Satvik diet. No onion, garlic, eggs, or non-veg. Maintain purity of intake
+                    to stabilize energy.</p>
             </div>
-
-            <!-- Decorative circle -->
-            <div
-                style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; border: 30px solid rgba(255,255,255,0.05);">
+            <div class="guide-card">
+                <div class="guide-title">👕 Attire</div>
+                <p class="guide-text">Red or yellow clothing is preferred during sadhana to align with the vibrant
+                    Shakti energies.</p>
+            </div>
+            <div class="guide-card">
+                <div class="guide-title">🌅 Timing</div>
+                <p class="guide-text">Preferred after sunset or before sunrise. The 'Sandhya' periods are most potent
+                    for Her connection.</p>
+            </div>
+            <div class="guide-card">
+                <div class="guide-title">🧘 Conduct</div>
+                <p class="guide-text">Maintain Brahmacharya (celibacy) and mental/emotional purity. Treat all women with
+                    utmost respect as living Shaktis.</p>
             </div>
         </div>
+    </div>
+
+    <!-- Potent Timings -->
+    <div class="content-card timings-card" data-aos="fade-up">
+        <h2 class="pathway-title" style="text-align: center; color: var(--accent-orange);">Potent Timing for Sadhana
+        </h2>
+        <div class="timing-item">
+            <span class="timing-name">Shukla Paksha:</span> Ekadashi or Ashtami are ideal starting points.
+        </div>
+        <div class="timing-item">
+            <span class="timing-name">Chaitra & Ashwin Navratri:</span> The two main Navratris for public and private
+            worship.
+        </div>
+        <div class="timing-item">
+            <span class="timing-name">Gupta Navratris (Magha, Ashadha, Pausha):</span> Sacred windows for intense and
+            hidden practices.
+        </div>
+    </div>
+
+    <!-- Pathways Section -->
+    <div class="pathway-section">
+        <div class="pathway-header">
+            <h2 class="pathway-title">Pathways of Grace</h2>
+            <p>Direct accessibility to structured practices and sacred wisdom.</p>
+        </div>
+
+        <div class="pathway-grid">
+            <!-- Devi Padathi -->
+            <div class="pathway-card" data-aos="fade-right">
+                <i class="fas fa-lotus pathway-icon"></i>
+                <h3 class="pathway-title">Devi Padathi</h3>
+                <p>A structured progression of 3 Mandalas designed to deepen your connection daily.</p>
+                <a href="/devi-padathi" class="pathway-link">Enter Padathi</a>
+            </div>
+
+            <!-- Vishesh Sadhana -->
+            <div class="pathway-card" data-aos="fade-up">
+                <i class="fas fa-om pathway-icon"></i>
+                <h3 class="pathway-title">Vishesh Sadhana</h3>
+                <p>Specific sadhanas for auspicious times like Navratri, with simplified guidelines.</p>
+                <a href="/vishesh-sadhana" class="pathway-link">Explore Vishesh</a>
+            </div>
+
+            <!-- Documents -->
+            <div class="pathway-card" data-aos="fade-left">
+                <i class="fas fa-scroll pathway-icon"></i>
+                <h3 class="pathway-title">Documents</h3>
+                <p>Access scriptures, guides, and supporting materials for your Devi path.</p>
+                <a href="/documents" class="pathway-link">View Texts</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="sacred-quote" data-aos="zoom-in">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <p class="quote-text">
+            "To know Her is to know the very pulse of existence. She is not far away; She is the breath you take and the
+            love that seeks."
+        </p>
     </div>
 
 </div>

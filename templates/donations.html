@@ -593,10 +593,14 @@
             </div>
         </div>
 
-        <!-- Centered Offering Button -->
-        <div class="qr-button-container">
+        <!-- Centered Offering Buttons -->
+        <div class="qr-button-container" style="gap: 1.5rem; flex-wrap: wrap;">
             <button class="qr-offer-btn" id="openQRModal">
                 <i class="fas fa-qrcode"></i> Offer Bhiksha via QR Code
+            </button>
+            <button class="qr-offer-btn" id="openBankModal"
+                style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);">
+                <i class="fas fa-university"></i> Offer Bhiksha Via Account Transfer
             </button>
         </div>
 
@@ -746,6 +750,94 @@
         </div>
     </div>
 </div>
+
+<!-- Bank Transfer Modal -->
+<div id="bankTransferModal" class="sacred-modal">
+    <div class="sacred-modal-content">
+        <div class="modal-close" id="closeBankModal">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="modal-hero" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏦</div>
+            <h3>Account Details</h3>
+            <p style="margin: 0; opacity: 0.9; font-style: italic;">Direct bank transfer for your offering</p>
+        </div>
+
+        <div class="modal-body" style="padding: 2rem;">
+            <!-- Bank Name -->
+            <div class="detail-group" style="margin-bottom: 1.25rem;">
+                <label
+                    style="display: block; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.05em;">Bank
+                    Name</label>
+                <div class="input-group" style="display: flex; gap: 0.5rem;">
+                    <div
+                        style="flex: 1; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; color: #1e293b;">
+                        IndusInd Bank</div>
+                    <button class="copy-btn-action" onclick="copyToClipboard('IndusInd Bank', this)"
+                        style="padding: 0 1rem; border: 1px solid #e2e8f0; background: white; border-radius: 12px; color: #64748b; cursor: pointer; transition: all 0.2s;"
+                        title="Copy to Clipboard">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Name -->
+            <div class="detail-group" style="margin-bottom: 1.25rem;">
+                <label
+                    style="display: block; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.05em;">Account
+                    Name</label>
+                <div class="input-group" style="display: flex; gap: 0.5rem;">
+                    <div
+                        style="flex: 1; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; color: #1e293b;">
+                        VASTUEZZ</div>
+                    <button class="copy-btn-action" onclick="copyToClipboard('VASTUEZZ', this)"
+                        style="padding: 0 1rem; border: 1px solid #e2e8f0; background: white; border-radius: 12px; color: #64748b; cursor: pointer; transition: all 0.2s;"
+                        title="Copy to Clipboard">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Number -->
+            <div class="detail-group" style="margin-bottom: 1.25rem;">
+                <label
+                    style="display: block; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.05em;">Account
+                    Number</label>
+                <div class="input-group" style="display: flex; gap: 0.5rem;">
+                    <div
+                        style="flex: 1; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; color: #1e293b;">
+                        253695969369</div>
+                    <button class="copy-btn-action" onclick="copyToClipboard('253695969369', this)"
+                        style="padding: 0 1rem; border: 1px solid #e2e8f0; background: white; border-radius: 12px; color: #64748b; cursor: pointer; transition: all 0.2s;"
+                        title="Copy to Clipboard">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- IFSC Code -->
+            <div class="detail-group" style="margin-bottom: 0.5rem;">
+                <label
+                    style="display: block; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.05em;">IFSC
+                    Code</label>
+                <div class="input-group" style="display: flex; gap: 0.5rem;">
+                    <div
+                        style="flex: 1; padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 600; color: #1e293b;">
+                        INDB0001013</div>
+                    <button class="copy-btn-action" onclick="copyToClipboard('INDB0001013', this)"
+                        style="padding: 0 1rem; border: 1px solid #e2e8f0; background: white; border-radius: 12px; color: #64748b; cursor: pointer; transition: all 0.2s;"
+                        title="Copy to Clipboard">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-info" style="background: #f1f5f9; border-top: 1px solid #e2e8f0;">
+            <p>May your offering bring abundance back to you.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_scripts %}
@@ -804,13 +896,78 @@
             });
         }
 
-        // Close on clicking outside
+        // Bank Modal Logic
+        const bankModal = document.getElementById('bankTransferModal');
+        const openBankBtn = document.getElementById('openBankModal');
+        const closeBankBtn = document.getElementById('closeBankModal');
+
+        if (openBankBtn && bankModal) {
+            openBankBtn.addEventListener('click', () => {
+                bankModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scroll
+            });
+        }
+
+        if (closeBankBtn && bankModal) {
+            closeBankBtn.addEventListener('click', () => {
+                bankModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scroll
+            });
+        }
+
+        // Close on clicking outside (for both modals)
         window.addEventListener('click', (event) => {
             if (event.target === qrModal) {
                 qrModal.style.display = 'none';
                 document.body.style.overflow = '';
             }
+            if (event.target === bankModal) {
+                bankModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
         });
     });
+
+    // Copy to Clipboard Function
+    function copyToClipboard(text, btnElement) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Visual feedback
+            const originalIcon = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="fas fa-check" style="color: #10b981;"></i>';
+            btnElement.style.borderColor = '#10b981';
+
+            setTimeout(() => {
+                btnElement.innerHTML = originalIcon;
+                btnElement.style.borderColor = '#e2e8f0';
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            // Fallback UI for error
+            btnElement.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>';
+            setTimeout(() => {
+                btnElement.innerHTML = '<i class="far fa-copy"></i>';
+            }, 2000);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        // Re-attach listeners or logic if needed, but the main block handles it.
+        // Hover effects for copy buttons
+        const copyBtns = document.querySelectorAll('.copy-btn-action');
+        copyBtns.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.background = '#f1f5f9';
+                btn.style.borderColor = '#cbd5e1';
+            });
+            btn.addEventListener('mouseleave', () => {
+                if (btn.querySelector('.fa-check')) return; // Don't reset if showing success
+                btn.style.background = 'white';
+                btn.style.borderColor = '#e2e8f0';
+            });
+        });
+    });
+    // Removed duplicate event listener closing brace that was part of original logic to ensure clean structure
+    // The previous block ended with '});' which closed DOMContentLoaded.
+    // I need to be careful with the replacement. The TargetContent included '});' so I need to close the first DOMContentLoaded properly.
+
 </script>
 {% endblock %}

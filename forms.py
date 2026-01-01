@@ -40,6 +40,14 @@ class RegistrationForm(FlaskForm):
         # We'll handle this validation in the route to avoid circular imports
         pass
 
+class EditProfileForm(FlaskForm):
+    phone = StringField('Phone Number', validators=[Length(max=20)])
+    address = TextAreaField('Address', validators=[Length(max=500)])
+    purpose = TextAreaField('Purpose for Sadhana', validators=[
+        DataRequired(), 
+        Length(min=20, max=1000, message='Please explain your purpose in 20-1000 characters')
+    ])
+
 class AdminApprovalForm(FlaskForm):
     user_id = StringField('User ID', validators=[DataRequired()])
     action = SelectField('Action', choices=[
