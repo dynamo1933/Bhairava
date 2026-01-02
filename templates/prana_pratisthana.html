@@ -147,6 +147,69 @@
         }
     }
 
+    /* Creative Visual Elements */
+    .mystical-frame {
+        position: relative;
+        padding: 10px;
+        background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .mystical-frame img {
+        border-radius: 8px;
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+
+    .watermark-bg {
+        position: relative;
+    }
+
+    .watermark-bg::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background-image: url("{{ url_for('static', filename='images/ritual/resolve_silhouette.png') }}");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .float-anim {
+        animation: floatingIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatingIcon {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
     /* Section Styling */
     .ritual-day-header {
         background: linear-gradient(90deg, var(--primary-red) 0%, #7c1526 100%);
@@ -297,6 +360,10 @@
     <!-- TAB 1: INTRO -->
     <div id="intro" class="tab-pane active">
         <div class="content-card intro-card" style="text-align: center; padding: 3rem 2rem;">
+            <div class="mystical-frame float-anim" style="margin-bottom: 2rem;">
+                <img src="{{ url_for('static', filename='images/ritual/intro_bhairav.jpg') }}" alt="Kal Bhairav"
+                    style="width: 400px;">
+            </div>
             <h2
                 style="font-family: var(--font-mystical); color: var(--accent-gold); font-size: 2rem; margin-bottom: 1.5rem;">
                 The Living Consciousness</h2>
@@ -329,6 +396,24 @@
                 The process begins with a 24-hour water immersion (<em>Jalādhivāsa</em>) to clear prior impressions.
             </p>
         </div>
+
+        <div class="content-card glass-card" style="margin-top: 4rem; border-left: 5px solid var(--accent-gold);">
+            <p style="font-size: 1.1rem; line-height: 2; margin-bottom: 1.5rem; font-style: italic;">
+                "From this moment onward, know that <strong>He now dwells within your home</strong> — not as a symbol,
+                but as a living presence of Śiva-Bhairava Himself."
+            </p>
+            <p style="line-height: 1.8;">
+                Treat Him with the same love, reverence, and care that you offer to your own self. Whatever is prepared
+                — be it food, water, or any offering — let it first be dedicated to Him.
+                When you serve Him, you are not merely offering food or flowers — you are offering <strong>your
+                    gratitude, your breath, and your being</strong>.
+            </p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: var(--accent-gold); font-family: var(--font-sacred); font-size: 1.2rem;">May Bhairava’s
+                    grace guide your steps and illuminate your path!</p>
+                <p style="font-size: 1.3rem; margin-top: 1rem;">॥ ॐ भैरवाय नमः ॐ कामाख्यै नमः ॥</p>
+            </div>
+        </div>
     </div>
 
     <!-- TAB 2: DAY 1-2 -->
@@ -338,16 +423,32 @@
             <span class="day-tag">DAY 0</span>
             <h3>Preparation & Sacred Resolve</h3>
         </div>
-        <div class="ritual-card">
-            <div class="step-box">
-                <h4 class="step-title">Materials Needed</h4>
-                <ul style="columns: 2; list-style: disc; padding-left: 1.5rem;">
-                    <li>Śiva Liṅga (Bhairava Swarūpam)</li>
-                    <li>Copper Pañcapātra & Udharani</li>
-                    <li>Rudrākṣa Mālā</li>
-                    <li>Bilva leaves, Sandal, Honey</li>
-                    <li>Pañcāmrita, Ganga-jala</li>
-                    <li>Dhūpa, Dīpa, Camphor</li>
+        <div class="ritual-card watermark-bg">
+            <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+                <div class="step-box" style="flex: 1; min-width: 300px;">
+                    <h4 class="step-title">Materials Needed</h4>
+                    <ul style="columns: 1; list-style: disc; padding-left: 1.5rem;">
+                        <li>Śiva Liṅga (Bhairava Swarūpam)</li>
+                        <li>Copper or brass Pañcapātra & udharani</li>
+                        <li>Rudrākṣa mālā</li>
+                        <li>Bilva leaves, flowers, sandal paste, honey, milk, yogurt, ghee, sugar</li>
+                        <li>Dhūpa, dīpa, camphor</li>
+                        <li>White cloth for altar</li>
+                        <li>Ganga or consecrated water</li>
+                        <li>Rice, turmeric, betel nut, incense sticks</li>
+                    </ul>
+                </div>
+                <div class="mystical-frame" style="width: 250px;">
+                    <img src="{{ url_for('static', filename='images/ritual/materials_rudraksha.jpg') }}"
+                        alt="Sacred Materials">
+                </div>
+            </div>
+            <div class="step-box" style="margin-top: 2rem;">
+                <h4 class="step-title">Altar Preparation</h4>
+                <ul style="list-style: circle; padding-left: 1.5rem;">
+                    <li>Clean the area with water and Ganga-jala.</li>
+                    <li>Spread a clean white or red cloth.</li>
+                    <li>Place the pithha in the center facing east.</li>
                 </ul>
             </div>
             <div class="step-box">
@@ -357,6 +458,8 @@
                     <p class="mantra-text">"Mama upātta samasta duritaksaya dvārā Śrī Parameśvara prītyartham Pañca
                         ahorātra paryantam Śrī Śiva Liṅga Prāṇa Pratiṣṭhānam karisye."</p>
                 </div>
+                <p style="font-size: 0.9rem; font-style: italic; opacity: 0.8; text-align: center;">(For the pleasure of
+                    Mahadeva, I perform this 5-day consecration to invoke life into this linga.)</p>
             </div>
         </div>
 
@@ -366,36 +469,55 @@
             <h3>Bhūta Śuddhi & Āvāhana</h3>
         </div>
         <div class="ritual-card">
+            <p style="margin-bottom: 2rem; font-weight: 600; color: var(--primary-red);">Purpose: <span
+                    style="font-weight: 400; color: var(--text-dark);">Purify yourself and the linga's material body to
+                    become a vessel for Śiva consciousness.</span></p>
+
             <div class="step-box">
-                <h4 class="step-title">Purification of Elements</h4>
-                <p>Visualize your body and the Liṅga filled with light. Chant the five elemental bījas:</p>
-                <div
-                    style="display: grid; grid-template-columns: repeat(5, 1fr); text-align: center; gap: 0.5rem; margin: 1rem 0;">
-                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
-                        <b>Ham</b><br><small>Space</small>
-                    </div>
-                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
-                        <b>Yam</b><br><small>Air</small>
-                    </div>
-                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
-                        <b>Ram</b><br><small>Fire</small>
-                    </div>
-                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
-                        <b>Vam</b><br><small>Water</small>
-                    </div>
-                    <div style="background: #fff5f5; padding: 0.5rem; border: 1px solid #fee2e2;">
-                        <b>Lam</b><br><small>Earth</small>
-                    </div>
+                <h4 class="step-title">1. Ācamana & Prāṇāyāma</h4>
+                <p>Perform 3 rounds of deep inhalation/exhalation. Mentally chant:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text" style="font-size: 1rem;">Om Apavitrah Pavitro Vā Sarvāvasthāṁ Gato'pi Vā<br>
+                        Yah Smaret Pundarīkākṣaṁ Sa Bahyābhyantaraḥ Śuciḥ Om Śuciḥ Om Śuciḥ.</p>
                 </div>
             </div>
+
             <div class="step-box">
-                <h4 class="step-title">Āvāhana (The Call)</h4>
+                <h4 class="step-title">2. Bhūta Śuddhi (Purification of Elements)</h4>
+                <p>Visualize your body and the linga filled with light from mūlādhāra to sahasrāra. Chant:</p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                    <div class="mantra-display" style="padding: 1rem; margin: 0;"><b>Om Ham Prthivyātmane
+                            Namah</b><br><small>Earth</small></div>
+                    <div class="mantra-display" style="padding: 1rem; margin: 0;"><b>Om Vam Jalātmane
+                            Namah</b><br><small>Water</small></div>
+                    <div class="mantra-display" style="padding: 1rem; margin: 0;"><b>Om Ram Agnyātmane
+                            Namah</b><br><small>Fire</small></div>
+                    <div class="mantra-display" style="padding: 1rem; margin: 0;"><b>Om Yam Vāyvātmane
+                            Namah</b><br><small>Air</small></div>
+                    <div class="mantra-display" style="padding: 1rem; margin: 0;"><b>Om Lam Ākāśātmane
+                            Namah</b><br><small>Space</small></div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h4 class="step-title">3. Āvāhana (Invocation)</h4>
+                <p>Sprinkle Ganga-jala on lingam and recite:</p>
                 <div class="mantra-display">
                     <p class="mantra-text">Om Aim Hrim Śrim Śivāya Namah | Āvāhaya āvāhaya Mahādeva Mahālinge Nivasāya
                         Namah ‖</p>
                 </div>
-                <div class="viz-box">Visualize a radiant pillar of light emerging from the Liṅga, endless above and
-                    below.</div>
+            </div>
+
+            <div class="step-box">
+                <h4 class="step-title">4. Dhyānam</h4>
+                <p>Visualize a radiant pillar of light emerging from the linga — endless above and below. Chant:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text" style="font-style: italic;">“Adiyanta rahitam jyotih lingarūpam
+                        Mahēśvaram<br>Dhyāyēd devasya rūpēna sarvabhūtāntarātmanah.”</p>
+                </div>
+                <div class="viz-box">This mantra to be resided everyday for 11, 21, 45, 54 or 108 days (1 or more malas)
+                    and Kalabhairava Astaka on end of everyday closure.</div>
             </div>
         </div>
 
@@ -405,22 +527,40 @@
             <h3>Mantra Nyāsa & Bīja Śakti</h3>
         </div>
         <div class="ritual-card">
+            <p style="margin-bottom: 2rem; font-weight: 600; color: var(--primary-red);">Purpose: <span
+                    style="font-weight: 400; color: var(--text-dark);">To install mantra and subtle energy currents
+                    (nādi śakti) within the linga.</span></p>
+
             <div class="step-box">
-                <h4 class="step-title">Pañcabrahma Nyāsa</h4>
+                <h4 class="step-title">1. Pañcabrahma Nyāsa</h4>
                 <p>Touch the Liṅga in five directions while chanting:</p>
-                <ul style="font-size: 0.95rem;">
+                <ul style="font-size: 1rem; line-height: 2;">
                     <li><b>West:</b> Om Sadyojātāya Namah</li>
                     <li><b>North:</b> Om Vāmadevāya Namah</li>
                     <li><b>South:</b> Om Aghorāya Namah</li>
                     <li><b>East:</b> Om Tatpuruṣāya Namah</li>
                     <li><b>Upward:</b> Om Īśānāya Namah</li>
                 </ul>
+                <div class="viz-box">Visualize each direction glowing with corresponding Śiva aspect.</div>
             </div>
+
             <div class="step-box">
-                <h4 class="step-title">Bīja Śakti Sthāpana</h4>
-                <p>Mentally inscribe the sacred bījas into the Linga:</p>
+                <h4 class="step-title">2. Mūla Mantra Japa</h4>
+                <p>Chant <strong>"Om Namah Śivāya"</strong> 108 times with deep awareness. Offer one bilva leaf with
+                    each repetition if possible.</p>
+            </div>
+
+            <div class="step-box">
+                <h4 class="step-title">3. Bīja Śakti Sthāpana</h4>
+                <p>Mentally inscribe bījas into the linga. Visualize the Chakra getting activated:</p>
                 <div class="mantra-display">
-                    <p class="mantra-text" style="letter-spacing: 5px;">HAM | SAM | ŚAM | VAM | YAM</p>
+                    <p class="mantra-text" style="letter-spacing: 2px;">
+                        Ham (Śiva Tattva) | Sam (Śakti Tattva) | Śam (Jñāna) | Vam (Kriyā) | Yam (Icchā)
+                    </p>
+                </div>
+                <h4 class="step-title" style="font-size: 1.1rem; margin-top: 2rem;">Then seal with:</h4>
+                <div class="mantra-display">
+                    <p class="mantra-text">Om Namah Śivāya, Linge Prānam Pratisthāpayāmi.</p>
                 </div>
             </div>
         </div>
@@ -434,14 +574,18 @@
             <h3>Prāṇa Pratiṣṭhā & Jīva Āvāhana</h3>
         </div>
         <div class="ritual-card">
+            <p style="margin-bottom: 2rem; font-weight: 600; color: var(--primary-red);">Purpose: <span
+                    style="font-weight: 400; color: var(--text-dark);">Invoke the living consciousness (prāṇa śakti) of
+                    Lord Śiva into the linga.</span></p>
+
             <div class="step-box">
-                <h4 class="step-title">Nādī Prāṇāyāma</h4>
-                <p>Awaken your inner prāṇa through 11 rounds of rhythmic breathing (Inhale with 'So', Exhale with
-                    'Ham').</p>
+                <h4 class="step-title">1. Nādī Prāṇāyāma</h4>
+                <p>Inhale deeply chanting <strong>"So..."</strong>, Exhale chanting <strong>"...Ham"</strong>. 11 rounds
+                    to awaken your inner prāṇa.</p>
             </div>
             <div class="step-box">
-                <h4 class="step-title">The Breath of Life</h4>
-                <p>Place your right hand over the Liṅga (Mudrā of Blessing) and chant slowly:</p>
+                <h4 class="step-title">2. Prāṇa Pratisthā</h4>
+                <p>Place your right hand over the linga (like a mudrā of blessing) and chant slowly:</p>
                 <div class="mantra-display">
                     <p class="mantra-text-large"
                         style="color: var(--primary-red); font-size: 1.4rem; font-family: var(--font-sacred);">
@@ -451,6 +595,19 @@
                 <div class="viz-box">Visualize liquid gold light flowing from your heart, through your palm, and
                     anchoring into the core of the Liṅga.</div>
             </div>
+            <div class="step-box">
+                <h4 class="step-title">3. Āvāhana & Nyāsa</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li class="mantra-display" style="text-align: left;"><b>Om Śivāya Ātmānam Samarpayāmi</b> (offer
+                        your soul)</li>
+                    <li class="mantra-display" style="text-align: left;"><b>Om Bhairavāya Prāṇān Samarpayāmi</b> (offer
+                        your prāṇa)</li>
+                    <li class="mantra-display" style="text-align: left;"><b>Om Rudrāya Manah Samarpayāmi</b> (offer your
+                        mind)</li>
+                    <li class="mantra-display" style="text-align: left;"><b>Om Mahādeva Namah - Tistha Tistha Sthirō
+                            Bhava</b></li>
+                </ul>
+            </div>
         </div>
 
         <!-- DAY 4 -->
@@ -459,20 +616,33 @@
             <h3>Abhiṣeka & Sodaśopacāra Pūjā</h3>
         </div>
         <div class="ritual-card">
+            <p style="margin-bottom: 2rem; font-weight: 600; color: var(--primary-red);">Purpose: <span
+                    style="font-weight: 400; color: var(--text-dark);">Honor the invoked deity through worship,
+                    adornment, and sustained mantra resonance.</span></p>
+
             <div class="step-box">
-                <h4 class="step-title">The Five Nectars (Pañcāmrita)</h4>
-                <p>Pour each while chanting its respective mantra:</p>
-                <ul style="font-size: 0.95rem; line-height: 2;">
+                <h4 class="step-title">1. Abhiṣeka with Pañcāmrita</h4>
+                <p>Chant each line as you pour:</p>
+                <ul style="font-size: 1rem; line-height: 2.2; list-style: none; padding-left: 0;">
                     <li>🥛 <b>Milk:</b> Om Soma Sūryāgnilocana Śivāya Namah</li>
                     <li>🥣 <b>Curd:</b> Om Gaurīvallabha Śivāya Namah</li>
-                    <li>🍯 <b>Honey:</b> Om Rudrāya Namah</li>
                     <li>🧈 <b>Ghee:</b> Om Trilocanāya Namah</li>
+                    <li>🍯 <b>Honey:</b> Om Rudrāya Namah</li>
                     <li>🍬 <b>Sugar:</b> Om Nīlakanthāya Namah</li>
                 </ul>
             </div>
             <div class="step-box">
-                <h4 class="step-title">Alankāra & Japa</h4>
-                <p>Adorn with sandal, flowers, and bilva. Perform 108 japa of <em>Om Namah Śivāya</em>.</p>
+                <h4 class="step-title">2. Alankāra (Decoration)</h4>
+                <p>Apply sandal paste, decorate with bilva leaves, and light lamps around. Offer flowers chanting:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text">Om Puspāñjalim Samarpayāmi.</p>
+                </div>
+            </div>
+            <div class="step-box">
+                <h4 class="step-title">3. 108 or 1008 Mantra Japa</h4>
+                <p>Chant <strong>"Om Namah Śivāya"</strong>. <br>
+                    <small>Optional: For Bhairava aspect — <strong>Om Hrim Batuka Bhairavāya Namah</strong></small>
+                </p>
             </div>
         </div>
 
@@ -482,21 +652,72 @@
             <h3>Completion & Energy Sealing</h3>
         </div>
         <div class="ritual-card">
+            <p style="margin-bottom: 2rem; font-weight: 600; color: var(--primary-red);">Purpose: <span
+                    style="font-weight: 400; color: var(--text-dark);">Seal the energy, express gratitude, and ensure
+                    the linga becomes a permanent spiritual field.</span></p>
+
             <div class="step-box">
-                <h4 class="step-title">Stambhana Mudrā (Seal of Stillness)</h4>
+                <h4 class="step-title">1. Pūrnāhuti & Dīpa Ārati</h4>
+                <p>Offer ghee lamp with chanting:</p>
+                <div class="mantra-display">
+                    <p class="mantra-text">Om Namo Rudrāya, Om Namo Bhavāya, Om Namo Sarvātmane Mahādeva Namah.</p>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h4 class="step-title">2. Prārthanā</h4>
+                <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap-reverse;">
+                    <div style="flex: 1;">
+                        <div class="mantra-display">
+                            <p class="mantra-text" style="font-style: italic;">“Yatra Lingam Tatra Śivah, Yatra Śivah
+                                Tatra Śubham.”</p>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem;">Pray for peace, protection, and guidance.</p>
+                    </div>
+                    <div class="mystical-frame" style="width: 300px;">
+                        <img src="{{ url_for('static', filename='images/ritual/sadhak_meditation.jpg') }}"
+                            alt="Sadhak Meditation">
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h4 class="step-title">3. Stambhana Mudrā (Energy Sealing)</h4>
                 <p>Place both palms together before the Liṅga and say:</p>
                 <div class="mantra-display">
                     <p class="mantra-text">Om Anantāya Namah | Om Ānandāya Namah | Om Śivāya Namah ‖</p>
                 </div>
+                <div class="viz-box">Visualize the light settling into stillness.</div>
             </div>
+
             <div class="step-box">
-                <h4 class="step-title">Final Prārthanā</h4>
-                <div class="mantra-display">
-                    <p class="mantra-text" style="font-style: italic;">“Yatra Lingam Tatra Śivah, Yatra Śivah Tatra
-                        Śubham.”</p>
+                <h4 class="step-title">4. Prasāda Distribution</h4>
+                <p>Offer naivedya, perform simple ārati, and share prasāda among family.</p>
+            </div>
+
+            <div class="section-header"
+                style="margin-top: 3rem; background: #fdf2f2; border-radius: 8px; padding: 1.5rem;">
+                <h4 style="color: var(--primary-red); font-family: var(--font-primary); margin-bottom: 1rem;">After the
+                    5 Days</h4>
+                <ul style="list-style: disc; padding-left: 1.5rem; line-height: 1.8;">
+                    <li>Continue <strong>daily abhiṣeka</strong> with water and chant "Om Namah Śivāya" 108 times.</li>
+                    <li>Every <strong>Monday or Pradoṣa</strong>, offer bilva leaves and light a ghee lamp.</li>
+                    <li>The linga is now <strong>Prāṇa-Pratisthita</strong> — a living seat of Śiva-Śakti.</li>
+                </ul>
+            </div>
+
+            <div class="step-box" style="margin-top: 3rem;">
+                <h4 class="step-title">Closing Mantra</h4>
+                <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 1rem;">(To be recited each time you end
+                    worship)</p>
+                <div class="mantra-display" style="background: var(--primary-red); color: #fff;">
+                    <p class="mantra-text" style="color: #fff; font-size: 1rem; line-height: 2;">
+                        Ananta Kalyāna Gunātmakam Śivam<br>
+                        Śaśāṅka Kāntam Kamalāpatim Harim<br>
+                        Viśuddha Vigraham Acalam Nirāmayam<br>
+                        Namāmi Śambhum Śivam Īśam Īśvaram.
+                    </p>
                 </div>
-                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">Where there is the Liṅga,
-                    there is Śiva. Where there is Śiva, there is Auspiciousness.</p>
             </div>
         </div>
     </div>
