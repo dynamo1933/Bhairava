@@ -306,6 +306,10 @@ def documents():
 def ashtami():
     return render_template('ashtami.html', page_title='Ashtami Sadhana - Daiva Anughara')
 
+@app.route('/chaya_siddhi')
+def chaya_siddhi():
+    return render_template('chaya_siddhi.html', page_title='Chāyā Pūjā - Daiva Anughara')
+
 @app.route('/devi')
 def devi():
     return render_template('devi.html', page_title='Devi Maa - Daiva Anughara')
