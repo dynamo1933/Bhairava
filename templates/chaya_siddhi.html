@@ -7,7 +7,7 @@
     /* Hero Section */
     .chaya-hero {
         background: linear-gradient(135deg, #1c1917 0%, #450a0a 50%, #7f1d1d 100%);
-        padding: 1.5rem 1rem;
+        padding: 2rem;
         position: relative;
         overflow: hidden;
         min-height: auto;
@@ -37,19 +37,19 @@
         position: relative;
         z-index: 1;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 3rem;
         max-width: 900px;
         width: 100%;
         margin: 0 auto;
-        text-align: center;
+        text-align: left;
     }
 
     .hero-title {
         font-family: var(--font-mystical);
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: #ffd700;
         margin-bottom: 0.5rem;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -61,12 +61,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0;
     }
 
     .chaya-image {
-        width: 180px;
-        height: 180px;
+        width: 220px;
+        height: 220px;
         border-radius: 50%;
         object-fit: cover;
         border: 5px solid rgba(255, 215, 0, 0.8);
@@ -77,7 +77,8 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        text-align: left;
     }
 
     .hero-subtitle {
@@ -93,65 +94,22 @@
         margin-top: 1rem;
     }
 
-    @media (min-width: 768px) {
-        .chaya-hero {
-            min-height: auto;
-            padding: 2rem;
-        }
-
-        .hero-content {
-            flex-direction: row;
-            gap: 3rem;
-            text-align: left;
-        }
-
-        .chaya-image-container {
-            margin-bottom: 0;
-        }
-
-        .chaya-image {
-            width: 220px;
-            height: 220px;
-        }
-
-        .hero-text {
-            align-items: flex-start;
-            text-align: left;
-        }
-
-        .hero-title {
-            font-size: 3rem;
-        }
-    }
 
     /* Main Content Container */
     .chaya-main {
-        padding: 2rem 1.25rem;
+        padding: 2.5rem 2rem;
         max-width: 1200px;
         margin: 0 auto;
-    }
-
-    @media (min-width: 768px) {
-        .chaya-main {
-            padding: 2.5rem 2rem;
-        }
     }
 
     /* Section Card Base */
     .content-card {
         background: var(--card-bg);
         border-radius: var(--border-radius-lg);
-        padding: 2rem 1.5rem;
-        margin-bottom: 1.5rem;
+        padding: 2.5rem 3rem;
+        margin-bottom: 2rem;
         box-shadow: 0 4px 20px var(--shadow-color);
         border: 1px solid var(--border-color);
-    }
-
-    @media (min-width: 768px) {
-        .content-card {
-            padding: 2.5rem 3rem;
-            margin-bottom: 2rem;
-        }
     }
 
     /* Section Titles */

@@ -33,10 +33,14 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here-change-
 # Session Pooler is IPv4 compatible (required for Windows/network connectivity)
 # Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@[POOLER-HOST]:5432/postgres
 # Password contains @ which needs to be URL-encoded as %40
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'SQLALCHEMY_DATABASE_URI',
-    'sqlite:///daiva_anughara.db'  # Use SQLite for local development
-)
+# Railway provides DATABASE_URL, check for it first
+db_url = os.getenv('DATABASE_URL') or os.getenv('SQLALCHEMY_DATABASE_URI')
+
+# SQLAlchemy 1.4+ requires 'postgresql://' instead of 'postgres://'
+if db_url and db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///daiva_anughara.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = int(os.getenv('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB max file size
@@ -307,7 +311,11 @@ def ashtami():
     return render_template('ashtami.html', page_title='Ashtami Sadhana - Daiva Anughara')
 
 @app.route('/chaya_siddhi')
+@login_required
 def chaya_siddhi():
+    if not current_user.mandala_3_access:
+        flash('You must complete Pratham charana (Mandala 3) first to access this page.', 'error')
+        return redirect(url_for('padati'))
     return render_template('chaya_siddhi.html', page_title='Chāyā Pūjā - Daiva Anughara')
 
 @app.route('/devi')

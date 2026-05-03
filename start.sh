@@ -11,8 +11,8 @@ echo "🔌 Binding to port: $PORT"
 echo "🌐 Host: 0.0.0.0"
 
 # Verify required environment variables
-if [ -z "$SQLALCHEMY_DATABASE_URI" ]; then
-    echo "⚠️  Warning: SQLALCHEMY_DATABASE_URI not set"
+if [ -z "$SQLALCHEMY_DATABASE_URI" ] && [ -z "$DATABASE_URL" ]; then
+    echo "⚠️  Warning: Database URL not set"
 fi
 
 if [ -z "$SECRET_KEY" ]; then
