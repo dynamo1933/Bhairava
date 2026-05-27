@@ -886,7 +886,6 @@ function clearAllErrors() {
 
 // Make clearAllErrors globally available
 window.clearAllErrors = clearAllErrors;
-
 // ===== THEME TOGGLE (DARK MODE) FUNCTIONALITY =====
 function initTheme() {
     const desktopToggle = document.getElementById('theme-toggle');
