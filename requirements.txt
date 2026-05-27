@@ -1,0 +1,23 @@
+Flask==3.0.0
+Werkzeug==3.0.1
+Jinja2==3.1.2
+MarkupSafe==2.1.4
+itsdangerous==2.1.2
+click==8.1.7
+blinker==1.7.0
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+WTForms==3.0.1
+email-validator==2.1.0
+openpyxl==3.1.2
+qrcode[pil]==7.4.2
+zeroconf==0.131.0
+gspread==5.12.4
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+gunicorn==21.2.0
+python-dotenv==1.0.0
+# psycopg2-binary==2.9.9  # Fails to build on Python 3.14 on Windows without pg_config
+# pg8000==1.31.2          # Pure-Python alternative: prefix database URL with postgresql+pg8000://

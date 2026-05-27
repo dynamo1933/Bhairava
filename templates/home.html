@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- New Immersive Hero Section -->
+<section class="hero-new">
+    <div class="hero-new-content">
+        <span class="hero-om">🕉️</span>
+        <h1>HIS GRACE</h1>
+        <p class="hero-subtitle-new">
+            Welcome to this sacred space—where every breath, mantra, and step rests in the unseen embrace of Guru
+            Bhairava.
+        </p>
+        <p class="hero-description">
+            This is not a website, but a gentle unfolding of His will through the seeker's heart. Each mantra,
+            reflection, and sādhana is an offering—not to reach, but to dissolve; not to gain, but to awaken.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('documents') }}" class="btn btn-sacred">
+                <i class="fas fa-book-open"></i> Explore Sacred Texts
+            </a>
+            <a href="{{ url_for('mandala_sadhana_registration') }}" class="btn btn-sacred btn-sacred-primary">
+                <i class="fas fa-circle-notch"></i> Start Sadhana
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Access Pathways -->
+<section class="quick-access-section">
+    <div class="quick-cards-grid">
+        <a href="{{ url_for('ashtami') }}" class="quick-card" style="text-decoration: none;">
+            <div class="quick-card-icon">🌙</div>
+            <h3>Ashtami Sadhana</h3>
+            <p>Join the sacred monthly observance.</p>
+        </a>
+        <a href="{{ url_for('devi') }}" class="quick-card" style="text-decoration: none;">
+            <div class="quick-card-icon">🌸</div>
+            <h3>Devi Upasana</h3>
+            <p>Connect with the Divine Mother.</p>
+        </a>
+        <a href="{{ url_for('youtube') }}" class="quick-card" style="text-decoration: none;">
+            <div class="quick-card-icon">🎥</div>
+            <h3>Satsang & Wisdom</h3>
+            <p>Watch latest discourses on YouTube.</p>
+        </a>
+    </div>
+</section>
+
+<!-- Redesigned Sadhana Timeline -->
+<section class="sadhana-journal-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="header-icon">🕉️</div>
+            <h2 class="section-title">Sadhana Paddhati – The Path of Awakening</h2>
+            <div class="header-decoration"></div>
+        </div>
+
+        <div class="timeline-new">
+            <!-- Step 1 -->
+            <div class="timeline-item">
+                <div class="timeline-content-card">
+                    <div class="timeline-number">1</div>
+                    <div class="content-body">
+                        <h3>The First Step toward Grace</h3>
+                        <p class="step-subtitle">A beginning. A step closer to Divine presence.</p>
+                        <hr style="width: 50px; margin: 15px auto; border-top: 1px solid var(--border-color);">
+                        <p>Initiation into the foundational path of Sadhana. Includes essential details and preparatory
+                            guidance.</p>
+                        <span class="timeline-duration">48 – 144 Days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-item">
+                <div class="timeline-content-card">
+                    <div class="timeline-number">2</div>
+                    <div class="content-body">
+                        <h3>The Second Step toward Deeper Connection</h3>
+                        <p class="step-subtitle">An expansion. A step deeper into Daiva Bhāva.</p>
+                        <hr style="width: 50px; margin: 15px auto; border-top: 1px solid var(--border-color);">
+                        <p>Refined layer of the Sadhana process, shared with deeper insights and discipline reminders.
+                        </p>
+                        <span class="timeline-duration">144 – 240 Days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-item">
+                <div class="timeline-content-card">
+                    <div class="timeline-number">3</div>
+                    <div class="content-body">
+                        <h3>The Third Step into Divine Grace</h3>
+                        <p class="step-subtitle">A merging. A sacred closure of separation.</p>
+                        <hr style="width: 50px; margin: 15px auto; border-top: 1px solid var(--border-color);">
+                        <p>Entering the fullness of Daiva Anugraha through dedicated Sadhana.</p>
+                        <span class="timeline-duration">240 – 384 Days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Section -->
+<section class="quote-section">
+    <div class="quote-bg-pattern"></div>
+    <div class="quote-container">
+        <span class="quote-symbol">❝</span>
+        <p class="sacred-quote">
+            "To know Bhairava is not to see a form, but to dissolve into the fearless stillness of your own Being."
+        </p>
+        <p class="quote-author">— Sacred Reflection</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize countdown timer for home page if needed, though mostly handled in base
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof updateCountdownDisplay === 'function') {
+            updateCountdownDisplay();
+        }
+    });
+</script>
+{% endblock %}

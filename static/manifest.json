@@ -1,0 +1,16 @@
+{
+  "name": "Daiva Anughara",
+  "short_name": "Daiva Anughara",
+  "description": "Sacred spiritual practice website focused on Bhairava Sadhana and Sādhanā Paddhati",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F7E8",
+  "theme_color": "#4A5D3F",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["spirituality", "religion", "education"],
+  "icons": [],
+  "shortcuts": [],
+  "screenshots": []
+}

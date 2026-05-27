@@ -1,0 +1,1141 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mandala_sadhana.css') }}">
+
+<style>
+/* ===== REDESIGNED MANDALA SADHANA PAGE ===== */
+/* Hero Section */
+.sadhana-hero-modern {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #991b1b 50%, var(--accent-orange) 100%);
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.sadhana-hero-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>');
+    background-size: 150px 150px;
+    opacity: 0.5;
+}
+
+.hero-container-modern {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-title-modern {
+    font-family: var(--font-mystical);
+    font-size: 2.8rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 3px;
+}
+
+.hero-subtitle-modern {
+    font-family: var(--font-sacred);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-style: italic;
+}
+
+/* Main Content - Single Column Layout */
+.sadhana-content-modern {
+    background: linear-gradient(180deg, #fef2f2 0%, #fce7e7 50%, #fef2f2 100%);
+    min-height: 100vh;
+    padding: 2.5rem 1rem;
+    position: relative;
+}
+
+.sadhana-content-modern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(196, 30, 58, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.sadhana-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Form Card */
+.form-card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.15);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.form-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
+    z-index: 1;
+}
+
+.card-header-modern {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.02) 0%, rgba(234, 88, 12, 0.02) 100%);
+}
+
+.card-title-modern h3 {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--primary-red);
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+}
+
+.card-title-modern p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.form-content-modern {
+    padding: 1.5rem;
+}
+
+/* Information Toggle Section */
+.mandala-info-toggle {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 40px rgba(196, 30, 58, 0.15);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.info-toggle-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.05) 0%, rgba(234, 88, 12, 0.05) 100%);
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.info-toggle-header:hover {
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.08) 0%, rgba(234, 88, 12, 0.08) 100%);
+}
+
+.info-toggle-title {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--primary-red);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.info-toggle-title i {
+    font-size: 1.3rem;
+}
+
+.info-toggle-icon {
+    font-size: 1.2rem;
+    color: var(--primary-red);
+    transition: transform 0.3s ease;
+}
+
+.info-toggle-icon.active {
+    transform: rotate(180deg);
+}
+
+.info-toggle-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.info-toggle-content.active {
+    max-height: 5000px;
+}
+
+.info-toggle-body {
+    padding: 1.5rem;
+}
+
+/* Accordion for Bhairava Phases */
+.bhairava-accordion {
+    margin-top: 1.5rem;
+}
+
+.accordion-item {
+    background: linear-gradient(to right, rgba(196, 30, 58, 0.03), rgba(234, 88, 12, 0.03));
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(196, 30, 58, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+    border-color: rgba(196, 30, 58, 0.2);
+    box-shadow: 0 4px 15px rgba(196, 30, 58, 0.1);
+}
+
+.accordion-header {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.accordion-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.accordion-day-badge {
+    background: var(--primary-red);
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.accordion-phase-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.accordion-icon {
+    color: var(--primary-red);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 500px;
+}
+
+.accordion-body {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    padding-left: calc(1.25rem + 0.9rem + 1rem + 0.4rem + 0.9rem);
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .accordion-body {
+        padding-left: 1.25rem;
+    }
+    
+    .accordion-header-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .accordion-phase-name {
+        font-size: 0.9rem;
+    }
+}
+
+/* Intro Section */
+.mandala-intro {
+    padding: 1.5rem;
+    background: linear-gradient(to right, rgba(196, 30, 58, 0.05), rgba(234, 88, 12, 0.05));
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-red);
+    margin-bottom: 1.5rem;
+}
+
+.mandala-intro p {
+    margin: 0 0 1rem 0;
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+.mandala-intro p:last-child {
+    margin-bottom: 0;
+}
+
+/* Phases Section Title */
+.phases-section-title {
+    font-family: var(--font-primary);
+    font-size: 1.4rem;
+    color: var(--primary-red);
+    margin: 1.5rem 0 0.75rem 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.phases-section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.commitment-section-modern.error {
+    border: 2px solid #c41e3a;
+    border-radius: 15px;
+    padding: 1rem;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title-modern {
+        font-size: 2rem;
+    }
+    
+    .sadhana-container {
+        padding: 0 0.5rem;
+    }
+    
+    .accordion-body {
+        padding-left: 1.25rem;
+    }
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Enhanced Modern Hero Section -->
+<section class="sadhana-hero-modern">
+    <div class="hero-container-modern">
+        <div class="hero-content-modern">
+            <!-- Enhanced Badge with Animation -->
+            <div class="hero-badge-modern">
+                <div class="badge-container">
+                    <span class="badge-pulse-modern">
+                        <span>Sacred Journey</span>
+                    </span>
+                    <div class="badge-glow"></div>
+                </div>
+            </div>
+
+            <!-- Enhanced Title with Gradient -->
+            <h1 class="hero-title-modern">
+                <span class="title-gradient">Mandala Sadhana</span>
+                <div class="title-underline"></div>
+            </h1>
+
+            <!-- Enhanced Subtitle -->
+            <p class="hero-subtitle-modern">Your Path to Divine Transformation</p>
+
+            <!-- Enhanced Description -->
+            
+        </div>
+
+        <!-- Enhanced Visual with Improved Animation -->
+        <div class="hero-visual-modern">
+            <div class="mandala-container-modern">
+                <div class="mandala-rings-modern">
+                    <div class="ring-modern ring-1-modern"></div>
+                    <div class="ring-modern ring-2-modern"></div>
+                    <div class="ring-modern ring-3-modern"></div>
+                    <div class="ring-modern ring-4-modern"></div>
+                    <div class="mandala-core-modern">
+                        <div class="core-glow"></div>
+                    </div>
+                </div>
+                <div class="energy-waves-modern">
+                    <div class="wave-modern wave-1-modern"></div>
+                    <div class="wave-modern wave-2-modern"></div>
+                    <div class="wave-modern wave-3-modern"></div>
+                    <div class="wave-modern wave-4-modern"></div>
+                </div>
+                <div class="sacred-particles">
+                    <div class="particle particle-1">॰</div>
+                    <div class="particle particle-2">॰</div>
+                    <div class="particle particle-3">॰</div>
+                    <div class="particle particle-4">॰</div>
+                    <div class="particle particle-5">॰</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+        </div>
+        <span class="scroll-text">Begin Your Journey</span>
+    </div>
+</section>
+
+<!-- Main Content - Redesigned Single Column -->
+<section class="sadhana-content-modern">
+    <div class="sadhana-container">
+        <!-- Expandable Information Section -->
+        <div class="mandala-info-toggle">
+            <div class="info-toggle-header" onclick="toggleInfoSection()">
+                <h3 class="info-toggle-title">
+                    <i class="fas fa-circle-notch"></i>
+                    The Sacred 48-Day Mandala Journey
+                </h3>
+                <i class="fas fa-chevron-down info-toggle-icon" id="infoToggleIcon"></i>
+            </div>
+            <div class="info-toggle-content" id="infoToggleContent">
+                <div class="info-toggle-body">
+                    <div class="mandala-intro">
+                        <p><strong>As revealed in the Skanda Purāṇa and the ancient Kula Tantra</strong></p>
+                        <p>The number 48 is not merely a count of days — it is a sacred mandala of inner alchemy.</p>
+                        <p>From Amāvasyā to Amāvasyā, we traverse 30 tithis, then another 15 tithis until Pūrṇimā. To harmonize this lunar journey with the 27 nakṣatras, three more days are added — and thus the cycle of 48 is formed.</p>
+                    </div>
+
+                    <h4 class="phases-section-title">The Eight Bhairava Energies</h4>
+                    <p class="phases-section-subtitle">These 48 days are not ordinary; they are a pilgrimage through the energies of the Aṣṭa Bhairavas, each phase awakening a different shade of our inner consciousness:</p>
+
+                    <div class="bhairava-accordion">
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 1–6</span>
+                                    <span class="accordion-phase-name">Asitāṅga Bhairava (East)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>The doorway opens. This is the time of sankalpa — intention. Old patterns loosen, clarity arises, and the first light of transformation dawns.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 7–12</span>
+                                    <span class="accordion-phase-name">Ruru Bhairava (South-East)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Discipline awakens. Here the fire of tapas tests your commitment and sharpens your spiritual will.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 13–18</span>
+                                    <span class="accordion-phase-name">Caṇḍa Bhairava (South)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>The descent into the shadow. Deep-seated fears and karmic residues surface. This is the burning ground where impurities are offered to the flame.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 19–24</span>
+                                    <span class="accordion-phase-name">Krodha Bhairava (South-West)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Ego confrontations arise powerfully. Anger, resistance, and inner turbulence come to the surface. Bhairava transforms these into courage and raw, primal śakti.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 25–30</span>
+                                    <span class="accordion-phase-name">Unmatta Bhairava (West)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>A state of divine intoxication. The mind loosens its grip, the inner spanda — the cosmic throb — becomes perceptible. The first lunar cycle completes here.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 31–36</span>
+                                    <span class="accordion-phase-name">Kapāla Bhairava (North-West)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Deep purification begins. The skull, empty and vast, symbolizes the clearing away of mental rigidity and outdated identities.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 37–42</span>
+                                    <span class="accordion-phase-name">Bhīṣaṇa Bhairava (North)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>Awareness becomes vast and steady. A mountain-like fearlessness is born, grounding your consciousness in stability.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 43–45</span>
+                                    <span class="accordion-phase-name">Saṃhāra Bhairava (North-East)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>As the journey nears Pūrṇimā, energies turn inward. This is the gathering of all experiences into a seed of pure awareness.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <div class="accordion-header-left">
+                                    <span class="accordion-day-badge">Days 46–48</span>
+                                    <span class="accordion-phase-name">Kāla Bhairava (Beyond Directions)</span>
+                                </div>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>The final three days merge with the rhythm of the 27 nakṣatras. Here, Time dissolves. The seeker touches a state beyond past or future — a taste of the eternal.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form method="POST" id="mandalaForm" class="registration-form-modern" novalidate>
+                {{ form.hidden_tag() }}
+
+                <!-- Single Consolidated Form Card -->
+                <div class="form-card-modern">
+                    <div class="card-header-modern">
+                        <div class="card-title-modern">
+                            <h3>Mandala Sadhana Registration</h3>
+                            <p>Complete your sacred journey details</p>
+                        </div>
+                    </div>
+
+                    <div class="form-content-modern">
+                        <!-- All form fields in single section -->
+                        <div class="form-grid-modern">
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.email.id }}" class="form-label-modern">
+                                        Email
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.email(class="form-input-modern", placeholder="Enter your email", autocomplete="email", value=current_user.email, **{"required": True}) }}
+                                    </div>
+                                    {% if form.email.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.email.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                     <div class="form-help-modern"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.full_name.id }}" class="form-label-modern">
+                                        Full Name & Geo Location
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.full_name(class="form-input-modern", placeholder="Enter your full name and location", autocomplete="name", value=current_user.full_name or "", **{"required": True}) }}
+                                    </div>
+                                    {% if form.full_name.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.full_name.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern"></div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- 48-Day Mandala Commitment -->
+                        <div class="commitment-section-modern">
+                            <div class="commitment-header-modern">
+                                <div class="commitment-info-modern">
+                                    <h4 class="commitment-title-modern">Single Mandala (48 Days)</h4>
+                                </div>
+                            </div>
+                            <div class="commitment-content-modern">
+                                <p class="commitment-question-modern">Are you ready to commit to a 48-day (1) Mandala, honoring each day as a step into deeper presence with Bhairava?</p>
+                                <div class="choice-grid-modern">
+                                    <label class="choice-card-modern" for="mandala48_yes">
+                                        <input type="radio" id="mandala48_yes" name="mandala_48_commitment" value="Yes" {{ 'checked' if form.mandala_48_commitment.data and form.mandala_48_commitment.data == 'Yes' else '' }}>
+                                        <div class="choice-content-modern">
+                                            <div class="choice-text-modern">
+                                                <h5>Yes, I am ready</h5>
+                                                <p>I commit to this sacred 48-day journey with full devotion and awareness</p>
+                                            </div>
+                                        </div>
+                                    </label>
+
+                                    <label class="choice-card-modern" for="mandala48_no">
+                                        <input type="radio" id="mandala48_no" name="mandala_48_commitment" value="No" {{ 'checked' if form.mandala_48_commitment.data and form.mandala_48_commitment.data == 'No' else '' }}>
+                                        <div class="choice-content-modern">
+                                            <div class="choice-text-modern">
+                                                <h5>No, not yet</h5>
+                                                <p>I need more time to prepare for this sacred commitment</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                {% if form.mandala_48_commitment.errors %}
+                                    <div class="form-errors-modern">
+                                        {% for error in form.mandala_48_commitment.errors %}
+                                            <span class="error-text-modern">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- 144-Day Triad Commitment -->
+                        <div class="commitment-section-modern">
+                            <div class="commitment-header-modern">
+                                <div class="commitment-info-modern">
+                                    <h4 class="commitment-title-modern">Triple Mandala (144 Days)</h4>
+                                    <p class="commitment-subtitle-modern">Three foundational mandalas</p>
+                                </div>
+                            </div>
+                            <div class="commitment-content-modern">
+                                <p class="commitment-question-modern">Do you feel called to walk the full triad of 144-Days (3) Mandalas — building a sacred foundation for transformation and inner stability?</p>
+                                <div class="choice-grid-modern">
+                                    <label class="choice-card-modern" for="mandala144_yes">
+                                        <input type="radio" id="mandala144_yes" name="mandala_144_commitment" value="Yes" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'Yes' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>Yes, I feel the call</h5>
+                                            <p>I am drawn to the deeper path of three mandalas for profound transformation</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="choice-card-modern" for="mandala144_no">
+                                    <input type="radio" id="mandala144_no" name="mandala_144_commitment" value="No" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'No' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>No, one mandala is enough</h5>
+                                            <p>I choose to focus on a single mandala for now</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="choice-card-modern" for="mandala144_notready">
+                                    <input type="radio" id="mandala144_notready" name="mandala_144_commitment" value="Not Yet Ready" {{ 'checked' if form.mandala_144_commitment.data and form.mandala_144_commitment.data == 'Not Yet Ready' else '' }}>
+                                    <div class="choice-content-modern">
+                                        <div class="choice-text-modern">
+                                            <h5>Not yet ready</h5>
+                                            <p>I need more time to prepare for this deeper commitment</p>
+                                        </div>
+                                    </div>
+                                    </label>
+                                </div>
+                                {% if form.mandala_144_commitment.errors %}
+                                    <div class="form-errors-modern">
+                                        {% for error in form.mandala_144_commitment.errors %}
+                                            <span class="error-text-modern">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    
+                        <!-- Sacred Vow -->
+                        <div class="form-group-modern">
+                            <div class="input-wrapper-modern">
+                                <label for="{{ form.commitment_text.id }}" class="form-label-modern">
+                                    Can you hold your Sadhana with sincerity and steadiness, even when the mind resists or the path feels silent?
+                                </label>
+                                <div class="textarea-container-modern">
+                                    {{ form.commitment_text(class="form-input-modern form-textarea-modern", rows="6", placeholder="Please share your inner commitment and understanding of this sacred practice...", **{"required": True}) }}
+                                </div>
+                                <div class="character-counter-modern">
+                                    <span class="current-count">0</span> / <span class="max-count">500</span> characters
+                                </div>
+                                {% if form.commitment_text.errors %}
+                                    <div class="form-errors-modern">
+                                        {% for error in form.commitment_text.errors %}
+                                            <span class="error-text-modern">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help-modern"></div>
+                            </div>
+                        
+                        <!-- Sadhana Details -->
+                        <div class="form-grid-modern">
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.sadhana_start_date.id }}" class="form-label-modern">
+                                        When did your Sadhana begin?
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.sadhana_start_date(class="form-input-modern", **{"required": True}) }}
+                                    </div>
+                                    {% if form.sadhana_start_date.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.sadhana_start_date.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern">
+                                        <small>When did your Sadhana begin? (Mark the day of inner commitment)</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-modern">
+                                <div class="input-wrapper-modern">
+                                    <label for="{{ form.sadhana_type.id }}" class="form-label-modern">
+                                        Which Sadhana are you committing to as part of your Mandala journey?
+                                    </label>
+                                    <div class="input-container-modern">
+                                        {{ form.sadhana_type(class="form-input-modern", **{"required": True}) }}
+                                    </div>
+                                    {% if form.sadhana_type.errors %}
+                                        <div class="form-errors-modern">
+                                            {% for error in form.sadhana_type.errors %}
+                                                <span class="error-text-modern">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-modern">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Copy Checkbox -->
+                        <div class="form-group-modern">
+                            <div class="checkbox-container-modern">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="submit-section-modern" style="display: flex; justify-content: flex-end;">
+                            <div class="submit-container">
+                                <button type="submit" class="btn-modern btn-primary-modern" id="submitBtn">
+                                    <div class="btn-content">
+                                        <div class="btn-icon">
+                                            <i class="fas fa-rocket"></i>
+                                        </div>
+                                        <span class="btn-text-modern">Begin Sacred Journey</span>
+                                        <div class="btn-arrow">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                    <span class="btn-loading-modern" style="display: none;">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Submitting...</span>
+                                    </span>
+                                    <div class="btn-shine"></div>
+                                    <div class="btn-glow"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+
+        <!-- Blessing Footer -->
+        <div class="form-footer-modern" style="text-align: center; padding: 2rem 0;">
+            <div class="blessing-card-modern">
+                <h4 class="blessing-title-modern" style="font-family: var(--font-mystical); font-size: 1.8rem; color: var(--primary-red); margin: 0;">Jai Bhairava! 🙏</h4>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Toggle info section
+function toggleInfoSection() {
+    const content = document.getElementById('infoToggleContent');
+    const icon = document.getElementById('infoToggleIcon');
+    content.classList.toggle('active');
+    icon.classList.toggle('active');
+}
+
+// Toggle accordion items
+function toggleAccordion(item) {
+    const isActive = item.classList.contains('active');
+    
+    // Close all accordion items
+    document.querySelectorAll('.accordion-item').forEach(accItem => {
+        accItem.classList.remove('active');
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+        item.classList.add('active');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced form validation and UX for modern design
+    const form = document.getElementById('mandalaForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn-text-modern');
+    const btnLoading = submitBtn.querySelector('.btn-loading-modern');
+
+    // Real-time validation
+    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+    inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearFieldError);
+    });
+
+    // Initialize modern choice cards
+    initializeChoiceCards();
+
+    // Initialize character counter
+    initializeCharacterCounter();
+
+    // Initialize floating labels
+    initializeFloatingLabels();
+
+    function validateField(e) {
+        const field = e.target;
+        const wrapper = field.closest('.input-wrapper-modern');
+        const errorDiv = wrapper.querySelector('.error-messages-modern');
+
+        // Clear previous errors
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
+
+        // Validate field
+        if (!field.value.trim()) {
+            showFieldError(wrapper, 'This field is required');
+            return false;
+        }
+
+        if (field.name === 'email' && !isValidEmail(field.value)) {
+            showFieldError(wrapper, 'Please enter a valid email address');
+            return false;
+        }
+
+        if (field.name === 'commitment_text' && field.value.length < 20) {
+            showFieldError(wrapper, 'Please provide at least 20 characters explaining your commitment');
+            return false;
+        }
+
+        // Clear error styling
+        wrapper.classList.remove('error');
+        return true;
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function clearFieldError(e) {
+        const wrapper = e.target.closest('.input-wrapper-modern');
+        wrapper.classList.remove('error');
+        const errorDiv = wrapper.querySelector('.error-messages-modern');
+        if (errorDiv) {
+            errorDiv.innerHTML = '';
+        }
+    }
+
+    function showFieldError(wrapper, message) {
+        wrapper.classList.add('error');
+        let errorDiv = wrapper.querySelector('.error-messages-modern');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'error-messages-modern';
+            wrapper.appendChild(errorDiv);
+        }
+        errorDiv.innerHTML = `<span class="error-text-modern">${message}</span>`;
+    }
+
+    // Function to validate radio button groups
+    function validateRadioGroups() {
+        const radioGroups = ['mandala_48_commitment', 'mandala_144_commitment'];
+        let isValid = true;
+
+        radioGroups.forEach(groupName => {
+            const radios = form.querySelectorAll(`input[name="${groupName}"]`);
+            const checked = Array.from(radios).some(radio => radio.checked);
+            
+            if (!checked) {
+                // Find the commitment section and highlight it
+                const firstRadio = radios[0];
+                const commitmentSection = firstRadio.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.add('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '#c41e3a';
+                    }
+                }
+                isValid = false;
+            } else {
+                // Remove error styling if checked
+                const firstRadio = radios[0];
+                const commitmentSection = firstRadio.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.remove('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '';
+                    }
+                }
+            }
+        });
+
+        return isValid;
+    }
+
+    // Form submission with loading state
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate all fields
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+                isValid = false;
+            }
+        });
+
+        // Validate radio button groups
+        if (!validateRadioGroups()) {
+            isValid = false;
+        }
+
+        if (!isValid) {
+            // Scroll to first error or radio section
+            const firstCommitmentError = form.querySelector('.commitment-section-modern.error');
+            if (firstCommitmentError) {
+                firstCommitmentError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            // Focus first error field
+            const firstError = form.querySelector('.input-wrapper-modern.error');
+            if (firstError) {
+                const input = firstError.querySelector('input, textarea, select');
+                if (input) {
+                    input.focus();
+                }
+            }
+            return;
+        }
+
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline-flex';
+
+        // Submit form
+        form.submit();
+    });
+
+    // Auto-focus first input
+    const firstInput = form.querySelector('input[required]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+
+    // Modern Choice Cards Functions
+    function initializeChoiceCards() {
+        const choiceCards = document.querySelectorAll('.choice-card-modern');
+
+        choiceCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const radioInput = this.querySelector('input[type="radio"]');
+                const groupName = radioInput.name;
+
+                // Remove selected class from all cards in the same group
+                const sameGroupCards = document.querySelectorAll(`input[name="${groupName}"]`);
+                sameGroupCards.forEach(input => {
+                    input.closest('.choice-card-modern').classList.remove('selected');
+                });
+
+                // Add selected class to clicked card
+                this.classList.add('selected');
+
+                // Check the corresponding radio input
+                radioInput.checked = true;
+
+                // Trigger change event for form validation
+                radioInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+                // Clear error styling when radio is selected
+                const commitmentSection = radioInput.closest('.commitment-section-modern');
+                if (commitmentSection) {
+                    commitmentSection.classList.remove('error');
+                    const questionElement = commitmentSection.querySelector('.commitment-question-modern');
+                    if (questionElement) {
+                        questionElement.style.color = '';
+                    }
+                }
+
+                // Add visual feedback
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            });
+
+            // Add hover effects
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('selected')) {
+                    this.style.transform = 'translateY(-4px)';
+                }
+            });
+
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('selected')) {
+                    this.style.transform = '';
+                }
+            });
+        });
+
+        // Initialize selected states based on existing values
+        const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
+        checkedRadios.forEach(radio => {
+            radio.closest('.choice-card-modern').classList.add('selected');
+        });
+    }
+
+    // Character Counter Function
+    function initializeCharacterCounter() {
+        const commitmentTextarea = document.querySelector('textarea[name="commitment_text"]');
+        const currentCount = document.querySelector('.current-count');
+        const maxCount = document.querySelector('.max-count');
+
+        if (commitmentTextarea && currentCount && maxCount) {
+            commitmentTextarea.addEventListener('input', function() {
+                const count = this.value.length;
+                currentCount.textContent = count;
+
+                // Update color based on character count
+                if (count > 450) {
+                    currentCount.style.color = '#dc2626';
+                } else if (count > 350) {
+                    currentCount.style.color = '#f59e0b';
+                } else {
+                    currentCount.style.color = 'var(--primary-red)';
+                }
+            });
+        }
+    }
+
+    // Floating Labels Function
+    function initializeFloatingLabels() {
+        const inputs = document.querySelectorAll('.form-input-modern');
+
+        inputs.forEach(input => {
+            const wrapper = input.closest('.input-wrapper-modern');
+            const label = wrapper.querySelector('.form-label-modern');
+
+            // Check if input has value on load
+            if (input.value.trim() !== '') {
+                label.classList.add('float');
+            }
+
+            input.addEventListener('focus', function() {
+                label.classList.add('float');
+            });
+
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    label.classList.remove('float');
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}
+

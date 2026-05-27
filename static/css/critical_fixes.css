@@ -1,0 +1,64 @@
+/* ===== CRITICAL FIXES ===== */
+
+/* 1. Ensure Body is Interactive */
+body {
+    pointer-events: auto !important;
+    overflow-x: hidden;
+    /* Allow vertical scroll */
+}
+
+/* 2. Hide Mobile Nav by default on ALL screens until active */
+.nav-mobile {
+    display: none !important;
+    /* Force hide */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* Only show when it has the active class AND is not hidden */
+.nav-mobile.is-active:not([hidden]) {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 2000 !important;
+}
+
+/* 3. Hide Modals by default */
+.modal,
+.search-modal,
+.sacred-modal {
+    display: none !important;
+    z-index: -1 !important;
+}
+
+/* Only show active modals */
+.modal.is-active,
+.modal.show,
+.search-modal.active,
+.sacred-modal[style*="display: flex"],
+.sacred-modal[style*="display: block"] {
+    display: flex !important;
+    z-index: 3000 !important;
+}
+
+/* 4. Fix Faded overlay issues */
+/* Ensure no rogue backdrops */
+.backdrop,
+.overlay {
+    display: none !important;
+}
+
+/* 5. Mobile Input Fix (Re-apply) */
+@media (max-width: 768px) {
+    .input-wrapper .form-control {
+        padding-left: 3.5rem !important;
+    }
+
+    .input-wrapper .input-icon {
+        z-index: 5;
+        /* Ensure icon is above input background */
+    }
+}
