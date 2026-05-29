@@ -1,0 +1,943 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+<style>
+    /* ===== HOMEPAGE 2 THEME & LAYOUT ===== */
+
+    /* Devotional Layout Cards */
+    .sacred-hero {
+        background: linear-gradient(135deg, #1c1917 0%, #450a0a 60%, #7f1d1d 100%);
+        color: #ffffff;
+        padding: 4rem 2rem;
+        border-radius: var(--border-radius-lg);
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    .sacred-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+        pointer-events: none;
+    }
+
+    .hero-om-symbol {
+        font-size: 3.5rem;
+        color: var(--accent-gold);
+        display: block;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    .hero-title-main {
+        font-family: var(--font-mystical);
+        font-size: 3rem;
+        color: var(--accent-gold);
+        margin-bottom: 0.5rem;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-kripa {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        color: var(--accent-cream);
+        margin-bottom: 1.5rem;
+        font-style: italic;
+        opacity: 0.95;
+    }
+
+    .hero-sub {
+        font-size: 1.15rem;
+        max-width: 750px;
+        margin: 0 auto 2rem auto;
+        line-height: 1.8;
+        font-family: var(--font-sacred);
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Content Grid */
+    .sacred-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .sacred-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 2.5rem;
+        box-shadow: 0 6px 20px var(--shadow-color);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .sacred-card::before {
+        content: '🕉️';
+        position: absolute;
+        right: -10px;
+        bottom: -15px;
+        font-size: 5rem;
+        color: rgba(196, 30, 58, 0.03);
+        font-weight: 900;
+        pointer-events: none;
+    }
+
+    .sacred-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(196, 30, 58, 0.22);
+        border-color: var(--accent-orange);
+    }
+
+    .card-num {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mystical);
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 4px 10px rgba(196, 30, 58, 0.2);
+    }
+
+    .card-title-sacred {
+        font-family: var(--font-primary);
+        font-size: 1.6rem;
+        color: var(--primary-red);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .card-duration {
+        display: inline-block;
+        font-family: var(--font-mystical);
+        font-size: 0.95rem;
+        color: var(--accent-gold);
+        background: rgba(245, 158, 11, 0.08);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        padding: 0.35rem 1rem;
+        border-radius: 20px;
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+
+    /* Devotional Note/Alert Banner */
+    .sacred-banner {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-left: 5px solid var(--primary-red);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        border: 1px solid var(--border-color);
+        border-left-width: 5px;
+    }
+
+    .banner-title {
+        font-family: var(--font-mystical);
+        color: var(--primary-red);
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+    }
+
+    .banner-highlight {
+        font-family: var(--font-primary);
+        font-size: 1.8rem;
+        color: var(--secondary-red);
+        font-weight: 700;
+        margin: 0.5rem 0;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .banner-sub {
+        font-family: var(--font-sacred);
+        font-size: 1.15rem;
+        color: var(--text-dark);
+        font-style: italic;
+    }
+
+    /* Timeline Layout for Sadhana Paddhati */
+    .charanah-timeline {
+        position: relative;
+        max-width: 1000px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+    }
+
+    .charanah-timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, var(--primary-red), var(--accent-orange), var(--accent-gold));
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .timeline-node {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3.5rem;
+        position: relative;
+    }
+
+    .timeline-node:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 30px;
+        background: var(--accent-cream);
+        border: 4px solid var(--primary-red);
+        border-radius: 50%;
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(196, 30, 58, 0.3);
+    }
+
+    .timeline-node:hover .timeline-marker {
+        background: var(--accent-gold);
+        border-color: var(--accent-orange);
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.8);
+    }
+
+    .timeline-panel {
+        width: 45%;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: 0 6px 18px var(--shadow-color);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-node:hover .timeline-panel {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(196, 30, 58, 0.2);
+        border-color: var(--accent-orange);
+    }
+
+    .timeline-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .timeline-header h3 {
+        font-family: var(--font-mystical);
+        font-size: 1.35rem;
+        color: var(--primary-red);
+        margin: 0;
+    }
+
+    .timeline-step-name {
+        font-family: var(--font-primary);
+        font-weight: 700;
+        color: var(--accent-orange);
+        font-size: 0.95rem;
+    }
+
+    /* Warning and Caution Styles */
+    .caution-card {
+        background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #4c0519 100%);
+        border: 2px solid var(--primary-red);
+        border-radius: var(--border-radius-lg);
+        color: #ffffff;
+        padding: 3rem;
+        text-align: center;
+        margin: 4rem auto;
+        max-width: 800px;
+        box-shadow: 0 10px 25px rgba(196, 30, 58, 0.2);
+        position: relative;
+    }
+
+    .caution-icon {
+        font-size: 3rem;
+        color: var(--accent-gold);
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }
+
+    .caution-title {
+        font-family: var(--font-mystical);
+        color: var(--accent-gold);
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .caution-text {
+        font-family: var(--font-sacred);
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Rudraksha Grid and Styles */
+    .rudraksha-section {
+        margin: 4rem 0;
+    }
+
+    .section-subtitle-sacred {
+        text-align: center;
+        font-family: var(--font-sacred);
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        font-style: italic;
+    }
+
+    .rudraksha-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .rudraksha-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        box-shadow: 0 6px 18px var(--shadow-color);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .rudraksha-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(196, 30, 58, 0.18);
+        border-color: var(--accent-gold);
+    }
+
+    .rudraksha-img-wrapper {
+        height: 180px;
+        background: linear-gradient(to bottom, rgba(254, 247, 237, 0.5), rgba(254, 236, 226, 0.8));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .rudraksha-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        transition: transform 0.4s ease;
+    }
+
+    .rudraksha-card:hover .rudraksha-img {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .rudraksha-body {
+        padding: 1.5rem;
+    }
+
+    .rudraksha-title {
+        font-family: var(--font-mystical);
+        font-size: 1.3rem;
+        color: var(--primary-red);
+        margin-bottom: 0.75rem;
+    }
+
+    .rudraksha-desc {
+        font-family: var(--font-secondary);
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+
+    /* PDF Downloads & Footer Details */
+    .download-section {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin: 3rem 0;
+    }
+
+    .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+        color: #ffffff;
+        font-family: var(--font-primary);
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(196, 30, 58, 0.25);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .btn-download:hover {
+        background: var(--card-bg);
+        color: var(--primary-red);
+        border-color: var(--primary-red);
+        box-shadow: 0 6px 20px rgba(196, 30, 58, 0.15);
+        transform: translateY(-2px);
+    }
+
+    /* Quote Banner */
+    .tantra-quote-banner {
+        background: linear-gradient(135deg, #0c0a09 0%, #1c1917 100%);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: var(--border-radius-lg);
+        color: #ffffff;
+        padding: 3rem 2rem;
+        text-align: center;
+        margin: 4rem auto 2rem auto;
+        max-width: 900px;
+        position: relative;
+    }
+
+    .sanskrit-quote {
+        font-family: var(--font-sacred);
+        font-size: 1.6rem;
+        color: var(--accent-gold);
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.5px;
+        line-height: 1.6;
+    }
+
+    .translation-quote {
+        font-family: var(--font-primary);
+        font-size: 1.15rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 0.75rem;
+        font-style: italic;
+    }
+
+    .quote-source {
+        font-family: var(--font-mystical);
+        font-size: 0.95rem;
+        color: var(--accent-orange);
+        letter-spacing: 1px;
+    }
+
+    /* Telegram Grid Contact */
+    .contact-telegram-card {
+        background: linear-gradient(135deg, #ffffff 0%, #fef7ed 100%);
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+        margin: 3rem auto;
+        max-width: 800px;
+        box-shadow: 0 8px 24px rgba(196, 30, 58, 0.08);
+    }
+
+    .tg-qr-wrapper {
+        flex-shrink: 0;
+        width: 140px;
+        height: 140px;
+        background: #ffffff;
+        border: 4px solid var(--accent-gold);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .tg-qr-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .tg-info {
+        flex-grow: 1;
+    }
+
+    .tg-title {
+        font-family: var(--font-mystical);
+        font-size: 1.4rem;
+        color: var(--primary-red);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .tg-text {
+        font-family: var(--font-secondary);
+        color: var(--text-dark);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .tg-number-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        color: var(--accent-orange);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .tg-number-link:hover {
+        color: var(--primary-red);
+    }
+
+    /* Animations */
+    @keyframes pulse-glow {
+
+        0%,
+        100% {
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            transform: scale(1);
+        }
+
+        50% {
+            text-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
+            transform: scale(1.03);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        .hero-title-main {
+            font-size: 2.2rem;
+        }
+
+        .charanah-timeline::before {
+            left: 20px;
+        }
+
+        .timeline-node {
+            flex-direction: row !important;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            left: 20px;
+            transform: translateX(-50%);
+        }
+
+        .timeline-panel {
+            width: calc(100% - 50px);
+            margin-left: auto;
+        }
+
+        .contact-telegram-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .tg-qr-wrapper {
+            margin: 0 auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="sacred-hero">
+        <span class="hero-om-symbol">🕉️</span>
+        <h1 class="hero-title-main">Bhairava Anugraha</h1>
+        <p class="hero-kripa">HIS Kripā</p>
+        <p class="hero-sub">
+            "Guided by His Grace, each word draws you deeper into the awakening of Bhairava Consciousness."
+        </p>
+        <div class="hero-actions">
+            <a href="#about-sec" class="btn btn-sacred btn-sacred-primary" style="margin: 0.5rem;">
+                <i class="fas fa-info-circle"></i> About Offering
+            </a>
+            <a href="#sadhana-sec" class="btn btn-sacred" style="margin: 0.5rem;">
+                <i class="fas fa-om"></i> Explore Sadhana
+            </a>
+        </div>
+    </section>
+
+    <!-- ==================== HOME CONTENT ==================== -->
+    <div class="section-header" style="margin-top: 3rem;">
+        <div class="header-icon">🕉️</div>
+        <h2 class="section-title">Into the Unseen</h2>
+        <div class="header-decoration"></div>
+    </div>
+
+    <p class="section-subtitle-sacred" style="margin-bottom: 2rem;">Where Bhairava Alone Remains — Sarvam Tasyaiva</p>
+
+    <div class="sacred-grid">
+        <div class="sacred-card">
+            <div class="card-num">१</div>
+            <h3 class="card-title-sacred">A Sacred Space</h3>
+            <p>Welcome to this sacred space, held in the silent embrace of Guru Bhairava. This is not merely a
+                website, but the unfolding of His will through the heart of a seeker.</p>
+        </div>
+
+        <div class="sacred-card">
+            <div class="card-num">२</div>
+            <h3 class="card-title-sacred">Dissolve Into Awareness</h3>
+            <p>Every mantra, every reflection, every sādhanā here is an offering at His feet, a doorway, not to
+                become more, but to dissolve into pure awareness, empty of self.</p>
+        </div>
+
+        <div class="sacred-card">
+            <div class="card-num">३</div>
+            <h3 class="card-title-sacred">His Divine Call</h3>
+            <p>If you have arrived, know it is by His grace alone. This moment is His call, drawing you closer to
+                the formless, ever-present truth of Bhairava.</p>
+        </div>
+    </div>
+
+    <!-- Devotional Statement Card -->
+    <div class="caution-card"
+        style="margin: 3rem auto; background: linear-gradient(135deg, #2b0c0c 0%, #170404 100%); border-color: var(--accent-orange);">
+        <div class="caution-icon" style="color: var(--accent-gold);">✨</div>
+        <p class="caution-text" style="font-size: 1.35rem; font-style: italic;">
+            "This space is not about reaching heights, but returning to what never left... Him. <br>
+            May His presence melt all boundaries. <br>
+            May His fire consume all that is not true. <br>
+            Until all returns to Bhairava."
+        </p>
+    </div>
+
+    <!-- About Section -->
+    <section id="about-sec" class="sacred-card"
+        style="margin: 4rem auto; max-width: 900px; background: rgba(254, 247, 237, 0.4); border: 2px solid var(--border-color);">
+        <div class="section-header" style="margin-bottom: 2rem;">
+            <div class="header-icon">🌸</div>
+            <h2 class="section-title" style="font-size: 1.8rem; color: var(--primary-red);">Maa Kamakhya Bhairava
+                Tattva</h2>
+            <div class="header-decoration"></div>
+        </div>
+
+        <p style="font-size: 1.15rem; line-height: 1.9; text-align: center; font-family: var(--font-secondary); color: var(--text-dark);">
+            <strong>Bhairava Anugraha</strong> is a sacred offering in the path of <strong>Maa Kamakhya Bhairava
+                Tattva</strong>,
+            guided by the grace of <strong>Guru, Avaduthas, and Siddhars</strong>.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center; margin-top: 1.5rem; font-style: italic; color: var(--text-muted);">
+            "Here, we share not teachings, but glimpses of His consciousness — a living prayer born from devotion,
+            ancient wisdom, and the inner journey into stillness."
+        </p>
+    </section>
+
+    <!-- ==================== SADHANA PADDHATI CONTENT ==================== -->
+    <section id="sadhana-sec" style="margin-top: 5rem; scroll-margin-top: 100px;">
+        <!-- Devotional Note Banner -->
+        <div class="sacred-banner">
+            <div class="banner-title">🕉️ Sādhana Paddhati Offering 🕉️</div>
+            <p class="banner-sub">A Note in the Spirit of Bhairava’s Grace</p>
+            <div class="banner-highlight">This path… this Sādhanā Paddhati… is NOT FOR SALE</div>
+            <p style="margin-bottom: 0; font-weight: 600; color: var(--primary-red);">
+                No fee. No consultation charge. No price for Dīkṣā or Satsang.
+            </p>
+            <p style="font-size: 0.95rem; margin-top: 0.5rem; color: var(--text-muted);">
+                It is given only through His grace — a transmission, not a transaction.
+            </p>
+        </div>
+
+        <div class="section-header">
+            <div class="header-icon">✨</div>
+            <h2 class="section-title">The Steps of Inner Awakening</h2>
+            <div class="header-decoration"></div>
+        </div>
+
+        <!-- Steps Timeline -->
+        <div class="charanah-timeline">
+            <!-- Step 1 -->
+            <div class="timeline-node">
+                <div class="timeline-marker"></div>
+                <div class="timeline-panel">
+                    <div class="timeline-header">
+                        <h3>Prathamah Charanah</h3>
+                        <span class="timeline-step-name">Step 1</span>
+                    </div>
+                    <p style="font-weight: 600; color: var(--primary-red); margin-bottom: 0.5rem;">The First Step toward
+                        Grace</p>
+                    <p class="step-subtitle"
+                        style="font-style: italic; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">A
+                        beginning. A step closer to Divine presence.</p>
+                    <p>You will receive initiation into the foundational path of Sadhana. This includes all essential
+                        details, do’s and don’ts, and a preparatory video for inner readiness.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-top: 0.5rem;">This
+                        content will be shared privately on a one-to-one basis.</p>
+                    <span class="card-duration">Duration: 48 – 144 Days (1-3 Mandalas)</span>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-node">
+                <div class="timeline-marker"></div>
+                <div class="timeline-panel">
+                    <div class="timeline-header">
+                        <h3>Dvitīyah Charanah</h3>
+                        <span class="timeline-step-name">Step 2</span>
+                    </div>
+                    <p style="font-weight: 600; color: var(--primary-red); margin-bottom: 0.5rem;">The Second Step
+                        toward Deeper Connection</p>
+                    <p class="step-subtitle"
+                        style="font-style: italic; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+                        An expansion. A step deeper into Daiva Bhāva.</p>
+                    <p>This stage opens a refined layer of the Sadhana process, shared with deeper insights,
+                        pre-initiation guidance, and discipline reminders.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-top: 0.5rem;">
+                        Access will be limited and shared personally with select individuals.</p>
+                    <span class="card-duration">Duration: 144 – 240 Days (3-5 Mandalas)</span>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-node">
+                <div class="timeline-marker"></div>
+                <div class="timeline-panel">
+                    <div class="timeline-header">
+                        <h3>Trtiyah Charanah</h3>
+                        <span class="timeline-step-name">Step 3</span>
+                    </div>
+                    <p style="font-weight: 600; color: var(--primary-red); margin-bottom: 0.5rem;">The Third Step into
+                        Divine Grace</p>
+                    <p class="step-subtitle"
+                        style="font-style: italic; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">A
+                        merging. A sacred closure of separation.</p>
+                    <p>This is where the Sadhaka enters the fullness of Daiva Anugraha through dedicated Sadhana.
+                        Pre-initiation guidance and detailed instructions prepare you for this advanced phase.</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-top: 0.5rem;">
+                        Available only through one-on-one sharing with limited reach.</p>
+                    <span class="card-duration">Duration: 240 – 384 Days (5-8 Mandalas)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seeker Caution -->
+        <div class="caution-card">
+            <div class="caution-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 class="caution-title">A Gentle Caution for the Seeker</h3>
+            <p class="caution-text" style="font-weight: 600; color: var(--accent-gold);">Are you truly ready?</p>
+            <p class="caution-text">
+                "This is not a title to earn, not a badge to display but a sacred walk into the fire of truth."
+            </p>
+            <p style="line-height: 1.8; margin-bottom: 1.5rem; color: rgba(255,255,255,0.85);">
+                This path is not about becoming more or gaining… It is about <strong>un-becoming</strong>, about
+                <strong>losing self</strong>.
+                Letting go of all that you think you are — the ego, the ideas, the noise.
+            </p>
+            <p style="font-style: italic; color: var(--accent-cream); margin-bottom: 1.5rem;">
+                "If you feel the call to dissolve, to offer your self fully into His dark and radiant flame… then take
+                this step."
+            </p>
+            <p style="font-size: 0.95rem; color: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                This is the way of Daiva Anugraha — a path where grace meets surrender, and Bhairava becomes not a deity
+                outside, but the Presence within.
+            </p>
+        </div>
+
+        <!-- Rudraksha Diksha Section -->
+        <div class="rudraksha-section">
+            <div class="section-header">
+                <div class="header-icon">📿</div>
+                <h2 class="section-title">Entering Rudraksha Dīkṣā</h2>
+                <div class="header-decoration"></div>
+            </div>
+            <p class="section-subtitle-sacred">When Bhairava calls, each step deepens…</p>
+
+            <div style="max-width: 900px; margin: 0 auto 3rem auto; text-align: center; line-height: 1.8;">
+                <p>
+                    Once you complete the <strong>Pratham Charana</strong>, you stand at the threshold of the next
+                    sacred movement — <strong>Rudraksha Dīkṣā</strong>.
+                </p>
+                <p style="font-style: italic; color: var(--primary-red);">
+                    "This is not a ritual step, but a quiet alignment where your energy body begins to resonate with
+                    deeper layers of Bhairava’s presence, Rudraksha as a tool — A Yantra!"
+                </p>
+                <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-muted);">
+                    It has three stages of Rudraksha initiation, each carrying a vibration to awaken and support your
+                    inner unfolding.
+                    This journey flows over time, typically 21 to 48 days per bead, guided by your receptivity and His
+                    grace.
+                </p>
+            </div>
+
+            <!-- Rudraksha Cards Grid -->
+            <div class="rudraksha-grid">
+                <!-- 8 Mukhi -->
+                <div class="rudraksha-card">
+                    <div class="rudraksha-img-wrapper">
+                        <img src="{{ url_for('static', filename='images/8 Mukhi _ Achtgesicht Rudraksha Nepal 20-22 mm.jpeg') }}"
+                            alt="8 Mukhi Rudraksha" class="rudraksha-img">
+                    </div>
+                    <div class="rudraksha-body">
+                        <h3 class="rudraksha-title">8 Mukhi</h3>
+                        <p class="rudraksha-desc">Clears inner obstacles, awakens mental clarity, and establishes a
+                            direct connection to the Aṣṭha Bhairavas.</p>
+                    </div>
+                </div>
+
+                <!-- 11 Mukhi -->
+                <div class="rudraksha-card">
+                    <div class="rudraksha-img-wrapper">
+                        <img src="{{ url_for('static', filename='images/rudraksha/rudrakha_11_mukhi.jpeg') }}"
+                            alt="11 Mukhi Rudraksha" class="rudraksha-img">
+                    </div>
+                    <div class="rudraksha-body">
+                        <h3 class="rudraksha-title">11 Mukhi</h3>
+                        <p class="rudraksha-desc">Strengthens spiritual discipline (tapas), guards the path against
+                            negative forces, and kindles the fire of the 11 Rudras.</p>
+                    </div>
+                </div>
+
+                <!-- 14 Mukhi -->
+                <div class="rudraksha-card">
+                    <div class="rudraksha-img-wrapper">
+                        <img src="{{ url_for('static', filename='images/rudraksha/rudarakha_14_muki.jpeg') }}"
+                            alt="14 Mukhi Rudraksha" class="rudraksha-img">
+                    </div>
+                    <div class="rudraksha-body">
+                        <h3 class="rudraksha-title">14 Mukhi</h3>
+                        <p class="rudraksha-desc">Opens intuitive command, grants supreme fearlessness, and invites
+                            deeper surrender (undertaken after Dvitīya Charana).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; font-style: italic; color: var(--text-muted); line-height: 1.8;">
+                <p>"Each Rudraksha is not just a bead — it is a living pulse of Shakti, a bridge into Bhairava Tattva.
+                    You may source the beads independently, or we can assist in procuring and sending them with care.
+                    (DM for guidance and support details.)"</p>
+                <p style="margin-top: 1rem; font-weight: 600; color: var(--primary-red);">This is not a step forward. It
+                    is a step inward — a sacred turning where Bhairava begins to breathe through you.</p>
+            </div>
+        </div>
+
+        <!-- Bhiksha / Seva Card -->
+        <div class="sacred-card"
+            style="margin: 4rem auto; max-width: 800px; background: rgba(254, 247, 237, 0.4); border: 2px solid var(--border-color); text-align: center;">
+            <div class="card-num" style="margin: 0 auto 1.5rem auto;"><i class="fas fa-hand-holding-heart"></i></div>
+            <h3 class="card-title-sacred">Bhiksha Offerings</h3>
+            <p style="font-size: 1.05rem; line-height: 1.8;">
+                If your heart feels called, you may offer seva towards <strong>Prāṇi Daya Saṅga</strong> (our humble
+                support for animals in need)
+                and children of the <strong>Blind School</strong>.
+            </p>
+            <p style="font-style: italic; color: var(--text-muted); font-size: 0.95rem; margin-top: 0.75rem;">
+                (If needed, DM us for account details.)
+            </p>
+            <p style="font-size: 0.9rem; color: var(--secondary-red); font-weight: 500; border-top: 1px dashed var(--border-color); margin-top: 1.5rem; padding-top: 1rem;">
+                This offering is purely voluntary, no tax exemption, no 80G, only a gesture of compassion born from
+                within.
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== CONNECT & DOWNLOAD SECTION ==================== -->
+    <section id="connect-sec" style="margin-top: 4rem;">
+        <!-- Telegram Contact Section -->
+        <div class="contact-telegram-card">
+            <div class="tg-qr-wrapper">
+                <img src="{{ url_for('static', filename='images/payment_qr.png') }}" alt="Telegram QR"
+                    class="tg-qr-img">
+            </div>
+            <div class="tg-info">
+                <h3 class="tg-title"><i class="fab fa-telegram"></i> Connect on Telegram</h3>
+                <p class="tg-text">
+                    Scan the QR or join our Telegram group to receive all Sadhana details, guidance, and information
+                    about the Closed Group.
+                </p>
+                <p style="margin-bottom: 0.5rem; font-weight: 500;">
+                    <i class="fas fa-id-badge"></i> Bhairava Anugraha
+                </p>
+                <a href="https://wa.me/916262212153" target="_blank" rel="noopener noreferrer" class="tg-number-link">
+                    <i class="fab fa-whatsapp"></i> +91 62622 12153 <span
+                        style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">(Only Text and
+                        WhatsApp)</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- PDF Steps Download -->
+        <div class="download-section">
+            <a href="{{ url_for('static', filename='Kāmākhyā–Bhairava.pdf') }}" class="btn-download" download>
+                <i class="fas fa-file-pdf"></i> Sadhana Paddhati Step 01 <span
+                    style="font-size: 0.8rem; font-weight: normal; opacity: 0.85;">(Download PDF)</span>
+            </a>
+            <a href="{{ url_for('static', filename='Kāmākhyā–Bhairava.pdf') }}" class="btn-download" download>
+                <i class="fas fa-file-pdf"></i> Sadhana Paddhati Step 02 <span
+                    style="font-size: 0.8rem; font-weight: normal; opacity: 0.85;">(Download PDF)</span>
+            </a>
+        </div>
+
+        <!-- Sacred Tantric Quote Footer Banner -->
+        <div class="tantra-quote-banner">
+            <div class="sanskrit-quote">अविधिज्ञो न कार्यो भैरव-साधनम् क्वचित्॥</div>
+            <div class="translation-quote">"One ignorant of the correct method must never do Bhairava Sādhana."</div>
+            <div class="quote-source">— Rudrayāmala Tantra</div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Smooth scrolling animation for anchors
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+                targetEl.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

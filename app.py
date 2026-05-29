@@ -302,6 +302,13 @@ def home():
     return render_template('home.html', page_title='Home - Daiva Anughara', network_info=network_info)
 
 
+@app.route('/homepage2')
+def homepage2():
+    network_info = get_network_info()
+    return render_template('homepage2.html', page_title='Home 2 - Daiva Anughara', network_info=network_info)
+
+
+
 @app.route('/documents')
 def documents():
     return render_template('documents.html', page_title='Documents & Updates - Daiva Anughara')
